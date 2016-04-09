@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/base.xhtml">
+	<ui:define name="tituloDaPagina">Historico Cliente</ui:define>
+
+	<ui:define name="dynamic">
+
+		<p:separator styleClass="separator" />
+
+		<h:form id="formListaCliente">
+
+			<p:outputLabel value="Nome: " style="margin-left:0;" />
+			<p:inputText size="56" style="margin-left:40px;" />
+			<h:commandButton value="Buscar" styleClass="botoesJSF"
+				style="width: 160px; margin-left:8px;" />
+			<br />
+			<br />
+
+			<p:outputLabel value="Data " style="margin-left:0;" />
+			<p:calendar pattern="dd/MM/yyyy" locale="pt_BR" effect="fade"
+				showButtonPanel="true" minHour="8" maxHour="21"
+				style="margin-left:54px;"
+				value="#{agendamentoController.agendamento.dataAgendamento}" />
+			<span style="font-style: italic;">A</span>
+			<p:calendar pattern="dd/MM/yyyy" locale="pt_BR" effect="fade"
+				showButtonPanel="true" minHour="8" maxHour="21"
+				style="margin-left:54px;"
+				value="#{agendamentoController.agendamento.dataAgendamento}" />
+			<br />
+			<br />
+			<p:dataTable id="clientes" var="cliente"
+				value="#{clienteController.dao.clientes}"
+				rowKey="#{cliente.idCliente}" selectionMode="single">
+
+				<p:column headerText="Data ">
+
+				</p:column>
+				<p:column headerText="Nome">
+					#{cliente.nomeCliente}					
+				</p:column>
+
+				<p:column headerText="Horário">
+
+				</p:column>
+
+
+				<p:column headerText="Status">
+
+				</p:column>
+
+
+				<p:column headerText="Promocao">
+
+				</p:column>
+
+			</p:dataTable>
+
+			<div id="commands" style="margin-top: 25px;">
+				<h:commandButton value="Mostrar" styleClass="botoesJSF" />
+			</div>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+
+</html>

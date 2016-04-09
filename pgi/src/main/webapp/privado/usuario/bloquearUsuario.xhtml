@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/base.xhtml">
+	<ui:define name="tituloDaPagina">Bloquear Usuarios</ui:define>
+
+	<ui:define name="dynamic">
+		<p:separator styleClass="separator" />
+
+		<div id="bloquearUsuarios">
+
+			<h:form id="formBlockUser">
+
+
+				<p:outputLabel value="Nome " style="margin-left:0;" />
+
+				<p:autoComplete id="blockUser" size="50" style="margin-left:40px;"
+					value="#{operadorController.operador.nomeOperador}"
+					completeMethod="#{operadorController.dao.complete}" />
+
+
+				<br />
+				<br />
+
+				<div>
+					<p:outputLabel value="Motivo: "
+						style="float:left; margin-left:0; margin-top: 15px;" />
+				</div>
+
+				<p:inputTextarea rows="8" cols="61" style="margin-left:10px;"
+					value="#{operadorController.motivoBloqueio}" />&nbsp;&nbsp;
+						
+					<h:selectBooleanCheckbox
+					value="#{operadorController.enviarAgendaPorEmail}" />&nbsp;&nbsp;
+					<p:outputLabel value="Enviar Agenda por E-mail" />
+				<br />
+				<br />
+				<div class="caixas">
+
+					<p:commandButton action="#{operadorController.bloqeiaUsuario()}"
+						value="Bloquear" style="margin-left:120px;" update="formBlockUser"
+						styleClass="btnPrime" />
+					<p:commandButton value="Bloquear" styleClass="btnPrime"
+						style="margin-left:120px;" update="formBlockUser"
+						action="#{operadorController.bloqeiaUsuario()}" />
+				</div>
+				<div class="caixas">
+					<p:commandButton value="Cancelar" styleClass="btnPrime"
+						style="margin-left:90px;" />
+				</div>
+
+
+			</h:form>
+
+		</div>
+
+	</ui:define>
+</ui:composition>
+
+</html>

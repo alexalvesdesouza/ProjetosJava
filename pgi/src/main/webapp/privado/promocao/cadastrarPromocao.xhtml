@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/base.xhtml">
+	<ui:define name="tituloDaPagina">Cadastrar Promoção</ui:define>
+
+	<ui:define name="dynamic">
+
+		<p:separator styleClass="separator" />
+
+		<div id="cadastrarPromocao">
+
+			<h:form id="cadPromocao">
+				<h:messages id="messages" />
+
+				<p:outputLabel value="Nome: " style="margin-left:0;" />
+				<p:inputText value="#{promocaoController.promocao.nomePromocao}"
+					size="40" style="margin-left:60px;"
+					onkeyup="this.value = this.value.toUpperCase()" required="true"
+					requiredMessage="O campo nome é obrigadorio" />
+				<br />
+				<br />
+
+				<p:outputLabel value="Sessões:" style="margin-left:0;" />
+				<p:inputText value="#{promocaoController.promocao.quantidade}"
+					size="6" style="margin-left:42px;"
+					onkeyup="this.value = this.value.toUpperCase()" required="true"
+					requiredMessage="O campo Sessões é obrigadorio" />
+
+				<br />
+				<br />
+
+				<div>
+					<p:outputLabel value="Observações:"
+						style="float:left; margin-left:0; margin-top: 15px;" />
+				</div>
+
+				<p:inputTextarea rows="8" cols="40" style="margin-left:10px;" />
+
+				<div>
+					<p:commandButton value="Cadastrar"
+						action="#{promocaoController.gravarPromocao()}"
+						styleClass="btnPrime"
+						style="float:right; margin-right:430px; margin-top:-50px;"
+						update="cadPromocao" />
+				</div>
+
+
+
+			</h:form>
+		</div>
+
+	</ui:define>
+</ui:composition>
+
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/base.xhtml">
+	<ui:define name="tituloDaPagina">Cadastro Cliente Wizard</ui:define>
+
+	<ui:define name="dynamic">
+
+		<p:separator styleClass="separator" />
+		
+		<h:form enctype="multipart/form-data" id="cadastroClienteWizard">
+			<h:messages id="messages" />
+			<p:wizard nextLabel="Proxima Aba" backLabel="Aba Anterior">
+				<p:tab title="Informaçoes Básicas" id="infoPessoal">
+					<p:panel header="Informaçoes Basicas">
+						<p:growl id="msg0" />
+						<h:panelGrid columns="2" cellpadding="10" styleClass="panelGrid"
+							id="grid0">
+
+							<p:outputLabel for="nomeCliente" value="Nome" />
+							<p:inputText id="nomeCliente"
+								value="#{clienteController.cliente.nomeCliente}"
+								onkeyup="this.value = this.value.toUpperCase()" required="true"
+								requiredMessage="O campo Nome é obrigadorio" size="45" />
+							<p:outputLabel for="telefoneCliente" value="Telefone" />
+							<p:inputMask mask="(99)-9999-9999" id="telefoneCliente"
+								value="#{clienteController.cliente.telefoneCliente}" size="45" />
+							<p:outputLabel for="celularCliente" value="Celular" />
+							<p:inputMask mask="(99)-9999-9999" id="celularCliente"
+								value="#{clienteController.cliente.celularCliente}"
+								required="true"
+								requiredMessage="O campo Tel. Celular é obrigadorio" size="45" />
+							<p:outputLabel for="emailCliente" value="Email" />
+							<p:inputText id="emailCliente"
+								value="#{clienteController.cliente.emailCliente}" size="45">
+							</p:inputText>
+							<p:outputLabel for="nascimentoCliente" value="Nascimento" />
+							<p:calendar id="nascimentoCliente"
+								value="#{clienteController.cliente.dataNascimentoCliente}"
+								pattern="dd/MM/yyyy" locale="pt_BR" yearRange="c-90:c+0"
+								navigator="true" size="20" />
+
+						</h:panelGrid>
+					</p:panel>
+				</p:tab>
+
+				<p:tab title="Informaçoes do Endereço" id="infoEndereco">
+					<p:panel header="Endereço">
+						<p:growl id="msg1" />
+						<h:panelGrid columns="2" cellpadding="10" styleClass="panelGrid"
+							id="grid1">
+
+							<p:outputLabel for="rua" value="Rua" />
+							<p:inputText id="rua" value="#{clienteController.cliente.rua}"
+								onkeyup="this.value = this.value.toUpperCase()" size="45" />
+							<p:outputLabel for="numero" value="Numero" />
+							<p:inputText id="numero"
+								value="#{clienteController.cliente.numero}" size="45" />
+							<p:outputLabel for="complemento" value="Complemento" />
+							<p:inputText id="complemento"
+								value="#{clienteController.cliente.complemento}"
+								onkeyup="this.value = this.value.toUpperCase()" size="45" />
+							<p:outputLabel for="bairro" value="Bairro" />
+							<p:inputText id="bairro"
+								value="#{clienteController.cliente.bairro}"
+								onkeyup="this.value = this.value.toUpperCase()" size="45" />
+							<p:outputLabel for="cep" value="Cep" />
+							<p:inputMask id="cep" mask="99.999-999"
+								value="#{clienteController.cliente.cep}" size="45" />
+
+							<p:outputLabel for="cidade" value="Cidade" />
+							<p:inputText id="cidade"
+								value="#{clienteController.cliente.cidade}"
+								onkeyup="this.value = this.value.toUpperCase()" size="45" />
+
+
+							<p:outputLabel for="uf" value="UF" />
+							<p:inputText id="uf" value="#{clienteController.cliente.uf}"
+								onkeyup="this.value = this.value.toUpperCase()" maxlength="2"
+								size="45" />
+						</h:panelGrid>
+					</p:panel>
+				</p:tab>
+
+				<p:tab title="Foto do Cliente" id="fotoDoCliente">
+					<p:panel header="Endereço">
+						<p:growl id="msg2" />
+						<h:panelGrid columns="2" cellpadding="10" styleClass="panelGrid"
+							id="grid2">
+							<p:outputLabel value="Foto" />
+							<p:fileUpload id="uploadImagem" mode="advanced"
+								update="messages,imagem" auto="true" label="Selecionar"
+								allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+								fileUploadListener="#{clienteController.enviarFoto}" />
+							<p:graphicImage value="#{clienteController.cliente.imagem}"
+								id="imagem" style="width:60px; height:60px;" cache="false" />
+
+
+						</h:panelGrid>
+					</p:panel>
+				</p:tab>
+
+			</p:wizard>
+
+			<div id="commands" style="margin-top: 25px;">
+				<h:commandButton value="salvar"
+					action="#{clienteController.gravarCliente()}"
+					styleClass="botoesJSF" />
+				<h:commandButton value="Alterar" styleClass="botoesJSF"
+					action="#{clienteController.cancelar()}" immediate="true" />
+				<h:commandButton value="Excluir" styleClass="botoesJSF"
+					action="#{clienteController.cancelar()}" immediate="true" />
+				<h:commandButton value="Cancelar" styleClass="botoesJSF"
+					action="#{clienteController.cancelar()}" immediate="true" />
+
+			</div>
+
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>
+
+</html>

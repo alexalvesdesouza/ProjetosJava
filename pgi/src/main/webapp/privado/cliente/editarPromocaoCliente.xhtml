@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/base.xhtml">
+	<ui:define name="tituloDaPagina">Editar Promoção Cliente</ui:define>
+
+	<ui:define name="dynamic">
+
+		<p:separator styleClass="separator" />
+
+		<div id="editarPromocaoCliente">
+			<h:form id="bannerSessaoCli">
+				<p:fieldset legend="Promocao" style="width:950px; height:900px;">
+
+					<div id="bannerPromocaoCliente">
+
+						<h:form id="formEditPromoCliente">
+							<h:messages />
+
+							<h:dataTable id="promocoes" var="promocao"
+								value="#{promocaoController.dao.promocoes}"
+								rowKey="#{promocao.idPromocao}" selectionMode="single">
+
+								<h:column>
+										#{promocao.nomePromocao}	
+									</h:column>
+
+								<h:column>
+									<h:commandButton value="Editar" styleClass="botoesJSF"
+										style="margin-left:40px;" />
+								</h:column>
+							</h:dataTable>
+						</h:form>
+
+
+					</div>
+
+
+					<div id="bannerSessaoCliente">
+
+						<h:messages id="messages" />
+						<p:outputLabel value="Sessões:" style="margin-left:0;" />
+						<p:inputText value="#{promocaoController.promocao.quantidade}"
+							size="6" style="margin-left:42px;"
+							onkeyup="this.value = this.value.toUpperCase()" required="true"
+							requiredMessage="O campo Sessões é obrigadorio" />
+
+						<br /> <br />
+
+						<div>
+							<p:outputLabel value="Observações:"
+								style="float:left; margin-left:0; margin-top: 15px;" />
+						</div>
+
+						<p:inputTextarea rows="8" cols="30" style="margin-left:0;" />
+
+
+						<h:commandButton value="Salvar" styleClass="botoesJSF"
+							style="float:left; margin-left:0; margin-top:5px;" />
+
+					</div>
+
+				</p:fieldset>
+			</h:form>
+		</div>
+
+	</ui:define>
+</ui:composition>
+
+</html>

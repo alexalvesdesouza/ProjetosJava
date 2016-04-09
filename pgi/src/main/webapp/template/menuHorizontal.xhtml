@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:form>
+	<p:growl id="messages" />
+	<p:menubar>
+		<p:menuitem id="home" value="Home" url="/index.xhtml"
+			icon="ui-icon-home" />
+
+		<p:submenu label="Clientes" icon="ui-icon-person">
+			<p:menuitem value="Gerenciar Cadastro Cliente"
+				url="/privado/cliente/cadastroCliente.xhtml" />
+			<p:menuitem value="Exibir Histórico"
+				url="/privado/cliente/historicoCliente.xhtml" />
+			<p:menuitem value="Lista Cliente"
+				url="/privado/cliente/dataTableCliente.xhtml" />
+			<p:menuitem value="Editar Promoção Cliente"
+				url="/privado/cliente/editarPromocaoCliente.xhtml" />
+		</p:submenu>
+
+		<p:submenu label="Agendamentos" icon="ui-icon-bookmark">
+			<p:menuitem value="Agendar" url="/privado/agenda/agendar.xhtml" />
+			<p:menuitem value="Minha Agenda"
+				url="/privado/agenda/minhaAgenda.xhtml" />
+			<p:menuitem value="Consultar Agenda"
+				url="/privado/agenda/consultaAgenda.xhtml" />
+			<p:menuitem value="Rever Agendamento"
+				url="/privado/agenda/reverAgendamento.xhtml" />
+			<p:menuitem value="Agendamentos Todos Operadores"
+				url="/privado/agenda/listaAgendamentoDeTodos.xhtml" />
+
+		</p:submenu>
+
+		<p:submenu label="Promoçoes" icon="ui-icon-cart">
+			<p:menuitem value="Cadastrar Promoção"
+				url="/privado/promocao/cadastrarPromocao.xhtml" />
+			<p:menuitem value="Gerenciar Promoção"
+				url="/privado/promocao/gerenciarPromocao.xhtml" />
+			<p:menuitem value="Cadastrar Promoção Cliente"
+				url="/privado/promocao/cadastrarPromocaoParaCliente.xhtml" />
+			<p:menuitem value="Editar Promoções"
+				url="/privado/promocao/editarPromocao.xhtml" />
+			<p:menuitem value="Listar Promoções"
+				url="/privado/promocao/listaPromocao.xhtml" />
+		</p:submenu>
+
+		<p:submenu label="Lembretes" icon="ui-icon-clipboard">
+			<p:menuitem value="Criar Lembrete"
+				url="/privado/lembrete/criarLembrete.xhtml" />
+			<p:menuitem value="Ver Lembretes"
+				url="/privado/lembrete/listaLembrete.xhtml" />
+		</p:submenu>
+
+		<p:submenu label="Usuarios" icon="ui-icon-person">
+			<p:menuitem value="Gerenciar Cadastro Usuario"
+				url="/privado/usuario/cadastroUsuario.xhtml" />
+			<p:menuitem value="Bloquear Usuários"
+				url="/privado/usuario/bloquearUsuario.xhtml" />
+			<p:menuitem value="Listar Usuários"
+				url="/privado/usuario/listarUsuario.xhtml" />
+			<p:menuitem value="Trocar Senha"
+				url="/privado/usuario/trocarSenha.xhtml" />
+		</p:submenu>
+
+	</p:menubar>
+</h:form>
+
+
+</html>

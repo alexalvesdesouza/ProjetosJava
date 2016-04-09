@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/base.xhtml">
+	<ui:define name="tituloDaPagina">Minha Agenda</ui:define>
+
+	<ui:define name="dynamic">
+
+
+
+		<h:form>
+			<p:calendar pattern="dd/MM/yyyy" locale="pt_BR" mode="inline"
+				effect="fade" showButtonPanel="true" showOn="button" />
+
+
+			<p:dataTable id="agendas"
+				value="#{agendamentoController.dao.agendamentos}" var="agenda">
+				<p:column headerText="N° Agenda">
+						#{agenda.idAgendamentos}
+					</p:column>
+
+				<p:column headerText="Cliente">
+						#{agenda.cliente.nomeCliente}
+					</p:column>
+
+				<p:column headerText="Atendente">
+						#{agenda.operadordosistema.nomeOperador}
+					</p:column>
+				<p:column headerText="Inicio">
+						#{agenda.horarioInicioAgendamento}
+					</p:column>
+				<p:column headerText="Fim">
+						#{agenda.horarioFimAgendamento}
+					</p:column>
+				<p:column headerText="Serviço">
+						#{agenda.observacaoAgendamento}
+					</p:column>
+
+
+				<p:column headerText="Açoes">
+					<h:commandLink value="Alterar"
+						action="#{agendamentoController.alterarAgendamento(agenda)}">
+					</h:commandLink>
+				</p:column>
+
+				<p:column headerText="Açoes">
+					<h:commandLink value="Excluir"
+						action="#{agendamentoController.cancelarAgendamento(agenda)}"
+						onclick="if(!confirm('Confirma o cancelamento desta Agenda??')) return false">
+					</h:commandLink>
+				</p:column>
+
+			</p:dataTable>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+
+</html>

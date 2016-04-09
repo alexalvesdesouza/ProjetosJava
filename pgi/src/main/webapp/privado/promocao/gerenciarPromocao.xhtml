@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/base.xhtml">
+	<ui:define name="tituloDaPagina">Gerenciar Promoção Cliente</ui:define>
+
+	<ui:define name="dynamic">
+
+		<p:separator styleClass="separator" />
+
+		<div id="gerenciarPromocao">
+			<h:form>
+
+				<p:outputLabel value="Nome: " style="margin-left:0;" />
+				<p:inputText size="40" style="margin-left:60px;" />
+				<h:commandButton value="Buscar" styleClass="botoesJSF"
+					style=" margin-left:8px;" />
+				<br />
+				<br />
+
+				<p:outputLabel value="Sessões:" style="margin-left:0;" />
+				<p:inputText size="6" style="margin-left:42px;" />
+
+				<br />
+				<br />
+				<br />
+
+				<div>
+					<p:outputLabel value="Observações:"
+						style="float:left; margin-left:0; margin-top: 15px;" />
+				</div>
+
+				<p:inputTextarea rows="8" cols="40" style="margin-left:10px;" />
+				<br />
+				<br />
+				<br />
+
+
+				<div class="caixas">
+					<h:commandButton value="Inativar Promoção" styleClass="botoesJSFG" />
+				</div>
+				<div class="caixas">
+					<h:commandButton value="Salvar" styleClass="botoesJSF" />
+				</div>
+
+
+
+			</h:form>
+		</div>
+
+	</ui:define>
+</ui:composition>
+
+</html>

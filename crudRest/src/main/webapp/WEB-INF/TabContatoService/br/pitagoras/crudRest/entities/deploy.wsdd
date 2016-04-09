@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from TabContatoService WSDL service -->
+
+  <service name="TabContato" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://entities.crudRest.pitagoras.br"/>
+      <parameter name="wsdlServiceElement" value="TabContatoService"/>
+      <parameter name="schemaQualified" value="http://entities.crudRest.pitagoras.br,http://xml.apache.org/xml-soap"/>
+      <parameter name="wsdlServicePort" value="TabContato"/>
+      <parameter name="className" value="br.pitagoras.crudRest.entities.TabContato"/>
+      <parameter name="wsdlPortType" value="TabContato"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://entities.crudRest.pitagoras.br" xmlns:retNS="http://entities.crudRest.pitagoras.br" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getCodContato" qname="operNS:getCodContato" returnQName="retNS:getCodContatoReturn" returnType="rtns:int" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://entities.crudRest.pitagoras.br" name="setCodContato" qname="operNS:setCodContato" soapAction="">
+        <parameter xmlns:pns="http://entities.crudRest.pitagoras.br" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:codContato" type="tns:int"/>
+      </operation>
+      <operation xmlns:operNS="http://entities.crudRest.pitagoras.br" xmlns:retNS="http://entities.crudRest.pitagoras.br" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getDesCpf" qname="operNS:getDesCpf" returnQName="retNS:getDesCpfReturn" returnType="rtns:string" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://entities.crudRest.pitagoras.br" name="setDesCpf" qname="operNS:setDesCpf" soapAction="">
+        <parameter xmlns:pns="http://entities.crudRest.pitagoras.br" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:desCpf" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://entities.crudRest.pitagoras.br" xmlns:retNS="http://entities.crudRest.pitagoras.br" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getDesEmail" qname="operNS:getDesEmail" returnQName="retNS:getDesEmailReturn" returnType="rtns:string" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://entities.crudRest.pitagoras.br" name="setDesEmail" qname="operNS:setDesEmail" soapAction="">
+        <parameter xmlns:pns="http://entities.crudRest.pitagoras.br" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:desEmail" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://entities.crudRest.pitagoras.br" xmlns:retNS="http://entities.crudRest.pitagoras.br" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getMatricula" qname="operNS:getMatricula" returnQName="retNS:getMatriculaReturn" returnType="rtns:string" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://entities.crudRest.pitagoras.br" name="setMatricula" qname="operNS:setMatricula" soapAction="">
+        <parameter xmlns:pns="http://entities.crudRest.pitagoras.br" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:matricula" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://entities.crudRest.pitagoras.br" xmlns:retNS="http://entities.crudRest.pitagoras.br" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getDesSexo" qname="operNS:getDesSexo" returnQName="retNS:getDesSexoReturn" returnType="rtns:string" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://entities.crudRest.pitagoras.br" name="setDesSexo" qname="operNS:setDesSexo" soapAction="">
+        <parameter xmlns:pns="http://entities.crudRest.pitagoras.br" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:desSexo" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://entities.crudRest.pitagoras.br" xmlns:retNS="http://entities.crudRest.pitagoras.br" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getTelefone" qname="operNS:getTelefone" returnQName="retNS:getTelefoneReturn" returnType="rtns:string" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://entities.crudRest.pitagoras.br" name="setTelefone" qname="operNS:setTelefone" soapAction="">
+        <parameter xmlns:pns="http://entities.crudRest.pitagoras.br" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:telefone" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://entities.crudRest.pitagoras.br" xmlns:retNS="http://entities.crudRest.pitagoras.br" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getNome" qname="operNS:getNome" returnQName="retNS:getNomeReturn" returnType="rtns:string" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://entities.crudRest.pitagoras.br" name="setNome" qname="operNS:setNome" soapAction="">
+        <parameter xmlns:pns="http://entities.crudRest.pitagoras.br" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:nome" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://entities.crudRest.pitagoras.br" xmlns:retNS="http://entities.crudRest.pitagoras.br" xmlns:rtns="http://entities.crudRest.pitagoras.br" name="getOperadora" qname="operNS:getOperadora" returnQName="retNS:getOperadoraReturn" returnType="rtns:TabOperadora" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://entities.crudRest.pitagoras.br" name="setOperadora" qname="operNS:setOperadora" soapAction="">
+        <parameter xmlns:pns="http://entities.crudRest.pitagoras.br" xmlns:tns="http://entities.crudRest.pitagoras.br" qname="pns:operadora" type="tns:TabOperadora"/>
+      </operation>
+      <operation xmlns:operNS="http://entities.crudRest.pitagoras.br" xmlns:retNS="http://entities.crudRest.pitagoras.br" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getData" qname="operNS:getData" returnQName="retNS:getDataReturn" returnType="rtns:dateTime" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://entities.crudRest.pitagoras.br" name="setData" qname="operNS:setData" soapAction="">
+        <parameter xmlns:pns="http://entities.crudRest.pitagoras.br" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:data" type="tns:dateTime"/>
+      </operation>
+      <operation xmlns:operNS="http://entities.crudRest.pitagoras.br" xmlns:retNS="http://entities.crudRest.pitagoras.br" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="toString" qname="operNS:toString" returnQName="retNS:toStringReturn" returnType="rtns:string" soapAction="">
+      </operation>
+      <parameter name="allowedMethods" value="getDesEmail getTelefone setData setCodContato getNome getCodContato setMatricula getDesSexo setDesEmail setNome getOperadora setTelefone toString setDesSexo setDesCpf getMatricula getDesCpf getData setOperadora"/>
+
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;getDesCpfResponse" type="java:br.pitagoras.crudRest.entities.GetDesCpfResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;getDesEmailResponse" type="java:br.pitagoras.crudRest.entities.GetDesEmailResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;setOperadoraResponse" type="java:br.pitagoras.crudRest.entities.SetOperadoraResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;getCodContato" type="java:br.pitagoras.crudRest.entities.GetCodContato" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;getData" type="java:br.pitagoras.crudRest.entities.GetData" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <arrayMapping xmlns:ns="http://entities.crudRest.pitagoras.br" xmlns:cmp-ns="http://www.w3.org/2001/XMLSchema" qname="ns:ArrayOf_xsd_anyType" type="java:java.lang.Object[]" innerType="cmp-ns:anyType" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;getTelefone" type="java:br.pitagoras.crudRest.entities.GetTelefone" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;getNomeResponse" type="java:br.pitagoras.crudRest.entities.GetNomeResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;getOperadora" type="java:br.pitagoras.crudRest.entities.GetOperadora" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;setTelefone" type="java:br.pitagoras.crudRest.entities.SetTelefone" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;setDataResponse" type="java:br.pitagoras.crudRest.entities.SetDataResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;toStringResponse" type="java:br.pitagoras.crudRest.entities.ToStringResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;getCodContatoResponse" type="java:br.pitagoras.crudRest.entities.GetCodContatoResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;setCodContatoResponse" type="java:br.pitagoras.crudRest.entities.SetCodContatoResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;getDesSexo" type="java:br.pitagoras.crudRest.entities.GetDesSexo" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;getMatricula" type="java:br.pitagoras.crudRest.entities.GetMatricula" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;setMatricula" type="java:br.pitagoras.crudRest.entities.SetMatricula" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;setData" type="java:br.pitagoras.crudRest.entities.SetData" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;toString" type="java:br.pitagoras.crudRest.entities.ToString" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;setCodContato" type="java:br.pitagoras.crudRest.entities.SetCodContato" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;getOperadoraResponse" type="java:br.pitagoras.crudRest.entities.GetOperadoraResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;getDesEmail" type="java:br.pitagoras.crudRest.entities.GetDesEmail" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;getTelefoneResponse" type="java:br.pitagoras.crudRest.entities.GetTelefoneResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;setMatriculaResponse" type="java:br.pitagoras.crudRest.entities.SetMatriculaResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;setTelefoneResponse" type="java:br.pitagoras.crudRest.entities.SetTelefoneResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;setNome" type="java:br.pitagoras.crudRest.entities.SetNome" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;setDesEmail" type="java:br.pitagoras.crudRest.entities.SetDesEmail" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:TabOperadora" type="java:br.pitagoras.crudRest.entities.TabOperadora" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;setDesSexoResponse" type="java:br.pitagoras.crudRest.entities.SetDesSexoResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;getDesSexoResponse" type="java:br.pitagoras.crudRest.entities.GetDesSexoResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;setDesSexo" type="java:br.pitagoras.crudRest.entities.SetDesSexo" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;setDesEmailResponse" type="java:br.pitagoras.crudRest.entities.SetDesEmailResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;getDesCpf" type="java:br.pitagoras.crudRest.entities.GetDesCpf" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;setDesCpf" type="java:br.pitagoras.crudRest.entities.SetDesCpf" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;setDesCpfResponse" type="java:br.pitagoras.crudRest.entities.SetDesCpfResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;getNome" type="java:br.pitagoras.crudRest.entities.GetNome" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;setNomeResponse" type="java:br.pitagoras.crudRest.entities.SetNomeResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;getDataResponse" type="java:br.pitagoras.crudRest.entities.GetDataResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;setOperadora" type="java:br.pitagoras.crudRest.entities.SetOperadora" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://entities.crudRest.pitagoras.br" qname="ns:&gt;getMatriculaResponse" type="java:br.pitagoras.crudRest.entities.GetMatriculaResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+  </service>
+</deployment>

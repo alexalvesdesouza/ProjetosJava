@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/base.xhtml">
+	<ui:define name="tituloDaPagina">Editar Promoção Cliente</ui:define>
+
+	<ui:define name="dynamic">
+
+		<p:separator styleClass="separator" />
+
+
+		<p:fieldset legend="Promoções" toggleable="true">
+
+
+			<div id="listaPromEditavel">
+
+				<p:scrollPanel style="height:400px;">
+					<h:form>
+						<h:messages />
+
+
+						<p:dataTable id="promocoes" var="promocao"
+							value="#{promocaoController.dao.promocoes}"
+							rowKey="#{promocao.idPromocao}" selectionMode="single">
+
+							<p:column headerText="Promoção">
+					#{promocao.nomePromocao}					
+				</p:column>
+
+							<p:column headerText="Açoes">
+								<h:commandButton value="Editar" styleClass="botoesJSF"
+									action="#{promocaoController.alterarPromocao(promocao)}" />
+
+							</p:column>
+
+						</p:dataTable>
+					</h:form>
+
+				</p:scrollPanel>
+
+			</div>
+
+			<div id="editarPromocao">
+
+				<h:form id="cadPromocao">
+					<h:messages id="messages" />
+
+					<p:outputLabel value="Nome: " style="margin-left:0;" />
+					<p:inputText value="#{promocaoController.promocao.nomePromocao}"
+						size="40" style="margin-left:60px;"
+						onkeyup="this.value = this.value.toUpperCase()" required="true"
+						requiredMessage="O campo nome é obrigadorio" />
+					<h:commandButton value="Buscar" styleClass="botoesJSF"
+						style="margin-left:8px;" />
+					<br />
+					<br />
+
+					<p:outputLabel value="Sessões:" style="margin-left:0;" />
+					<p:inputText value="#{promocaoController.promocao.quantidade}"
+						size="6" style="margin-left:42px;"
+						onkeyup="this.value = this.value.toUpperCase()" required="true"
+						requiredMessage="O campo Sessões é obrigadorio" />
+
+					<br />
+					<br />
+
+					<div>
+						<p:outputLabel value="Observações:"
+							style="float:left; margin-left:0; margin-top: 15px;" />
+					</div>
+
+					<p:inputTextarea rows="8" cols="40" style="margin-left:10px;" />
+
+					<div>
+						<h:commandButton value="Alterar"
+							action="#{promocaoController.gravarPromocao()}"
+							styleClass="botoesJSF"
+							style="float:right; margin-right:20px; margin-top:-50px;"
+							update="cadPromocao" />
+					</div>
+
+					<div style="float: right; margin-right: 20px; margin-top: -10px;">
+						<h:commandButton value="Novo Registro"
+							action="#{promocaoController.novo()}" styleClass="botoesJSFB" />
+					</div>
+
+
+
+				</h:form>
+			</div>
+
+		</p:fieldset>
+
+	</ui:define>
+</ui:composition>
+
+</html>

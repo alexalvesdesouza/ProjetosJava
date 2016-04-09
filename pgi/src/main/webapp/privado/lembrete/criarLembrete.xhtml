@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/base.xhtml">
+	<ui:define name="tituloDaPagina">Criar Lembrete</ui:define>
+
+	<ui:define name="dynamic">
+		<p:separator styleClass="separator" />
+
+		<div id="divCriarLembrete" style="margin-left: 3px;">
+			<h:form id="formClriarLembrete">
+
+				<p:outputLabel value="Para " />
+
+				<p:autoComplete id="opLembrete" size="50" style="margin-left:40px;"
+					value="#{operadorController.operador.nomeOperador}"
+					completeMethod="#{operadorController.dao.complete}" />
+
+
+				<div style="margin-top: 20px; margin-bottom: 10px;">
+					<p:outputLabel value="Detalhes do Lembrete" />
+				</div>
+
+
+				<p:editor rows="8" cols="60" width="510" widgetVar="editorWidget" />
+
+				
+				<br />
+				<div class="caixas">
+					<p:commandButton value="Enviar" styleClass="btnPrime" 
+						action="#{lembreteController.gravarLembrete()}" icon="ui-icon-transferthick-e-w"/>
+
+					<p:commandButton value="Cancelar" styleClass="btnPrime"
+						type="button" onclick="PF('editorWidget').clear();"
+						icon="ui-icon-arrowreturnthick-1-w" />
+
+				</div>
+
+
+
+			</h:form>
+		</div>
+
+	</ui:define>
+</ui:composition>
+
+</html>

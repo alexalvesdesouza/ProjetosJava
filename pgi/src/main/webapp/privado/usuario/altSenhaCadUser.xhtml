@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/base.xhtml">
+	<ui:define name="tituloDaPagina">Alterar Senha Cadastro Usuario</ui:define>
+
+	<ui:define name="dynamic">
+		
+
+		<p:separator styleClass="separator" />
+
+		<div id="cadastroUsuario">
+		<p:messages id="messages" />
+
+			<h:form id="formCadUsuarios">
+
+
+				<p:panelGrid columns="2">
+
+					<f:facet name="header">Cadastro de Usuários</f:facet>
+					<f:facet name="footer">@Gerenciador De Senhas - Security System</f:facet>
+					<p:outputLabel value="Nome:" />
+					<p:inputText size="35" readonly="true"
+						value="#{operadorController.operador.nomeOperador}" />
+					<h:inputHidden />
+
+					<h:inputHidden size="35" readonly="true"
+						value="#{operadorController.operador.emailOperador}" />
+					<p:outputLabel value="Usuario:" />
+					<p:inputText size="35" readonly="true"
+						value="#{operadorController.operador.usuarioOperador}" />
+					<p:outputLabel for="novaSenha" value="Nova Senha:" />
+					<p:password id="novaSenha" size="35" required="true"
+						promptLabel="Digite sua senha " weakLabel="Senha Fraca!!!"
+						goodLabel="Senha Boa!!!" strongLabel="Senha Fotre!!!"
+						feedback="true" requiredMessage="O campo Senha é obrigadorio"
+						value="#{operadorController.operador.senhaOperador}" />
+
+
+
+					<p:outputLabel value="Perfil: " />
+					<p:selectOneMenu effect="fade" readonly="true" editable="false"
+						value="#{operadorController.operador.perfilOperador}">
+						<f:selectItem itemLabel="Selecione o Perfil" itemValue="" />
+						<f:selectItem itemLabel="Administrador" itemValue="Administrador" />
+						<f:selectItem itemLabel="Usuário" itemValue="Usuario" />
+					</p:selectOneMenu>
+					<p:outputLabel value="Ativo?" />
+					<h:selectBooleanCheckbox readonly="true" disabled="true"
+						value="#{operadorController.operador.statusOperador}" />
+
+				</p:panelGrid>
+				<br />
+				<br />
+				<h:commandButton value="Salvar" styleClass="btnJSF"
+					style="margin-left:0;"
+					actionListener="#{operadorController.trocarSenha}"
+					update="formCadUsuarios" />
+				<h:commandButton value="Cancelar" styleClass="btnJSF"
+					style="margin-left:62px;"
+					action="#{operadorController.cancelar()}" />
+			</h:form>
+
+		</div>
+
+
+	</ui:define>
+</ui:composition>
+
+</html>

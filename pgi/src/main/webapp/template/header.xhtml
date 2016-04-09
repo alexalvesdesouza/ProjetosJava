@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<p:separator class="separator" />
+
+<h:form>
+	<div id="conteudoCabecalhoLogo">
+
+		<h:commandLink action="/index?faces-redirect=true">
+			<h:graphicImage width="250" height="70" class="logotipo"
+				library="images" value="/resources/images/logo.png" />
+		</h:commandLink>
+
+	</div>
+
+
+
+	<div id="conteudoCabecalhoCentral">
+
+		<p:commandButton id="acessMaior"
+			style="margin-left:60px;"
+			onclick="aumentaTamanho();" value="A+" />
+		<p:tooltip id="toolTipGrowAcessMaior" for="acessMaior"
+			value="Aumenta o tamanho da fonte" showEffect="clip"
+			hideEffect="explode" styleClass="tolltip" />
+		<p:commandButton id="acessMenor" onclick="diminuiTamanho();"
+			value="A-" />
+		<p:tooltip id="toolTipGrowAcessMenor" for="acessMenor"
+			value="Diminue o tamanho da fonte" showEffect="clip"
+			hideEffect="explode" styleClass="tolltip" />
+
+		<div style="margin: 0 0 3px 60px;">
+			<h:graphicImage id="iconAcessibilidade" library="images"
+				name="acessibilidade.jpg" width="10" height="10" />
+			Acessibilidade
+			<p:tooltip id="toolTipGrowAcessIcon" for="iconAcessibilidade"
+				value="Acessibilidade para todos" showEffect="clip"
+				hideEffect="explode" styleClass="tolltip" />
+		</div>
+
+	</div>
+
+
+
+	<!-- Recursos do Login -->
+	<div id="conteudoCabecalhoLogin">
+
+		<div id="imagemUsuario">
+			<h:graphicImage library="images" name="users2.jpg" width="30"
+				height="30" />
+		</div>
+
+
+		<div id="sessaoUsuario">
+
+			<h:outputLabel styleClass="fontUsuarioLogado"
+				value="#{loginController.usuarioLogado.nomeOperador}" />
+
+		</div>
+
+
+
+		<div id="trocarSenhaLogout">
+
+			<h:commandLink action="/privado/usuario/trocarSenha">
+				<h:graphicImage id="trocarSenha" library="images"
+					name="trocarSenhaChaves.png" width="30" height="30" />
+			</h:commandLink>
+			<p:tooltip id="toolTipGrowTrocarSenha" for="trocarSenha"
+				value="trocar Senha" showEffect="clip" hideEffect="explode"
+				styleClass="tolltip" />
+
+			<h:commandLink id="sair" action="#{loginController.efetuarLogout()}">
+				<h:graphicImage library="images" name="logout.gif" width="109"
+					height="27" style="margin-left:20px;" />
+			</h:commandLink>
+			<p:tooltip id="toolTipGrowSair" for="sair" value="Sair do Sistema"
+				showEffect="clip" hideEffect="explode" styleClass="tolltip" />
+		</div>
+
+	</div>
+</h:form>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/base.xhtml">
+	<ui:define name="tituloDaPagina">Trocar Senha</ui:define>
+
+	<ui:define name="dynamic">
+<p:messages id="messages" />
+		<p:separator styleClass="separator" />
+
+		<div id="listaUsuario">
+
+			<h:form id="formListaUsuario">
+			
+
+				<p:dataTable id="operadores" var="operador"
+					value="#{loginController.usuarioLogado}"
+					rowKey="#{operador.idOperador}" selectionMode="single">
+					<f:facet name="header">Painel para Trocar Senha</f:facet>
+
+					<p:column headerText="ID Operador">
+					#{operador.idOperador}					
+				</p:column>
+
+					<p:column headerText="Operador">
+					#{operador.nomeOperador}					
+				</p:column>
+
+					<p:column headerText="E-mail Operador">
+					#{operador.emailOperador}					
+				</p:column>
+
+
+					<p:column headerText="Usuario">
+					#{operador.usuarioOperador}					
+				</p:column>
+
+					<p:column headerText="Perfil">
+					#{operador.perfilOperador}					
+				</p:column>
+
+					<p:column headerText="Status">
+					#{operador.statusOperador}					
+				</p:column>
+
+					<p:column headerText="Açoes">
+						<h:commandLink value="Alterar"
+							action="#{operadorController.alterarSenha(operador)}">
+						</h:commandLink>
+					</p:column>
+
+					<p:column headerText="Açao">
+						<h:commandLink value="Cancelar"
+							action="#{operadorController.cancelar()}">
+						</h:commandLink>
+					</p:column>
+
+				</p:dataTable>
+			</h:form>
+		</div>
+
+	</ui:define>
+</ui:composition>
+
+</html>

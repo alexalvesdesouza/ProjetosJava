@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/base.xhtml">
+	<ui:define name="tituloDaPagina">Esqueci Minha Senha</ui:define>
+
+	<ui:define name="dynamic">
+
+		<p:ajaxStatus onstart="PF('statusDialog').show();"
+			onsuccess="PF('statusDialog').hide();" />
+
+		<p:dialog modal="true" widgetVar="statusDialog"
+			header="Aguarde Um Momento!" draggable="false" closable="false">
+			<p:graphicImage styleClass="linkRapido" library="images"
+				name="ajaxLoadingBar.gif" style="width:200px; height:15px;" />
+		</p:dialog>
+
+		<div id="novaSenha">
+
+			<h:form id="novaSenha0">
+				<h:messages id="messages" />
+				<p:panel id="geraNovaSenha" header="Gerador de nova Senha">
+					<h:outputLabel for="id" value="Informe seu ID/Matrícula: " />
+
+					<p:inputText id="id" value="#{operadorController.number}" />
+
+					<p:commandButton value="Gerar" styleClass="botoesJSF"
+						style="margin-left:0;" action="#{operadorController.newSenhaID}"
+						update="geraNovaSenha" />
+
+				</p:panel>
+
+
+
+			</h:form>
+
+		</div>
+
+	</ui:define>
+</ui:composition>
+
+</html>

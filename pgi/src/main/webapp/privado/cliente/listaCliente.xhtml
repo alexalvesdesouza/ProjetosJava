@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/base.xhtml">
+	<ui:define name="tituloDaPagina">Lista de Clientes</ui:define>
+
+	<ui:define name="dynamic">
+
+		<p:separator styleClass="separator" />
+
+
+
+		<h:form id="formListaCliente">
+
+
+			<h:dataTable value="#{clienteController.dao.listaClientes()}"
+				var="cli" frame="box" rules="all" cellpadding="3">
+
+
+				<h:column>
+					<f:facet name="header">
+						Nome
+						</f:facet>
+						#{cli.nomeCliente}
+					</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						Telefone
+						</f:facet>
+						#{cli.telefoneCliente}
+					</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						Celular
+						</f:facet>
+						#{cli.celularCliente}
+					</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						Cidade
+						</f:facet>
+						#{cli.cidade}
+					</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						Excluir
+						</f:facet>
+					<h:commandLink action="#{clienteController.excluirCliente(cli)}"
+						value="Excluir"
+						onclick="if (!confirm('confirma a exclusao do cliente?')) return false" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						Alterar
+						</f:facet>
+					<h:commandLink action="#{clienteController.alterarCliente(cli)}"
+						value="Alterar" />
+				</h:column>
+
+
+			</h:dataTable>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+
+</html>

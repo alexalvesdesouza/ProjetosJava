@@ -1,0 +1,1118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://entities.crudRest.pitagoras.br" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://entities.crudRest.pitagoras.br" xmlns:intf="http://entities.crudRest.pitagoras.br" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://entities.crudRest.pitagoras.br" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <element name="getCodContato">
+    <complexType/>
+   </element>
+   <element name="getCodContatoResponse">
+    <complexType>
+     <sequence>
+      <element name="getCodContatoReturn" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setCodContato">
+    <complexType>
+     <sequence>
+      <element name="codContato" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setCodContatoResponse">
+    <complexType/>
+   </element>
+   <element name="getDesCpf">
+    <complexType/>
+   </element>
+   <element name="getDesCpfResponse">
+    <complexType>
+     <sequence>
+      <element name="getDesCpfReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setDesCpf">
+    <complexType>
+     <sequence>
+      <element name="desCpf" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setDesCpfResponse">
+    <complexType/>
+   </element>
+   <element name="getDesEmail">
+    <complexType/>
+   </element>
+   <element name="getDesEmailResponse">
+    <complexType>
+     <sequence>
+      <element name="getDesEmailReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setDesEmail">
+    <complexType>
+     <sequence>
+      <element name="desEmail" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setDesEmailResponse">
+    <complexType/>
+   </element>
+   <element name="getMatricula">
+    <complexType/>
+   </element>
+   <element name="getMatriculaResponse">
+    <complexType>
+     <sequence>
+      <element name="getMatriculaReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setMatricula">
+    <complexType>
+     <sequence>
+      <element name="matricula" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setMatriculaResponse">
+    <complexType/>
+   </element>
+   <element name="getDesSexo">
+    <complexType/>
+   </element>
+   <element name="getDesSexoResponse">
+    <complexType>
+     <sequence>
+      <element name="getDesSexoReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setDesSexo">
+    <complexType>
+     <sequence>
+      <element name="desSexo" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setDesSexoResponse">
+    <complexType/>
+   </element>
+   <element name="getTelefone">
+    <complexType/>
+   </element>
+   <element name="getTelefoneResponse">
+    <complexType>
+     <sequence>
+      <element name="getTelefoneReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setTelefone">
+    <complexType>
+     <sequence>
+      <element name="telefone" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setTelefoneResponse">
+    <complexType/>
+   </element>
+   <element name="getNome">
+    <complexType/>
+   </element>
+   <element name="getNomeResponse">
+    <complexType>
+     <sequence>
+      <element name="getNomeReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setNome">
+    <complexType>
+     <sequence>
+      <element name="nome" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setNomeResponse">
+    <complexType/>
+   </element>
+   <element name="getOperadora">
+    <complexType/>
+   </element>
+   <element name="getOperadoraResponse">
+    <complexType>
+     <sequence>
+      <element name="getOperadoraReturn" type="impl:TabOperadora"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="ArrayOf_xsd_anyType">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="xsd:anyType"/>
+    </sequence>
+   </complexType>
+   <complexType name="TabOperadora">
+    <sequence>
+     <element name="codOperadora" nillable="true" type="xsd:int"/>
+     <element name="desCodigo" nillable="true" type="xsd:string"/>
+     <element name="desSegmento" nillable="true" type="xsd:string"/>
+     <element name="nomOperadora" nillable="true" type="xsd:string"/>
+     <element name="tabContatos" nillable="true" type="impl:ArrayOf_xsd_anyType"/>
+     <element name="valValorMinuto" nillable="true" type="xsd:decimal"/>
+    </sequence>
+   </complexType>
+   <element name="setOperadora">
+    <complexType>
+     <sequence>
+      <element name="operadora" type="impl:TabOperadora"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setOperadoraResponse">
+    <complexType/>
+   </element>
+   <element name="getData">
+    <complexType/>
+   </element>
+   <element name="getDataResponse">
+    <complexType>
+     <sequence>
+      <element name="getDataReturn" type="xsd:dateTime"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setData">
+    <complexType>
+     <sequence>
+      <element name="data" type="xsd:dateTime"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setDataResponse">
+    <complexType/>
+   </element>
+   <element name="toString">
+    <complexType/>
+   </element>
+   <element name="toStringResponse">
+    <complexType>
+     <sequence>
+      <element name="toStringReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://xml.apache.org/xml-soap" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://entities.crudRest.pitagoras.br"/>
+   <complexType name="Vector">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="xsd:anyType"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="getMatriculaRequest">
+
+      <wsdl:part element="impl:getMatricula" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setDesEmailResponse">
+
+      <wsdl:part element="impl:setDesEmailResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getTelefoneRequest">
+
+      <wsdl:part element="impl:getTelefone" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getDesEmailRequest">
+
+      <wsdl:part element="impl:getDesEmail" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setNomeRequest">
+
+      <wsdl:part element="impl:setNome" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setNomeResponse">
+
+      <wsdl:part element="impl:setNomeResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setMatriculaRequest">
+
+      <wsdl:part element="impl:setMatricula" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getDesEmailResponse">
+
+      <wsdl:part element="impl:getDesEmailResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getNomeResponse">
+
+      <wsdl:part element="impl:getNomeResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getDesCpfResponse">
+
+      <wsdl:part element="impl:getDesCpfResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setDesEmailRequest">
+
+      <wsdl:part element="impl:setDesEmail" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getNomeRequest">
+
+      <wsdl:part element="impl:getNome" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getDesCpfRequest">
+
+      <wsdl:part element="impl:getDesCpf" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setDesCpfRequest">
+
+      <wsdl:part element="impl:setDesCpf" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getOperadoraRequest">
+
+      <wsdl:part element="impl:getOperadora" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setOperadoraRequest">
+
+      <wsdl:part element="impl:setOperadora" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setTelefoneRequest">
+
+      <wsdl:part element="impl:setTelefone" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setDataResponse">
+
+      <wsdl:part element="impl:setDataResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setDataRequest">
+
+      <wsdl:part element="impl:setData" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getMatriculaResponse">
+
+      <wsdl:part element="impl:getMatriculaResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getDataResponse">
+
+      <wsdl:part element="impl:getDataResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setDesCpfResponse">
+
+      <wsdl:part element="impl:setDesCpfResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getCodContatoRequest">
+
+      <wsdl:part element="impl:getCodContato" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="toStringRequest">
+
+      <wsdl:part element="impl:toString" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setOperadoraResponse">
+
+      <wsdl:part element="impl:setOperadoraResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setDesSexoResponse">
+
+      <wsdl:part element="impl:setDesSexoResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getCodContatoResponse">
+
+      <wsdl:part element="impl:getCodContatoResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getOperadoraResponse">
+
+      <wsdl:part element="impl:getOperadoraResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getDesSexoResponse">
+
+      <wsdl:part element="impl:getDesSexoResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setCodContatoResponse">
+
+      <wsdl:part element="impl:setCodContatoResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getTelefoneResponse">
+
+      <wsdl:part element="impl:getTelefoneResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getDataRequest">
+
+      <wsdl:part element="impl:getData" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setDesSexoRequest">
+
+      <wsdl:part element="impl:setDesSexo" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setCodContatoRequest">
+
+      <wsdl:part element="impl:setCodContato" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setMatriculaResponse">
+
+      <wsdl:part element="impl:setMatriculaResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="toStringResponse">
+
+      <wsdl:part element="impl:toStringResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setTelefoneResponse">
+
+      <wsdl:part element="impl:setTelefoneResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getDesSexoRequest">
+
+      <wsdl:part element="impl:getDesSexo" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="TabContato">
+
+      <wsdl:operation name="getCodContato">
+
+         <wsdl:input message="impl:getCodContatoRequest" name="getCodContatoRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getCodContatoResponse" name="getCodContatoResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setCodContato">
+
+         <wsdl:input message="impl:setCodContatoRequest" name="setCodContatoRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:setCodContatoResponse" name="setCodContatoResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDesCpf">
+
+         <wsdl:input message="impl:getDesCpfRequest" name="getDesCpfRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getDesCpfResponse" name="getDesCpfResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setDesCpf">
+
+         <wsdl:input message="impl:setDesCpfRequest" name="setDesCpfRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:setDesCpfResponse" name="setDesCpfResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDesEmail">
+
+         <wsdl:input message="impl:getDesEmailRequest" name="getDesEmailRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getDesEmailResponse" name="getDesEmailResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setDesEmail">
+
+         <wsdl:input message="impl:setDesEmailRequest" name="setDesEmailRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:setDesEmailResponse" name="setDesEmailResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getMatricula">
+
+         <wsdl:input message="impl:getMatriculaRequest" name="getMatriculaRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getMatriculaResponse" name="getMatriculaResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setMatricula">
+
+         <wsdl:input message="impl:setMatriculaRequest" name="setMatriculaRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:setMatriculaResponse" name="setMatriculaResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDesSexo">
+
+         <wsdl:input message="impl:getDesSexoRequest" name="getDesSexoRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getDesSexoResponse" name="getDesSexoResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setDesSexo">
+
+         <wsdl:input message="impl:setDesSexoRequest" name="setDesSexoRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:setDesSexoResponse" name="setDesSexoResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getTelefone">
+
+         <wsdl:input message="impl:getTelefoneRequest" name="getTelefoneRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getTelefoneResponse" name="getTelefoneResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setTelefone">
+
+         <wsdl:input message="impl:setTelefoneRequest" name="setTelefoneRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:setTelefoneResponse" name="setTelefoneResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getNome">
+
+         <wsdl:input message="impl:getNomeRequest" name="getNomeRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getNomeResponse" name="getNomeResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setNome">
+
+         <wsdl:input message="impl:setNomeRequest" name="setNomeRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:setNomeResponse" name="setNomeResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getOperadora">
+
+         <wsdl:input message="impl:getOperadoraRequest" name="getOperadoraRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getOperadoraResponse" name="getOperadoraResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setOperadora">
+
+         <wsdl:input message="impl:setOperadoraRequest" name="setOperadoraRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:setOperadoraResponse" name="setOperadoraResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getData">
+
+         <wsdl:input message="impl:getDataRequest" name="getDataRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getDataResponse" name="getDataResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setData">
+
+         <wsdl:input message="impl:setDataRequest" name="setDataRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:setDataResponse" name="setDataResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="toString">
+
+         <wsdl:input message="impl:toStringRequest" name="toStringRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:toStringResponse" name="toStringResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="TabContatoSoapBinding" type="impl:TabContato">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getCodContato">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getCodContatoRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getCodContatoResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setCodContato">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setCodContatoRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setCodContatoResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDesCpf">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getDesCpfRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getDesCpfResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setDesCpf">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setDesCpfRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setDesCpfResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDesEmail">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getDesEmailRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getDesEmailResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setDesEmail">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setDesEmailRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setDesEmailResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getMatricula">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getMatriculaRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getMatriculaResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setMatricula">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setMatriculaRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setMatriculaResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDesSexo">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getDesSexoRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getDesSexoResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setDesSexo">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setDesSexoRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setDesSexoResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getTelefone">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getTelefoneRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getTelefoneResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setTelefone">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setTelefoneRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setTelefoneResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getNome">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getNomeRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getNomeResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setNome">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setNomeRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setNomeResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getOperadora">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getOperadoraRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getOperadoraResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setOperadora">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setOperadoraRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setOperadoraResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getData">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getDataRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getDataResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setData">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setDataRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setDataResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="toString">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="toStringRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="toStringResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="TabContatoService">
+
+      <wsdl:port binding="impl:TabContatoSoapBinding" name="TabContato">
+
+         <wsdlsoap:address location="http://localhost:8080/crudRest/services/TabContato"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

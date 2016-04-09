@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>PGI - <ui:insert name="tituloDaPagina">NONE</ui:insert></title>
+	<link rel="shortcut icon" type="image/x-icon"
+		href="resources/images/favicon.ico" />
+		<h:outputStylesheet library="css" name="estilo.css" />
+<!-- 	<link type="text/css" rel="stylesheet" media="all" href="resources/css/estilo.css" /> -->
+	
+	
+	<script type="text/javascript">
+
+	PrimeFaces.locales['pt_BR'] = {
+			closeText : 'Fechar',
+			prevText : 'Anterior',
+			nextText : 'Próximo',
+			currentText : 'Começo',
+			monthNames : [ 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio',
+					'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
+					'Novembro', 'Dezembro' ],
+			monthNamesShort : [ 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+					'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez' ],
+			dayNames : [ 'Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta',
+					'Sexta', 'Sábado' ],
+			dayNamesShort : [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb' ],
+			dayNamesMin : [ 'D', 'S', 'T', 'Q', 'Q', 'S', 'S' ],
+			weekHeader : 'Semana',
+			firstDay : 1,
+			isRTL : false,
+			showMonthAfterYear : false,
+			yearSuffix : '',
+			timeOnlyTitle : 'Horas',
+			timeText : 'Tempo',
+			hourText : 'Hora',
+			minuteText : 'Minuto',
+			secondText : 'Segundo',
+			currentText : 'Data Atual',
+			ampm : false,
+			month : 'Mês',
+			week : 'Semana',
+			day : 'Dia',
+			allDayText : 'Todo Dia'
+		};
+
+
+	</script>
+	<script type="text/javascript">
+	var tam = 20;
+
+	function normalTamanho() {
+		tam = 20;
+		cssFontSizePrimefaces(tam);
+	}
+
+	function aumentaTamanho() {
+		tam += 1;
+		cssFontSizePrimefaces(tam);
+	}
+
+	function diminuiTamanho() {
+		tam -= 1;
+		cssFontSizePrimefaces(tam);
+	}
+
+	function cssFontSizePrimefaces(tamanho) {
+		var seletor = '.ui-widget';
+		var css = 'font-size:' + tamanho + 'px !important;';
+		S = document.styleSheets[document.styleSheets.length - 1];
+		var r = (S.cssRules != undefined) ? S.cssRules : S.rules;
+		if (S.insertRule)
+			S.insertRule(seletor + '{' + css + '}', r.length);
+		else if (S.addRule)
+			S.addRule(seletor, css, r.length);
+	}
+	</script>
+
+
+
+</h:head>
+
+<h:body>
+
+	<div id="conteudoGlobal">
+
+		<div id="cabecalho">
+			<ui:include src="/template/header.xhtml" />
+		</div>
+		<div id="menuHorizontal">
+			<ui:include src="/template/menuHorizontal.xhtml" />
+		</div>
+		<div id="conteudoDinamico">
+
+			<ui:insert name="dynamic"></ui:insert>
+
+		</div>
+		<div id="rodape">
+			<ui:include src="/template/footer.xhtml" />
+		</div>
+
+
+	</div>
+
+</h:body>
+</html>

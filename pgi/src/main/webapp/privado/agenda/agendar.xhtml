@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/base.xhtml">
+
+	<ui:define name="tituloDaPagina">Agendamentos</ui:define>
+
+	<ui:define name="dynamic">
+
+
+		<div id="agendar">
+
+			<h:form id="formAgendamento">
+
+				<p:panel header="Painel de Agendamentos">
+
+					<h:panelGrid columns="2">
+						<p:outputLabel value="Cliente: " style="margin-left:0;" />
+
+						<p:selectOneMenu style="margin-left:38px;"
+							value="#{agendamentoController.agendamento.cliente}"
+							converter="#{agendamentoController.converterCliente}">
+
+							<f:selectItem itemLabel="Selecione um Cliente"
+								noSelectionOption="true" />
+							<f:selectItems value="#{agendamentoController.cliDao.listaClientes()}" />
+
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Operador " style="margin-left:0;" />
+						<p:selectOneMenu style="margin-left:38px;"
+							value="#{agendamentoController.agendamento.operadordosistema}"
+							converter="#{agendamentoController.converterOperador}">
+
+							<f:selectItem itemLabel="Selecione um Operador"
+								noSelectionOption="true" />
+							<f:selectItems value="#{agendamentoController.opDao.operadores}" />
+
+						</p:selectOneMenu>
+
+					</h:panelGrid>
+
+
+					<p:outputLabel value="Data " style="margin-left:0;" />
+					<p:calendar pattern="dd/MM/yyyy" locale="pt_BR" effect="explode"
+						showButtonPanel="true" minHour="8" maxHour="21"
+						style="margin-left:75px;"
+						value="#{agendamentoController.agendamento.dataAgendamento}" />
+
+					<br />
+					<br />
+
+					<p:outputLabel value="Hora " style="margin-left:0;" />
+					<p:calendar pattern="HH:mm:ss" timeOnly="true" locale="pt_BR"
+						effect="explode" showButtonPanel="true" minHour="8" maxHour="21"
+						style="margin-left:75px;"
+						value="#{agendamentoController.agendamento.horarioInicioAgendamento}">
+						<f:convertDateTime type="time" pattern="HH:mm:ss" />
+					</p:calendar>
+					<span style="font-style: italic;">A</span>
+
+
+					<p:calendar pattern="HH:mm:ss" timeOnly="true" locale="pt_BR"
+						effect="fade" showButtonPanel="true" minHour="8" maxHour="22"
+						style="margin-left:5px;"
+						value="#{agendamentoController.agendamento.horarioFimAgendamento}">
+						<f:convertDateTime type="time" pattern="HH:mm:ss" />
+
+					</p:calendar>
+
+					<br />
+					<br />
+
+					<div>
+						<p:outputLabel value="Observações:"
+							style="float:left; margin-left:0; margin-top: 15px;" />
+					</div>
+
+					<p:inputTextarea rows="8" cols="47" style="margin-left:10px;"
+						value="#{agendamentoController.agendamento.observacaoAgendamento}" maxlength="300" counter="display"
+								counterTemplate="{0} caracteres restantes." autoResize="false" />
+						<br />
+							<h:outputText id="display" style="margin-left:120px; " />
+					<br />
+
+
+
+					<div id="commands" style="margin-top: 25px;">
+						<h:commandButton value="Agendar" styleClass="btnJSFG"
+							action="#{agendamentoController.gravarAgendamento()}" />
+						<h:commandButton value="Rever Atendamento" styleClass="btnJSFG"
+							style="margin-left:30px"
+							action="#{agendamentoController.alterarAgendamento()}" />
+						<h:commandButton value="Cancelar Agendamento" styleClass="btnJSFG"
+							style="margin-left:30px"
+							action="#{agendamentoController.cancelarAgendamento()}"
+							immediate="true" />
+
+					</div>
+
+				</p:panel>
+			</h:form>
+		</div>
+
+
+	</ui:define>
+</ui:composition>
+
+</html>

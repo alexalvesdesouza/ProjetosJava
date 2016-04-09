@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/base.xhtml">
+	<ui:define name="tituloDaPagina">Login</ui:define>
+
+	<ui:define name="dynamic">
+
+
+		<div id="loginInicial"
+			style="width: 550px; float: left; margin-left: 340px;">
+
+			<p:separator styleClass="separator" />
+
+			<div id="formLogin">
+
+
+				<h:form id="autenticaLogin" style="width:450px; float:left;">
+<!-- 					<p:messages id="messages" /> -->
+					<h:messages id="messages" />
+					<p:panel style="width: 540px;" header="Login" id="efetuarLogin">
+						<p:focus context="efetuarLogin" />
+						<div id="imagesAutenticaLogin"
+							style="width: 50px; float: left; margin-top: 15px;">
+							<h:graphicImage library="images" height="30" width="30"
+								name="login-folder2.jpg" style="float:left;" />
+
+							<h:graphicImage library="images" height="30" width="30"
+								name="chave2.jpg" style="float:left; margin-top: 10px;" />
+						</div>
+
+						<h:outputLabel value="Usuário:" />
+						<br />
+						<h:inputText value="#{loginController.usuario}" />
+						<br />
+						<h:outputLabel value="Senha:" />
+						<br />
+						<h:inputSecret value="#{loginController.senha}" />
+						<p:commandButton value="Logar" styleClass="btnPrime"
+							style="margin-left:20px; background-color: #FF00BF;	border-radius: 8px;"
+							update="efetuarLogin" action="#{loginController.efetuarLogin()}" />
+						<br />
+						<br />
+
+						<p:selectBooleanCheckbox>
+							<p:ajax />
+						</p:selectBooleanCheckbox>&nbsp;&nbsp;
+							
+							<h:outputText value="Lembrar Senha: " />
+						<br />
+						<br />
+						<h:commandLink value="ESQUECEU SUA SENHA?"
+							action="/esqueciMinhaSenha?faces-redirect=true" />
+
+					</p:panel>
+				</h:form>
+
+			</div>
+
+		</div>
+
+	</ui:define>
+</ui:composition>
+
+</html>

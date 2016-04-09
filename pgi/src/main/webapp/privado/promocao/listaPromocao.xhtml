@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/base.xhtml">
+	<ui:define name="tituloDaPagina">Promoções</ui:define>
+
+	<ui:define name="dynamic">
+
+		<p:separator styleClass="separator" />
+
+		<div id="listaPromocao">
+			<h:form>
+				<h:messages />
+				<h:commandLink value="Novo Registro"
+					action="#{promocaoController.novo()}" />
+
+
+				<p:dataTable id="promocoes" var="promocao"
+					value="#{promocaoController.dao.promocoes}"
+					rowKey="#{promocao.idPromocao}" selectionMode="single">
+
+					<p:column headerText="Codigo Promoção">
+					#{promocao.idPromocao}					
+				</p:column>
+
+					<p:column headerText="Promoção">
+					#{promocao.nomePromocao}					
+				</p:column>
+
+					<p:column headerText="Qtde de Sessões">
+					#{promocao.quantidade}					
+				</p:column>
+
+					<p:column headerText="Açoes">
+						<h:commandLink value=""
+							action="#{promocaoController.alterarPromocao(promocao)}"> 
+ 					Alterar
+ 					</h:commandLink>
+					</p:column>
+
+				</p:dataTable>
+			</h:form>
+		</div>
+
+	</ui:define>
+</ui:composition>
+
+</html>

@@ -6,6 +6,10 @@ import com.sun.jersey.spi.container.ContainerResponseFilter;
 
 public class ResponseCorsFilter implements ContainerResponseFilter {
 	
+	/**
+	 * Método responsável por escrever no cabeçalho da requisição (CORS) a liberação
+	 * dos métodos HTTP
+	 */
 	public ContainerResponse filter(ContainerRequest creq, ContainerResponse cres) {
 	
 		cres.getHttpHeaders().add("Access-Control-Allow-Origin", "*");

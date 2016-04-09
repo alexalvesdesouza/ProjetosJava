@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/base.xhtml">
+	<ui:define name="tituloDaPagina">Cadastro de Usuarios</ui:define>
+
+	<ui:define name="dynamic">
+
+
+		<p:separator styleClass="separator" />
+
+		<div id="cadastroUsuario">
+
+			<h:form id="formCadUsuarios" >
+				<p:messages id="messages" />
+
+				<p:panelGrid columns="2" >
+
+					<f:facet name="header">Cadastro de Usuários</f:facet>
+					<p:outputLabel value="Nome:" />
+					<p:inputText size="35"
+						onkeyup="this.value = this.value.toUpperCase()" required="true"
+						requiredMessage="O campo Nome é obrigadorio"
+						value="#{operadorController.operador.nomeOperador}" />
+					<p:outputLabel value="E-mail:" />
+					<p:inputText size="35" required="true"
+						requiredMessage="O campo E-mail é obrigadorio"
+						value="#{operadorController.operador.emailOperador}" />
+					<p:outputLabel value="Usuario:" />
+					<p:inputText size="35"
+						onkeyup="this.value = this.value.toUpperCase()" required="true"
+						requiredMessage="O campo USUARIO é obrigadorio"
+						value="#{operadorController.operador.usuarioOperador}" />
+					<p:outputLabel for="senha" value="Senha:" />
+					<p:password id="senha" size="35" required="true"
+						promptLabel="Digite sua senha " weakLabel="Senha Fraca!!!"
+						goodLabel="Senha Boa!!!" strongLabel="Senha Fotre!!!"
+						feedback="true" requiredMessage="O campo Senha é obrigadorio"
+						value="#{operadorController.operador.senhaOperador}" />
+
+					<p:outputLabel value="Perfil: " />
+					<p:selectOneMenu effect="fade"
+						value="#{operadorController.operador.perfilOperador}">
+						<f:selectItem itemLabel="Selecione o Perfil" itemValue="" />
+						<f:selectItem itemLabel="Administrador" itemValue="Administrador" />
+						<f:selectItem itemLabel="Usuário" itemValue="Usuario" />
+					</p:selectOneMenu>
+					<p:outputLabel value="Ativo?" />
+					<h:selectBooleanCheckbox
+						value="#{operadorController.operador.statusOperador}" />
+
+				</p:panelGrid>
+				<br />
+				<br />
+				<p:commandButton value="Cadastrar" icon="ui-icon-disk"
+					styleClass="btnPrime" style="margin-left:0;"
+					actionListener="#{operadorController.gravarOperadorDoSistema()}"
+					update="formCadUsuarios" />
+				<p:commandButton value="Alterar" styleClass="btnPrime"
+					style="margin-left:62px;" icon="ui-icon-transferthick-e-w" actionListener="#{operadorController.excluirOperadorDoSistema()}"
+					update="formCadUsuarios"/>
+				<p:commandButton value="Cancelar" styleClass="btnPrime"
+					icon="ui-icon-arrowreturnthick-1-w" style="margin-left:62px;"
+					actionListener="#{operadorController.cancelar()}"
+					update="formCadUsuarios" />
+					
+					
+			</h:form>
+
+		</div>
+
+	</ui:define>
+</ui:composition>
+
+</html>
