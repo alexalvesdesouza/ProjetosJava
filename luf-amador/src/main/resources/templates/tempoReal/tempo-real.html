@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html ng-app="jogo">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8"/>
+	<!--Import materialize.css-->
+	<link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection"/>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+	<style>
+		.DetalhesJogo {
+			min-width: 90% !important;
+		}
+	</style>
+	<title>Jogos</title>
+</head>
+
+<body ng-controller="jogoController">
+<div ng-include="'../template/header.html'"></div>
+<nav class="nav-extended" style="margin-top: 10px;">
+	<div class="nav-content">
+		<ul class="tabs tabs-transparent">
+			<li class="tab">
+				<a href="#principal" ng-click="abaSelecionada('principal')" class="active">Principal</a>
+			</li>
+		</ul>
+	</div>
+</nav>
+<div class="row" style="margin-left: 30px;">
+
+	<table class="responsive-table highlight">
+		<thead>
+		<tr>
+			<th>Data</th>
+			<th>Hora</th>
+			<th>Local</th>
+			<th>Equipe A</th>
+			<th>Esc</th>
+			<th>PLA</th>
+			<th>PLB</th>
+			<th>Esc</th>
+			<th>Equipe B</th>
+			<th>Editar Jogo</th>
+			<th>Encerrar jogo</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="jogo in tabelaJogosTempoReal">
+			<td>
+				<span ng-bind="jogo.dataPartida"></span>
+			</td>
+			<td>
+				<span ng-bind="jogo.horario"></span>
+			</td>
+			<td>
+				<span ng-bind="jogo.local.nome"></span>
+			</td>
+			<td>
+				<span ng-bind="jogo.equipeA.nome"></span>
+			</td>
+			<td>
+				<img src="/assets/agremiacoes/{{jogo.equipeA.nomeSigla}}.png" alt="" height="30" width="30"/>
+			</td>
+			<td>
+				<span ng-bind="jogo.golsEquipeA"></span>
+			</td>
+			<td>
+				<span ng-bind="jogo.golsEquipeB"></span>
+			</td>
+			<td>
+				<img src="/assets/agremiacoes/{{jogo.equipeB.nomeSigla}}.png" alt="" height="30" width="30"/>
+			</td>
+			<td>
+				<span ng-bind="jogo.equipeB.nome"></span>
+			</td>
+			<td ng-if="!jogoEncerrado">
+				<a class="waves-effect waves-light modal-trigger"
+				   disabled="true"
+				   href="#modalEditJogo" ng-click="editarJogo(jogo)">
+					<i style="color: #0d47a1;" class="material-icons">create</i>
+				</a>
+
+			</td>
+            <td ng-if="jogoEncerrado">
+                <i style="color: #d50000;" class="material-icons" ng-disabled="true">block</i>
+            </td>
+			<td>
+				<a class="waves-effect waves-light modal-trigger"
+				   href="#modalEncerrarJogo" ng-click="editarJogo(jogo)">
+					<i style="color: #26a69a;" class="material-icons">close</i>
+				</a>
+
+			</td>
+
+		</tr>
+		</tbody>
+	</table>
+
+</div>
+
+<div id="modalEditJogo" class="modal">
+	<nav class="nav-extended">
+		<div class="nav-content">
+			<ul class="tabs tabs-transparent">
+				<li class="tab">
+					<a href="#" ng-click="abaDetalheSelecionada('principal')" class="active">Editar resultado do Jogo
+					</a>
+					<span ng-model="numeroJogo"></span>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="row">
+		<form id="formTempoReal" class="col s12">
+
+			<div class="row">
+				<div class="col s6">
+					{{jogoSelecionado.equipeA.nome}}
+					<img src="/assets/agremiacoes/{{jogoSelecionado.equipeA.nomeSigla}}.png" alt="" height="30"
+						 width="30" style="margin-bottom: -11px;"/>
+					<div class="input-field inline">
+						<input id="parcialEquipeA" type="number" class="validate"
+							   ng-model="jogoSelecionado.golsEquipeA">
+						<label for="parcialEquipeA" data-error="Campo Inválido" data-success="Gol Válido">Gols Equipe
+							A</label>
+					</div>
+				</div>
+				<div class="col s6">
+					<div class="input-field inline">
+						<input id="parcialEquipeB" type="number" class="validate"
+							   ng-model="jogoSelecionado.golsEquipeB">
+						<label for="parcialEquipeB" data-error="Campo Inválido" data-success="Gol Válido">Gols Equipe
+							B</label>
+					</div>
+					<img src="/assets/agremiacoes/{{jogoSelecionado.equipeB.nomeSigla}}.png" alt="" height="30"
+						 width="30" style="margin-bottom: -11px;"/>
+					{{jogoSelecionado.equipeB.nome}}
+				</div>
+			</div>
+
+		</form>
+	</div>
+
+	<div class="modal-footer">
+		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+		<a href="#!" ng-click="mudarPlacarJogo(jogoSelecionado)"
+		   class="modal-action modal-close waves-effect waves-green btn-flat">Salvar</a>
+	</div>
+</div>
+
+<!-- Modal Detalhes Pagamento -->
+<!--Import jQuery before materialize.js-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+<script src="scripts/angularjs/angular-1.5.0-rc.0/angular.js"></script>
+<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-resource.js"></script>
+<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-messages.js"></script>
+<script src="scripts/angularjs/locale/pt-BR.js"></script>
+<script src="scripts/controllers/jogoCtrl.js"></script>
+<script src="scripts/controllers/format.js"></script>
+<script src="scripts/js/ngMask.min.js"></script>
+<script src="scripts/js/uteis.js"></script>
+
+</body>
+
+</html>

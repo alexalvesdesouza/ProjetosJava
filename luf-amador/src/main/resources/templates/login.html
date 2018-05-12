@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+
+<!--Let browser know website is optimized for mobile-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0"
+	charset="UTF-8" />
+<!--Import materialize.css-->
+<link type="text/css" rel="stylesheet"
+	href="materialize/css/materialize.min.css" media="screen,projection" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet" />
+<style>
+#panell {
+	margin-top: 100px;
+	padding: 0px;
+}
+
+#loginbtn {
+	float: right;
+	margin-bottom: 10px;
+	margin-right: 10px;
+}
+
+#title {
+	background-color: #ff8a80;
+	color: white;
+	padding: 8px;
+	margin-top: 0px
+}
+
+form {
+	padding: 0px;
+	border-radius: 3px;
+	box-sizing: border-box;
+}
+
+#username, #password {
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+#checkbox {
+	margin-left: 30px;
+}
+</style>
+<title>Login</title>
+</head>
+<body>
+	<div class="container">
+
+
+
+
+		<div class="row">
+			<div class="col s6 offset-s3 z-depth-1" id="panell">
+
+				<div th:if="${param.logout}">
+
+					<div class="card-panel teal lighten-2">
+						<span class="blue-text text-darken-4">Até logo!!!</span>
+					</div>
+				</div>
+				<h5 id="title">Form Login</h5>
+
+
+				<form action="/login" method="post" class="col s12">
+
+					<div class='input-field col s12' id="username">
+						<i class="material-icons prefix">account_circle</i> <input
+							type="text" name="username" class="form-control validate" /> <label
+							for="username">Usuário</label>
+					</div>
+
+
+					<div class='input-field col s12' id="password">
+						<i class="material-icons prefix">vpn_key</i> <input
+							type="password" name="password" class="form-control validate" />
+						<label for="password">Senha</label>
+					</div>
+					<p>
+						<input type="checkbox" id="remember" /> 
+						<label for="remember"	id="remember">Remember me</label>
+					</p>
+					<button id="loginbtn" type='submit'
+						class="waves-effect waves-light btn"
+						style="background-color: #ff8a80" name='btn_login'>Efetuar
+						Login</button>
+
+				</form>
+
+			</div>
+		</div>
+	</div>
+	<!--Import jQuery before materialize.js-->
+	<script type="text/javascript"
+		src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+</body>
+</html>
