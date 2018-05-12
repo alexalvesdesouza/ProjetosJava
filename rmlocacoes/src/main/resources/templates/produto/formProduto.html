@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html ng-app="produto">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8" />
+	<!--Import materialize.css-->
+	<link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+	<title>Produtos</title>
+</head>
+
+<body ng-controller="produtoController">
+	<div ng-include="'../template/header.html'"></div>
+	<nav class="nav-extended" style="margin-top: 10px;">
+		<div class="nav-content">
+			<ul class="tabs tabs-transparent">
+				<li class="tab">
+					<a href="#principal" class="active">Principal</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<form name="formularioProduto" id="formularioProduto" action="" method="post">
+		<div id="principal" class="col s12">
+			<div class="row container" style="margin-top: 10px;">
+				<div class="row">
+					<div class="input-field col s4">
+						<input type="text" ng-model="produto.nome" ng-required="true" name="nomeProduto" />
+						<label for="nomeProduto" ng-class="{active: classEdit}">Nome</label>
+					</div>
+					<div class="input-field col s4">
+						<input type="text" ng-model="produto.marca" ng-required="true" name="marca" />
+						<label for="marca" ng-class="{active: classEdit}">Marca</label>
+					</div>
+					<div class="input-field col s4">
+						<input type="text" ng-model="produto.descricao" ng-required="true" name="descricao" />
+						<label for="descricao" ng-class="{active: classEdit}">Descrição</label>
+					</div>
+					<div class="input-field col s4">
+						<input type="text" ng-model="produto.unidade" ng-required="true" name="unidade" />
+						<label for="unidade" ng-class="{active: classEdit}">Unidade</label>
+					</div>
+
+					<!-- <div class="input-field col s4">
+							<select ng-model="produto.unidade">
+								<option value="" ng-disabled="true" ng-selected="true">Selecione uma opção</option>
+								<option value="CAIXA">CAIXA</option>
+								<option value="UNIDADE">Cartão</option>
+								<option value="BOLETO">Boleto</option>
+								<option value="CHEQUE">Cheque</option>
+								<option value="DINHEIRO">Dinheiro</option>
+								<option value="CARTAO">Cartão</option>
+								<option value="BOLETO">Boleto</option>
+								<option value="CHEQUE">Cheque</option>
+							</select>
+							<label>Forma de Pagamento</label>
+						</div> -->
+
+					<div class="input-field col s4">
+						<select ng-model="produto.categoria" ng-required="true">
+							<option value="" ng-disabled="true" ng-selected="true">Selecione uma opção</option>
+							<option value="REVENDA">Revenda</option>
+							<option value="COMODATO">Comodato</option>
+						</select>
+						<label>Categoria do Produto</label>
+					</div>
+					<div class="input-field col s2">
+						<input type="text" format-app="number" ng-model="produto.preco" ng-required="true" name="preco" />
+						<label for="preco" ng-class="{active: classEdit}">Preço R$</label>
+					</div>
+					<div class="input-field col s2">
+						<input type="number" ng-model="produto.quantidade" ng-required="true" name="quantidade" />
+						<label for="quantidade" ng-class="{active: classEdit}">Quantidade</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<div class="row container" ng-if="produtos.length">
+
+		<div class="input-field col s12">
+			<i class="material-icons prefix">textsms</i>
+			<input type="text" ng-model="criterioDeBusca" id="autocomplete-input" class="autocomplete" />
+			<label for="autocomplete-input">Filtrar</label>
+		</div>
+
+		<table class="responsive-table highlight">
+			<thead>
+				<tr>
+					<th>Nome</th>
+					<th>Marca</th>
+					<th>Descrição</th>
+					<th>Unidade</th>
+					<th>Categoria</th>
+					<th>Preço</th>
+					<th>Quantidade</th>
+					<th>Editar</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-class="{'selecionado negrito': produto.selecionado}" 
+					ng-repeat="produto in produtos | filter:criterioDeBusca 
+					| startFrom:currentPage*pageSize | limitTo:pageSize">
+					<td>
+						<span ng-bind="produto.nome"></span>
+					</td>
+					<td>
+						<span ng-bind="produto.marca"></span>
+					</td>
+					<td>
+						<span ng-bind="produto.descricao"></span>
+					</td>
+					<td>
+						<span ng-bind="produto.unidade"></span>
+					</td>
+					<td>
+						<span ng-bind="produto.categoria"></span>
+					</td>
+					<td>
+						<span ng-bind="produto.preco | currency: 'R$'"></span>
+					</td>
+					<td>
+						<span ng-bind="produto.quantidade"></span>
+					</td>
+					<td>
+						<a href="" ng-click="onEdit(produto)">
+							<i class="material-icons">edit</i>
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div ng-if="refreshProdutos">
+			<ul class="pagination container">
+				<li class="waves-effect" ng-disabled="currentPage == 0">
+					<a href="#!" ng-click="previewPage(currentPage)">
+						<i class="material-icons">chevron_left</i>
+					</a>
+				</li>
+				<li ng-repeat="page in pageNumbers" ng-class="{ 'active': page.pageNumber === activePage }" ng-click="setActivePage($index)">
+					<a href="#!">{{ page.pageNumber }}</a>
+				</li>
+				<li class="waves-effect">
+					<a href="#!" ng-disabled="currentPage >= getProdutos().length/pageSize - 1" ng-click="nextPage(currentPage)">
+						<i class="material-icons">chevron_right</i>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<!--Import jQuery before materialize.js-->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+	<script src="scripts/angularjs/angular-1.5.0-rc.0/angular.js"></script>
+	<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-resource.js"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-resource.min.js"></script>
+	<script src="scripts/angularjs/locale/pt-BR.js"></script>
+	<script src="scripts/controllers/produtoCtrl.js"></script>
+	<script src="scripts/js/ngMask.min.js"></script>
+	<script src="scripts/js/uteis.js"></script>
+	<script src="scripts/controllers/format.js"></script>
+	<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-messages.js"></script>
+
+</body>
+
+</html>

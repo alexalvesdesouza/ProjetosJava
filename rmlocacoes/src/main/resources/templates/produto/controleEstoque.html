@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html ng-app="produto">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8" />
+	<!--Import materialize.css-->
+	<link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+	<title>Controle de estoque</title>
+</head>
+
+<body ng-controller="produtoController">
+	<div ng-include="'../template/header.html'"></div>
+	<nav class="nav-extended" style="margin-top: 10px;">
+		<div class="nav-content">
+			<ul class="tabs tabs-transparent">
+				<li class="tab">
+					<a href="#principal" class="active">Principal</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="row container" ng-if="produtos.length">
+
+		<div class="input-field col s12">
+			<i class="material-icons prefix">textsms</i>
+			<input type="text" ng-model="criterioDeBusca" id="autocomplete-input" class="autocomplete" />
+			<label for="autocomplete-input">Filtrar</label>
+		</div>
+
+		<table class="responsive-table highlight">
+			<thead>
+				<tr>
+					<th>Produto</th>
+					<th>Marca</th>
+					<th>Quantidade</th>
+					<th>Ajustar Quantidade</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-class="{'selecionado negrito': produto.selecionado}" ng-repeat="produto in produtos | filter:criterioDeBusca 
+				| startFrom:currentPage*pageSize | limitTo:pageSize">
+					<td>
+						<span ng-bind="produto.nome"></span>
+					</td>
+					<td>
+						<span ng-bind="produto.marca"></span>
+					</td>
+					<td>
+						<span ng-bind="produto.quantidade"></span>
+					</td>
+					<td>
+						<a class="waves-effect waves-light modal-trigger" href="#modalAjustarEstoque" 
+							ng-click="carregarProdutoAjustar(produto)">
+							<i style="color: #2962ff;" class="material-icons">autorenew</i>
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div ng-if="refreshProdutos">
+				<ul class="pagination container">
+					<li class="waves-effect" ng-disabled="currentPage == 0">
+						<a href="#!" ng-click="previewPage(currentPage)">
+							<i class="material-icons">chevron_left</i>
+						</a>
+					</li>
+					<li ng-repeat="page in pageNumbers" ng-class="{ 'active': page.pageNumber === activePage }" ng-click="setActivePage($index)">
+						<a href="#!">{{ page.pageNumber }}</a>
+					</li>
+					<li class="waves-effect">
+						<a href="#!" ng-disabled="currentPage >= getProdutos().length/pageSize - 1" ng-click="nextPage(currentPage)">
+							<i class="material-icons">chevron_right</i>
+						</a>
+					</li>
+				</ul>
+			</div>
+
+	</div>
+	<div id="modalAjustarEstoque" class="modal">
+		<nav>
+			<div class="nav-wrapper center-align">
+				<div class="col s12">
+					<h3>Ajustar estoque produto</h3>
+				</div>
+			</div>
+		</nav>
+		<div class="row">
+			<div class="col s12" style="min-width: 99%;">
+				<div class="card">
+					<div class="input-field col s6">
+						<input type="number" ng-model="produtoEstoque.quantidade" ng-disabled="true" name="quantidade" />
+						<label for="quantidade" ng-class="{active: classEdit}">Quantidade</label>
+
+					</div>
+					<div class="input-field col s6">
+						<input type="number" ng-model="produtoEstoque.novaQuantidade" ng-required="true" name="novaQuantidade" />
+						<label for="novaQuantidade" ng-class="{active: classEdit}">Nova Quantidade</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+			<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat"
+			    ng-click="atualizarEstoque(produtoEstoque)">Atualizar Estoque </a>
+		</div>
+	</div>
+
+	<!--Import jQuery before materialize.js-->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+	<script src="scripts/angularjs/angular-1.5.0-rc.0/angular.js"></script>
+	<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-resource.js"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-resource.min.js"></script>
+	<script src="scripts/angularjs/locale/pt-BR.js"></script>
+	<script src="scripts/controllers/produtoCtrl.js"></script>
+	<script src="scripts/js/ngMask.min.js"></script>
+	<script src="scripts/js/uteis.js"></script>
+	<script src="scripts/controllers/format.js"></script>
+	<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-messages.js"></script>
+
+</body>
+
+</html>

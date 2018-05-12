@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html ng-app="conciliacao">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8" />
+    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+    <style>
+    </style>
+    <title>Conciliação</title>
+</head>
+
+<body ng-controller="conciliacaoController">
+    <div ng-include="'../template/header.html'"></div>
+    <nav class="nav-extended" style="margin-top: 10px;">
+        <div class="nav-content">
+            <ul class="tabs tabs-transparent">
+                <li class="tab">
+                    <a href="#contas" ng-click="abaSelecionada('contas')" class="active">Contas</a>
+                </li>
+<!--                 <li class="tab"> -->
+<!--                     <a href="#transferencia" ng-click="abaSelecionada('transferencia')">Transferência</a> -->
+<!--                 </li> -->
+            </ul>
+        </div>
+    </nav>
+
+
+    <div id="contas" class="col s12">
+
+        <div class="">
+            <form name="formularioContas" id="formularioContas" action="" method="post">
+
+                <div class="row container" style="margin-top: 10px;">
+                    <div class="row">
+                        <div class="input-field col s4">
+                            <input type="text" ng-model="contaVinculada.banco" ng-required="true" name="nomeBanco" />
+                            <label for="nomeBanco" ng-class="{active: classEdit}">Banco</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input type="text" ng-model="contaVinculada.agencia" ng-required="true" name="agencia" />
+                            <label for="agencia" ng-class="{active: classEdit}">Agência</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input type="text" ng-model="contaVinculada.numeroConta" ng-required="true" name="numeroConta" />
+                            <label for="numeroConta" ng-class="{active: classEdit}">N° Conta/Digito</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <select ng-model="contaVinculada.tipo" ng-required="true">
+                                <option value="" ng-disabled="true" ng-selected="true">Selecione uma opção</option>
+                                <option value="CORRENTE">Corrente</option>
+                                <option value="POUPANCA">Poupança</option>
+                                <option value="INVESTIMENTO">Investimento</option>
+                            </select>
+                            <label>Tipo da Conta</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input type="text" ng-model="contaVinculada.operacao" name="operacao" />
+                            <label for="operacao" ng-class="{active: classEdit}">Operação</label>
+                        </div>
+                        <div class="input-field col s2">
+                            <input type="text" ng-model="contaVinculada.saldo" ng-required="true" name="saldo" />
+                            <label for="saldo" ng-class="{active: classEdit}">Saldo</label>
+                        </div>
+                        <div class="col s2">
+                            <p>
+                                <input type="checkbox" id="contaPrincipal" ng-model="contaVinculada.contaPrincipal" />
+                                <label for="contaPrincipal">Conta principal ?</label>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row container" ng-if="contasVinculadasList.length">
+            <table class="responsive-table highlight">
+                <thead>
+                    <tr>
+                        <th>N° Conta</th>
+                        <th>Agência</th>
+                        <th>Banco</th>
+                        <th>Tipo Conta</th>
+                        <th>Operação</th>                        
+                        <th>Saldo da Conta</th>
+                        <th>Principal</th>
+                        <th>Editar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="contaVinculada in contasVinculadasList">
+                        <td>
+                            <span ng-bind="contaVinculada.numeroConta"></span>
+                        </td>
+                        <td>
+                            <span ng-bind="contaVinculada.agencia"></span>
+                        </td>
+                        <td>
+                            <span ng-bind="contaVinculada.banco"></span>
+                        </td>
+                        <td>
+                            <span ng-bind="contaVinculada.tipo"></span>
+                        </td>
+                        <td>
+                            <span ng-bind="contaVinculada.operacao"></span>
+                        </td>
+                        <td>
+                            <span ng-bind="contaVinculada.saldo | currency: 'R$'"></span>
+                        </td>
+                        <td ng-if="contaVinculada.contaPrincipal">
+                            <!-- <i nf-if="contaVinculada.contaPrincipal"  class="material-icons">all_done</i> -->
+                            Sim
+                        </td>
+                        <td ng-if="!contaVinculada.contaPrincipal">
+                            <!-- <i nf-if="contaVinculada.contaPrincipal"  class="material-icons">all_done</i> -->
+                            Não
+                        </td>
+                        <td>
+                            <a href="" ng-click="onEdit(contaVinculada)">
+                                <i class="material-icons">edit</i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+<!--     <div id="transferencia"> -->
+
+<!--     </div> -->
+
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+    <script src="scripts/angularjs/angular-1.5.0-rc.0/angular.js"></script>
+    <script src="scripts/angularjs/angular-1.5.0-rc.0/angular-resource.js"></script>
+    <script src="scripts/angularjs/angular-1.5.0-rc.0/angular-messages.js"></script>
+    <script src="scripts/angularjs/locale/pt-BR.js"></script>
+    <script src="scripts/controllers/conciliacaoCtrl.js"></script>
+    <script src="scripts/controllers/format.js"></script>
+    <script src="scripts/js/ngMask.min.js"></script>
+    <script src="scripts/js/uteis.js"></script>
+    <script src="scripts/js/moment.min.js"></script>
+</body>
+
+</html>

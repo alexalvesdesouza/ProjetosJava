@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html ng-app="cliente">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8" />
+	<!--Import materialize.css-->
+	<link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+	<title>Clientes</title>
+
+	<style>
+		.DetalhesCliente {
+			min-width: 99% !important;
+		}
+	</style>
+
+</head>
+
+<body ng-controller="clienteController">
+	<div ng-include="'../template/header.html'"></div>
+
+	<div>
+		<nav class="nav-extended" style="margin-top: 10px;">
+			<div class="nav-content">
+				<ul class="tabs tabs-transparent">
+					<li class="tab">
+						<a href="#principal" ng-click="abaSelectecd('principal')" class="active">Principal</a>
+					</li>
+					<li class="tab">
+						<a href="#enderecos" ng-click="abaSelectecd('endereco')">Endereço</a>
+					</li>
+					<li class="tab">
+						<a href="#contatos" ng-click="abaSelectecd('contato')">Contatos</a>
+					</li>
+					<li class="tab">
+						<a href="#dados-bancarios" ng-click="abaSelectecd('dados-bancarios')">Dados Bancários</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<form name="clienteForm" id="clienteForm" action="" method="post" 
+			class="col s12 m4 offset-m4 l4 offset-l4">
+			<div id="principal" class="col s12">
+				<div class="row container" style="margin-top: 10px;">
+					<div class="row">
+						<div class="input-field col s12">
+							<input type="text" ng-model="cliente.nome" name="nomeCliente" ng-required="true" />
+							<label for="nomeCliente" ng-class="{active: classEdit}">Nome</label>
+
+						</div>
+						<div class="switch  col s6">
+							<label> Inativo
+								<input type="checkbox" ng-model="cliente.ativo" />
+								<span class="lever"></span> Ativo
+							</label>
+						</div>
+						<div class="switch  col s6">
+							<label> Física
+								<input type="checkbox" ng-model="cliente.pessoaJuridica" />
+								<span class="lever"></span>
+								Jurídica
+							</label>
+						</div>
+						<div class="input-field col s12" ng-show="cliente.pessoaJuridica">
+							<input type="text" ng-model="cliente.razaoSocial" name="razaoSocial" />
+							<label for="razaoSocial" ng-class="{active: classEdit}">Razão Social</label>
+						</div>
+						<div class="input-field col s6" ng-show="cliente.pessoaJuridica">
+							<input type="text" ng-model="cliente.cnpj" ng-required="true" mask="99.999.999/9999-99" name="clienteCnpj" />
+							<label for="clienteCnpj" ng-class="{active: classEdit}">CNPJ</label>
+						</div>
+						<div class="input-field col s6" ng-show="!cliente.pessoaJuridica">
+							<input type="text" ng-model="cliente.cpf" ng-required="true" mask="999.999.999-99" name="clienteCpf" />
+							<label for="clienteCpf" ng-class="{active: classEdit}">CPF</label>
+						</div>
+						<div class="input-field col s6" ng-show="cliente.pessoaJuridica">
+							<input type="text" ng-model="cliente.inscricaoEstadual" name="inscricaoEstadual" />
+							<label for="inscricaoEstadual" ng-class="{active: classEdit}">Insc. Estadual</label>
+						</div>
+						<div class="input-field col s6" ng-show="!cliente.pessoaJuridica">
+							<input type="text" ng-model="cliente.rg" name="rg" />
+							<label for="rg" ng-class="{active: classEdit}">Documento Identidade
+							</label>
+						</div>
+						<div class="input-field col s3">
+							<input type="text" ng-model="cliente.telefoneCelular" mask="(99) 9 9999-9999" name="telefoneCelular" ng-required="true" />
+							<label for="telefoneCelular" ng-class="{active: classEdit}">Telefone Celular
+							</label>
+						</div>
+						<div class="input-field col s3">
+							<input type="text" ng-model="cliente.telefoneFixo" mask="(99) 9999-9999" name="telefoneFixo" />
+							<label for="telefoneFixo" ng-class="{active: classEdit}">Telefone Fixo
+							</label>
+						</div>
+
+						<div class="input-field col s3">
+							<input type="email" ng-model="cliente.email" class="validate" />
+							<label for="email" ng-class="{active: classEdit}">Email</label>
+						</div>
+						<div class="input-field col s3">
+							<input type="text" id="dataNascimento" class="datepicker" name="dataNascimento" ng-model="cliente.dataNascimento" />
+							<label for="dataNascimento" ng-class="{active: classEdit}">Data Nascimento</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="enderecos" class="col s12">
+				<div class="row container" style="margin-top: 1px;">
+					<label>
+						<h5>Endereço de Entrega</h5>
+					</label>
+					<div class="row">
+						<div class="input-field col s2">
+							<input type="text" id="cep" ng-model="endereco.cep" mask="99999-999" ng-blur="buscarCep(endereco, 'isEnderecoResidencial')"
+							    name="cep" />
+							<label for="cep" ng-class="{active: classCep || classEdit}">CEP</label>
+						</div>
+						<div class="input-field col s8">
+							<input type="text" ng-model="endereco.logradouro" name="logradouro" id="logradrouro" />
+							<label for="logradouro" ng-class="{active: classLogradouro || classEdit}">Logradouro</label>
+						</div>
+						<div class="input-field col s2">
+							<input type="text" ng-model="endereco.numero" name="numero" />
+							<label for="numero" id="numero" ng-class="{active: classNumero || classEdit}">Número</label>
+						</div>
+						<div class="input-field col s6">
+							<input type="text" ng-model="endereco.complemento" name="complemento" id="complemento" />
+							<label for="complemento" ng-class="{active: classComplemento || classEdit}">Complemento</label>
+						</div>
+						<div class="input-field col s6">
+							<input type="text" ng-model="endereco.bairro" id="bairro" name="bairro" />
+							<label for="bairro" ng-class="{active: classBairro || classEdit}">Bairro</label>
+						</div>
+						<div class="input-field col s6">
+							<input type="text" ng-model="endereco.cidade" id="cidade" name="cidade" />
+							<label for="cidade" ng-class="{active: classCidade || classEdit}">Cidade</label>
+						</div>
+						<div class="input-field col s6">
+							<input type="text" ng-model="endereco.estado" id="estado" name="estado" />
+							<label for="estado" ng-class="{active: classEstado || classEdit}">Estado</label>
+						</div>
+						<div class="input-field col s6">
+							<input type="text" class="timepicker" id="horarioInicio" name="horarioInicio" ng-blur="addClassFieldDatePicker('classHorarioInicio')"
+							/>
+							<label for="horarioInicio" ng-model="endereco.funcInicio" ng-class="{active: classHorarioInicio || classEdit}">Início Funcionamento
+							</label>
+						</div>
+						<div class="input-field col s6">
+							<input type="text" id="horarioFim" class="timepicker" name="horarioFim" ng-blur="addClassFieldDatePicker('classHorarioFim')"
+							/>
+							<label for="horarioFim" ng-model="endereco.funcFim" ng-class="{active: classHorarioFim || classEdit}">Fim Funcionamento
+							</label>
+						</div>
+						<div class="input-field col s12">
+							<textarea id="textarea1" class="materialize-textarea" ng-model="endereco.observacao" data-length="120"></textarea>
+							<label for="textarea1" ng-class="{active: classEdit}">Observação</label>
+						</div>
+					</div>
+					<label>
+						<h5 ng-if="permiteCopiarEndereco()">Endereço Residencial/Comercial</h5>
+					</label>
+					<p ng-if="permiteCopiarEndereco()">
+						<input type="checkbox" id="copiarEndereco" ng-click="copiarEndereco(!isCopiarEndereco)" />
+						<label for="copiarEndereco">Copiar Endereco</label>
+					</p>
+					<div class="row" ng-disable="!isCopiarEndereco" ng-if="permiteCopiarEndereco()">
+						<div class="input-field col s2">
+							<input type="text" id="cep" ng-model="enderecoComercial.cep" mask="99999-999" ng-blur="buscarCep(enderecoComercial, 'isEnderecoComercial')"
+							    name="cep" />
+							<label for="cep" ng-class="{active: classCep || classEdit}">CEP</label>
+						</div>
+						<div class="input-field col s8">
+							<input type="text" ng-model="enderecoComercial.logradouro" name="logradouro" id="logradrouro" />
+							<label for="logradouro" ng-class="{active: classLogradouro || classEdit}">Logradouro</label>
+						</div>
+						<div class="input-field col s2">
+							<input type="text" ng-model="enderecoComercial.numero" name="numero" />
+							<label for="numero" id="numero" ng-class="{active: classNumero || classEdit}">Número</label>
+						</div>
+						<div class="input-field col s6">
+							<input type="text" ng-model="enderecoComercial.complemento" name="complemento" id="complemento" />
+							<label for="complemento" ng-class="{active: classComplemento || classEdit}">Complemento</label>
+						</div>
+						<div class="input-field col s6">
+							<input type="text" ng-model="enderecoComercial.bairro" id="bairro" name="bairro" />
+							<label for="bairro" ng-class="{active: classBairro || classEdit}">Bairro</label>
+						</div>
+						<div class="input-field col s6">
+							<input type="text" ng-model="enderecoComercial.cidade" id="cidade" name="cidade" />
+							<label for="cidade" ng-class="{active: classCidade || classEdit}">Cidade</label>
+						</div>
+						<div class="input-field col s6">
+							<input type="text" ng-model="enderecoComercial.estado" id="estado" name="estado" />
+							<label for="estado" ng-class="{active: classEstado || classEdit}">Estado</label>
+						</div>
+						<div class="input-field col s6">
+							<input type="text" ng-model="enderecoComercial.funcInicio" class="timepicker" name="horarioInicioCopy" ng-blur="addClassFieldDatePicker('classHorarioInicio')"
+							/>
+							<label for="horarioInicioCopy" ng-class="{active: classHorarioInicio || classEdit}">Início Funcionamento
+							</label>
+						</div>
+						<div class="input-field col s6">
+							<input type="text" ng-model="enderecoComercial.funcFim" class="timepicker" name="horarioFimCopy" ng-blur="addClassFieldDatePicker('classHorarioFim')"
+							/>
+							<label for="horarioFimCopy" ng-class="{active: classHorarioFim || classEdit}">Fim Funcionamento
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="contatos" class="col s12 container" style="margin-top: 10px;">
+				<div class="row">
+					<a class="btn-floating btn-small waves-effect waves-light" ng-click="addContato(contato)">
+						<i class="material-icons">add</i>
+					</a>
+					<div class="input-field col s12">
+						<input type="text" ng-model="contato.nome" name="nome" />
+						<label for="nome" ng-class="{active: classEdit}">Nome</label>
+					</div>
+					<div class="input-field col s6">
+						<input type="text" ng-model="contato.telefone" mask="(99) 9 9999-9999" name="telefoneCelular" />
+						<label for="telefoneCelular" ng-class="{active: classEdit}">Telefone Celular
+						</label>
+					</div>
+					<div class="input-field col s6">
+						<input type="email" ng-model="contato.email" class="validate" />
+						<label for="email" ng-class="{active: classEdit}">Email</label>
+					</div>
+				</div>
+				<table class="container responsive-table highlight">
+					<thead>
+						<tr>
+							<th>Nome</th>
+							<th>Telefone</th>
+							<th>E-mail</th>
+							<th>Remover</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-class="{'selecionado negrito': contato.selecionado}" ng-repeat="contato in contatos | filter:pesquisaProdutos | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao"
+						    ng-click="onEdit(contato)">
+							<td>
+								<span ng-bind="contato.nome"></span>
+							</td>
+							<td>
+								<span ng-bind="contato.telefone"></span>
+							</td>
+							<td>
+								<span ng-bind="contato.email"></span>
+							</td>
+							<td>
+								<a href="" ng-click="removeContato(contato)">
+									<i style="color: red;" class="material-icons">delete_forever</i>
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div id="dados-bancarios" class="col s12 container">
+				<div class="row">
+					<div class="input-field col s12">
+						<input type="text" ng-model="cliente.dadosBancarios.nome" name="nome" />
+						<label for="nome" ng-class="{active: classEdit}">Banco</label>
+					</div>
+					<div class="input-field col s12">
+						<input type="text" ng-model="cliente.dadosBancarios.agencia" name="agencia" />
+						<label for="agencia" ng-class="{active: classEdit}">Agência</label>
+					</div>
+					<div class="input-field col s12">
+						<input type="text" ng-model="cliente.dadosBancarios.conta" name="conta" />
+						<label for="conta" ng-class="{active: classEdit}">C/C</label>
+					</div>
+				</div>
+			</div>
+		</form>
+
+	</div>
+	<div class="row container">
+		<div class="input-field col s12" ng-show="exibeGridClientes">
+			<i class="material-icons prefix">textsms</i>
+			<input type="text" ng-model="criterioDeBusca" id="autocomplete-input" class="autocomplete" />
+			<label for="autocomplete-input">Filtrar</label>
+		</div>
+
+		<table ng-show="exibeGridClientes" class="container responsive-table highlight">
+			<thead>
+				<tr>
+					<th>Nome</th>
+					<th>Telefone</th>
+					<th>E-mail</th>
+					<th>Detalhes</th>
+					<th>Editar</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="cliente in clientes | filter:criterioDeBusca 
+					 | startFrom:currentPage*pageSize | limitTo:pageSize">
+					<td>
+						<span ng-bind="cliente.nome"></span>
+					</td>
+					<td>
+						<span ng-bind="cliente.telefoneCelular"></span>
+					</td>
+					<td>
+						<span ng-bind="cliente.email"></span>
+					</td>
+					<td>
+						<a class="waves-effect waves-light modal-trigger" href="#modalDetalhesCliente" 
+							ng-click="exibirDetalhesDoCliente(cliente)">
+							<i style="color: #2962ff;" class="material-icons">details</i>
+						</a>
+					</td>
+					<td>
+						<a href="" ng-click="editarCliente(cliente)">
+							<i class="material-icons">edit</i>
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<ul class="pagination container" ng-if="exibeGridClientes">
+			<li class="waves-effect" ng-disabled="currentPage == 0">
+				<a href="#!" ng-click="previewPage(currentPage)">
+					<i class="material-icons">chevron_left</i>
+				</a>
+			</li>
+			<li ng-repeat="page in pageNumbers" ng-class="{ 'active': page.pageNumber === activePage }" ng-click="setActivePage($index)">
+				<a href="#!">{{ page.pageNumber }}</a>
+			</li>
+			<li class="waves-effect">
+				<a href="#!" ng-disabled="currentPage >= getClientes().length/pageSize - 1" ng-click="nextPage(currentPage)">
+					<i class="material-icons">chevron_right</i>
+				</a>
+			</li>
+		</ul>
+
+	</div>
+	<div id="modalDetalhesCliente" class="modal DetalhesCliente">
+			<div ng-include="'../template/detalhes-cliente.html'"></div>
+	</div>
+
+	<script src="scripts/angularjs/angular-1.5.0-rc.0/angular.js"></script>
+	<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-resource.min.js"></script>
+	<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-messages.js"></script>
+	<script src="scripts/angularjs/locale/pt-BR.js"></script>
+	<script src="scripts/controllers/clienteCtrl.js"></script>
+
+	<!--Import jQuery before materialize.js-->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+	<script src="scripts/js/ngMask.min.js"></script>
+	<script src="scripts/js/uteis.js"></script>
+</body>
+
+</html>

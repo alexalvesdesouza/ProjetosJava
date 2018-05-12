@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html ng-app="pedido">
+
+<head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8" />
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection" />
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+      <style>
+            .DetalhesPedido {
+                  min-width: 90% !important;
+            }
+      </style>
+      <title>Pedidos</title>
+</head>
+
+<body ng-controller="pedidoController">
+      <div ng-include="'../template/header.html'"></div>
+      <nav class="nav-extended" style="margin-top: 10px;">
+            <div class="nav-content">
+                  <ul class="tabs tabs-transparent">
+                        <li class="tab">
+                              <a href="#principal" ng-click="abaSelecionada('principal')" class="active">Principal</a>
+                        </li>
+                  </ul>
+            </div>
+      </nav>
+      <div class="row" style="margin-left: 30px;">
+            <div class="input-field col s11">
+                  <i class="material-icons prefix">textsms</i>
+                  <input type="text" ng-model="criterioDeBusca" id="autocomplete-input-pedido" class="autocomplete" />
+                  <label for="autocomplete-input">Filtrar</label>
+            </div>
+            <div class="input-field col s1">
+                  <a href="/report" class="waves-effect waves-light">
+                        <i class="small material-icons">cloud_download</i>
+                  </a>
+            </div>
+            <table class="responsive-table highlight">
+                  <thead>
+                        <tr>
+                              <th>COD</th>
+                              <th>Cliente</th>
+                              <th>Status</th>
+                              <th>Data p/ entrega</th>
+                              <th>Data p/ devolução</th>
+                              <th>Total Pedido</th>
+                              <th>Ações</th>
+                        </tr>
+                  </thead>
+                  <tbody>
+                        <tr ng-class="{'selecionado negrito': pedido.selecionado}" ng-repeat="pedido in pedidos | filter:criterioDeBusca
+                  | startFrom:currentPage*pageSize | limitTo:pageSize">
+                              <td>
+                                    <span ng-bind="pedido.codigo"></span>
+                              </td>
+                              <td>
+                                    <span ng-bind="pedido.cliente.nome"></span>
+                              </td>
+                              <td>
+                                    <span ng-bind="pedido.status"></span>
+                              </td>
+                              <td>
+                                    <span ng-bind="pedido.dtaEntrega"></span>
+                              </td>
+                              <td>
+                                    <span ng-bind="pedido.dtaDevolucao"></span>
+                              </td>
+                              <td> R$
+                                    <span ng-bind="pedido.totalPedido"></span>
+                              </td>
+                              <td>
+                                    <a class="waves-effect waves-light modal-trigger" href="#modalDetalhes" ng-click="DetalhesPedido(pedido)">
+                                          <i style="color: #2962ff;" class="material-icons">details</i>
+                                    </a>
+                                    <a ng-if="pedido.status !== 'FINALIZADO'" class="waves-effect waves-light modal-trigger" href="#modalDevolucao" ng-click="devolverPedido(pedido)">
+                                          <i style="color: #26a69a;" class="material-icons">assignment_returned</i>
+                                    </a>
+                                    <i style="color: #d50000;" ng-if="pedido.status === 'FINALIZADO'" class="material-icons" ng-disabled="true">block</i>
+                                    <a class="waves-effect waves-light modal-trigger" href="#modalContratoReimpressao" ng-click="reimpressaoContrato(pedido)">
+                                          <i class="material-icons">print</i>
+                                    </a>
+                              </td>
+                              <!-- <td ng-if="pedido.status !== 'FINALIZADO'">
+                                    <a  ng-if="pedido.status !== 'FINALIZADO'" class="waves-effect waves-light modal-trigger" href="#modalDevolucao" ng-click="devolverPedido(pedido)">
+                                          <i style="color: #00c853;" class="material-icons">assignment_returned</i>
+                                    </a>
+                              </td>
+                              <td ng-if="pedido.status === 'FINALIZADO'">
+                                    <i style="color: #d50000;" ng-if="pedido.status === 'FINALIZADO'" class="material-icons" ng-disabled="true">block</i>
+                              </td>
+                              <td>
+                                    <a class="btn-floating waves-effect waves-light modal-trigger" href="#modalContratoReimpressao"
+                                          ng-click="lerContrato(pedido)">
+                                          <i class="large material-icons">print</i>
+                                    </a>
+
+                              </td> -->
+                        </tr>
+                  </tbody>
+            </table>
+            <ul class="pagination container">
+                  <li class="waves-effect" ng-disabled="currentPage == 0">
+                        <a href="#!" ng-click="previewPage(currentPage)">
+                              <i class="material-icons">chevron_left</i>
+                        </a>
+                  </li>
+                  <li ng-repeat="page in pageNumbers" ng-class="{ 'active': page.pageNumber === activePage }" ng-click="setActivePage($index)">
+                        <a href="#!"> {{ page.pageNumber }}</a>
+                  </li>
+                  <li class="waves-effect">
+                        <a href="#!" ng-disabled="currentPage >= getpedidos().length/pageSize - 1" ng-click="nextPage(currentPage)">
+                              <i class="material-icons">chevron_right</i>
+                        </a>
+                  </li>
+            </ul>
+      </div>
+      <div id="modalContratoReimpressao" class="modal DetalhesPedido">
+            <nav class="nav-extended">
+                  <div class="nav-content">
+                        <ul class="tabs tabs-transparent">
+                              <li class="tab">
+                                    <a class="active">Contrato de Locação</a>
+                              </li>
+                        </ul>
+                  </div>
+            </nav>
+            <div class="modal-content" id="imprimirContrato">
+                  <div ng-include="'../template/contrato.html'"></div>
+            </div>
+            <div class="modal-footer">
+                  <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat blue-text"
+                   ng-click="printToCart('imprimirContrato')">Impressão Contrato</a>
+            </div>
+      </div>
+      <div id="modalDevolucao" class="modal">
+            <nav class="nav-extended">
+                  <div class="nav-content">
+                        <ul class="tabs tabs-transparent">
+                              <li class="tab">
+                                    <a href="#" ng-click="abaDetalheSelecionada('principal')" class="active">Devolução do Pedido </a>
+                                    <span ng-model="numeroPedido"></span>
+                              </li>
+                        </ul>
+                  </div>
+            </nav>
+            <div class="row">
+                  <div class="col s12 m7" style="min-width: 99%;">
+                        <p>
+                              <input type="checkbox" id="devTotal" ng-model="pedido.devolucaoParcial" />
+                              <label for="devTotal">Devolução parcial dos itens ?</label>
+                              <input type="number" id="vlrMultaExtravio" ng-if="pedido.devolucaoParcial" ng-model="pedido.pagamento.vlrMultaExtravio" />
+                              <label ng-if="pedido.devolucaoParcial" for="vlrMultaExtravio">Multa por Extravio</label>
+                        </p>
+                        <p>
+                              <input type="checkbox" id="devParcial" ng-model="pedido.devolucaoAvariada" />
+                              <label for="devParcial">Houve Avarias ?</label>
+                              <input type="number" id="vlrMultaAvaria" ng-if="pedido.devolucaoAvariada" ng-model="pedido.pagamento.vlrMultaAvaria" />
+                              <label ng-if="pedido.devolucaoAvariada" for="vlrMultaAvaria">Multa por Avaria</label>
+                        </p>
+                        <p>
+                              <input type="checkbox" id="efetuouPagamento" ng-model="efetuouPagamento" />
+                              <label for="efetuouPagamento">Marcar pedido como pago</label>
+                        </p>
+                  </div>
+            </div>
+            <!-- Aba Pedidos-->
+            <div class="modal-footer">
+                  <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+                  <a href="#!" ng-click="efetuarDevolucao(pedido)" class="modal-action modal-close waves-effect waves-green btn-flat">Efetuar Devolução </a>
+            </div>
+      </div>
+      <div id="modalDetalhes" class="modal DetalhesPedido">
+            <nav class="nav-extended">
+                  <div class="nav-content">
+                        <ul class="tabs tabs-transparent">
+                              <li class="tab">
+                                    <a href="#DetalhesPedido" ng-click="abaDetalheSelecionada('principal')" class="active">Detalhes do Pedido</a>
+                              </li>
+                              <li class="tab">
+                                    <a href="#itensDoPedido" ng-click="abaDetalheSelecionada('itensDoPedido')" class="active">Itens do Pedido</a>
+                              </li>
+                              <li class="tab">
+                                    <a href="#detalhesPagamento" ng-click="abaDetalheSelecionada('pagamento')" class="active">Detalhes do Pagamento</a>
+                              </li>
+                        </ul>
+                  </div>
+            </nav>
+            <div id="DetalhesPedido">
+                  <div class="row">
+                        <div class="col s12 m7" style="min-width: 99%;">
+                              <div class="card">
+                                    <div class="input-field col s2">
+                                          <span>Código</span>
+                                          <input type="number" ng-model="detalhePedido.codigo" ng-disabled="true" />
+                                    </div>
+                                    <div class="input-field col s6">
+                                          <span>Cliente</span>
+                                          <input type="text" ng-model="detalhePedido.cliente.nome" ng-disabled="true" />
+                                    </div>
+                                    <div class="input-field col s4">
+                                          <span>Status</span>
+                                          <input type="text" ng-model="detalhePedido.status" ng-disabled="true" />
+                                    </div>
+                                    <div class="input-field col s2">
+                                          <span>Dta. Pedido</span>
+                                          <input type="text" ng-model="detalhePedido.dtaPedido" ng-disabled="true" />
+                                    </div>
+                                    <div class="input-field col s2">
+                                          <span>Dta. Entrega</span>
+                                          <input type="text" ng-model="detalhePedido.dtaEntrega" ng-disabled="true" />
+                                    </div>
+                                    <div class="input-field col s2">
+                                          <span>Dta. Devolução</span>
+                                          <input type="text" ng-model="detalhePedido.dtaDevolucao" ng-disabled="true" />
+                                    </div>
+                                    <div class="input-field col s2">
+                                          <span>Dta. Cancelamento</span>
+                                          <input type="text" ng-model="detalhePedido.dtaCancelamento" ng-disabled="true" />
+                                    </div>
+                                    <div class="input-field col s4">
+                                          <p>
+                                                <input type="checkbox" ng-model="detalhePedido.devolucaoParcial" />
+                                                <label>Devolução Parcial ?</label>
+                                          </p>
+                                          <p>
+                                                <input type="checkbox" ng-model="detalhePedido.devolucaoAvariada" />
+                                                <label>Houve Avarias ?</label>
+                                          </p>
+                                          <p>
+                                                <input type="checkbox" ng-model="detalhePedido.pedidoCancelado" />
+                                                <label>O Pedido foi Cancelado ?</label>
+                                          </p>
+                                    </div>
+                                    <div class="input-field col s12">
+                                          <span>Observação</span>
+                                          <input type="text" ng-model="detalhePedido.observacao" ng-disabled="true" />
+                                    </div>
+                              </div>
+                              <!-- Card -->
+                        </div>
+                        <!-- Col -->
+                  </div>
+                  <!-- Row -->
+            </div>
+            <!-- Aba Pedidos-->
+            <div id="itensDoPedido">
+                  <table class="responsive-table highlight">
+                        <thead>
+                              <tr>
+                                    <th>Produto</th>
+                                    <th>Preço</th>
+                                    <th>Quantidade</th>
+                                    <th>Total Item</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                              <tr ng-repeat="item in detalhePedido.itens">
+                                    <td>
+                                          <span ng-bind="item.produto.nome"></span>
+                                    </td>
+                                    <td>
+                                          <span ng-bind="item.vlrUnitario | currency: 'R$'"></span>
+                                    </td>
+                                    <td>
+                                          <span ng-bind="item.quantidade"></span>
+                                    </td>
+                                    <td>
+                                          <span ng-bind="item.totalItem | currency: 'R$'"></span>
+                                    </td>
+                              </tr>
+                        </tbody>
+                  </table>
+            </div>
+            <!-- Aba Pedidos-->
+            <div id="detalhesPagamento">
+                  <div class="row">
+                        <div class="col s12 m7" style="min-width: 99%;">
+                              <div class="card">
+                                    <div class="input-field col s4">
+                                          <span>Status</span>
+                                          <input type="text" ng-model="detalhePedido.pagamento.status" ng-disabled="true" />
+                                    </div>
+                                    <div class="input-field col s4">
+                                          <span>Forma</span>
+                                          <input type="text" ng-model="detalhePedido.pagamento.formaPagamento" ng-disabled="true" />
+                                    </div>
+                                    <div class="input-field col s2">
+                                          <span>Data Vencimento</span>
+                                          <input type="text" ng-model="detalhePedido.pagamento.dtaVencimento" ng-disabled="true" />
+                                    </div>
+                                    <div class="input-field col s2">
+                                          <p>
+                                                <input type="checkbox" ng-model="detalhePedido.pagamento.pagamentoVencido" />
+                                                <label>Pagamento Vencido ?</label>
+                                          </p>
+                                          <p>
+                                                <input type="checkbox" ng-model="detalhePedido.pagamento.pagamentoCancelado" />
+                                                <label>Pagamento Cancelado ?</label>
+                                          </p>
+                                    </div>
+                              </div>
+                              <div class="card">
+                                    <div class="input-field col s2">
+                                          <span>Total do Pedido</span>
+                                          <input type="number" ng-model="detalhePedido.totalPedido" ng-disabled="true" />
+                                    </div>
+                                    <div class="input-field col s2">
+                                          <span>Total Pago</span>
+                                          <input type="number" ng-model="detalhePedido.pagamento.vlrPago" ng-disabled="true" />
+                                    </div>
+                                    <div class="input-field col s2">
+                                          <span>Total Multas</span>
+                                          <input type="number" ng-model="detalhePedido.pagamento.vlrTotalMultas" ng-disabled="true" />
+                                    </div>
+                                    <div class="input-field col s2">
+                                          <span>Taxa Entrega</span>
+                                          <input type="number" ng-model="detalhePedido.pagamento.vlrTxEntrega" ng-disabled="true" />
+                                    </div>
+                                    <div class="input-field col s4">
+                                          <span>Observação</span>
+                                          <input type="text" ng-model="detalhePedido.pagamento.observacao" ng-disabled="true" />
+                                    </div>
+                              </div>
+                        </div>
+                        <!-- Col -->
+                  </div>
+                  <!-- Row -->
+            </div>
+            <!-- Aba Pedidos-->
+            <div class="modal-footer">
+                  <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+                  <a href="#!" ng-if="detalhePedido.status !== 'PEDIDO_FECHADO'" class="modal-action modal-close waves-effect waves-green btn-flat"
+                        ng-click="registrarEntrega(detalhePedido)">Registrar Entrega </a>
+            </div>
+      </div>
+      <!-- Modal Detalhes Pagamento -->
+      <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+      <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+      <script src="scripts/angularjs/angular-1.5.0-rc.0/angular.js"></script>
+      <script src="scripts/angularjs/angular-1.5.0-rc.0/angular-resource.js"></script>
+      <script src="scripts/angularjs/angular-1.5.0-rc.0/angular-messages.js"></script>
+      <script src="scripts/angularjs/locale/pt-BR.js"></script>
+      <script src="scripts/controllers/pedidoCtrl.js"></script>
+      <script src="scripts/controllers/format.js"></script>
+      <script src="scripts/js/ngMask.min.js"></script>
+      <script src="scripts/js/uteis.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html ng-app="funcionario">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8" />
+	<!--Import materialize.css-->
+	<link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+	<title>Funcionários</title>
+</head>
+
+<body ng-controller="funcionarioController">
+	<div ng-include="'../template/header.html'"></div>
+	<nav class="nav-extended" style="margin-top: 10px;">
+		<div class="nav-content">
+			Funcionários
+		</div>
+	</nav>
+	<form name="formularioFuncionario" id="formularioFuncionario" action="" method="post">
+		<div id="principal" class="col s12">
+			<div class="row container" style="margin-top: 10px;">
+				<div class="row">
+					<div class="input-field col s4">
+						<input type="text" ng-model="funcionario.nome" ng-required="true" name="nomeFuncionario" />
+						<label for="nomeFuncionario" ng-class="{active: classEdit}">Nome</label>
+					</div>
+					<div class="input-field col s4">
+						<input type="text" ng-model="funcionario.telefone" mask="(99) 9 9999-9999" ng-required="true" name="telefone" />
+						<label for="telefone" ng-class="{active: classEdit}">Telefone</label>
+					</div>
+					<div class="input-field col s4">
+						<input type="email" ng-model="funcionario.email" ng-required="true" name="email" class="validate"/>
+						<label for="email" ng-class="{active: classEdit}">E-mail</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<div class="row container" ng-if="funcionarios.length">
+
+		<div class="input-field col s12">
+			<i class="material-icons prefix">textsms</i>
+			<input type="text" ng-model="criterioDeBusca" id="autocomplete-input" class="autocomplete" />
+			<label for="autocomplete-input">Filtrar</label>
+		</div>
+
+		<table class="responsive-table highlight">
+			<thead>
+				<tr>
+					<th>Nome</th>
+					<th>Telefone</th>
+					<th>E-mail</th>
+					<th>Editar</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-class="{'selecionado negrito': funcionario.selecionado}" ng-repeat="funcionario in funcionarios | filter:criterioDeBusca 
+					| startFrom:currentPage*pageSize | limitTo:pageSize">
+					<td>
+						<span ng-bind="funcionario.nome"></span>
+					</td>
+					<td>
+						<span ng-bind="funcionario.telefone"></span>
+					</td>
+					<td>
+						<span ng-bind="funcionario.email"></span>
+					</td>
+					<td>
+						<a href="" ng-click="onEdit(funcionario)">
+							<i class="material-icons">edit</i>
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div ng-if="refreshFuncionarios">
+			<ul class="pagination container">
+				<li class="waves-effect" ng-disabled="currentPage == 0">
+					<a href="#!" ng-click="previewPage(currentPage)">
+						<i class="material-icons">chevron_left</i>
+					</a>
+				</li>
+				<li ng-repeat="page in pageNumbers" ng-class="{ 'active': page.pageNumber === activePage }" ng-click="setActivePage($index)">
+					<a href="#!">{{ page.pageNumber }}</a>
+				</li>
+				<li class="waves-effect">
+					<a href="#!" ng-disabled="currentPage >= getFuncionarios().length/pageSize - 1" ng-click="nextPage(currentPage)">
+						<i class="material-icons">chevron_right</i>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<!--Import jQuery before materialize.js-->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+	<script src="scripts/angularjs/angular-1.5.0-rc.0/angular.js"></script>
+	<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-resource.js"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-resource.min.js"></script>
+	<script src="scripts/angularjs/locale/pt-BR.js"></script>
+	<script src="scripts/controllers/funcionarioCtrl.js"></script>
+	<script src="scripts/js/ngMask.min.js"></script>
+	<script src="scripts/js/uteis.js"></script>
+	<script src="scripts/controllers/format.js"></script>
+	<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-messages.js"></script>
+
+</body>
+
+</html>

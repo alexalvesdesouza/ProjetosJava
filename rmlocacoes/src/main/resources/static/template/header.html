@@ -1,0 +1,64 @@
+<nav>
+      <div class="nav-wrapper">
+            <a href="#!" class="brand-logo">
+                  <i class="material-icons">cloud</i>Logo</a>
+            <ul class="right hide-on-med-and-down">
+                  <li>
+                        <a href="/conciliacao-bancaria">
+                              <i class="material-icons left">account_balance</i>Consiliação</a>
+                  </li>
+                  <li>
+                        <a href="/fluxo-caixa">
+                              <i class="material-icons left">monetization_on</i>Fluxo Caixa</a>
+                  </li>
+                  <li>
+                        <a href="/cadastrarCliente">
+                              <i class="material-icons left">people_outline</i>Cadastrar Cliente</a>
+                  </li>
+                  <li>
+                        <a href="/cadastrarFuncionario">
+                              <i class="material-icons left">person_pin</i>Cadastrar Funcionário</a>
+                  </li>
+                  <li>
+                        <a href="/cadastrarProduto">
+                              <i class="material-icons left">view_list</i>Cadastrar Produto</a>
+                  </li>
+                  <li>
+                        <a href="/controle-estoque">
+                              <i class="material-icons left">shopping_basket</i>Controle de Estoque</a>
+                  </li>
+                  <li>
+                        <a href="/cadastrarPedido">
+                              <i class="material-icons left">local_offer</i>Realizar Pedido
+                        </a>
+                  </li>
+                  <li>
+                        <a href="/logout">
+                              <i class="material-icons left">exit_to_app</i>Sair</a>
+                  </li>
+            </ul>
+      </div>
+</nav>
+<div class="fixed-action-btn top" ng-if="abaSelecionada !== 'folha-pagamento'">
+      <a class="btn-floating btn-large" ng-show="!isFormPedido && !isEdit" ng-click="addItem()">
+            <i class="large material-icons">add</i>
+      </a>
+      <a class="btn-floating btn-large" ng-show="!isFormPedido && isEdit" ng-click="addItem()">
+            <i class="large material-icons">save</i>
+
+      </a>
+      <a class="btn-floating btn-large waves-effect waves-light modal-trigger" href="#modalContrato" ng-show="isFormPedido && itens.length > 0"
+            ng-click="lerContrato(pedido)">
+            <i class="large material-icons">add</i>
+      </a>
+</div>
+<div class="fixed-action-btn top" ng-if="abaSelecionada === 'folha-pagamento'">
+      <a class="btn-floating btn-large" ng-show="!isFormPedido && !isEdit" ng-click="addFolhaPagamento()">
+            <i class="large material-icons">add</i>
+      </a>
+      <a class="btn-floating btn-large" ng-show="!isFormPedido && isEdit" ng-click="editFolhaPagamento()">
+            <i class="large material-icons">save</i>
+
+      </a>
+     
+</div>

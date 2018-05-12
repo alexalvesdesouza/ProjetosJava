@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html ng-app="fluxoCaixa">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8" />
+
+	<link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+	<style>
+		.detalhesFluxoCaixa {
+			min-width: 90% !important;
+		}
+
+		.Alert-Indisponivel {
+			font-size: 20px;
+		}
+
+		.PreloaderAlt {
+			height: 19px;
+		}
+	</style>
+	<title>Gerar FluxoCaixa</title>
+</head>
+
+<body ng-controller="fluxoCaixaController">
+	<div ng-include="'../template/header.html'"></div>
+	<nav class="nav-extended" style="margin-top: 10px;">
+		<div class="nav-content">
+			<ul class="tabs tabs-transparent">
+				<li class="tab">
+					<a href="#principal" ng-click="abaSelecionada('principal')" class="active">Principal</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="row">
+		<div class="col s5">
+			<div class="card" style="height: 150px;">
+
+				<div class="card-content">
+					<div class="input-field col s6">
+						<input type="text" name="conta" ng-model="contaSelecionada" ng-keyup="completeConta(contaSelecionada)" id="autocomplete-input-conta"
+						    class="autocomplete" />
+						<ul class="collection" ng-model="hideListCliente" ng-hide="hideListCliente" style="margin-top: -22px;">
+							<li class="collection-item" ng-repeat="conta in filterConta" ng-click="selecionarConta(conta)">{{conta.banco}}</li>
+						</ul>
+						<label for="autocomplete-input">Buscar Banco</label>
+					</div>
+					<div class="input-field col s6">
+						<input type="number" ng-model="contaVinculada.saldo" ng-disabled="true" name="valor" />
+						<label for="valor" ng-class="{active: classEditConta}">Saldo Atual R$</label>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="col s7">
+			<div class="card" style="height: 150px;">
+				<div class="card-content">
+					<p>
+						<div class="row" style="margin-top: -40px;">
+							<div class="input-field col s4">
+								RECEITAS
+							</div>
+							<div class="input-field col s8 right-align">
+								<span class="green-text text-darken-2" ng-bind="contasReceberPagos | currency"></span> de
+								<span class="" ng-bind="contasReceberTotal | currency"></span>
+							</div>
+							<div class="progress PreloaderAlt">
+								<div class="determinate" ng-style="fluxoCaixaReceitas"></div>
+							</div>
+						</div>
+
+						<div class="row" style="margin-top: -20px !important;">
+							<div class="input-field col s4">
+								DESPESAS
+							</div>
+							<div class="input-field col s8 right-align">
+								<span class="red-text text-darken-2" ng-bind="contasPagarPagos | currency"></span> de
+								<span ng-bind="contasPagarTotal | currency"></span>
+							</div>
+							<div class="progress PreloaderAlt">
+								<div class="determinate" ng-style="fluxoCaixaDespesas"></div>
+							</div>
+						</div>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div>
+		<nav class="nav-extended" style="margin-top: 2px;">
+			<div class="nav-content">
+				<ul class="tabs tabs-transparent">
+					<li class="tab">
+						<a href="#contas-a-receber" ng-click="abaSelectecd('contas-a-receber')" class="active">Contas a Receber</a>
+					</li>
+					<li class="tab">
+						<a href="#contas-a-pagar" ng-click="abaSelectecd('contas-a-pagar')">Contas a Pagar</a>
+					</li>
+					<!-- <li class="tab">
+						<a href="#fornecedores" ng-click="abaSelectecd('fornecedores')">Fornecedores</a>
+					</li> -->
+					<li class="tab">
+						<a href="#folha-pagamento" ng-click="abaSelectecd('folha-pagamento')">Folha de pagamento</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+
+	<div id="contas-a-receber" style="margin-top: 1em;">
+		<div class="row container">
+			<table class="responsive-table highlight">
+				<thead>
+					<tr>
+						<th>Selecionar</th>
+						<th>Descricao</th>
+						<th>Valor</th>
+						<th>N° Doc</th>
+						<th>Vencimento</th>
+						<th>Status</th>
+						<th>Tipo Despesa</th>
+						<th>Editar</th>
+						<th>Deletar</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="receber in contasReceberList">
+						<td>
+							<input type="checkbox" id="{{ 'receber-' + $index }}" name="{{ 'receber-' + $index }}" ng-click="selecionaContaReceber(receber)"
+							    class="filled-in" />
+							<label for="{{ 'receber-' + $index }}"></label>
+						</td>
+						<td>
+							<span ng-bind="receber.descricao"></span>
+						</td>
+						<td>R$
+							<span ng-bind="receber.valor"></span>
+						</td>
+						<td>
+							<span ng-bind="receber.numeroDocumento"></span>
+						</td>
+						<td>
+							<span ng-bind="receber.dataVencimento"></span>
+						</td>
+						<td>
+							<span ng-bind="receber.status"></span>
+						</td>
+						<td>
+							<span ng-bind="receber.tipoDespesa"></span>
+						</td>
+
+						<!-- <td ng-if="receber.status !== 'RECEBIDO'">
+							<a href="" ng-click="editarConta(receber)">
+								<i class="material-icons">edit</i>
+							</a>
+						</td> -->
+						<td>
+							<i style="color: #d50000;" class="material-icons" ng-disabled="true">block</i>
+						</td>
+						<td>
+							<a href="" ng-click="deletarContaReceber(receber)">
+								<i class="material-icons" style="color: #e57373;">delete_forever</i>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+
+	</div>
+
+	<div id="contas-a-pagar">
+
+		<div id="formCadastrarContas" class="row">
+
+			<form name="contasPagarForm" id="contasPagarForm" action="" method="post">
+
+				<div class="input-field col s2">
+					<input type="text" ng-model="contaPagar.descricao" ng-required="true" name="descricao" />
+					<label for="descricao" ng-class="{active: classEdit}">Descrição</label>
+				</div>
+				<div class="input-field col s2">
+					<input type="number" ng-model="contaPagar.valor" ng-required="true" name="valor" />
+					<label for="valor" ng-class="{active: classEdit}">Valor R$</label>
+				</div>
+				<div class="input-field col s2">
+					<select ng-model="contaPagar.tipoDespesa">
+						<option value="" ng-disabled="true" ng-selected="true">Selecione</option>
+						<option value="CONTA_LUZ">Conta luz</option>
+						<option value="CONTA_AGUA">Conta água</option>
+						<option value="CONTA_TELEFONE">Conta telefone</option>
+						<option value="FORNECEDOR">Fornecedor</option>
+						<option value="SERVICOS">Serviços</option>
+						<option value="IMPOSTOS">Impostos</option>
+						<option value="FOLHA">Folha pagamento</option>
+						<option value="DIVERSOS">Diversos</option>
+						<option value="OUTROS">Outros</option>
+					</select>
+					<label>Tipo da despesa</label>
+				</div>
+				<div class="input-field col s2">
+					<input type="text" ng-model="contaPagar.numeroDocumento" ng-required="true" name="numeroDocumento" />
+					<label for="numeroDocumento" ng-class="{active: classEdit}">N° Nota/Documento</label>
+				</div>
+				<div class="input-field col s2">
+					<input type="text" ng-model="contaPagar.observacao" ng-required="true" name="observacao" />
+					<label for="observacao" ng-class="{active: classEdit}">Observação</label>
+				</div>
+				<div class="input-field col s2">
+					<input type="text" id="dataVencimentoConta" class="datepicker" name="dataVencimentoConta" ng-model="contaPagar.dataVencimento"
+					/>
+					<label for="dataVencimentoConta" ng-class="{active: classEdit}">Data Vencimento</label>
+				</div>
+
+			</form>
+		</div>
+		<div class="row container">
+			<table class="responsive-table highlight">
+				<thead>
+					<tr>
+						<th>Marcar</th>
+						<th>N° Doc</th>
+						<th>Vencimento</th>
+						<th>Valor</th>
+						<th>Descricao</th>
+						<th>Tipo conta</th>
+						<th>Status</th>
+						<th>Editar</th>
+						<th>Deletar</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="conta in contasPagarList">
+						<td>
+							<input type="checkbox" id="{{ 'pagar-' + $index }}" name="{{ 'pagar-' + $index }}" ng-click="selecionaItem(conta)" class="filled-in"
+							/>
+							<label for="{{ 'pagar-' + $index }}"></label>
+						</td>
+						<td>
+							<span ng-bind="conta.numeroDocumento"></span>
+						</td>
+						<td>
+							<span ng-bind="conta.dataVencimento"></span>
+						</td>
+						<td>R$
+							<span ng-bind="conta.valor"></span>
+						</td>
+						<td>
+							<span ng-bind="conta.descricao"></span>
+						</td>
+						<td>
+							<span ng-bind="conta.tipoDespesa"></span>
+						</td>
+						<td>
+							<span ng-bind="conta.status"></span>
+						</td>
+						<td ng-if="conta.status !== 'PAGO'">
+							<a href="" ng-click="editarConta(conta)">
+								<i class="material-icons">edit</i>
+							</a>
+						</td>
+						<td ng-if="conta.status === 'PAGO'">
+							<i style="color: #d50000;" class="material-icons" ng-disabled="true">block</i>
+						</td>
+						<td>
+							<a href="" ng-click="deletarContaPagar(conta)">
+								<i class="material-icons" style="color: #e57373;">delete_forever</i>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+
+	</div>
+
+	<div id="folha-pagamento">
+
+		<div id="folhaPagamentoFunc" class="row">
+
+			<form name="folhaPagamentoForm" id="folhaPagamentoForm" action="" method="post">
+
+				<div class="input-field col s4">
+					<i class="material-icons prefix">textsms</i>
+					<input type="text" name="funcionario" 
+						ng-model="funcionarioSelecionado" 
+						ng-keyup="completeFuncionario(funcionarioSelecionado)"
+						id="autocomplete-input-funcionario"
+					    class="autocomplete" />
+					<ul class="collection" ng-model="hideListFuncionario" 
+						ng-hide="hideListFuncionario" style="margin-top: -13px;">
+						<li class="collection-item" ng-repeat="funcionario in filterFuncionario" 
+							ng-click="selecionarFuncionario(funcionario)">{{funcionario.nome}}</li>
+					</ul>
+					<label ng-class="{active: classEdit}" for="autocomplete-input">Buscar Funcionarios</label>
+				</div>
+
+				<div class="input-field col s2">
+					<select ng-model="folhaPagamento.tipoFolhaPagamento">
+						<option value="" ng-disabled="true" ng-selected="true">Selecione</option>
+						<option value="ADIANTAMENTO">Adiantamento</option>
+						<option value="SALARIO">Salário</option>
+						<option value="OUTROS">Outros</option>
+					</select>
+					<label>Tipo da despesa</label>
+				</div>
+
+				<div class="input-field col s2">
+					<input type="number" ng-model="folhaPagamento.valor" ng-required="true" name="valor" />
+					<label for="valor" ng-class="{active: classEdit}">Valor R$</label>
+				</div>
+				<div class="input-field col s4">
+					<input type="text" ng-model="folhaPagamento.observacao" ng-required="true" name="observacao" />
+					<label for="observacao" ng-class="{active: classEdit}">Observação</label>
+				</div>
+				<!-- <div class="input-field col s2">
+					<input type="text" id="folhaStatus" name="folhaStatus" ng-model="folhaPagamento.status"
+					/>
+					<label for="folhaStatus" ng-class="{active: classEdit}">Status</label>
+				</div> -->
+
+			</form>
+		</div>
+
+		<div class="row container">
+			<table class="responsive-table highlight">
+				<thead>
+					<tr>
+						<th>Marcar</th>
+						<th>Funcionario</th>
+						<th>Tipo Folha Pagamento</th>
+						<th>Valor</th>
+						<th>Status</th>
+						<!-- <th>Vencimento</th> -->
+						<th>Observação</th>
+						<th>Editar</th>
+						<th>Deletar</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="folhaPagamento in folhaPagamentoList">
+						<td>
+							<input type="checkbox" id="{{ 'folhaPagamento-' + $index }}" name="{{ 'folhaPagamento-' + $index }}" ng-click="selecionaContaReceber(folhaPagamento)"
+							    class="filled-in" />
+							<label for="{{ 'folhaPagamento-' + $index }}"></label>
+						</td>
+						<td>
+							<span ng-bind="folhaPagamento.funcionario.nome"></span>
+						</td>
+						<td>
+							<span ng-bind="folhaPagamento.tipoFolhaPagamento"></span>
+						</td>
+						<td>R$
+							<span ng-bind="folhaPagamento.valor"></span>
+						</td>
+						<td>
+							<span ng-bind="folhaPagamento.status"></span>
+						</td>
+						<!-- <td>
+							<span ng-bind="folhaPagamento.dataVencimento"></span>
+						</td> -->
+						<td>
+							<span ng-bind="folhaPagamento.observacao"></span>
+						</td>
+						<td>
+							<a href="" ng-click="editarFolhaPagamento(folhaPagamento)">
+								<i class="material-icons">edit</i>
+							</a>
+						</td>
+						<td>
+							<a href="" ng-click="deletaFolhaPagamento(folhaPagamento)">
+								<i class="material-icons" style="color: #e57373;">delete_forever</i>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+	<div class="fixed-action-btn horizontal" ng-if="contasSelecionadas.length || contasReceberSelecionadas.length">
+		<a class="btn-floating btn-large">
+			<i class="large material-icons deep-purple lighten-2">share</i>
+		</a>
+		<ul>
+			<!-- <li>
+				<a class="btn-floating red">
+					<i class="material-icons">payment</i>
+				</a>
+			</li>
+			<li>
+				<a class="btn-floating yellow darken-1">
+					<i class="material-icons">delete_forever</i>
+				</a>
+			</li> -->
+			<li ng-if="contasSelecionadas.length">
+				<a class="btn-floating red" ng-click="deletarContaEmMassa()">
+					<i class="material-icons">delete_forever</i>
+				</a>
+			</li>
+			<li ng-if="contasSelecionadas.length">
+				<a class="btn-floating blue" ng-click="pagarContaEmMassa()">
+					<i class="material-icons">payment</i>
+				</a>
+			</li>
+			<!-- 			<li ng-if="contasReceberSelecionadas.length"> -->
+			<!-- 				<a class="btn-floating red" ng-click="deletarContaEmMassa()"> -->
+			<!-- 					<i class="material-icons">delete_forever</i> -->
+			<!-- 				</a> -->
+			<!-- 			</li> -->
+			<li ng-if="contasReceberSelecionadas.length">
+				<a class="btn-floating blue" ng-click="efetivarRecebimentoEmMassa()">
+					<i class="material-icons">payment</i>
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+	<script src="scripts/angularjs/angular-1.5.0-rc.0/angular.js"></script>
+	<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-resource.js"></script>
+	<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-messages.js"></script>
+	<script src="scripts/angularjs/locale/pt-BR.js"></script>
+	<script src="scripts/controllers/fluxoCaixaCtrl.js"></script>
+	<script src="scripts/controllers/format.js"></script>
+	<script src="scripts/js/ngMask.min.js"></script>
+	<script src="scripts/js/uteis.js"></script>
+	<script src="scripts/js/moment.min.js"></script>
+</body>
+
+</html>

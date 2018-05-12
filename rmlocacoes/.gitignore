@@ -25,4 +25,5 @@
 /.nb-gradle/
 
 /target
+/bin
 .mvn
