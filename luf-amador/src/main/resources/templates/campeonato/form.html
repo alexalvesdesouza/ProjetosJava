@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html ng-app="campeonato">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8" />
+
+    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="/estilos/estilo.css" media="screen,projection" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+    <title>Competições</title>
+</head>
+
+<body ng-controller="campeonatoController">
+    <div ng-include="'../template/header.html'"></div>
+
+    <nav class="nav-extended" style="margin-top: 10px;">
+        <div class="nav-content">
+            <ul class="tabs tabs-transparent">
+                <div class="nav-content">
+                    <span class="nav-title" style="margin: -19px 0 0 10px !important">Cadastro de Competições</span>
+                </div>
+            </ul>
+        </div>
+    </nav>
+    <form name="campeonatoForm" id="campeonatoForm" action="" method="post" class="col s12 m4 offset-m4 l4 offset-l4">
+        <div id="informacoes" class="NavBarForm">
+            <div class="row container" style="margin-top: 10px;">
+                <div class="row">
+                    <div class="input-field col s4">
+                        <input type="text" ng-model="campeonato.nomeCampeonato" name="nomeCampeonato" ng-required="true" />
+                        <label for="nomeCampeonato" ng-class="{active: classEdit}">Nome Campeonato</label>
+                    </div>
+                    <div class="input-field col s4">
+                        <select ng-model="campeonato.categoria">
+                            <option value="" ng-disabled="true" ng-selected="true">Selecione</option>
+                            <option value="AMADOR_ESPECIAL">Amador Especial</option>
+                            <option value="AMADOR_ACESSO">Amador Acesso</option>
+                            <option value="VETERANOS">Veteranos</option>
+                            <option value="RURAL">Rural</option>
+                            <option value="JUNIORES">Juniores</option>
+                            <option value="JUVENIL">Juvenil</option>
+                        </select>
+                        <label>Campeonatos</label>
+                    </div>
+
+                    <div class="input-field col s2">
+                        <input type="text" id="dataInicio" class="datepicker" name="dataInicio" ng-model="campeonato.dataInicio" />
+                        <label for="dataInicio" ng-class="{active: classEdit}">Data Início</label>
+                    </div>
+
+                    <div class="input-field col s2">
+                        <input type="text" id="dataEncerramento" class="datepicker" name="dataEncerramento" ng-model="campeonato.dataEncerramento"
+                        />
+                        <label for="dataEncerramento" ng-class="{active: classEdit}">Data Encerramento</label>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="input-field col s12 container">
+            <a ng-if="!modoEdicao" class="waves-effect waves-light btn" ng-click="salvarCampeonato(campeonato)">
+                <i class="material-icons right">done</i>Salvar</a>
+
+            <a ng-if="modoEdicao" class="waves-effect waves-light btn" ng-click="atualizarCampeonato(campeonato)">
+                <i class="material-icons right">save</i>Atualizar</a>
+        </div>
+    </form>
+
+    <div ng-if="campeonato && campeonatos.length" class="row container">
+        <table class="responsive-table highlight">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Categoria</th>
+                    <th>Edição</th>
+                    <th>Início</th>
+                    <th>Encerramento</th>
+                    <th>Inscrições Encerradas ?</th>
+                    <th>Editar</th>
+                    <th>Encerrar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="campeonato in campeonatos">
+                    <td>
+                        <span ng-bind="campeonato.nomeCampeonato"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="campeonato.categoria"></span>
+                    </td>
+
+                    <td>
+                        <span ng-bind="campeonato.edicao"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="campeonato.dataInicio"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="campeonato.dataEncerramento"></span>
+                    </td>
+                    <td>
+                        <span ng-if="campeonato.inscricoesEncerradas">Sim</span>
+                        <span ng-if="!campeonato.inscricoesEncerradas">Não</span>
+                    </td>
+                    <td>
+                        <a href="" ng-click="editarCampeonato(campeonato)">
+                            <i class="material-icons" style="color: #3d5afe;">create</i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="" ng-click="encerrarInscricoes(campeonato)">
+                            <i class="material-icons" style="color: #e57373;">delete_forever</i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+    <script src="scripts/angularjs/angular-1.5.0-rc.0/angular.js"></script>
+    <script src="scripts/angularjs/angular-1.5.0-rc.0/angular-resource.js"></script>
+    <script src="scripts/angularjs/angular-1.5.0-rc.0/angular-messages.js"></script>
+    <script src="scripts/angularjs/locale/pt-BR.js"></script>
+    <script src="scripts/controllers/campeonatoCtrl.js"></script>
+    <script src="scripts/controllers/format.js"></script>
+    <script src="scripts/js/ngMask.min.js"></script>
+    <script src="scripts/js/uteis.js"></script>
+    <script src="scripts/js/moment.min.js"></script>
+</body>
+
+</html>

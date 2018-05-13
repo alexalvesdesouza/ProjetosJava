@@ -37,6 +37,11 @@ public class IndexController {
         return "atletas/form";
     }
 
+    @RequestMapping(value = "/view-campeonato", method = RequestMethod.GET)
+    public String competicoes() {
+        return "campeonato/form";
+    }
+
     @RequestMapping(value = "/view-agremiacoes", method = RequestMethod.GET)
     public String agremiacoes() {
         return "agremiacoes/form";

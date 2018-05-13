@@ -1,5 +1,6 @@
 package br.com.lufamador.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,9 @@ public class CampeonatoService {
         Campeonato campeonatoSaved = null;
         this.validate.validaCampeonatoExistente(campeonato);
         try {
+            campeonato.setEdicao(String.valueOf(LocalDateTime.now().getYear()));
+            campeonato.setInscricoesEncerradas(false);
+            campeonato.setEncerrado(false);
             campeonatoSaved = this.repository.saveAndFlush(campeonato);
         } catch (Exception e) {
 

@@ -2,15 +2,19 @@ package br.com.lufamador.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import br.com.lufamador.utils.datas.LocalDateDeserializer;
+import br.com.lufamador.utils.datas.LocalDateSerializer;
 
 @Entity
 @Table(name = "luf_campeonato")
@@ -25,19 +29,15 @@ public class Campeonato implements Serializable {
 
     private String nomeCampeonato;
     private String categoria;
-    private String divisao;
     private String edicao;
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate dataInicio;
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate dataEncerramento;
     private Boolean encerrado;
-
-    public String getDivisao() {
-        return divisao;
-    }
-
-    public void setDivisao(String divisao) {
-        this.divisao = divisao;
-    }
+    private Boolean inscricoesEncerradas;
 
     public Long getCodigo() {
         return codigo;
@@ -53,6 +53,14 @@ public class Campeonato implements Serializable {
 
     public void setNomeCampeonato(String nomeCampeonato) {
         this.nomeCampeonato = nomeCampeonato;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     public String getEdicao() {
@@ -79,14 +87,6 @@ public class Campeonato implements Serializable {
         this.dataEncerramento = dataEncerramento;
     }
 
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
     public Boolean getEncerrado() {
         return encerrado;
     }
@@ -95,4 +95,11 @@ public class Campeonato implements Serializable {
         this.encerrado = encerrado;
     }
 
+    public Boolean getInscricoesEncerradas() {
+        return inscricoesEncerradas;
+    }
+
+    public void setInscricoesEncerradas(Boolean inscricoesEncerradas) {
+        this.inscricoesEncerradas = inscricoesEncerradas;
+    }
 }
