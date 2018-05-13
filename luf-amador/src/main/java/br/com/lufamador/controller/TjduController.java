@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.com.lufamador.model.Tjdu;
 import br.com.lufamador.service.TjduService;
-import br.com.lufamador.utils.constants.TJDU;
+import br.com.lufamador.utils.constants.CategoriaConstant;
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -52,21 +52,21 @@ public class TjduController {
 
     @RequestMapping(path = "/editais", method = RequestMethod.GET)
     public ResponseEntity<List<Tjdu>> getEditaisTjdus() {
-        final List<Tjdu> tjdus = this.tjduService.getTjduList(TJDU.EDITAIS.name());
+        final List<Tjdu> tjdus = this.tjduService.getTjduList(CategoriaConstant.EDITAIS.name());
         HttpStatus status = (null == tjdus) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(tjdus, status);
     }
 
     @RequestMapping(path = "/portarias", method = RequestMethod.GET)
     public ResponseEntity<List<Tjdu>> getPortatiasTjdus() {
-        final List<Tjdu> tjdus = this.tjduService.getTjduList(TJDU.PORTARIAS.name());
+        final List<Tjdu> tjdus = this.tjduService.getTjduList(CategoriaConstant.PORTARIAS.name());
         HttpStatus status = (null == tjdus) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(tjdus, status);
     }
 
     @RequestMapping(path = "/resultados", method = RequestMethod.GET)
     public ResponseEntity<List<Tjdu>> getTjdus() {
-        final List<Tjdu> tjdus = this.tjduService.getTjduList(TJDU.RESULTADOS.name());
+        final List<Tjdu> tjdus = this.tjduService.getTjduList(CategoriaConstant.RESULTADOS.name());
         HttpStatus status = (null == tjdus) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(tjdus, status);
     }

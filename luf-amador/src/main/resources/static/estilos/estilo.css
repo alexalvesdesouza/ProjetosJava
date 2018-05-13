@@ -11,7 +11,11 @@
 }
 
 .btn {
-    background-color: #2196f3  !important;
+    background-color: #2196f3 !important;
+}
+
+.NavBarForm {
+    margin-top: 1em;
 }
 
 /*

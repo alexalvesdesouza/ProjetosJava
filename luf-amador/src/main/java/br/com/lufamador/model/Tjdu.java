@@ -9,8 +9,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import br.com.lufamador.utils.constants.TJDU;
-
 @Entity
 @Table(name = "luf_tjdu")
 public class Tjdu implements Serializable {

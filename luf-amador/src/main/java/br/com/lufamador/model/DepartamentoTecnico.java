@@ -22,6 +22,7 @@ public class DepartamentoTecnico implements Serializable {
     private String numero;
     private String categoria;
     private String link;
+    private String descricao;
 
     public Long getCodigo() {
         return codigo;
@@ -53,5 +54,13 @@ public class DepartamentoTecnico implements Serializable {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 }

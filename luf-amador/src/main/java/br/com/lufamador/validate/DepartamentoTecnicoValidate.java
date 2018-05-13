@@ -18,11 +18,19 @@ public class DepartamentoTecnicoValidate {
         this.repository = repository;
     }
 
+    public void validaCadastroTJDU(final DepartamentoTecnico departamentoTecnico) {
+        this.validaDepartamentoTecnicoExistente(departamentoTecnico);
+    }
+
     public void validaDepartamentoTecnicoExistente(final DepartamentoTecnico departamentoTecnico) {
-        final DepartamentoTecnico departamentoTecnico1 = this.repository.findByNumeroAndAndCategoria
-                (departamentoTecnico.getNumero(), departamentoTecnico.getCategoria());
-        if (departamentoTecnico1 != null)
-            throw new ValidateException(MensagensErro.ENTIDADE_DUPLICADA.replace("?", "Departamento Técnico"));
+        final DepartamentoTecnico departamentoTecnicoValidate = this.repository.findByNumeroAndCategoria(
+                departamentoTecnico.getNumero(), departamentoTecnico.getCategoria());
+        if (departamentoTecnicoValidate != null)
+            throw new ValidateException(MensagensErro.ENTIDADE_DUPLICADA.replace("?",
+                    departamentoTecnicoValidate.getCategoria().concat(" - ").concat(
+                            departamentoTecnicoValidate.getNumero())
+                            .concat
+                                    (" - DepartamentoTecnico")));
 
     }
 }

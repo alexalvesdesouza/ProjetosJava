@@ -35,10 +35,10 @@ public class TabelaJogosController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<TabelaJogos>> getTabelaJogoss() {
-        final List<TabelaJogos> tabelaJogoss = this.tabelaJogosService.getTabelaJogoss();
-        HttpStatus status = (null == tabelaJogoss) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
-        return new ResponseEntity<>(tabelaJogoss, status);
+    public ResponseEntity<List<TabelaJogos>> getTabelaJogos() {
+        final List<TabelaJogos> tabelaJogos = this.tabelaJogosService.getTabelaJogoss();
+        HttpStatus status = (null == tabelaJogos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(tabelaJogos, status);
     }
 
 //    @RequestMapping(path = "/tempo-real" ,method = RequestMethod.GET)
