@@ -27,7 +27,6 @@ public class Endereco implements Serializable {
     private String estado;
     private String uf;
     private String complemento;
-    private String observacao;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -105,11 +104,4 @@ public class Endereco implements Serializable {
         this.complemento = complemento;
     }
 
-    public String getObservacao() {
-        return observacao;
-    }
-
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
-    }
 }

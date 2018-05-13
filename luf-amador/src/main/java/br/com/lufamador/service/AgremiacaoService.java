@@ -55,6 +55,7 @@ public class AgremiacaoService {
     }
 
     public final Agremiacao atulizarAgremiacao(Agremiacao agremiacao) {
+        this.enderecoService.atualizaEndereco(agremiacao.getEndereco());
         return this.repository.saveAndFlush(agremiacao);
     }
 }

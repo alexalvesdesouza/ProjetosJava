@@ -1,12 +1,10 @@
 package br.com.lufamador.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -26,12 +24,20 @@ public class Agremiacao implements Serializable {
     private String nome;
     private String nomeSigla;
     private String telefone;
+    private String email;
     private String status;
-
+    private String contato;
+    private String observacao;
     @OneToOne
     private Endereco endereco;
-    @OneToMany
-    private List<Contato> contatos;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public Long getCodigo() {
         return codigo;
@@ -73,6 +79,22 @@ public class Agremiacao implements Serializable {
         this.status = status;
     }
 
+    public String getContato() {
+        return contato;
+    }
+
+    public void setContato(String contato) {
+        this.contato = contato;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
     public Endereco getEndereco() {
         return endereco;
     }
@@ -80,13 +102,4 @@ public class Agremiacao implements Serializable {
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
-
-    public List<Contato> getContatos() {
-        return contatos;
-    }
-
-    public void setContatos(List<Contato> contatos) {
-        this.contatos = contatos;
-    }
-    
 }

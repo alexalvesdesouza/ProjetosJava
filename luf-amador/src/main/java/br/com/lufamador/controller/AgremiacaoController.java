@@ -31,22 +31,22 @@ public class AgremiacaoController {
     public ResponseEntity<Agremiacao> cadastraAgremiacao(@RequestBody Agremiacao agremiacao) {
         final Agremiacao agremiacaoSaved = this.agremiacaoService.cadastraAgremiacao(agremiacao);
         HttpStatus status = (null == agremiacaoSaved) ? HttpStatus.CONFLICT : HttpStatus.CREATED;
-        return new ResponseEntity<Agremiacao>(agremiacaoSaved,
+        return new ResponseEntity<>(agremiacaoSaved,
                 status);
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Agremiacao>> getAgremiacoes() {
-        final List<Agremiacao> agremiacaos = this.agremiacaoService.getAgremiacoes();
-        HttpStatus status = (null == agremiacaos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
-        return new ResponseEntity<>(agremiacaos, status);
+        final List<Agremiacao> agremiacoes = this.agremiacaoService.getAgremiacoes();
+        HttpStatus status = (null == agremiacoes) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(agremiacoes, status);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Agremiacao> atualizaAgremiacao(@RequestBody Agremiacao agremiacao) {
         final Agremiacao agremiacaoSuspenso = this.agremiacaoService.atulizarAgremiacao(agremiacao);
         HttpStatus status = (null == agremiacaoSuspenso) ? HttpStatus.UNPROCESSABLE_ENTITY : HttpStatus.OK;
-        return new ResponseEntity<Agremiacao>(agremiacaoSuspenso, status);
+        return new ResponseEntity<>(agremiacaoSuspenso, status);
     }
 
 

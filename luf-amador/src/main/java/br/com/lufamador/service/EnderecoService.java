@@ -29,4 +29,8 @@ public class EnderecoService {
         }
         return enderecoSaved;
     }
+
+    public Endereco atualizaEndereco(Endereco endereco) {
+        return this.repository.saveAndFlush(endereco);
+    }
 }
