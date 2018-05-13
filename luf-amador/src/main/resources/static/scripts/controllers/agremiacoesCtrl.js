@@ -29,7 +29,7 @@ agremiacao.controller("agremiacaoController",
             };
 
             $scope.updateAgremiacao = function (agremiacao) {
-
+                agremiacao.endereco = $scope.endereco;
                 $http.put(BASE_PATH, agremiacao)
                     .success(function (agremiacaoAtualizada) {
                         limparFormularioAgremiacao();
@@ -73,6 +73,7 @@ agremiacao.controller("agremiacaoController",
                     .success(function (agremiacaoDeletada) {
 
                         carregarAgremiacoes();
+                        limparFormularioAgremiacao();
                         //$scope.formularioAgremiacao.$setPristine();
                         Materialize.toast('Agremiação deletada com sucesso.', 4000, 'rounded');
                     })

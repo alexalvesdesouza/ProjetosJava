@@ -1,12 +1,15 @@
 package br.com.lufamador.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.lufamador.exception.BussinessException;
 import br.com.lufamador.model.Agremiacao;
 import br.com.lufamador.repository.AgremiacaoRepository;
+import br.com.lufamador.utils.mensagens.MensagensErro;
 import br.com.lufamador.validate.AgremiacaoValidate;
 
 @Service
@@ -17,7 +20,8 @@ public class AgremiacaoService {
     private final EnderecoService enderecoService;
 
     @Autowired
-    public AgremiacaoService(AgremiacaoRepository repository, AgremiacaoValidate validate, EnderecoService enderecoService) {
+    public AgremiacaoService(AgremiacaoRepository repository, AgremiacaoValidate validate,
+            EnderecoService enderecoService) {
         this.repository = repository;
         this.validate = validate;
         this.enderecoService = enderecoService;
@@ -57,5 +61,12 @@ public class AgremiacaoService {
     public final Agremiacao atulizarAgremiacao(Agremiacao agremiacao) {
         this.enderecoService.atualizaEndereco(agremiacao.getEndereco());
         return this.repository.saveAndFlush(agremiacao);
+    }
+
+    public void deletarAgremiacao(final Long codigo) {
+        Optional<Agremiacao> agremiacao = this.repository.findById(codigo);
+        if (!agremiacao.isPresent())
+            throw new BussinessException(MensagensErro.ENTIDADE_INEXISTENTE);
+        this.repository.delete(agremiacao.get());
     }
 }
