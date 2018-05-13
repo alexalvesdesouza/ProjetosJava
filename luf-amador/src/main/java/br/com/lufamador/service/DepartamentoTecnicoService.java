@@ -47,8 +47,8 @@ public class DepartamentoTecnicoService {
         return departamentoTecnicoSaved;
     }
 
-    public List<DepartamentoTecnico> getDepartamentoTecnicoList(final String categoria) {
-        return this.repository.findByCategoria(categoria);
+    public List<DepartamentoTecnico> getDepartamentoTecnicoList(String categoria) {
+        return this.repository.findByCategoria(categoria.replace("_", "-"));
     }
 
     public void deletarEntidadeDepartamentoTecnico(final Long codigo) {

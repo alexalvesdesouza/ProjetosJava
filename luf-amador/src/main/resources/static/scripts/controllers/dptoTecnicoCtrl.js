@@ -68,7 +68,7 @@ departamentoTecnico
                         $scope.departamentoTecnicos = ret;
                     })
                     .error(function (data, status) {
-
+                        Materialize.toast(data.message, 4000, 'rounded');
                     });
             };
 
@@ -90,8 +90,7 @@ departamentoTecnico
                             4000, 'rounded');
                     })
                     .error(function (data, status) {
-                        // Handle HTTP error
-                        console.log(data);
+                        Materialize.toast(data.message, 4000, 'rounded');
                     });
             };
 
