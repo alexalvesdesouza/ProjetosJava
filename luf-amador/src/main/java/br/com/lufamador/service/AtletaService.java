@@ -17,19 +17,24 @@ public class AtletaService {
     private final AtletaRepository repository;
     private final AtletaValidate validate;
     private final EnderecoService enderecoService;
+    private final AgremiacaoService agremiacaoService;
 
     @Autowired
-    public AtletaService(AtletaRepository repository, AtletaValidate validate, EnderecoService enderecoService) {
+    public AtletaService(AtletaRepository repository, AtletaValidate validate, EnderecoService enderecoService,
+            AgremiacaoService agremiacaoService) {
         this.repository = repository;
         this.validate = validate;
         this.enderecoService = enderecoService;
+        this.agremiacaoService = agremiacaoService;
     }
 
     public Atleta cadastraAtleta(Atleta atleta) {
         Atleta atletaSaved = null;
         this.validate.validaAtletaExistente(atleta);
         try {
-            this.enderecoService.cadastraEndereco(atleta.getEndereco());
+            if (atleta.getEndereco() != null)
+                this.enderecoService.cadastraEndereco(atleta.getEndereco());
+
             atleta.setDataAfiliacao(LocalDate.now());
             atleta.setSuspenso(Boolean.FALSE);
             atletaSaved = this.repository.saveAndFlush(atleta);
@@ -43,7 +48,9 @@ public class AtletaService {
         Atleta atletaAtualizado = null;
         final Optional<Atleta> atleta = this.repository.findById(atletaAtualizar.getCodigo());
         if (atleta.isPresent()) {
-            atletaAtualizado = this.repository.saveAndFlush(atleta.get());
+            this.enderecoService.atualizaEndereco(atletaAtualizar.getEndereco());
+            this.agremiacaoService.atulizarAgremiacao(atletaAtualizar.getAgremiacao());
+            atletaAtualizado = this.repository.saveAndFlush(atletaAtualizar);
         }
         return atletaAtualizado;
     }

@@ -34,6 +34,8 @@ public class Atleta implements Serializable {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate dataNascimento;
 
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate dataAfiliacao;
     private String email;
     private String telefone;
