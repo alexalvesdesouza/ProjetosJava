@@ -34,6 +34,7 @@ public class Pagamento implements Serializable {
   private BigDecimal        vlrParcela;
   private BigDecimal        vlrPago;
   private BigDecimal        vlrTxEntrega;
+  private BigDecimal        vlrDesconto;
   private BigDecimal        vlrMulta;
   private BigDecimal        vlrMultaExtravio;
   private BigDecimal        vlrMultaAvaria;
@@ -54,7 +55,15 @@ public class Pagamento implements Serializable {
   @Transient
   private String            dtaPagamento;
   @Transient
-  private String            dtaVencimento;
+  private String            dtaVencimento;  
+
+  public BigDecimal getVlrDesconto() {
+    return vlrDesconto;
+  }
+
+  public void setVlrDesconto(BigDecimal vlrDesconto) {
+    this.vlrDesconto = vlrDesconto;
+  }
 
   public String getDtaCriacao() {
     return dtaCriacao;

@@ -2,13 +2,11 @@ package br.com.lufamador.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.lufamador.model.Campeonato;
-import br.com.lufamador.model.Inscricao;
 import br.com.lufamador.repository.CampeonatoRepository;
 import br.com.lufamador.validate.CampeonatoValidate;
 
@@ -30,7 +28,7 @@ public class CampeonatoService {
         try {
             campeonato.setEdicao(String.valueOf(LocalDateTime.now().getYear()));
             campeonato.setInscricoesEncerradas(false);
-            campeonato.setEncerrado(false);
+            campeonato.setCampeonatoEncerrado(false);
             campeonatoSaved = this.repository.saveAndFlush(campeonato);
         } catch (Exception e) {
 

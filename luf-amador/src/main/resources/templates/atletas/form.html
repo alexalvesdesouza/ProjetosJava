@@ -2,176 +2,178 @@
 <html ng-app="atleta">
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8"/>
 
-    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection" />
-    <link type="text/css" rel="stylesheet" href="/estilos/estilo.css" media="screen,projection" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/estilos/estilo.css" media="screen,projection"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
 
     <title>Atletas</title>
 </head>
 
 <body ng-controller="atletaController">
-    <div ng-include="'../template/header.html'"></div>
+<div ng-include="'../template/header.html'"></div>
 
-    <nav class="nav-extended" style="margin-top: 10px;">
-        <div class="nav-content">
-            <ul class="tabs tabs-transparent">
-                <li class="tab">
-                    <a href="#informacoes" ng-click="abaSelecionada('informacoes')" class="active">Informações</a>
-                </li>
-                <li class="tab">
-                    <a href="#endereco" ng-click="abaSelecionada('endereco')">Endereço</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <form name="atletaForm" id="atletaForm" action="" method="post" class="col s12 m4 offset-m4 l4 offset-l4">
-        <div id="informacoes" class="NavBarForm">
-            <div class="row container" style="margin-top: 10px;">
-                <div class="row">
-                    <div class="input-field col s3">
-                        <input type="text" ng-model="atleta.nome" name="nome" ng-required="true" />
-                        <label for="nome" ng-class="{active: classEdit}">Nome</label>
-                    </div>
-                    <div class="input-field col s3">
-                        <input type="text" id="dataNascimento" class="datepicker" name="dataNascimento" ng-model="atleta.dataNascimento" />
-                        <label for="dataNascimento" ng-class="{active: classEdit}">Data Nascimento</label>
-                    </div>
-                    <div class="input-field col s3">
-                        <input type="text" ng-model="atleta.telefone" mask="(99) 9999-9999" name="telefone" />
-                        <label for="telefone" ng-class="{active: classEdit}">Telefone
-                        </label>
-                    </div>
-                    <div class="input-field col s3">
-                        <input type="email" ng-model="atleta.email" class="validate" />
-                        <label for="email" ng-class="{active: classEdit}">Email</label>
-                    </div>
-
-                    <div class="input-field col s10">
-                        <i class="material-icons prefix">textsms</i>
-                        <input type="text" name="agremiacao" 
-                            ng-model="agremiacaoSelecionada" ng-keyup="completeAgremiacao(agremiacaoSelecionada)"
-                            id="autocomplete-input-agremiacao" class="autocomplete" />
-                        <ul class="collection" ng-model="hideListagremiacao" ng-hide="hideListagremiacao" style="margin-top: -21px;">
-                            <li class="collection-item" ng-repeat="agremiacao in filterAgremiacao" ng-click="selecionarAgremiacao(agremiacao)">{{agremiacao.nome}}</li>
-                        </ul>
-                        <label ng-class="{active: classEdit}" for="autocomplete-input">Buscar Agremiação</label>
-                    </div>
-
-                    <div class="switch  col s2">
-                        <label> Legal
-                            <input type="checkbox" ng-model="atleta.suspenso" />
-                            <span class="lever"></span> Suspenso
-                        </label>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <div id="endereco" class="NavBarForm">
-            <div class="row container">
-                <div class="input-field col s2">
-                    <input type="text" id="cep" ng-model="endereco.cep" mask="99999-999" ng-blur="buscarCep(endereco)" name="cep" />
-                    <label for="cep" ng-class="{active: classCep || classEdit}">CEP</label>
-                </div>
-                <div class="input-field col s8">
-                    <input type="text" ng-model="endereco.logradouro" name="logradouro" id="logradrouro" />
-                    <label for="logradouro" ng-class="{active: classLogradouro || classEdit}">Logradouro</label>
-                </div>
-                <div class="input-field col s2">
-                    <input type="text" ng-model="endereco.numero" name="numero" />
-                    <label for="numero" id="numero" ng-class="{active: classNumero || classEdit}">Número</label>
-                </div>
-                <div class="input-field col s6">
-                    <input type="text" ng-model="endereco.complemento" name="complemento" id="complemento" />
-                    <label for="complemento" ng-class="{active: classComplemento || classEdit}">Complemento</label>
-                </div>
-                <div class="input-field col s6">
-                    <input type="text" ng-model="endereco.bairro" id="bairro" name="bairro" />
-                    <label for="bairro" ng-class="{active: classBairro || classEdit}">Bairro</label>
-                </div>
-                <div class="input-field col s6">
-                    <input type="text" ng-model="endereco.cidade" id="cidade" name="cidade" />
-                    <label for="cidade" ng-class="{active: classCidade || classEdit}">Cidade</label>
-                </div>
-                <div class="input-field col s6">
-                    <input type="text" ng-model="endereco.estado" id="estado" name="estado" />
-                    <label for="estado" ng-class="{active: classEstado || classEdit}">Estado</label>
-                </div>
-            </div>
-        </div>
-        <div class="input-field col s12 container">
-            <a ng-if="!modoEdicao" class="waves-effect waves-light btn" ng-click="salvarAtleta(atleta)">
-                <i class="material-icons right">done</i>Salvar</a>
-
-            <a ng-if="modoEdicao" class="waves-effect waves-light btn" ng-click="updateAtleta(atleta)">
-                <i class="material-icons right">save</i>Atualizar</a>
-        </div>
-    </form>
-
-    <div ng-if="atletas && atletas.length" class="row container">
-        <table class="responsive-table highlight">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Telefone</th>
-                    <th>E-mail</th>
-                    <th>Dta. Nascimento</th>
-                    <th>Agremiação</th>
-                    <th>Dta. Afiliação</th>
-                    <th>Editar</th>
-                    <th>Deletar</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="atleta in atletas">
-                    <td>
-                        <span ng-bind="atleta.nome"></span>
-                    </td>
-                    <td>
-                        <span ng-bind="atleta.telefone"></span>
-                    </td>
-                    <td>
-                        <span ng-bind="atleta.email"></span>
-                    </td>
-                    <td>
-                        <span ng-bind="atleta.dataNascimento"></span>
-                    </td>
-                    <td>
-                        <span ng-bind="atleta.agremiacao.nome"></span>
-                    </td>
-                    <td>
-                        <span ng-bind="atleta.dataAfiliacao"></span>
-                    </td>
-                    <td>
-                        <a href="" ng-click="editarAtleta(atleta)">
-                            <!-- <i class="material-icons" class="Button-Edit">create</i> -->
-                            <i class="material-icons" style="color: #3d5afe;">create</i>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="" ng-click="deletarAtleta(atleta)">
-                            <i class="material-icons" style="color: #e57373;">delete_forever</i>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
+<nav class="nav-extended" style="margin-top: 10px;">
+    <div class="nav-content">
+        <ul class="tabs tabs-transparent">
+            <li class="tab">
+                <a href="#informacoes" ng-click="abaSelecionada('informacoes')" class="active">Informações</a>
+            </li>
+            <li class="tab">
+                <a href="#endereco" ng-click="abaSelecionada('endereco')">Endereço</a>
+            </li>
+        </ul>
     </div>
+</nav>
+<form name="atletaForm" id="atletaForm" action="" method="post" class="col s12 m4 offset-m4 l4 offset-l4">
+    <div id="informacoes" class="NavBarForm">
+        <div class="row container" style="margin-top: 10px;">
+            <div class="row">
+                <div class="input-field col s3">
+                    <input type="text" ng-model="atleta.nome" name="nome" ng-required="true"/>
+                    <label for="nome" ng-class="{active: classEdit}">Nome</label>
+                </div>
+                <div class="input-field col s3">
+                    <input type="text" id="dataNascimento" class="datepicker" name="dataNascimento"
+                           ng-model="atleta.dataNascimento"/>
+                    <label for="dataNascimento" ng-class="{active: classEdit}">Data Nascimento</label>
+                </div>
+                <div class="input-field col s3">
+                    <input type="text" ng-model="atleta.telefone" mask="(99) 9999-9999" name="telefone"/>
+                    <label for="telefone" ng-class="{active: classEdit}">Telefone
+                    </label>
+                </div>
+                <div class="input-field col s3">
+                    <input type="email" ng-model="atleta.email" class="validate"/>
+                    <label for="email" ng-class="{active: classEdit}">Email</label>
+                </div>
+                <div class="input-field col s10">
+                    <i class="material-icons prefix">textsms</i>
+                    <input type="text" name="agremiacao"
+                           ng-model="agremiacaoSelecionada" ng-keyup="completeAgremiacao(agremiacaoSelecionada)"
+                           id="autocomplete-input-agremiacao" class="autocomplete"/>
+                    <ul class="collection" ng-model="hideListagremiacao" ng-hide="hideListagremiacao"
+                        style="margin-top: -21px;">
+                        <li class="collection-item" ng-repeat="agremiacao in filterAgremiacao"
+                            ng-click="selecionarAgremiacao(agremiacao)">{{agremiacao.nome}}
+                        </li>
+                    </ul>
+                    <label ng-class="{active: classEdit}" for="autocomplete-input">Buscar Agremiação</label>
+                </div>
+                <div class="switch  col s2">
+                    <label> Legal
+                        <input type="checkbox" ng-model="atleta.suspenso"/>
+                        <span class="lever"></span> Suspenso
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="endereco" class="NavBarForm">
+        <div class="row container">
+            <div class="input-field col s2">
+                <input type="text" id="cep" ng-model="endereco.cep" mask="99999-999" ng-blur="buscarCep(endereco)"
+                       name="cep"/>
+                <label for="cep" ng-class="{active: classCep || classEdit}">CEP</label>
+            </div>
+            <div class="input-field col s8">
+                <input type="text" ng-model="endereco.logradouro" name="logradouro" id="logradrouro"/>
+                <label for="logradouro" ng-class="{active: classLogradouro || classEdit}">Logradouro</label>
+            </div>
+            <div class="input-field col s2">
+                <input type="text" ng-model="endereco.numero" name="numero"/>
+                <label for="numero" id="numero" ng-class="{active: classNumero || classEdit}">Número</label>
+            </div>
+            <div class="input-field col s6">
+                <input type="text" ng-model="endereco.complemento" name="complemento" id="complemento"/>
+                <label for="complemento" ng-class="{active: classComplemento || classEdit}">Complemento</label>
+            </div>
+            <div class="input-field col s6">
+                <input type="text" ng-model="endereco.bairro" id="bairro" name="bairro"/>
+                <label for="bairro" ng-class="{active: classBairro || classEdit}">Bairro</label>
+            </div>
+            <div class="input-field col s6">
+                <input type="text" ng-model="endereco.cidade" id="cidade" name="cidade"/>
+                <label for="cidade" ng-class="{active: classCidade || classEdit}">Cidade</label>
+            </div>
+            <div class="input-field col s6">
+                <input type="text" ng-model="endereco.estado" id="estado" name="estado"/>
+                <label for="estado" ng-class="{active: classEstado || classEdit}">Estado</label>
+            </div>
+        </div>
+    </div>
+    <div class="input-field col s12 container">
+        <a ng-if="!modoEdicao" class="waves-effect waves-light btn" ng-click="salvarAtleta(atleta)">
+            <i class="material-icons right">done</i>Salvar</a>
 
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
-    <script src="scripts/angularjs/angular-1.5.0-rc.0/angular.js"></script>
-    <script src="scripts/angularjs/angular-1.5.0-rc.0/angular-resource.js"></script>
-    <script src="scripts/angularjs/angular-1.5.0-rc.0/angular-messages.js"></script>
-    <script src="scripts/angularjs/locale/pt-BR.js"></script>
-    <script src="scripts/controllers/atletasCtrl.js"></script>
-    <script src="scripts/controllers/format.js"></script>
-    <script src="scripts/js/ngMask.min.js"></script>
-    <script src="scripts/js/uteis.js"></script>
-    <script src="scripts/js/moment.min.js"></script>
+        <a ng-if="modoEdicao" class="waves-effect waves-light btn" ng-click="updateAtleta(atleta)">
+            <i class="material-icons right">save</i>Atualizar</a>
+    </div>
+</form>
+
+<div ng-if="atletas && atletas.length" class="row container">
+    <table class="responsive-table highlight">
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>E-mail</th>
+            <th>Dta. Nascimento</th>
+            <th>Agremiação</th>
+            <th>Dta. Afiliação</th>
+            <th>Editar</th>
+            <th>Deletar</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="atleta in atletas">
+            <td>
+                <span ng-bind="atleta.nome"></span>
+            </td>
+            <td>
+                <span ng-bind="atleta.telefone"></span>
+            </td>
+            <td>
+                <span ng-bind="atleta.email"></span>
+            </td>
+            <td>
+                <span ng-bind="atleta.dataNascimento"></span>
+            </td>
+            <td>
+                <span ng-bind="atleta.agremiacao.nome"></span>
+            </td>
+            <td>
+                <span ng-bind="atleta.dataAfiliacao"></span>
+            </td>
+            <td>
+                <a href="" ng-click="editarAtleta(atleta)">
+                    <!-- <i class="material-icons" class="Button-Edit">create</i> -->
+                    <i class="material-icons" style="color: #3d5afe;">create</i>
+                </a>
+            </td>
+            <td>
+                <a href="" ng-click="deletarAtleta(atleta)">
+                    <i class="material-icons" style="color: #e57373;">delete_forever</i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+<script src="scripts/angularjs/angular-1.5.0-rc.0/angular.js"></script>
+<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-resource.js"></script>
+<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-messages.js"></script>
+<script src="scripts/angularjs/locale/pt-BR.js"></script>
+<script src="scripts/controllers/atletasCtrl.js"></script>
+<script src="scripts/controllers/format.js"></script>
+<script src="scripts/js/ngMask.min.js"></script>
+<script src="scripts/js/uteis.js"></script>
+<script src="scripts/js/moment.min.js"></script>
 </body>
 
 </html>

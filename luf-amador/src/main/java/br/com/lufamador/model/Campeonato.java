@@ -2,10 +2,13 @@ package br.com.lufamador.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -36,8 +39,22 @@ public class Campeonato implements Serializable {
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate dataEncerramento;
-    private Boolean encerrado;
+    private Boolean campeonatoEncerrado;
     private Boolean inscricoesEncerradas;
+
+    @OneToOne
+    private FormaDisputa formaDisputa;
+
+    @OneToMany
+    private List<Inscricao> inscricoes;
+
+    public List<Inscricao> getInscricoes() {
+        return inscricoes;
+    }
+
+    public void setInscricoes(List<Inscricao> inscricoes) {
+        this.inscricoes = inscricoes;
+    }
 
     public Long getCodigo() {
         return codigo;
@@ -87,12 +104,12 @@ public class Campeonato implements Serializable {
         this.dataEncerramento = dataEncerramento;
     }
 
-    public Boolean getEncerrado() {
-        return encerrado;
+    public Boolean getCampeonatoEncerrado() {
+        return campeonatoEncerrado;
     }
 
-    public void setEncerrado(Boolean encerrado) {
-        this.encerrado = encerrado;
+    public void setCampeonatoEncerrado(Boolean campeonatoEncerrado) {
+        this.campeonatoEncerrado = campeonatoEncerrado;
     }
 
     public Boolean getInscricoesEncerradas() {
@@ -101,5 +118,13 @@ public class Campeonato implements Serializable {
 
     public void setInscricoesEncerradas(Boolean inscricoesEncerradas) {
         this.inscricoesEncerradas = inscricoesEncerradas;
+    }
+
+    public FormaDisputa getFormaDisputa() {
+        return formaDisputa;
+    }
+
+    public void setFormaDisputa(FormaDisputa formaDisputa) {
+        this.formaDisputa = formaDisputa;
     }
 }

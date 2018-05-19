@@ -23,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.csrf()
         .disable()
         .authorizeRequests()
-        .antMatchers(HttpMethod.GET, "/", "/carregarClientes")
+        .antMatchers(HttpMethod.GET, "/")
         .permitAll()
         .anyRequest()
         .authenticated()
@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     auth.inMemoryAuthentication()
         .withUser("rmlocacoes")
-        .password("rm2018")
+        .password("rmlocacoes104")
         .roles("ADMIN");
 
     auth.inMemoryAuthentication()

@@ -66,6 +66,9 @@ pedido.controller("pedidoController",
 			$scope.pedidoMaiorQueEstoque = false;
 			$scope.qtdItemPermitida = true;
 			$scope.modoReimpressaoContrato = false;
+			$scope.quantidadeItems = 0;
+			$scope.somatorioGeral = 0;
+            $scope.minQuantidade = false;
 			
 			$scope.$watch('item.quantidade', function (newValue, oldValue, scope) {
 				
@@ -93,6 +96,9 @@ pedido.controller("pedidoController",
 			    	$scope.qtdItemPermitida = false;
 			    	return;
 			    }
+                if ($scope.item.quantidade > 0) {
+					$scope.minQuantidade = true;
+                }
 			    $scope.qtdIndisponivel = false;
 				$scope.pedidoMaiorQueEstoque = false;
 				$scope.vlrQuantidadeIncorreta = false;
@@ -147,6 +153,7 @@ pedido.controller("pedidoController",
 				$scope.contrato.itens = itensPedidoContrato;
 				$scope.contrato.pedidoSelecionado.cliente = $scope.cliente;
 				$scope.contrato.pagamento = $scope.pagamento;
+				$scope.contrato.observacao = pedido.observacao;
 				var enderecos = $scope.contrato.pedidoSelecionado.cliente.enderecos;
 
 				angular.forEach(enderecos, function(enderecoMap){
@@ -156,7 +163,7 @@ pedido.controller("pedidoController",
 					}
 				});
 				$scope.contrato.totalProdutos = 0;
-				$scope.contrato.totalProdutos = 0;
+				$scope.contrato.totalComodato = 0;
 				angular.forEach(itensPedidoContrato, function(item){
 					if('COMODATO' === item.produto.categoria) {
 						var quantidade = item.quantidade;
@@ -183,6 +190,7 @@ pedido.controller("pedidoController",
 				$scope.contrato.itens = itensPedidoContrato;
 				$scope.contrato.pedidoSelecionado.cliente = pedido.cliente;
 				$scope.contrato.pagamento = pedido.pagamento;
+				$scope.contrato.observacao = pedido.observacao;
 				var enderecos = pedido.cliente.enderecos;
 
 				angular.forEach(enderecos, function(enderecoMap){
@@ -242,11 +250,16 @@ pedido.controller("pedidoController",
 				frete = frete.replace(",", ".")
 				var vlrTxEntrega = parseFloat(frete);
 				$scope.vlrFrete = vlrTxEntrega;
+				
 				var totalProdutos = $scope.contrato.totalProdutos;
 				var totalComodato = $scope.contrato.totalComodato;
 				var totalFinal =  totalProdutos + totalComodato + vlrTxEntrega;
-									
-				return totalFinal;
+				var desconto = formatPreco($scope.contrato.pagamento.vlrDesconto);
+				desconto = desconto.replace(",", ".");	
+				var vlrDesconto = parseFloat(desconto);
+				$scope.vlrDesconto = vlrDesconto;
+				
+				return totalFinal - vlrDesconto;
 				 
 			};
 
@@ -273,6 +286,8 @@ pedido.controller("pedidoController",
 				delete $scope.item.produto.$$hashKey;
 				delete $scope.item.produto.dataCadastro;
 				$scope.itens.push($scope.item);
+				$scope.quantidadeItems = $scope.quantidadeItems + $scope.item.quantidade;
+				$scope.somatorioGeral = $scope.somatorioGeral +  ($scope.item.produto.preco * $scope.item.quantidade);
 				$scope.produtoPedido = {};
 				$scope.produtoSelecionado = "";
 				$scope.item = {};
@@ -284,6 +299,10 @@ pedido.controller("pedidoController",
 			};
 
 			$scope.removeItem = function (item) {
+				
+				$scope.quantidadeItems = $scope.quantidadeItems - item.quantidade;
+				$scope.somatorioGeral = $scope.somatorioGeral - (item.produto.preco * item.quantidade);
+				
 				var index = $scope.itens.indexOf(item);
 				$scope.itens.splice(index, 1);
 			};
@@ -531,6 +550,7 @@ pedido.controller("pedidoController",
 				$scope.realizandoPedido = true;
 				$scope.pedido.cliente = $scope.cliente;
 				$scope.pagamento.vlrTxEntrega = $scope.vlrFrete;
+				$scope.pagamento.vlrDesconto = $scope.vlrDesconto;
 				$scope.pedido.pagamento = $scope.pagamento;
 				$scope.pedido.itens = $scope.itens;
 

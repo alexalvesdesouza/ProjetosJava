@@ -19,7 +19,7 @@ import br.com.lufamador.service.TabelaJogosService;
 @RequestMapping("/tabela-jogos")
 public class TabelaJogosController {
 
-    private TabelaJogosService tabelaJogosService;
+    private final TabelaJogosService tabelaJogosService;
 
     @Autowired
     public TabelaJogosController(TabelaJogosService tabelaJogosService) {

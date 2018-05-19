@@ -1,21 +1,17 @@
 package br.com.lufamador.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-
 @Entity
-@Table(name = "luf_inscricao")
-public class Inscricao implements Serializable {
+@Table(name = "luf_fase")
+public class Fase implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,12 +20,7 @@ public class Inscricao implements Serializable {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long codigo;
 
-    @OneToOne
-    private Agremiacao agremiacao;
-
-    @OneToMany
-    private List<Atleta> atletas;
-
+    private String nome;
 
     public Long getCodigo() {
         return codigo;
@@ -39,19 +30,11 @@ public class Inscricao implements Serializable {
         this.codigo = codigo;
     }
 
-    public Agremiacao getAgremiacao() {
-        return agremiacao;
+    public String getNome() {
+        return nome;
     }
 
-    public void setAgremiacao(Agremiacao agremiacao) {
-        this.agremiacao = agremiacao;
-    }
-
-    public List<Atleta> getAtletas() {
-        return atletas;
-    }
-
-    public void setAtletas(List<Atleta> atletas) {
-        this.atletas = atletas;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }

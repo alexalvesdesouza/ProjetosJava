@@ -12,6 +12,14 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import br.com.lufamador.utils.datas.LocalDateDeserializer;
+import br.com.lufamador.utils.datas.LocalDateSerializer;
+import br.com.lufamador.utils.datas.LocalDateTimeDeserializer;
+import br.com.lufamador.utils.datas.LocalDateTimeSerializer;
+
 @Entity
 @Table(name = "luf_jogo")
 public class Jogo implements Serializable {
@@ -23,6 +31,8 @@ public class Jogo implements Serializable {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long codigo;
 
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate dataPartida;
     private String horario;
     @OneToOne
@@ -34,47 +44,14 @@ public class Jogo implements Serializable {
     private Integer golsEquipeA;
     private Integer golsEquipeB;
     private String chave;
-
-    private LocalDateTime dataCriacao;
-    private LocalDateTime dataAtualizacao;
-
     private Boolean partidaEnderrada;
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
-    public Boolean getPartidaEnderrada() {
-        return partidaEnderrada;
-    }
-
-    public void setPartidaEnderrada(Boolean partidaEnderrada) {
-        this.partidaEnderrada = partidaEnderrada;
-    }
-
-    public Agremiacao getEquipeA() {
-        return equipeA;
-    }
-
-    public void setEquipeA(Agremiacao equipeA) {
-        this.equipeA = equipeA;
-    }
-
-    public Agremiacao getEquipeB() {
-        return equipeB;
-    }
-
-    public void setEquipeB(Agremiacao equipeB) {
-        this.equipeB = equipeB;
-    }
-
-    public String getChave() {
-        return chave;
-    }
-
-    public void setChave(String chave) {
-        this.chave = chave;
-    }
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime dataCriacao;
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime dataAtualizacao;
 
     public Long getCodigo() {
         return codigo;
@@ -108,6 +85,22 @@ public class Jogo implements Serializable {
         this.local = local;
     }
 
+    public Agremiacao getEquipeA() {
+        return equipeA;
+    }
+
+    public void setEquipeA(Agremiacao equipeA) {
+        this.equipeA = equipeA;
+    }
+
+    public Agremiacao getEquipeB() {
+        return equipeB;
+    }
+
+    public void setEquipeB(Agremiacao equipeB) {
+        this.equipeB = equipeB;
+    }
+
     public Integer getGolsEquipeA() {
         return golsEquipeA;
     }
@@ -122,6 +115,22 @@ public class Jogo implements Serializable {
 
     public void setGolsEquipeB(Integer golsEquipeB) {
         this.golsEquipeB = golsEquipeB;
+    }
+
+    public String getChave() {
+        return chave;
+    }
+
+    public void setChave(String chave) {
+        this.chave = chave;
+    }
+
+    public Boolean getPartidaEnderrada() {
+        return partidaEnderrada;
+    }
+
+    public void setPartidaEnderrada(Boolean partidaEnderrada) {
+        this.partidaEnderrada = partidaEnderrada;
     }
 
     public LocalDateTime getDataCriacao() {
