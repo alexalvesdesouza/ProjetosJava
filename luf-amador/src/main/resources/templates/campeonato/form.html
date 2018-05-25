@@ -185,7 +185,7 @@
                 <tr ng-repeat="agremiacao in agremiacoes">
                     <!--<td style="width: 25px;">-->
                     <!--<input type="checkbox" id="{{ 'agremiacao-' + $index }}" name="{{ 'agremiacao-' + $index }}"-->
-                    <!--ng-click="selecionaAgremiacaoInscrever(agremiacao)"-->
+                    <!--ng-click="selecionaAgremiacao(agremiacao)"-->
                     <!--class="filled-in"/>-->
                     <!--<label for="{{ 'agremiacao-' + $index }}"></label>-->
                     <!--</td>-->
@@ -197,7 +197,7 @@
                         <span ng-bind="agremiacao.nome"></span>
                     </td>
                     <td style="width: 15px;">
-                        <a href="#" ng-click="selecionaAgremiacaoInscrever(agremiacao)">
+                        <a href="#" ng-click="selecionaAgremiacao(agremiacao)">
                             <i class="material-icons right Icons-Inscricao">
                                 arrow_forward</i>
                         </a>
@@ -239,7 +239,7 @@
                 <tbody>
                 <tr ng-repeat="item in campeonato.inscricoes">
                     <td style="width: 15px;">
-                        <a href="#" ng-click="selecionaAgremiacaoDesinscrever(agremiacao)">
+                        <a href="#" ng-click="selecionaAgremiacao(item)">
                             <i class="material-icons right Icons-Inscricao">
                                 arrow_back</i>
                         </a>
