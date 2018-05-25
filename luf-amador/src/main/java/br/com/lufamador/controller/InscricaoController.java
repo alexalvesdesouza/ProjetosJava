@@ -57,4 +57,11 @@ public class InscricaoController {
         return new ResponseEntity<>(status);
     }
 
+    @RequestMapping(path = "/{codigoAgremiacao}/inscrever", method = RequestMethod.POST)
+    public ResponseEntity<Inscricao> inscricaoAgremiacaoCampeonato(@PathVariable(value = "codigoAgremiacao") Long codigoAgremiacao) {
+        final Inscricao inscricao = this.inscricaoService.inscricaoAgremiacaoCampeonato(codigoAgremiacao);
+        HttpStatus status = (null == inscricao) ? HttpStatus.UNPROCESSABLE_ENTITY : HttpStatus.OK;
+        return new ResponseEntity<>(inscricao, status);
+    }
+
 }

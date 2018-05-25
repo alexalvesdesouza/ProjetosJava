@@ -58,15 +58,26 @@ public class AgremiacaoService {
         return this.repository.findAll();
     }
 
-    public final Agremiacao atulizarAgremiacao(Agremiacao agremiacao) {
+    public List<Agremiacao> getAgremiacoesInscritas(final Long codigoCampeonato) {
+        return this.repository.getAgremiacoesInscritas(codigoCampeonato);
+    }
+    public List<Agremiacao> getAgremiacoesDisponiveis(final Long codigoCampeonato) {
+        return this.repository.getAgremiacoesDisponiveis(codigoCampeonato);
+    }
+
+    public final Agremiacao atualizarAgremiacao(Agremiacao agremiacao) {
         this.enderecoService.atualizaEndereco(agremiacao.getEndereco());
         return this.repository.saveAndFlush(agremiacao);
     }
 
     public void deletarAgremiacao(final Long codigo) {
+        this.repository.delete(this.getAgremiacao(codigo));
+    }
+
+    public Agremiacao getAgremiacao(final Long codigo) {
         Optional<Agremiacao> agremiacao = this.repository.findById(codigo);
         if (!agremiacao.isPresent())
             throw new BussinessException(MensagensErro.ENTIDADE_INEXISTENTE);
-        this.repository.delete(agremiacao.get());
+        return agremiacao.get();
     }
 }

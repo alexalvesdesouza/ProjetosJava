@@ -30,7 +30,6 @@
 
 <div id="cadastro-competicoes">
 
-
     <form name="campeonatoForm" id="campeonatoForm" action="" method="post" class="col s12 m4 offset-m4 l4 offset-l4">
         <div id="informacoes" class="NavBarForm">
             <div class="row container" style="margin-top: 10px;">
@@ -144,7 +143,7 @@
             <div class="input-field col s12">
                 <i class="material-icons prefix">textsms</i>
                 <input type="text" name="campeonato"
-                       ng-model="campeonatoSelecionado" ng-keyup="completeCampeonato(campeonatoSelecionado)"
+                       ng-model="nomeCampeonatoSelectionado" ng-keyup="completeCampeonato(nomeCampeonatoSelectionado)"
                        id="autocomplete-input-campeonato" class="autocomplete"/>
                 <ul class="collection" ng-model="hideListCampeonato" ng-hide="hideListCampeonato"
                     style="margin-top: -21px;">
@@ -156,71 +155,107 @@
                 <label ng-class="{active: classEdit}" for="autocomplete-input-campeonato">Buscar Campeonato</label>
             </div>
             <div class="input-field col s6">
-                <a class="waves-effect waves-light btn" ng-click="inscreverSelecionados()">
+                <a class="waves-effect waves-light btn" ng-click="efetivarInscricaoCampeonado()">
                     <i class="material-icons right">done</i>Inscrever Selecionados</a>
 
             </div>
-            <div class="input-field col s6">
-                <a class="waves-effect waves-light btn" ng-click="desinscreverSelecionados()">
-                    <i class="material-icons right">save</i>Remover Selecionados</a>
-            </div>
+            <!--<div class="input-field col s6">-->
+                <!--<a class="waves-effect waves-light btn" ng-click="desinscreverSelecionados()">-->
+                    <!--<i class="material-icons right">save</i>Remover Selecionados</a>-->
+            <!--</div>-->
         </div>
     </form>
 
-    <div ng-if="agremiacoes && agremiacoes.length" class="row container">
+    <div ng-if="campeonatoSelected" class="row container">
 
-        <div id="candidatos-inscricao" class="col s6">
+        <div id="candidatos-inscricao" class="col s5">
             <table class="responsive-table highlight">
                 <thead>
                 <tr>
-                    <th>Selecionar</th>
+                    <h5>Agremiações Disponíveis</h5>
+                </tr>
+                <tr>
+                    <!--<th>Selecionar</th>-->
+                    <!--<th>Escudo</th>-->
                     <th>Agremiação</th>
-                    <th>Contato</th>
+                    <th>Inscrever</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="agremiacao in agremiacoes">
-                    <td>
-                        <input type="checkbox" id="{{ 'agremiacao-' + $index }}" name="{{ 'agremiacao-' + $index }}"
-                               ng-click="selecionaAgremiacaoInscrever(agremiacao)"
-                               class="filled-in"/>
-                        <label for="{{ 'agremiacao-' + $index }}"></label>
-                    </td>
+                    <!--<td style="width: 25px;">-->
+                    <!--<input type="checkbox" id="{{ 'agremiacao-' + $index }}" name="{{ 'agremiacao-' + $index }}"-->
+                    <!--ng-click="selecionaAgremiacaoInscrever(agremiacao)"-->
+                    <!--class="filled-in"/>-->
+                    <!--<label for="{{ 'agremiacao-' + $index }}"></label>-->
+                    <!--</td>-->
+                    <!--<td>-->
+                    <!--<img src="images/agremiacoes/{{agremiacao.nomeSigla}}.png"-->
+                    <!--alt="" height="30" width="30">-->
+                    <!--</td>-->
                     <td>
                         <span ng-bind="agremiacao.nome"></span>
                     </td>
-                    <td>
-                        <span ng-bind="agremiacao.contato"></span>
+                    <td style="width: 15px;">
+                        <a href="#" ng-click="selecionaAgremiacaoInscrever(agremiacao)">
+                            <i class="material-icons right Icons-Inscricao">
+                                arrow_forward</i>
+                        </a>
                     </td>
 
                 </tr>
                 </tbody>
             </table>
         </div>
-        <div id="inscritos" class="col s6">
+        <div class="col s2">
+
+            <div class="preloader-wrapper big active" ng-if="inTransfer">
+                <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="inscritos" class="col s5">
             <table class="responsive-table highlight">
                 <thead>
                 <tr>
-                    <th>Selecionar</th>
+                    <h5>Agremiações Inscritas</h5>
+                </tr>
+                <tr>
+                    <th>Desinscrever</th>
+                    <!--<th>Escudo</th>-->
                     <th>Agremiação</th>
-                    <th>Contato</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="agremiacao in agremiacoesParticipantesSelecionadas">
-                    <td>
-                        <input type="checkbox" id="{{ 'inscricao-' + $index }}" name="{{ 'inscricao-' + $index }}"
-                               ng-click="selecionaAgremiacaoDesinscrever(agremiacao)"
-                               class="filled-in"/>
-                        <label for="{{ 'inscricao-' + $index }}"></label>
+                <tr ng-repeat="item in campeonato.inscricoes">
+                    <td style="width: 15px;">
+                        <a href="#" ng-click="selecionaAgremiacaoDesinscrever(agremiacao)">
+                            <i class="material-icons right Icons-Inscricao">
+                                arrow_back</i>
+                        </a>
                     </td>
+                    <!--<td style="width: 25px;">-->
+                    <!--<input type="checkbox" id="{{ 'inscricao-' + $index }}" name="{{ 'inscricao-' + $index }}"-->
+                    <!--ng-click="selecionaAgremiacaoDesinscrever(agremiacao)"-->
+                    <!--class="filled-in"/>-->
+                    <!--<label for="{{ 'inscricao-' + $index }}"></label>-->
+                    <!--</td>-->
+                    <!--<td>-->
+                    <!--<span ng-bind="agremiacao.contato"></span>-->
+                    <!--</td>-->
                     <td>
-                        <span ng-bind="agremiacao.nome"></span>
+                        <span ng-bind="item.agremiacao.nome"></span>
                     </td>
-                    <td>
-                        <span ng-bind="agremiacao.contato"></span>
-                    </td>
-
                 </tr>
                 </tbody>
             </table>
@@ -242,6 +277,11 @@
 <script src="scripts/js/ngMask.min.js"></script>
 <script src="scripts/js/uteis.js"></script>
 <script src="scripts/js/moment.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.tooltipped').tooltip();
+    });
+</script>
 </body>
 
 </html>

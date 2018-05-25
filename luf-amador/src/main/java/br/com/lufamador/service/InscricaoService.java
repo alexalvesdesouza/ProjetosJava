@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.lufamador.model.Agremiacao;
 import br.com.lufamador.model.Inscricao;
 import br.com.lufamador.repository.InscricaoRepository;
 import br.com.lufamador.validate.InscricaoValidate;
@@ -15,27 +16,27 @@ public class InscricaoService {
 
     private final InscricaoRepository repository;
     private final InscricaoValidate validate;
-    private final CampeonatoService campeonatoService;
+    private final AgremiacaoService agremiacaoService;
 
     @Autowired
-    public InscricaoService(InscricaoRepository repository, InscricaoValidate validate, CampeonatoService
-            campeonatoService) {
+    public InscricaoService(InscricaoRepository repository, InscricaoValidate validate,
+            AgremiacaoService agremiacaoService) {
         this.repository = repository;
         this.validate = validate;
-        this.campeonatoService = campeonatoService;
+        this.agremiacaoService = agremiacaoService;
     }
 
-//    public Inscricao cadastraInscricao(Inscricao inscricao) {
-//        Inscricao inscricaoSaved = null;
-//        //this.validate.validaInscricaoExistente(inscricao);
-//        try {
-//            inscricaoSaved = this.repository.saveAndFlush(inscricao);
-//            this.campeonatoService.insereInscritos(inscricaoSaved);
-//        } catch (Exception e) {
-//
-//        }
-//        return inscricaoSaved;
-//    }
+    public Inscricao cadastraInscricao(Inscricao inscricao) {
+        Inscricao inscricaoSaved = null;
+        //this.validate.validaInscricaoExistente(inscricao);
+        try {
+            inscricaoSaved = this.repository.saveAndFlush(inscricao);
+            //this.campeonatoService.insereInscritos(inscricaoSaved);
+        } catch (Exception e) {
+
+        }
+        return inscricaoSaved;
+    }
 
     public List<Inscricao> getInscricoes() {
         return this.repository.findAll();
@@ -49,5 +50,16 @@ public class InscricaoService {
         final Optional<Inscricao> inscricao = this.repository.findById(codigo);
 
         this.repository.delete(inscricao.get());
+    }
+
+    public final Inscricao inscricaoAgremiacaoCampeonato(final Long codigoAgremiacao) {
+        Inscricao inscricao = new Inscricao();
+        inscricao.setAgremiacao(this.loadAgremiacao(codigoAgremiacao));
+        return this.repository.save(inscricao);
+
+    }
+
+    private Agremiacao loadAgremiacao(Long codigoAgremiacao) {
+        return this.agremiacaoService.getAgremiacao(codigoAgremiacao);
     }
 }

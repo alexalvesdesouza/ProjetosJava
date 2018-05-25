@@ -18,6 +18,24 @@
     margin-top: 1em;
 }
 
+.Icons-Inscricao {
+    font-size: 20px !important;
+    color: blue;
+}
+
+.Icons-Inscricao:hover {
+    font-size: 26px !important;
+    color: red;
+}
+
+.Icons-Forward {
+
+}
+
+.Icons-Backward {
+
+}
+
 /*
 .detalhesFluxoCaixa {
     min-width: 90% !important;

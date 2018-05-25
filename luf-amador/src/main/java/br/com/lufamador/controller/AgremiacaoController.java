@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,9 +43,25 @@ public class AgremiacaoController {
         return new ResponseEntity<>(agremiacoes, status);
     }
 
+    @RequestMapping(path = "/{codigoCampeonato}/inscritas", method = RequestMethod.GET)
+    public ResponseEntity<List<Agremiacao>> getAgremiacoesInscritas(
+            @PathVariable(value = "codigoCampeonato") Long codigoCampeonato) {
+        final List<Agremiacao> agremiacoes = this.agremiacaoService.getAgremiacoesInscritas(codigoCampeonato);
+        HttpStatus status = (null == agremiacoes) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(agremiacoes, status);
+    }
+
+    @RequestMapping(path = "/{codigoCampeonato}/disponiveis", method = RequestMethod.GET)
+    public ResponseEntity<List<Agremiacao>> getAgremiacoesDisponiveis(
+            @PathVariable(value = "codigoCampeonato") Long codigoCampeonato) {
+        final List<Agremiacao> agremiacoes = this.agremiacaoService.getAgremiacoesDisponiveis(codigoCampeonato);
+        HttpStatus status = (null == agremiacoes) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(agremiacoes, status);
+    }
+
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Agremiacao> atualizaAgremiacao(@RequestBody Agremiacao agremiacao) {
-        final Agremiacao agremiacaoSuspenso = this.agremiacaoService.atulizarAgremiacao(agremiacao);
+        final Agremiacao agremiacaoSuspenso = this.agremiacaoService.atualizarAgremiacao(agremiacao);
         HttpStatus status = (null == agremiacaoSuspenso) ? HttpStatus.UNPROCESSABLE_ENTITY : HttpStatus.OK;
         return new ResponseEntity<>(agremiacaoSuspenso, status);
     }

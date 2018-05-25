@@ -49,7 +49,7 @@ public class AtletaService {
         final Optional<Atleta> atleta = this.repository.findById(atletaAtualizar.getCodigo());
         if (atleta.isPresent()) {
             this.enderecoService.atualizaEndereco(atletaAtualizar.getEndereco());
-            this.agremiacaoService.atulizarAgremiacao(atletaAtualizar.getAgremiacao());
+            this.agremiacaoService.atualizarAgremiacao(atletaAtualizar.getAgremiacao());
             atletaAtualizado = this.repository.saveAndFlush(atletaAtualizar);
         }
         return atletaAtualizado;
