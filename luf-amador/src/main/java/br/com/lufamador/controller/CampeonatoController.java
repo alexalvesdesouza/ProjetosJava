@@ -35,9 +35,11 @@ public class CampeonatoController {
                 status);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<Campeonato>> getCampeonatos() {
-        final List<Campeonato> campeonatos = this.campeonatoService.getCampeonatos();
+    @RequestMapping(path = "/{inscricoesAbertas}/", method = RequestMethod.GET)
+    public ResponseEntity<List<Campeonato>> getCampeonatos(
+            @PathVariable(value = "inscricoesAbertas") Boolean inscricoesAbertas) {
+
+        final List<Campeonato> campeonatos = this.campeonatoService.getCampeonatos(inscricoesAbertas);
         HttpStatus status = (null == campeonatos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(campeonatos, status);
     }

@@ -23,6 +23,8 @@ campeonato.controller("campeonatoController",
                           $scope.filterCampeonato = [];
                           $scope.agremiacoesSelecionadasInscrever = [];
                           $scope.inTransfer = false;
+                          $scope.abaSelected = '';
+                          $scope.inscricoesAbertas = false;
 
                           $scope.selecionarCampeonato = function (item) {
                               $scope.filterCampeonato = [];
@@ -92,8 +94,9 @@ campeonato.controller("campeonatoController",
                           };
 
                           var carregarCampeonatos = function () {
+                              var inscAbertas = $scope.inscricoesAbertas;
                               $http
-                                  .get(BASE_PATH)
+                                  .get(BASE_PATH + "/" + inscAbertas + "/")
                                   .success(function (ret) {
                                       $scope.campeonatos = [];
                                       $scope.campeonatos = ret;
@@ -125,7 +128,13 @@ campeonato.controller("campeonatoController",
                           };
 
                           $scope.abaSelecionada = function (abaSelecionada) {
-                              $scope.abaSelecionada = abaSelecionada;
+                              $scope.abaSelected = abaSelecionada;
+                              if (abaSelecionada === 'inscricoes') {
+                                  $scope.inscricoesAbertas = true;
+                                  carregarCampeonatos();
+                                  return;
+                              };
+                              $scope.inscricoesAbertas = false;
                           };
 
                           var carregarAgremiacoesDisponiveis = function () {

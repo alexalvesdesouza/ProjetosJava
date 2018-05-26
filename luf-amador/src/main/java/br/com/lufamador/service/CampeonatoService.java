@@ -3,13 +3,13 @@ package br.com.lufamador.service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.lufamador.exception.BussinessException;
 import br.com.lufamador.model.Campeonato;
-import br.com.lufamador.model.Inscricao;
 import br.com.lufamador.repository.CampeonatoRepository;
 import br.com.lufamador.utils.mensagens.MensagensErro;
 import br.com.lufamador.validate.CampeonatoValidate;
@@ -43,8 +43,14 @@ public class CampeonatoService {
         return campeonatoSaved;
     }
 
-    public List<Campeonato> getCampeonatos() {
-        return this.repository.findAll();
+    public List<Campeonato> getCampeonatos(Boolean inscricoesAbertas) {
+
+        if (!inscricoesAbertas)
+            return this.repository.findAll();
+
+        return this.repository.findAll().stream().filter(
+                campeonato -> !campeonato.getInscricoesEncerradas()).collect(Collectors.toList());
+
     }
 
     public Campeonato findCampeonato(final Long codigo) {
@@ -58,7 +64,10 @@ public class CampeonatoService {
     }
 
     public final Campeonato inscricaoAgremiacaoCampeonato(Campeonato campeonato) {
+
         Campeonato campeonatoSaved = this.getCampeonato(campeonato.getCodigo());
+
+//        if (inscricaoService.deletarInscricoes(campeonatoSaved.getInscricoes()))
         campeonato.getInscricoes().forEach(inscricaoService::cadastraInscricao);
 
         return this.atualizarCampeonato(campeonato);

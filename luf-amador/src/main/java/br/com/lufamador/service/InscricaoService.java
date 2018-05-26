@@ -38,6 +38,14 @@ public class InscricaoService {
         return inscricaoSaved;
     }
 
+    public boolean deletarInscricoes(List<Inscricao> inscricoes) {
+        inscricoes.stream().forEach(inscricao -> {
+            this.repository.delete(inscricao);
+        });
+
+        return inscricoes.isEmpty();
+    }
+
     public List<Inscricao> getInscricoes() {
         return this.repository.findAll();
     }

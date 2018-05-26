@@ -13,8 +13,10 @@ public interface AgremiacaoRepository extends JpaRepository<Agremiacao, Long> {
 
 
     @Query(value = "select lag.*\n" +
-            "from luf_agremiacao lag left join luf_inscricao lin on lin.agremiacao_codigo = lag.codigo\n" +
-            "where lin.codigo not in ( select lci.inscricoes_codigo from luf_campeonato_inscricoes lci where lci.campeonato_codigo = ?1 )\n" +
+            "from luf_agremiacao lag\n" +
+            "where lag.codigo not in (select inscricao.agremiacao_codigo\n" +
+            "    from luf_inscricao inscricao inner join luf_campeonato_inscricoes cainc on inscricao.codigo = cainc.inscricoes_codigo " +
+            "where cainc.campeonato_codigo = ?1)\n" +
             "union\n" +
             "select lag.*\n" +
             "from luf_agremiacao lag left join luf_inscricao lin on lin.agremiacao_codigo = lag.codigo\n" +
