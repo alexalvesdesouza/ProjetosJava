@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,6 +67,8 @@ public class PedidoService {
     this.statusPermitidoAcao(pedido, StatusPedido.AGUARDANDO_ENTREGA.name());
     pedido.setStatus(StatusPedido.ENTREGUE.name());
     pedido.setPedidoEntregue(Boolean.TRUE);
+    parseDatasPedido(pedido);
+    pedido.setDataEntrega(LocalDateTime.now());
     Pedido saved = this.pedidoRepository.saveAndFlush(pedido);
     this.receberService.geraRecebimentoPedido(saved);
     return saved;
@@ -83,9 +86,38 @@ public class PedidoService {
     this.statusPermitidoAcao(pedido, StatusPedido.ENTREGUE.name());
     pedido.setStatus(StatusPedido.FINALIZADO.name());
     pedido.setPedidoFinalizado(Boolean.TRUE);
+    parseDatasPedido(pedido);
+    pedido.setDataDevolucao(LocalDateTime.now());
     Pedido saved = this.pedidoRepository.saveAndFlush(pedido);
     this.receberService.geraRecebimentoPedido(saved);
     return saved;
+  }
+
+  public Boolean registraEntregaPedidosEmMassa(final List<Pedido> pedidos) {
+
+    try {
+      pedidos.forEach(pedido -> {
+        this.registraEntregaPedido(pedido);
+      });
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+
+    return true;
+  }
+
+  public Boolean registraDevolucaoPedidosEmMassa(final List<Pedido> pedidos) {
+    try {
+      pedidos.forEach(pedido -> {
+        this.finalizarPedido(pedido);
+      });
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+
+    return true;
   }
 
   public final Pedido marcaPedidoComoPago(Pedido pedido) {
@@ -149,6 +181,22 @@ public class PedidoService {
 
     pedido.setStatus(statusPedido);
     pedido.setTotalPedido(totalPedido);
+    if (null == pedido.getPedidoEntregue())
+      pedido.setPedidoEntregue(false);
+
+    if (null == pedido.getPedidoCancelado())
+      pedido.setPedidoCancelado(false);
+
+    if (null == pedido.getPedidoFinalizado())
+      pedido.setPedidoFinalizado(false);
+
+    if (null == pedido.getDataEntrega())
+      pedido.setDataEntrega(LocalDateTime.now());
+
+    if (null == pedido.getDataDevolucao())
+      pedido.setDataDevolucao(LocalDateTime.now()
+                                           .plusDays(3L));
+
     Pedido save = pedidoRepository.save(pedido);
     this.gerarContrato(save);
     return save;
@@ -175,10 +223,6 @@ public class PedidoService {
     final Optional<Endereco> enderecoEntrega = enderecos.stream()
                                                         .filter(e -> e.getEnderecoEntrega())
                                                         .findFirst();
-
-    final Optional<Endereco> enderecoComercial = enderecos.stream()
-                                                          .filter(e -> e.getEnderecoComercial())
-                                                          .findFirst();
 
     final String enderecoEntregar = enderecoEntrega.get()
                                                    .getLogradouro()
@@ -274,13 +318,31 @@ public class PedidoService {
   }
 
   public List<Pedido> getPedidos(Long page) {
-    List<Pedido> findAll = this.pedidoRepository.findAllPedidos(page);
-
-    return findAll;
+    return this.pedidoRepository.findAllPedidos(page);
   }
 
-  public List<Pedido> getPedidos() {
+  public List<Pedido> getPedidos(String statusPedido) {
     List<Pedido> findAll = this.pedidoRepository.findAll();
+
+    if ("pedidos-entregues".equals(statusPedido)) {
+      findAll = this.pedidoRepository.findAll()
+                                     .stream()
+                                     .filter(pedido -> StatusPedido.ENTREGUE.name()
+                                                                            .equals(pedido.getStatus()))
+                                     .collect(Collectors.toList());
+    } else if ("pedidos-efetuados".equals(statusPedido)) {
+      findAll = findAll.stream()
+                       .filter(pedido -> StatusPedido.AGUARDANDO_ENTREGA.name()
+                                                                        .equals(pedido.getStatus()
+                                                                                      .replaceAll(" ", "_")))
+                       .collect(Collectors.toList());
+    } else {
+      findAll = this.pedidoRepository.findAll()
+                                     .stream()
+                                     .filter(pedido -> StatusPedido.FINALIZADO.name()
+                                                                              .equals(pedido.getStatus()))
+                                     .collect(Collectors.toList());
+    }
 
     findAll.sort((Pedido p1, Pedido p2) -> p1.getStatus()
                                              .compareTo(p2.getStatus()));

@@ -47,9 +47,9 @@ public class PedidoController {
                                       status);
   }
 
-  @GetMapping(path = "/carregarPedidos")
-  public @ResponseBody Iterable<Pedido> carregarPedidos() {
-    return pedidoService.getPedidos();
+  @GetMapping(path = "/carregarPedidos/{statusPedido}")
+  public @ResponseBody Iterable<Pedido> carregarPedidos(@PathVariable(value = "statusPedido") String statusPedido) {
+    return pedidoService.getPedidos(statusPedido);
   }
 
   @PutMapping(path = "/pedido/{codigo}/registrar-entrega")
@@ -78,6 +78,24 @@ public class PedidoController {
                                       status);
   }
 
+  @PutMapping(path = "/pedidos/registrar-entrega-massa")
+  public ResponseEntity<?> registrarEntregaEmMassaPedidos(@RequestBody List<Pedido> pedidos) {
+
+    Boolean pedidosDevolvidos = pedidoService.registraEntregaPedidosEmMassa(pedidos);
+    HttpStatus status = (pedidosDevolvidos == false) ? HttpStatus.NOT_FOUND : HttpStatus.OK;
+
+    return new ResponseEntity<>(status);
+  }
+
+  @PutMapping(path = "/pedidos/registrar-devolucao-massa")
+  public ResponseEntity<?> registrarDevolucaoEmMassaPedidos(@RequestBody List<Pedido> pedidos) {
+
+    Boolean pedidosDevolvidos = pedidoService.registraDevolucaoPedidosEmMassa(pedidos);
+    HttpStatus status = (pedidosDevolvidos == false) ? HttpStatus.NOT_FOUND : HttpStatus.OK;
+
+    return new ResponseEntity<>(status);
+  }
+
   @PostMapping(path = "/detalhesDoPedido")
   public ResponseEntity<Pedido> detalhesDoPedido(@RequestBody Pedido pedido) {
 
@@ -103,19 +121,11 @@ public class PedidoController {
     return "pedido/pedidosList";
   }
 
-  @RequestMapping(path = "/report", method = RequestMethod.GET)
-  public ModelAndView getExcel() {
+  @RequestMapping(path = "/report/{statusPedido}", method = RequestMethod.GET)
+  public ModelAndView getExcel(@PathVariable(value = "statusPedido") String statusPedido) {
 
-    final List<Pedido> pedidos = pedidoService.getPedidos();
-    final List<Pedido> pedidosList = pedidos.stream()
-                                            .filter(p -> p.getStatus()
-                                                          .equals(StatusPedido.AGUARDANDO_ENTREGA.name()
-                                                                                                 .replace("_", " ")))
-                                            .collect(Collectors.toList());
-
-    return new ModelAndView(new ExcelReportView(),
-                            "pedidosList",
-                            pedidosList);
+    final List<Pedido> pedidos = pedidoService.getPedidos(statusPedido);
+    return new ModelAndView(new ExcelReportView(), "pedidosList", pedidos);
   }
 
 }

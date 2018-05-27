@@ -2,13 +2,10 @@
 <html ng-app="pedido">
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"
-          charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8" />
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet"
-          href="materialize/css/materialize.min.css" media="screen,projection"/>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet"/>
+    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <style>
         .detalhesPedido {
             min-width: 90% !important;
@@ -23,17 +20,17 @@
 </head>
 
 <body ng-controller="pedidoController">
-<div ng-include="'../template/header.html'"></div>
-<nav class="nav-extended" style="margin-top: 10px;">
-    <div class="nav-content">
-        <ul class="tabs tabs-transparent">
-            <li class="tab"><a href="#principal"
-                               ng-click="abaSelecionada('principal')" class="active">Principal</a>
-            </li>
-        </ul>
-    </div>
-</nav>
-<!-- <div class="preloader-wrapper big active" ng-if="realizandoPedido">
+    <div ng-include="'../template/header.html'"></div>
+    <nav class="nav-extended" style="margin-top: 10px;">
+        <div class="nav-content">
+            <ul class="tabs tabs-transparent">
+                <li class="tab">
+                    <a href="#principal" ng-click="abaSelecionada('principal')" class="active">Principal</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- <div class="preloader-wrapper big active" ng-if="realizandoPedido">
     <div class="spinner-layer spinner-blue">
         <div class="circle-clipper left">
             <div class="circle"></div>
@@ -46,207 +43,183 @@
         </div>
     </div>
 </div> -->
-<div class="progress" ng-if="realizandoPedido">
-    <div class="indeterminate" ng-if="realizandoPedido"></div>
-</div>
-<div id="container" ng-disabled="realizandoPedido">
-    <form name="pedidoForm" id="pedidoForm" action="" method="post">
-        <div id="principal" class="col s12">
-            <div class="row container" style="margin-top: 10px;">
-                <div class="row">
-                    <div class="input-field col s8">
-                        <i class="material-icons prefix">textsms</i> <input type="text"
-                                                                            name="cliente" ng-model="clienteSelecionado"
-                                                                            ng-keyup="completeCliente(clienteSelecionado)"
-                                                                            id="autocomplete-input-cliente"
-                                                                            class="autocomplete"/>
-                        <ul class="collection" ng-model="hideListCliente"
-                            ng-hide="hideListCliente" style="margin-top: -13px;">
-                            <li class="collection-item" ng-repeat="cliente in filterCliente"
-                                ng-click="selecionarCliente(cliente)">{{cliente.nome}}
+    <div class="progress" ng-if="realizandoPedido">
+        <div class="indeterminate" ng-if="realizandoPedido"></div>
+    </div>
+    <div id="container" ng-disabled="realizandoPedido">
+        <form name="pedidoForm" id="pedidoForm" action="" method="post">
+            <div id="principal" class="col s12">
+                <div class="row container" style="margin-top: 10px;">
+                    <div class="row">
+                        <div class="input-field col s8">
+                            <i class="material-icons prefix">textsms</i>
+                            <input type="text" name="cliente" ng-model="clienteSelecionado" ng-keyup="completeCliente(clienteSelecionado)"
+                                id="autocomplete-input-cliente" class="autocomplete" />
+                            <ul class="collection" ng-model="hideListCliente" ng-hide="hideListCliente" style="margin-top: -13px;">
+                                <li class="collection-item" ng-repeat="cliente in filterCliente" ng-click="selecionarCliente(cliente)">{{cliente.nome}}
+                                </li>
+                            </ul>
+                            <label for="autocomplete-input">Buscar Clientes</label>
+                        </div>
+                        <div class="input-field col s2">
+                            <input type="text" id="dataEntrega" class="datepicker" name="dataEntrega" ng-model="pedido.dtaEntrega" />
+                            <label for="dataEntrega" ng-class="{active: classEdit}">Data para entrega</label>
+                        </div>
+                        <div class="input-field col s2">
+                            <input type="text" id="dataDevolucao" class="datepicker" name="dataDevolucao" ng-model="pedido.dtaDevolucao" />
+                            <label for="dataDevolucao" ng-class="{active: classEdit}">Data para devolução</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input type="text" ng-model="pedido.observacao" name="observacao" id="observacao" />
+                            <label for="observacao" ng-class="{active: classEdit}">Observação da entrega</label>
+                        </div>
+                        <div class="input-field col s2">
+                            <select ng-model="pagamento.formaPagamento">
+                                <option value="" ng-disabled="true" ng-selected="true">Selecione</option>
+                                <option value="DINHEIRO">Dinheiro</option>
+                                <option value="CARTAO">Cartão</option>
+                                <option value="BOLETO">Boleto</option>
+                                <option value="CHEQUE">Cheque</option>
+                            </select>
+                            <label>Forma de Pagamento</label>
+                        </div>
+                        <div class="input-field col s2">
+                            <input type="text" id="dataVencimentoPagamento" class="datepicker" name="dataVencimentoPagamento" ng-model="pagamento.dtaVencimento"
+                                ng-disabled="pagamento.formaPagamento === 'DINHEIRO' || pagamento.formaPagamento === 'CARTAO'"
+                            />
+                            <label for="dataVencimentoPagamento" ng-class="{active: classEdit}">Data Vencimento</label>
+                        </div>
+                        <div class="input-field col s2">
+                            <input type="text" format-app="number" ng-model="pagamento.vlrTxEntrega" name="vlrTxEntrega" id="vlrTxEntrega" />
+                            <label for="vlrTxEntrega" ng-class="{active: classEdit}">Tx. Entrega - R$</label>
+                        </div>
+                        <div class="input-field col s2">
+                            <input type="text" format-app="number" ng-model="pagamento.vlrDesconto" name="vlrDesconto" id="vlrDesconto" />
+                            <label for="vlrDesconto" ng-class="{active: classEdit}">Desconto- R$</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row container">
+                <div class="col s4 m7" style="max-width: 33%;">
+                    <a class="waves-effect waves-light btn modal-trigger" href="#addItensPedido">Adicionar Itens ao Pedido</a>
+                </div>
+            </div>
+
+            <!-- Modal Structure -->
+            <div id="addItensPedido" class="modal">
+                <div class="modal-content">
+                    <h4>Itens do Pedido</h4>
+                    <p>Adicione Itens ao pedido.</p>
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">textsms</i>
+                        <input type="text" name="produto" ng-model="produtoSelecionado" ng-keyup="complete(produtoSelecionado)"
+                            id="autocomplete-input" class="autocomplete" />
+                        <ul class="collection" ng-model="hideList" ng-hide="hideList" style="margin-top: -13px;">
+                            <li class="collection-item" ng-repeat="produto in filterProduto" ng-click="selecionarItem(produto)">{{produto.nome}}
                             </li>
                         </ul>
-                        <label for="autocomplete-input">Buscar Clientes</label>
+                        <label for="autocomplete-input">Buscar Produtos</label>
                     </div>
+
                     <div class="input-field col s2">
-                        <input type="text" id="dataEntrega" class="datepicker"
-                               name="dataEntrega" ng-model="pedido.dtaEntrega"/> <label
-                            for="dataEntrega" ng-class="{active: classEdit}">Data
-                        para entrega</label>
+                        <input type="number" ng-model="item.quantidade" ng-disabled="prdIndisponivel" name="quantidade" id="quantidade" />
+                        <label for="quantidade" ng-class="{active: classEdit}">Quantidade</label>
                     </div>
-                    <div class="input-field col s2">
-                        <input type="text" id="dataDevolucao" class="datepicker"
-                               name="dataDevolucao" ng-model="pedido.dtaDevolucao"/> <label
-                            for="dataDevolucao" ng-class="{active: classEdit}">Data
-                        para devolução</label>
+                    <div class="card-panel red lighten-2 Alert-Indisponivel" ng-if="qtdIndisponivel">Quantidade indisponível!
                     </div>
-                    <div class="input-field col s4">
-                        <input type="text" ng-model="pedido.observacao" name="observacao" id="observacao"/>
-                        <label for="observacao" ng-class="{active: classEdit}">Observação da entrega</label>
+                    <div class="card-panel yellow lighten-2" ng-if="vlrQuantidadeIncorreta">Quantidade incorreta!
                     </div>
-                    <div class="input-field col s2">
-                        <select ng-model="pagamento.formaPagamento">
-                            <option value="" ng-disabled="true" ng-selected="true">Selecione</option>
-                            <option value="DINHEIRO">Dinheiro</option>
-                            <option value="CARTAO">Cartão</option>
-                            <option value="BOLETO">Boleto</option>
-                            <option value="CHEQUE">Cheque</option>
-                        </select> <label>Forma de Pagamento</label>
+                    <div class="card-panel light-blue lighten-2" ng-if="pedidoMaiorQueEstoque">Quantidade ({{item.quantidade}}) solicitada é maior que quantidade em estoque({{produtoPedido.quantidade}}).
                     </div>
-                    <div class="input-field col s2">
-                        <input type="text" id="dataVencimentoPagamento"
-                               class="datepicker" name="dataVencimentoPagamento"
-                               ng-model="pagamento.dtaVencimento"
-                               ng-disabled="pagamento.formaPagamento === 'DINHEIRO' || pagamento.formaPagamento === 'CARTAO'"/>
-                        <label for="dataVencimentoPagamento"
-                               ng-class="{active: classEdit}">Data Vencimento</label>
-                    </div>
-                    <div class="input-field col s2">
-                        <input type="text" format-app="number"
-                               ng-model="pagamento.vlrTxEntrega" name="vlrTxEntrega" id="vlrTxEntrega"/> <label
-                            for="vlrTxEntrega" ng-class="{active: classEdit}">Tx.
-                        Entrega - R$</label>
-                    </div>
-                    <div class="input-field col s2">
-                        <input type="text" format-app="number"
-                               ng-model="pagamento.vlrDesconto" name="vlrDesconto" id="vlrDesconto"/> <label
-                            for="vlrDesconto" ng-class="{active: classEdit}">Desconto- R$</label>
-                    </div>
+
+                </div>
+                <div class="modal-footer" ng-disabled="true">
+                    <a class="btn-floating btn-small waves-effect waves-light" ng-if="qtdItemPermitida" ng-click="addItemPedido()">
+                        <i class="material-icons">add</i>
+                    </a>
+                    <a href="#!" class="btn-floating btn-medium waves-effect waves-light red modal-action modal-close waves-effect">
+                        <i class="material-icons">close</i>
+                    </a>
                 </div>
             </div>
-        </div>
+        </form>
+        <div class="row container" ng-if="itens.length">
+            <table class="responsive-table highlight">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Preço</th>
+                        <th>Quantidade</th>
+                        <th>Total</th>
+                        <th>Remover</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in itens">
+                        <td>
+                            <span ng-bind="item.produto.nome"></span>
+                        </td>
+                        <td>
+                            <span ng-bind="item.produto.preco | currency: 'R$'"></span>
+                        </td>
+                        <td>
+                            <span ng-bind="item.quantidade"></span>
+                        </td>
+                        <td>
+                            <span> {{item.quantidade*item.produto.preco | currency: 'R$'}}</span>
+                        </td>
+                        <td>
+                            <a href="" ng-click="removeItem(item)">
+                                <i style="color: #e57373;" class="material-icons">delete_forever</i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr style="border-top: 1px solid black;">
+                        <td></td>
+                        <td></td>
+                        <td>Qtd ítens: {{quantidadeItems}}</td>
+                        <td>Valor total {{somatorioGeral | currency: 'R$'}}</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <div class="row container">
-            <!-- 			<div class="col s4 m7"> -->
-            <!-- 				<input type="checkbox" id="reservarPedido" ng-model="pedido.reservarPedido" /> -->
-            <!-- 				<label for="reservarPedido">Reservar Pedido ?</label> -->
-            <!-- 			</div> -->
-            <div class="col s4 m7" style="max-width: 33%;">
-                <a class="waves-effect waves-light btn modal-trigger"
-                   href="#addItensPedido">Adicionar Itens ao Pedido</a>
-            </div>
         </div>
-
-        <!-- Modal Structure -->
-        <div id="addItensPedido" class="modal">
-            <div class="modal-content">
-                <h4>Itens do Pedido</h4>
-                <p>Adicione Itens ao pedido.</p>
-                <div class="input-field col s6">
-                    <i class="material-icons prefix">textsms</i> <input type="text"
-                                                                        name="produto" ng-model="produtoSelecionado"
-                                                                        ng-keyup="complete(produtoSelecionado)"
-                                                                        id="autocomplete-input"
-                                                                        class="autocomplete"/>
-                    <ul class="collection" ng-model="hideList" ng-hide="hideList"
-                        style="margin-top: -13px;">
-                        <li class="collection-item" ng-repeat="produto in filterProduto"
-                            ng-click="selecionarItem(produto)">{{produto.nome}}
+        <div id="modalContrato" class="modal detalhesPedido">
+            <nav class="nav-extended">
+                <div class="nav-content">
+                    <ul class="tabs tabs-transparent">
+                        <li class="tab">
+                            <a href="#principal" ng-click="abaSelecionada('principal')" class="active">Contrato Locação
+                            </a>
                         </li>
                     </ul>
-                    <label for="autocomplete-input">Buscar Produtos</label>
                 </div>
-
-                <div class="input-field col s2">
-                    <input type="number" ng-model="item.quantidade"
-                           ng-disabled="prdIndisponivel" name="quantidade" id="quantidade"/> <label
-                        for="quantidade" ng-class="{active: classEdit}">Quantidade</label>
-                </div>
-                <div class="card-panel red lighten-2 Alert-Indisponivel"
-                     ng-if="qtdIndisponivel">Quantidade indisponível!
-                </div>
-                <div class="card-panel yellow lighten-2"
-                     ng-if="vlrQuantidadeIncorreta">Quantidade incorreta!
-                </div>
-                <div class="card-panel light-blue lighten-2"
-                     ng-if="pedidoMaiorQueEstoque">Quantidade
-                    ({{item.quantidade}}) solicitada é maior que quantidade em
-                    estoque({{produtoPedido.quantidade}}).
-                </div>
-
+            </nav>
+            <div class="modal-content" id="imprimirContrato">
+                <div ng-include="'../template/contrato.html'"></div>
             </div>
-            <div class="modal-footer" ng-disabled="true">
-                <a class="btn-floating btn-small waves-effect waves-light"
-                   ng-if="qtdItemPermitida" ng-click="addItemPedido()"> <i
-                        class="material-icons">add</i>
-                </a> <a href="#!"
-                        class="btn-floating btn-medium waves-effect waves-light red modal-action modal-close waves-effect">
-                <i class="material-icons">close</i>
-            </a>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat blue-text" ng-click="printToCart('imprimirContrato')">Imprimir/Contrato</a>
+                <a href="#!" class="modal-action modal-close waves-effect waves-light btn" ng-click="addItem()">Concordar/Finalizar</a>
             </div>
         </div>
-    </form>
-    <div class="row container" ng-if="itens.length">
-        <table class="responsive-table highlight">
-            <thead>
-            <tr>
-                <th>Produto</th>
-                <th>Preço</th>
-                <th>Quantidade</th>
-                <th>Total</th>
-                <th>Remover</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="item in itens">
-                <td><span ng-bind="item.produto.nome"></span></td>
-                <td><span ng-bind="item.produto.preco | currency: 'R$'"></span>
-                </td>
-                <td><span ng-bind="item.quantidade"></span></td>
-                <td><span> {{item.quantidade*item.produto.preco |
-								currency: 'R$'}}</span></td>
-                <td><a href="" ng-click="removeItem(item)"> <i
-                        style="color: #e57373;" class="material-icons">delete_forever</i>
-                </a></td>
-            </tr>
-            <tr style="border-top: 1px solid black;">
-                <td></td>
-                <td></td>
-                <td>Qtd ítens: {{quantidadeItems}}</td>
-                <td>Valor total {{somatorioGeral | currency: 'R$'}}</td>
-                <td></td>
-            </tr>
-            </tbody>
-        </table>
 
     </div>
-    <div id="modalContrato" class="modal detalhesPedido">
-        <nav class="nav-extended">
-            <div class="nav-content">
-                <ul class="tabs tabs-transparent">
-                    <li class="tab"><a href="#principal"
-                                       ng-click="abaSelecionada('principal')" class="active">Contrato
-                        Locação</a></li>
-                </ul>
-            </div>
-        </nav>
-        <div class="modal-content" id="imprimirContrato">
-            <div ng-include="'../template/contrato.html'"></div>
-        </div>
-        <div class="modal-footer">
-            <a href="#!"
-               class="modal-action modal-close waves-effect waves-green btn-flat blue-text"
-               ng-click="printToCart('imprimirContrato')">Imprimir/Contrato</a> <a
-                href="#!"
-                class="modal-action modal-close waves-effect waves-light btn"
-                ng-click="addItem()">Concordar/Finalizar</a>
-        </div>
-    </div>
-
-</div>
-<!--Import jQuery before materialize.js-->
-<script type="text/javascript"
-        src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
-<script src="scripts/angularjs/angular-1.5.0-rc.0/angular.js"></script>
-<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-resource.js"></script>
-<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-messages.js"></script>
-<script src="scripts/angularjs/locale/pt-BR.js"></script>
-<script src="scripts/controllers/pedidoCtrl.js"></script>
-<script src="scripts/controllers/format.js"></script>
-<script src="scripts/js/ngMask.min.js"></script>
-<script src="scripts/js/uteis.js"></script>
-<script src="scripts/js/moment.min.js"></script>
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+    <script src="scripts/angularjs/angular-1.5.0-rc.0/angular.js"></script>
+    <script src="scripts/angularjs/angular-1.5.0-rc.0/angular-resource.js"></script>
+    <script src="scripts/angularjs/angular-1.5.0-rc.0/angular-messages.js"></script>
+    <script src="scripts/angularjs/locale/pt-BR.js"></script>
+    <script src="scripts/controllers/pedidoCtrl.js"></script>
+    <script src="scripts/controllers/format.js"></script>
+    <script src="scripts/js/ngMask.min.js"></script>
+    <script src="scripts/js/uteis.js"></script>
+    <script src="scripts/js/moment.min.js"></script>
 </body>
 
 </html>
