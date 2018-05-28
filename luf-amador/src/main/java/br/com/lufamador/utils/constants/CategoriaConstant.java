@@ -7,5 +7,7 @@ public enum CategoriaConstant {
     PORTARIAS,
     SUMULAS,
     NOTAS_OFICIAIS,
-    COMUNICADOS
+    COMUNICADOS,
+    DEFESA,
+    ARTILHARIA
 }

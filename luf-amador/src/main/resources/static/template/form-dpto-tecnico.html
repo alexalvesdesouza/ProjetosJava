@@ -3,35 +3,41 @@
     <div class="row container">
 
         <div class="input-field col s2">
-            <input type="text" id="numero" ng-model="departamentoTecnico.numero" ng-required="true" class="ng-pristine ng-untouched ng-valid"
-                name="numero" />
+            <input type="text" id="numero" ng-model="departamentoTecnico.numero" ng-required="true"
+                   class="ng-pristine ng-untouched ng-valid"
+                   name="numero"/>
             <label for="numero" ng-class="{active: classEdit}">Número</label>
         </div>
 
         <div ng-show="false" class="input-field col s3">
             <input type="text" id="categoria" ng-model="departamentoTecnico.categoria" ng-disabled="true"
-                ng-show="false" name="categoria" />
+                   ng-show="false" name="categoria"
+            />
 
             <label for="categoria" ng-class="{active: classEstaticField}">Categoria</label>
         </div>
 
         <div class="input-field col s4">
-            <input type="text" id="descricao" ng-model="departamentoTecnico.descricao" ng-required="true" class="ng-pristine ng-untouched ng-valid"
-                name="descricao" />
+            <input type="text" id="descricao" ng-model="departamentoTecnico.descricao" ng-required="true"
+                   class="ng-pristine ng-untouched ng-valid"
+                   name="descricao"/>
             <label for="descricao" ng-class="{active: classEdit}">Descrição</label>
         </div>
 
         <div class="input-field col s6">
-            <input type="text" id="link" ng-model="departamentoTecnico.link" ng-required="true" class="ng-pristine ng-untouched ng-valid"
-                name="link" />
+            <input type="text" id="link" ng-model="departamentoTecnico.link" ng-required="true"
+                   class="ng-pristine ng-untouched ng-valid"
+                   name="link"/>
             <label for="link" ng-class="{active: classEdit}">Link</label>
         </div>
 
         <div class="input-field col s2">
-            <a ng-if="!modoEdicao" class="waves-effect waves-light btn" ng-click="salvarDepartamentoTecnico(departamentoTecnico)">
+            <a ng-if="!modoEdicao" class="waves-effect waves-light btn"
+               ng-click="salvarDepartamentoTecnico(departamentoTecnico)">
                 <i class="material-icons right">done</i>Salvar</a>
 
-            <a ng-if="modoEdicao" class="waves-effect waves-light btn" ng-click="updateDepartamentoTecnico(departamentoTecnico)">
+            <a ng-if="modoEdicao" class="waves-effect waves-light btn"
+               ng-click="updateDepartamentoTecnico(departamentoTecnico)">
                 <i class="material-icons right">save</i>Atualizar</a>
         </div>
 
@@ -42,40 +48,46 @@
 <div ng-if="departamentoTecnicos && departamentoTecnicos.length" class="row container">
     <table class="responsive-table highlight">
         <thead>
-            <tr>
-                <th>Numero</th>
-                <th>Link</th>
-                <th>Categoria</th>
-                <th>Descrição</th>
-                <th>Editar</th>
-                <th>Deletar</th>
-            </tr>
+        <tr>
+            <th>Numero</th>
+            <th>Link</th>
+            <th>Categoria</th>
+            <th>Descrição</th>
+            <th>Editar</th>
+            <th>Deletar</th>
+        </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="departamentoTecnico in departamentoTecnicos">
-                <td>
-                    <span ng-bind="departamentoTecnico.numero"></span>
-                </td>
-                <td>
-                    <a href="{{departamentoTecnico.link}}" target="_blank">Clique Aqui</a>
-                </td>
-                <td>
-                    <span ng-bind="departamentoTecnico.categoria"></span>
-                </td>
-                <td>
-                    <span ng-bind="departamentoTecnico.descricao"></span>
-                </td>
-                <td>
-                    <a href="" ng-click="editarDepartamentoTecnico(departamentoTecnico)">
-                        <i class="material-icons" class="Button-Edit">create</i>
-                    </a>
-                </td>
-                <td>
-                    <a href="" ng-click="deletarDepartamentoTecnico(departamentoTecnico)">
-                        <i class="material-icons" style="color: #e57373;">delete_forever</i>
-                    </a>
-                </td>
-            </tr>
+        <tr ng-repeat="departamentoTecnico in departamentoTecnicos">
+            <td>
+                <span ng-bind="departamentoTecnico.numero"></span>
+            </td>
+            <td>
+                <a href="{{departamentoTecnico.link}}" target="_blank">Clique Aqui</a>
+            </td>
+            <td>
+                <span ng-bind="departamentoTecnico.categoria"></span>
+            </td>
+            <td>
+                <span ng-bind="departamentoTecnico.descricao"></span>
+            </td>
+            <td>
+                <a href="" ng-click="editarDepartamentoTecnico(departamentoTecnico)">
+                    <i class="material-icons" class="Button-Edit">create</i>
+                </a>
+            </td>
+            <td>
+
+                <a href="#modalAlertaDeleteCategoria" class="modal-trigger waves-effect waves-light"
+                   data-position="bottom"
+                   ng-click="selecionaEntidadeDeletar(departamentoTecnico)">
+                    <i class="material-icons" style="color: #e57373;">delete_forever</i>
+                </a>
+
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>
+
+

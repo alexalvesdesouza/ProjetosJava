@@ -31,7 +31,7 @@
         <div class="row container" style="margin-top: 10px;">
             <div class="row">
                 <div class="input-field col s3">
-                    <input type="text" ng-model="atleta.nome" name="nome" ng-required="true"/>
+                    <input type="text" ng-model="atleta.nome" capitalize id="nome" name="nome" ng-required="true"/>
                     <label for="nome" ng-class="{active: classEdit}">Nome</label>
                 </div>
                 <div class="input-field col s3">
@@ -40,13 +40,17 @@
                     <label for="dataNascimento" ng-class="{active: classEdit}">Data Nascimento</label>
                 </div>
                 <div class="input-field col s3">
-                    <input type="text" ng-model="atleta.telefone" mask="(99) 9999-9999" name="telefone"/>
-                    <label for="telefone" ng-class="{active: classEdit}">Telefone
-                    </label>
+                    <input type="text" id="identidade" name="identidade" ng-model="atleta.identidade" class="validate"/>
+                    <label for="identidade" ng-class="{active: classEdit}">Identidade</label>
                 </div>
                 <div class="input-field col s3">
-                    <input type="email" ng-model="atleta.email" class="validate"/>
-                    <label for="email" ng-class="{active: classEdit}">Email</label>
+                    <input type="text" id="cpf" name="cpf" ng-model="atleta.cpf" mask="999.999.999-99"/>
+                    <label for="cpf" ng-class="{active: classEdit}">CPF
+                    </label>
+                </div>
+                <div class="input-field col s12">
+                    <input type="text" id="observacao" name="observacao" ng-model="atleta.observacao" class="validate"/>
+                    <label for="observacao" ng-class="{active: classEdit}">Observação</label>
                 </div>
                 <div class="input-field col s10">
                     <i class="material-icons prefix">textsms</i>
@@ -59,7 +63,7 @@
                             ng-click="selecionarAgremiacao(agremiacao)">{{agremiacao.nome}}
                         </li>
                     </ul>
-                    <label ng-class="{active: classEdit}" for="autocomplete-input">Buscar Agremiação</label>
+                    <label ng-class="{active: classEdit}" for="autocomplete-input-agremiacao">Buscar Agremiação</label>
                 </div>
                 <div class="switch  col s2">
                     <label> Legal
@@ -78,7 +82,7 @@
                 <label for="cep" ng-class="{active: classCep || classEdit}">CEP</label>
             </div>
             <div class="input-field col s8">
-                <input type="text" ng-model="endereco.logradouro" name="logradouro" id="logradrouro"/>
+                <input type="text" ng-model="endereco.logradouro" id="logradouro" name="logradouro"/>
                 <label for="logradouro" ng-class="{active: classLogradouro || classEdit}">Logradouro</label>
             </div>
             <div class="input-field col s2">
@@ -117,11 +121,12 @@
         <thead>
         <tr>
             <th>Nome</th>
-            <th>Telefone</th>
-            <th>E-mail</th>
             <th>Dta. Nascimento</th>
+            <th>Identidade</th>
+            <th>CPF</th>
             <th>Agremiação</th>
             <th>Dta. Afiliação</th>
+            <th>Observação</th>
             <th>Editar</th>
             <th>Deletar</th>
         </tr>
@@ -132,19 +137,22 @@
                 <span ng-bind="atleta.nome"></span>
             </td>
             <td>
-                <span ng-bind="atleta.telefone"></span>
-            </td>
-            <td>
-                <span ng-bind="atleta.email"></span>
-            </td>
-            <td>
                 <span ng-bind="atleta.dataNascimento"></span>
+            </td>
+            <td>
+                <span ng-bind="atleta.identidade"></span>
+            </td>
+            <td>
+                <span ng-bind="atleta.cpf"></span>
             </td>
             <td>
                 <span ng-bind="atleta.agremiacao.nome"></span>
             </td>
             <td>
                 <span ng-bind="atleta.dataAfiliacao"></span>
+            </td>
+            <td>
+                <span ng-bind="atleta.observacao"></span>
             </td>
             <td>
                 <a href="" ng-click="editarAtleta(atleta)">

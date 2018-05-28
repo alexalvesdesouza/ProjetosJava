@@ -87,4 +87,20 @@ public class DepartamentoTecnicoController {
         return new ResponseEntity<>(departamentoTecnicos, status);
     }
 
+    @RequestMapping(path = "/artilharia", method = RequestMethod.GET)
+    public ResponseEntity<List<DepartamentoTecnico>> getArtilhariasCampeonatos() {
+        final List<DepartamentoTecnico> departamentoTecnicos = this.departamentoTecnicoService.getDepartamentoTecnicoList(
+                CategoriaConstant.ARTILHARIA.name());
+        HttpStatus status = (null == departamentoTecnicos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(departamentoTecnicos, status);
+    }
+
+    @RequestMapping(path = "/defesa", method = RequestMethod.GET)
+    public ResponseEntity<List<DepartamentoTecnico>> getDefesasMenosVasadasCampeonatos() {
+        final List<DepartamentoTecnico> departamentoTecnicos = this.departamentoTecnicoService.getDepartamentoTecnicoList(
+                CategoriaConstant.DEFESA.name());
+        HttpStatus status = (null == departamentoTecnicos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(departamentoTecnicos, status);
+    }
+
 }
