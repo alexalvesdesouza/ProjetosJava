@@ -27,42 +27,171 @@
 
         <div class="row container NavBarForm">
             <div class="row">
-               
-                <div class="input-field col s4">
-                    <select ng-model="tabelaJogo.campeonato">
-                        <option value="" ng-disabled="true" ng-selected="true">Selecione</option>
-                        <option value="AMADOR_ESPECIAL">Amador Especial</option>
-                        <option value="AMADOR_ACESSO">Amador Acesso</option>
-                        <option value="VETERANOS">Veteranos</option>
-                        <option value="RURAL">Rural</option>
-                        <option value="JUNIORES">Juniores</option>
-                        <option value="JUVENIL">Juvenil</option>
-                    </select>
-                    <label>Campeonato</label>
-                </div>
-
-                <div class="input-field col s2">
-                    <input type="text" id="dataInicio" class="datepicker" name="dataInicio" ng-model="tabelaJogo.dataInicio" />
-                    <label for="dataInicio" ng-class="{active: classEdit}">Data Início</label>
-                </div>
-
-                <div class="input-field col s2">
-                    <input type="text" id="dataEncerramento" class="datepicker" name="dataEncerramento" ng-model="tabelaJogo.dataEncerramento"
-                    />
-                    <label for="dataEncerramento" ng-class="{active: classEdit}">Data Encerramento</label>
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">textsms</i>
+                    <input type="text" name="campeonato" ng-model="nomeCampeonatoSelectionado" ng-keyup="completeCampeonato(nomeCampeonatoSelectionado)"
+                        id="autocomplete-input-campeonato" class="autocomplete" />
+                    <ul class="collection" ng-model="hideListCampeonato" ng-hide="hideListCampeonato" style="margin-top: -21px;">
+                        <li class="collection-item" ng-repeat="campeonato in filterCampeonato" ng-click="selecionarCampeonato(campeonato)">{{campeonato.categoria}} - {{campeonato.nomeCampeonato}}
+                        </li>
+                    </ul>
+                    <label ng-class="{active: classEdit}" for="autocomplete-input-campeonato">Buscar Campeonato</label>
                 </div>
 
             </div>
         </div>
 
-        <div class="input-field col s12 container">
+        <div class="row container">
+
+            <div id="candidatos-inscricao" class="col s5">
+                <table class="responsive-table highlight">
+                    <thead>
+                        <tr>
+                            <h5>Agremiações Mandante</h5>
+                        </tr>
+                        <tr>
+                            <!--<th>Selecionar</th>-->
+                            <!-- <th>Escudo</th> -->
+                            <th>Agremiação</th>
+                            <th>Inscrever</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="inscricao in inscricoes">
+                            <td style="width: 25px;">
+                                <input type="checkbox" id="{{ 'agremiacao-' + $index }}" name="{{ 'agremiacao-' + $index }}" ng-click="selecionaAgremiacaoA(inscricao)"
+                                    class="filled-in" />
+                                <label for="{{ 'agremiacao-' + $index }}"></label>
+                            </td>
+
+                            <td>
+                                <span ng-bind="inscricao.agremiacao.nome"></span>
+                            </td>
+                            <!-- <td style="width: 15px;">
+                                <a href="#" ng-click="selecionaAgremiacaoA(agremiacao)">
+                                    <i class="material-icons right Icons-Inscricao">
+                                        arrow_forward</i>
+                                </a>
+                            </td> -->
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col s2">
+
+                <div class="preloader-wrapper big active" ng-if="inTransfer">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div id="inscritos" class="col s5">
+                <table class="responsive-table highlight">
+                    <thead>
+                        <tr>
+                            <h5>Agremiações Visitantes</h5>
+                        </tr>
+                        <tr>
+                            <th>Desinscrever</th>
+                            <!--<th>Escudo</th>-->
+                            <th>Agremiação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="inscricao in inscricoes">
+                            <!-- <td style="width: 15px;">
+                                <a href="#" ng-click="selecionaAgremiacao(item)">
+                                    <i class="material-icons right Icons-Inscricao">
+                                        arrow_back</i>
+                                </a>
+                            </td> -->
+                            <td style="width: 25px;">
+                                <input type="checkbox" id="{{ 'inscricao-' + $index }}" name="{{ 'inscricao-' + $index }}" ng-click="selecionaAgremiacaoB(inscricao)"
+                                    class="filled-in" />
+                                <label for="{{ 'inscricao-' + $index }}"></label>
+                            </td>
+                            <!--<td>-->
+                            <!--<span ng-bind="agremiacao.contato"></span>-->
+                            <!--</td>-->
+                            <td>
+                                <span ng-bind="inscricao.agremiacao.nome"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="input-field col s4">
+                <select ng-model="jogo.chave">
+                    <option value="" ng-disabled="true" ng-selected="true">Selecione</option>
+                    <option value="CHAVE_A">Chave A</option>
+                    <option value="CHAVE_N">Chave B</option>
+
+                </select>
+                <label>Chave</label>
+            </div>
+            <div class="input-field col s4">
+                <select ng-model="jogo.local">
+                    <option value="" ng-disabled="true" ng-selected="true">Selecione</option>
+                    <option value="ESTADIO_AIRTON_BORGES">ESTÁDIO AIRTON BORGES</option>
+                    <option value="POLIESPORTIVO_CUSTODIO_PEREIRA">POLIESPORTIVO CUSTODIO PEREIRA</option>
+                    <option value="POLIESPORTIVO_JARDIM_BRASILIA">POLIESPORTIVO JARDIM BRASILIA</option>
+                    <option value="POLIESPORTIVO_TANCREDO_NEVES">POLIESPORTIVO TANCREDO NEVES</option>
+                    <option value="POLIESPORTIVO_PATRIMONIO">POLIESPORTIVO PATRIMONIO</option>
+                    <option value="POLIESPORTIVO_LUIZOTE_DE_FREITAS">POLIESPORTIVO LUIZOTE DE FREITAS</option>
+                    <option value="POLIESPORTIVO_SANTA_LUZIA">POLIESPORTIVO SANTA LUZIA</option>
+                    <option value="POLIESPORTIVO_TOCANTINS">POLIESPORTIVO TOCANTINS</option>
+                    <option value="POLIESPORTIVO_JOAO NAVES_DE_AVILA">POLIESPORTIVO JOÃO NAVES DE ÁVILA</option>
+                    <option value="POLIESPORTIVO_SAO_JORGE">POLIESPORTIVO SÃO JORGE</option>
+                    <option value="POLIESPORTIVO_FLUMINENSE">POLIESPORTIVO FLUMINENSE</option>
+                </select>
+                <label>Local</label>
+            </div>
+
+            <div class="input-field col s2">
+                <input type="text" id="dataPartida" class="datepicker" name="dataPartida" ng-model="jogo.dataPartida" />
+                <label for="dataPartida" ng-class="{active: classEdit}">Data Partida</label>
+            </div>
+            <div class="input-field col s2">
+                <input type="text" class="timepicker" ng-model="jogo.horarioInicio" id="horarioInicio" name="horarioInicio" ng-blur="addClassFieldDatePicker('classHorarioInicio')"
+                />
+                <label for="horarioInicio" ng-model="jogo.horarioInicio" ng-class="{active: classHorarioInicio}">Horário</label>
+            </div>
+
+            <div class="input-field col s12" style="margin-top: 10px;">
+
+                Confronto: {{agremiacaoA.nome}} X {{agremiacaoB.nome}} pela Chave: {{jogo.chave}}
+                <br /> Local: {{jogo.local}} - Data: {{jogo.dataPartida}} - Horário: {{jogo.horarioInicio}}
+            </div>
+
+
+        </div>
+
+
+
+        <!-- <div class="input-field col s12 container">
             <a ng-if="!modoEdicao" class="waves-effect waves-light btn" ng-click="salvarTabelaJogo(tabelaJogo)">
                 <i class="material-icons right">done</i>Salvar</a>
 
             <a ng-if="modoEdicao" class="waves-effect waves-light btn" ng-click="atualizarTabelaJogo(tabelaJogo)">
                 <i class="material-icons right">save</i>Atualizar</a>
-        </div>
+        </div> -->
     </form>
+
+
+
+
+
 
     <div ng-if="tabelaJogo && tabelaJogos.length" class="row container">
         <table class="responsive-table highlight">

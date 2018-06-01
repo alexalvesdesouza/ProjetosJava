@@ -44,7 +44,7 @@ public class Jogo implements Serializable {
     private Integer golsEquipeA;
     private Integer golsEquipeB;
     private String chave;
-    private Boolean partidaEnderrada;
+    private Boolean partidaEncerrada;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -125,12 +125,12 @@ public class Jogo implements Serializable {
         this.chave = chave;
     }
 
-    public Boolean getPartidaEnderrada() {
-        return partidaEnderrada;
+    public Boolean getPartidaEncerrada() {
+        return partidaEncerrada;
     }
 
-    public void setPartidaEnderrada(Boolean partidaEnderrada) {
-        this.partidaEnderrada = partidaEnderrada;
+    public void setPartidaEncerrada(Boolean partidaEncerrada) {
+        this.partidaEncerrada = partidaEncerrada;
     }
 
     public LocalDateTime getDataCriacao() {

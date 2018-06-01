@@ -13,6 +13,11 @@ agremiacao.controller("agremiacaoController",
             $scope.modoEdicao = false;
             $scope.classEdit = false;
             $scope.isEdit = false;
+            $scope.agremiacaoDeletar = {};
+
+            $scope.selecionaAgremiacaoDeletar = function(agremiacao) {
+                $scope.agremiacaoDeletar = agremiacao;
+            };
 
             $scope.salvarAgremiacao = function (agremiacao) {
                 agremiacao.endereco = $scope.endereco;

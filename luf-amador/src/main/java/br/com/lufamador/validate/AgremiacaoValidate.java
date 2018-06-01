@@ -1,7 +1,5 @@
 package br.com.lufamador.validate;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +7,6 @@ import br.com.lufamador.exception.ValidateException;
 import br.com.lufamador.model.Agremiacao;
 import br.com.lufamador.repository.AgremiacaoRepository;
 import br.com.lufamador.utils.mensagens.MensagensErro;
-import sun.security.validator.ValidatorException;
 
 @Component
 public class AgremiacaoValidate {
@@ -24,18 +21,30 @@ public class AgremiacaoValidate {
     public void validaCadastroAgremiacao(final Agremiacao agremiacao) {
         this.validaAgremiacaoExistente(agremiacao);
         this.validaSeAtletasAgremiacaoJaNaoEstaoInscritosEmOutraAgremiacao(agremiacao);
+        this.validaSeDataDeAfiliacaoNaoEstaVazia(agremiacao);
+    }
+
+    public void validaAtualizacaoAgremiacao(final Agremiacao agremiacao) {
+        this.validaSeDataDeAfiliacaoNaoEstaVazia(agremiacao);
+    }
+
+    private void validaSeDataDeAfiliacaoNaoEstaVazia(Agremiacao agremiacao) {
+        if (null == agremiacao.getDataAfiliacao())
+            throw new ValidateException(MensagensErro.DATA_AFILIACAO_VAZIA);
     }
 
     public void validaAgremiacaoExistente(final Agremiacao agremiacao) {
-        Agremiacao agremiacaoValidate =  this.repository.findByNomeSigla(agremiacao.getNomeSigla());
+        Agremiacao agremiacaoValidate = this.repository.findByNomeSigla(agremiacao.getNomeSigla());
         if (agremiacaoValidate != null)
             throw new ValidateException(MensagensErro.ENTIDADE_DUPLICADA.replace("?", "Agremiação"));
     }
 
     public void validaSeAtletasAgremiacaoJaNaoEstaoInscritosEmOutraAgremiacao(final Agremiacao agremiacao) {
-//        List<Agremiacao> agremiacaoList = this.repository.findAll();
-//        if (agremiacaoList.isEmpty())
-//            throw new ValidateException(MensagensErro.ENTIDADE_DUPLICADA.replace("?", "Agremiação"));
     }
 
-   }
+    public void deletarAgremiacao(Agremiacao agremiacao) {
+        if (0 != this.repository.localizaInscricaoDeAgremiacao(agremiacao.getCodigo()))
+            throw new ValidateException(
+                    MensagensErro.ERRO_DELETE_AGREMIACAO_INSCRITA.replace("?", agremiacao.getNome()));
+    }
+}

@@ -2,55 +2,76 @@
 <html ng-app="tjdu">
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8" />
 
-    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection"/>
-    <link type="text/css" rel="stylesheet" href="/estilos/estilo.css" media="screen,projection"/>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="/estilos/estilo.css" media="screen,projection" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
     <title>Tjdu</title>
 </head>
 
 <body ng-controller="tjduController">
-<div ng-include="'../template/header.html'"></div>
-<nav class="nav-extended" style="margin-top: 10px;">
-    <div class="nav-content">
-        <ul class="tabs tabs-transparent">
-            <li class="tab">
-                <a href="#editais" ng-click="abaSelecionada('editais')" class="active">Editais</a>
-            </li>
-            <li class="tab">
-                <a href="#resultados" ng-click="abaSelecionada('resultados')" class="active">Resultados</a>
-            </li>
-            <li class="tab">
-                <a href="#portarias" ng-click="abaSelecionada('portarias')" class="active">Portarias</a>
-            </li>
-        </ul>
+    <div ng-include="'../template/header.html'"></div>
+    <nav class="nav-extended" style="margin-top: 10px;">
+        <div class="nav-content">
+            <ul class="tabs tabs-transparent">
+                <li class="tab">
+                    <a href="#editais" ng-click="abaSelecionada('editais')" class="active">Editais</a>
+                </li>
+                <li class="tab">
+                    <a href="#resultados" ng-click="abaSelecionada('resultados')" class="active">Resultados</a>
+                </li>
+                <li class="tab">
+                    <a href="#portarias" ng-click="abaSelecionada('portarias')" class="active">Portarias</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="editais" style="margin-top: 1em;">
+        <div ng-include="'../template/form-tjdu.html'"></div>
     </div>
-</nav>
+    <div id="resultados" style="margin-top: 1em;">
+        <div ng-include="'../template/form-tjdu.html'"></div>
+    </div>
+    <div id="portarias" style="margin-top: 1em;">
+        <div ng-include="'../template/form-tjdu.html'"></div>
+    </div>
 
-<div id="editais" style="margin-top: 1em;">
-    <div ng-include="'../template/form-tjdu.html'"></div>
- </div>
-<div id="resultados" style="margin-top: 1em;">
-    <div ng-include="'../template/form-tjdu.html'"></div>
-</div>
-<div id="portarias" style="margin-top: 1em;">
-    <div ng-include="'../template/form-tjdu.html'"></div>
-</div>
+    <div id="modalAlertaDeleteCategoriaTjdu" class="modal">
+        <nav class="nav-extended">
+            <div class="nav-content">
+                <ul class="tabs tabs-transparent">
+                    <li class="tab">
+                        <a class="active">Deleta {{tjduDeletar.categoria}}</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="modal-content">
+            Deseja realmente deletar {{tjduDeletar.categoria}} n° {{tjduDeletar.numero}} ?
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat blue-text">Não</a>
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat blue-text" 
+            ng-click="deletarTjdu(tjduDeletar)">Sim</a>
+        </div>
+    </div>
 
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
-<script src="scripts/angularjs/angular-1.5.0-rc.0/angular.js"></script>
-<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-resource.js"></script>
-<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-messages.js"></script>
-<script src="scripts/angularjs/locale/pt-BR.js"></script>
-<script src="scripts/controllers/tjduCtrl.js"></script>
-<script src="scripts/controllers/format.js"></script>
-<script src="scripts/js/ngMask.min.js"></script>
-<script src="scripts/js/uteis.js"></script>
-<script src="scripts/js/moment.min.js"></script>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+    <script src="scripts/angularjs/angular-1.5.0-rc.0/angular.js"></script>
+    <script src="scripts/angularjs/angular-1.5.0-rc.0/angular-resource.js"></script>
+    <script src="scripts/angularjs/angular-1.5.0-rc.0/angular-messages.js"></script>
+    <script src="scripts/angularjs/locale/pt-BR.js"></script>
+    <script src="scripts/controllers/tjduCtrl.js"></script>
+    <script src="scripts/controllers/format.js"></script>
+    <script src="scripts/js/ngMask.min.js"></script>
+    <script src="scripts/js/uteis.js"></script>
+    <script src="scripts/js/moment.min.js"></script>
 </body>
 
 </html>

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.lufamador.exception.BussinessException;
 import br.com.lufamador.model.Campeonato;
+import br.com.lufamador.model.Inscricao;
 import br.com.lufamador.repository.CampeonatoRepository;
 import br.com.lufamador.utils.mensagens.MensagensErro;
 import br.com.lufamador.validate.CampeonatoValidate;
@@ -66,11 +67,23 @@ public class CampeonatoService {
     public final Campeonato inscricaoAgremiacaoCampeonato(Campeonato campeonato) {
 
         Campeonato campeonatoSaved = this.getCampeonato(campeonato.getCodigo());
-
-//        if (inscricaoService.deletarInscricoes(campeonatoSaved.getInscricoes()))
+        deletarInscricoes(campeonatoSaved.getInscricoes());
         campeonato.getInscricoes().forEach(inscricaoService::cadastraInscricao);
 
         return this.atualizarCampeonato(campeonato);
+    }
+
+    private void deletarInscricoes(List<Inscricao> inscricoes) {
+        try {
+
+            inscricoes.stream().forEach(inscricao -> {
+                this.repository.deleteFromLufCampeonatoInscricoes(inscricao.getCodigo());
+                this.repository.deleteFromLufInscricao(inscricao.getCodigo());
+            });
+
+        } catch (Exception e) {
+            throw new BussinessException("Erro ao excluir inscricoes");
+        }
     }
 
     private Campeonato getCampeonato(Long codigoCampeonato) {

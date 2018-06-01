@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import br.com.lufamador.model.Agremiacao;
+import br.com.lufamador.model.Inscricao;
 
 public interface AgremiacaoRepository extends JpaRepository<Agremiacao, Long> {
 
@@ -28,5 +29,8 @@ public interface AgremiacaoRepository extends JpaRepository<Agremiacao, Long> {
             "from luf_agremiacao lag left join luf_inscricao lin on lin.agremiacao_codigo = lag.codigo\n" +
             "where lin.codigo  in ( select lci.inscricoes_codigo from luf_campeonato_inscricoes lci where lci.campeonato_codigo = ?1 )\n", nativeQuery = true)
     List<Agremiacao> getAgremiacoesInscritas(Long codigoCampeonato);
+
+     @Query(value = "select count(1) as tem_inscricao from luf_inscricao where agremiacao_codigo = ?1", nativeQuery = true)
+    int localizaInscricaoDeAgremiacao(Long codigo);
 
 }

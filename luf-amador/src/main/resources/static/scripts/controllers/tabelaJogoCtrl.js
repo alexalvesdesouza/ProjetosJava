@@ -1,4 +1,4 @@
-var tabelaJogo = angular.module("tabelaJogo", ["ngMessages", "ngResource", "ngMask", "app.directive.format"]);
+var tabelaJogo = angular.module("tabelaJogo", ["ngMessages", "ngResource"]);
 tabelaJogo.controller("tabelaJogoController",
         function ($scope,
             $filter,
@@ -9,10 +9,63 @@ tabelaJogo.controller("tabelaJogoController",
 
             $scope.tabelaJogos = [];
             $scope.campeonatos = [];
+            $scope.inscricoes = [];
             $scope.tabelaJogo = {};
+            $scope.agremiacaoB = {};
+            $scope.agremiacaoA = {};
+            $scope.jogo = {};
             $scope.modoEdicao = false;
             $scope.classEdit = false;
             $scope.isEdit = false;
+            $scope.campeonatoSelected = false;
+
+            var carregaInscricoes = function () {
+                $scope.inscricoes = $scope.campeonatoSelecionado.inscricoes;
+            };
+
+            var carregaLocais = function () {
+
+            };
+
+            $scope.selecionaAgremiacaoA = function (inscricao) {
+                var agremiacao = inscricao.agremiacao;
+                var index = $scope.inscricoes.valueOf(inscricao);
+                $scope.inscricoes.splice(index, 1);
+                $scope.agremiacaoA = agremiacao;
+            };
+
+            $scope.selecionaAgremiacaoB = function (inscricao) {
+                var agremiacao = inscricao.agremiacao;
+                var index = $scope.inscricoes.valueOf(inscricao);
+                $scope.inscricoes.splice(index, 1);
+                $scope.agremiacaoB = agremiacao;
+            };
+
+
+            $scope.selecionarCampeonato = function (item) {
+                $scope.filterCampeonato = [];
+                $scope.hideListCampeonatos = true;
+                $scope.nomeCampeonatoSelectionado = item.nomeCampeonato;
+                $scope.campeonatoSelecionado = item;
+                $scope.campeonato = item;
+                $scope.campeonatoSelected = true;
+                carregaInscricoes();
+            };
+
+            $scope.completeCampeonato = function (param) {
+                $scope.hideListCampeonatos = false;
+                var output = [];
+                angular.forEach($scope.campeonatos, function (campeonatoMap) {
+                    if (campeonatoMap.nomeCampeonato === null) {
+                        return;
+                    }
+                    if (campeonatoMap.nomeCampeonato.toLowerCase().indexOf(param.toLowerCase()) >= 0) {
+                        output.push(campeonatoMap);
+                    }
+                });
+                $scope.filterCampeonato = output;
+            };
+
 
             $scope.salvarTabelaJogo = function (tabelaJogo) {
                 $http.post(BASE_PATH, tabelaJogo)
@@ -58,8 +111,9 @@ tabelaJogo.controller("tabelaJogoController",
             };
 
             var carregarCampeonatos = function () {
+                const inscAbertas = true;
                 $http
-                    .get(BASE_PATH_CAMPEONATOS)
+                    .get(BASE_PATH_CAMPEONATOS + "/" + inscAbertas + "/")
                     .success(function (ret) {
                         $scope.campeonatos = [];
                         $scope.campeonatos = ret;
@@ -95,6 +149,7 @@ tabelaJogo.controller("tabelaJogoController",
             };
 
             carregarTabelaJogos();
+            carregarCampeonatos();
 
         })
     .filter('startFrom', function () {

@@ -17,6 +17,11 @@ atleta.controller("atletaController",
             $scope.isEdit = false;
             $scope.hideListAgremiacoes = false;
             $scope.filterAgremiacao = [];
+            $scope.atletaDeletar = {};
+
+            $scope.selecionaAtletaDeletar = function (atleta) {
+                $scope.atletaDeletar = atleta;
+            };
 
             $scope.selecionarAgremiacao = function (item) {
                 $scope.filterAgremiacao = [];

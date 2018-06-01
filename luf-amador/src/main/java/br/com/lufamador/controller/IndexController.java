@@ -7,48 +7,58 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class IndexController {
 
-    @RequestMapping("/")
-    public String indexCtrl() {
-        return "tempoReal/tempo-real";
-    }
+  @RequestMapping(method = RequestMethod.GET, value = "/login")
+  public String loginForm() {
+    return "login";
+  }
 
-    @RequestMapping(value = "/view-escala", method = RequestMethod.GET)
-    public String fluxoCiaxa() {
-        return "departamentoArbitros/escalas";
-    }
+  @RequestMapping(method = RequestMethod.GET, value = "/logout")
+  public String logoutForm() {
+    return "logout";
+  }
 
-    @RequestMapping(value = "/view-tempo-real", method = RequestMethod.GET)
-    public String tempoReal() {
-        return "tempoReal/tempo-real";
-    }
+  @RequestMapping(method = RequestMethod.GET, value = "/")
+  public String indexCtrl() {
+    return "tempoReal/tempo-real";
+  }
 
-    @RequestMapping(value = "/view-tjdu", method = RequestMethod.GET)
-    public String getTjdu() {
-        return "tjdu/form";
-    }
+  @RequestMapping(value = "/view-escala", method = RequestMethod.GET)
+  public String fluxoCiaxa() {
+    return "departamentoArbitros/escalas";
+  }
 
-    @RequestMapping(value = "/view-dpto-tecnico", method = RequestMethod.GET)
-    public String dptoTecnico() {
-        return "departamentoTecnico/form";
-    }
+  @RequestMapping(value = "/view-tempo-real", method = RequestMethod.GET)
+  public String tempoReal() {
+    return "tempoReal/tempo-real";
+  }
 
-    @RequestMapping(value = "/view-atletas", method = RequestMethod.GET)
-    public String atletas() {
-        return "atletas/form";
-    }
+  @RequestMapping(value = "/view-tjdu", method = RequestMethod.GET)
+  public String getTjdu() {
+    return "tjdu/form";
+  }
 
-    @RequestMapping(value = "/view-campeonato", method = RequestMethod.GET)
-    public String competicoes() {
-        return "campeonato/form";
-    }
+  @RequestMapping(value = "/view-dpto-tecnico", method = RequestMethod.GET)
+  public String dptoTecnico() {
+    return "departamentoTecnico/form";
+  }
 
-    @RequestMapping(value = "/view-agremiacoes", method = RequestMethod.GET)
-    public String agremiacoes() {
-        return "agremiacoes/form";
-    }
+  @RequestMapping(value = "/view-atletas", method = RequestMethod.GET)
+  public String atletas() {
+    return "atletas/form";
+  }
 
-    @RequestMapping(value = "/view-tabela-jogos", method = RequestMethod.GET)
-    public String tabelaJogos() {
-        return "tabelaJogos/form";
-    }
+  @RequestMapping(value = "/view-campeonato", method = RequestMethod.GET)
+  public String competicoes() {
+    return "campeonato/form";
+  }
+
+  @RequestMapping(value = "/view-agremiacoes", method = RequestMethod.GET)
+  public String agremiacoes() {
+    return "agremiacoes/form";
+  }
+
+  @RequestMapping(value = "/view-tabela-jogos", method = RequestMethod.GET)
+  public String tabelaJogos() {
+    return "tabelaJogos/form";
+  }
 }

@@ -31,33 +31,28 @@
             <div class="row container" style="margin-top: 10px;">
                 <div class="row">
                     <div class="input-field col s4">
-                        <input type="text" ng-model="agremiacao.nome" name="nome" ng-required="true" />
+                        <input type="text" ng-model="agremiacao.nome" id="nome" name="nome" ng-required="true" capitalize />
                         <label for="nome" ng-class="{active: classEdit}">Nome</label>
                     </div>
                     <div class="input-field col s4">
-                        <input type="text" ng-model="agremiacao.telefone" mask="(99) 9999-9999" name="telefone" />
-                        <label for="telefone" ng-class="{active: classEdit}">Telefone
-                        </label>
+                        <input type="text" id="dataAfiliacao" class="datepicker" name="dataAfiliacao" ng-model="agremiacao.dataAfiliacao" />
+                        <label for="dataAfiliacao" ng-class="{active: classEdit}">Data Afiliacao</label>
                     </div>
 
                     <div class="input-field col s4">
-                        <input type="email" ng-model="agremiacao.email" class="validate" />
-                        <label for="email" ng-class="{active: classEdit}">Email</label>
+                        <input type="text" id="dataMandatoDiretoria" ng-disabled="true" class="datepicker" name="dataMandatoDiretoria" ng-model="jogo.dataMandatoDiretoria"
+                        />
+                        <label for="dataMandatoDiretoria" ng-class="{active: classEdit}">Data mandato Diretoria</label>
                     </div>
 
-                    <div class="input-field col s4">
-                        <input type="text" ng-model="agremiacao.contato" name="contato" ng-required="true" />
-                        <label for="contato" ng-class="{active: classEdit}">Contato</label>
-                    </div>
-
-                    <div class="input-field col s4">
-                        <input type="text" ng-model="agremiacao.observacao" name="observacao" ng-required="true" />
+                    <div class="input-field col s10">
+                        <input type="text" ng-model="agremiacao.observacao" id="observacao" name="observacao" ng-required="true" capitalize/>
                         <label for="observacao" ng-class="{active: classEdit}">Observação</label>
                     </div>
-                    <div class="switch  col s4">
-                        <label> Inativa
-                            <input type="checkbox" ng-model="agremiacao.status" />
-                            <span class="lever"></span> Ativa
+                    <div class="switch  col s2">
+                        <label> Ativa
+                            <input type="checkbox" ng-model="agremiacao.inativa" />
+                            <span class="lever"></span> Inativa
                         </label>
                     </div>
 
@@ -71,7 +66,7 @@
                     <label for="cep" ng-class="{active: classCep || classEdit}">CEP</label>
                 </div>
                 <div class="input-field col s8">
-                    <input type="text" ng-model="endereco.logradouro" name="logradouro" id="logradrouro" />
+                    <input type="text" ng-model="endereco.logradouro" id="logradrouro2" name="logradouro" />
                     <label for="logradouro" ng-class="{active: classLogradouro || classEdit}">Logradouro</label>
                 </div>
                 <div class="input-field col s2">
@@ -110,10 +105,11 @@
             <thead>
                 <tr>
                     <th>Nome</th>
-                    <th>Telefone</th>
-                    <th>E-mail</th>
-                    <th>Contato</th>
+                    <th>Escudo</th>
+                    <th>Data Afiliação</th>
+                    <th>Data Mandato Diretoria</th>
                     <th>Observação</th>
+                    <th>Inativa ?</th>
                     <th>Editar</th>
                     <th>Deletar</th>
                 </tr>
@@ -124,25 +120,28 @@
                         <span ng-bind="agremiacao.nome"></span>
                     </td>
                     <td>
-                        <span ng-bind="agremiacao.telefone"></span>
+                        <span ng-bind="agremiacao.escudo"></span>
                     </td>
                     <td>
-                        <span ng-bind="agremiacao.email"></span>
+                        <span ng-bind="agremiacao.dataAfiliacao"></span>
                     </td>
                     <td>
-                        <span ng-bind="agremiacao.contato"></span>
+                        <span ng-bind="agremiacao.dataMandatoDiretoria"></span>
                     </td>
                     <td>
                         <span ng-bind="agremiacao.observacao"></span>
                     </td>
                     <td>
+                        <span ng-if="agremiacao.inativa">Sim</span>
+                        <span ng-if="!agremiacao.inativa">Não</span>
+                    </td>
+                    <td>
                         <a href="" ng-click="editarAgremiacao(agremiacao)">
-                            <!-- <i class="material-icons" class="Button-Edit">create</i> -->
                             <i class="material-icons" style="color: #3d5afe;">create</i>
                         </a>
                     </td>
                     <td>
-                        <a href="" ng-click="deletarAgremiacao(agremiacao)">
+                        <a href="#modalAlertaDeleteAgremiacao" class="modal-trigger waves-effect waves-light" data-position="bottom" ng-click="selecionaAgremiacaoDeletar(agremiacao)">
                             <i class="material-icons" style="color: #e57373;">delete_forever</i>
                         </a>
                     </td>
@@ -150,6 +149,25 @@
             </tbody>
         </table>
 
+    </div>
+
+    <div id="modalAlertaDeleteAgremiacao" class="modal">
+        <nav class="nav-extended">
+            <div class="nav-content">
+                <ul class="tabs tabs-transparent">
+                    <li class="tab">
+                        <a class="active">Deleta agremiação : {{agremiacaoDeletar.nome}}</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="modal-content">
+            Deseja realmente deletar a Agremiação: {{agremiacaoDeletar.nome}} ?
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat blue-text">Não</a>
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat blue-text" ng-click="deletarAgremiacao(agremiacaoDeletar)">Sim</a>
+        </div>
     </div>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

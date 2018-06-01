@@ -1,5 +1,6 @@
 package br.com.lufamador.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,10 +35,29 @@ public class AgremiacaoService {
         this.validate.validaCadastroAgremiacao(agremiacao);
         try {
             this.enderecoService.cadastraEndereco(agremiacao.getEndereco());
+            this.calculaDataMandatoDiretoria(agremiacao);
             agremiacaoSaved = this.repository.saveAndFlush(agremiacao);
         } catch (Exception e) {
         }
         return agremiacaoSaved;
+    }
+
+    private void calculaDataMandatoDiretoria(Agremiacao agremiacao) {
+        final LocalDate dataAfiliacao = agremiacao.getDataAfiliacao();
+        final LocalDate dataAtual = LocalDate.now();
+        LocalDate dataMandatoDiretoria = dataAfiliacao.plusYears(4l);
+
+        boolean finalizouCalculo = false;
+
+        while (!finalizouCalculo) {
+
+            if (dataMandatoDiretoria.isAfter(dataAtual)) {
+                finalizouCalculo = true;
+            } else {
+                dataMandatoDiretoria = dataMandatoDiretoria.plusYears(4l);
+            }
+        }
+        agremiacao.setDataMandatoDiretoria(dataMandatoDiretoria);
     }
 
     public final String getNomeSigla(String sigla) {
@@ -61,17 +81,22 @@ public class AgremiacaoService {
     public List<Agremiacao> getAgremiacoesInscritas(final Long codigoCampeonato) {
         return this.repository.getAgremiacoesInscritas(codigoCampeonato);
     }
+
     public List<Agremiacao> getAgremiacoesDisponiveis(final Long codigoCampeonato) {
         return this.repository.getAgremiacoesDisponiveis(codigoCampeonato);
     }
 
     public final Agremiacao atualizarAgremiacao(Agremiacao agremiacao) {
+        this.validate.validaAtualizacaoAgremiacao(agremiacao);
         this.enderecoService.atualizaEndereco(agremiacao.getEndereco());
+        this.calculaDataMandatoDiretoria(agremiacao);
         return this.repository.saveAndFlush(agremiacao);
     }
 
     public void deletarAgremiacao(final Long codigo) {
-        this.repository.delete(this.getAgremiacao(codigo));
+        final Agremiacao agremiacao = this.getAgremiacao(codigo);
+        this.validate.deletarAgremiacao(agremiacao);
+        this.repository.delete(agremiacao);
     }
 
     public Agremiacao getAgremiacao(final Long codigo) {

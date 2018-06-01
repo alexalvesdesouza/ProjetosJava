@@ -8,6 +8,5 @@ public enum CategoriaConstant {
     SUMULAS,
     NOTAS_OFICIAIS,
     COMUNICADOS,
-    DEFESA,
-    ARTILHARIA
+    ARTILHARIA_DEFESA
 }

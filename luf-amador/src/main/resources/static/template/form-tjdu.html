@@ -4,7 +4,7 @@
 
         <div class="input-field col s4">
             <input type="text" id="numero" ng-model="tjdu.numero" ng-required="true" class="ng-pristine ng-untouched ng-valid" name="numero"
-            />
+                capitalize />
             <label for="numero" ng-class="{active: classEdit}">Número</label>
         </div>
 
@@ -61,7 +61,7 @@
                     </a>
                 </td>
                 <td>
-                    <a href="" ng-click="deletarTjdu(tjdu)">
+                    <a href="#modalAlertaDeleteCategoriaTjdu" class="modal-trigger waves-effect waves-light" data-position="bottom" ng-click="selecionaEntidadeDeletar(tjdu)">
                         <i class="material-icons" style="color: #e57373;">delete_forever</i>
                     </a>
                 </td>
