@@ -1,9 +1,9 @@
 <nav>
 	<div class="nav-wrapper">
-		<a href="#!" class="brand-logo"> <i class="material-icons">cloud</i>Logo
-		</a>
+<!-- 		<a href="#!" class="brand-logo"> <i class="material-icons">cloud</i>Logo -->
+<!-- 		</a> -->
 		<ul class="right hide-on-med-and-down">
-			<li><a href="/view-atletas"> <i class="material-icons left">directions_run</i>Atletas
+			<li sec:authorize="hasRole('ESC_ATLETAS')"><a href="/view-atletas"> <i class="material-icons left">directions_run</i>Atletas
 			</a></li>
 			<li><a href="/view-agremiacoes"> <i
 					class="material-icons left">account_balance</i>Agremiações

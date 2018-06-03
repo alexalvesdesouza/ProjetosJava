@@ -17,9 +17,9 @@ public class IndexController {
     return "logout";
   }
 
-  @RequestMapping(method = RequestMethod.GET, value = "/")
+  @RequestMapping(method = RequestMethod.GET, value = "/template")
   public String indexCtrl() {
-    return "tempoReal/tempo-real";
+    return "template";
   }
 
   @RequestMapping(value = "/view-escala", method = RequestMethod.GET)

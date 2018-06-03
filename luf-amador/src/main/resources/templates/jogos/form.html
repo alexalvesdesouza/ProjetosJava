@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html ng-app="jogo">
+<html ng-app="jogo"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"
@@ -16,7 +18,7 @@
 
 .Alert-Indisponivel {
 	font-size: 20px;
-/* 	color: #310bef; */
+	/* 	color: #310bef; */
 }
 </style>
 <title>Gerar Jogo</title>
@@ -99,9 +101,7 @@
 							<label for="dataVencimentoPagamento"
 								ng-class="{active: classEdit}">Data Vencimento</label>
 						</div>
-						<div class="input-field col s2">
-
-						</div>
+						<div class="input-field col s2"></div>
 					</div>
 				</div>
 			</div>
@@ -135,15 +135,15 @@
 						<label for="autocomplete-input">Buscar Produtos</label>
 					</div>
 
-					<div class="input-field col s2">
-
-					</div>
+					<div class="input-field col s2"></div>
 					<div class="card-panel red lighten-2 Alert-Indisponivel"
 						ng-if="qtdIndisponivel">Quantidade indisponível!</div>
 					<div class="card-panel yellow lighten-2"
 						ng-if="vlrQuantidadeIncorreta">Quantidade incorreta!</div>
 					<div class="card-panel light-blue lighten-2"
-						ng-if="jogoMaiorQueEstoque">Quantidade ({{item.quantidade}}) solicitada é maior que quantidade em estoque({{produtoJogo.quantidade}}).</div>
+						ng-if="jogoMaiorQueEstoque">Quantidade ({{item.quantidade}})
+						solicitada é maior que quantidade em
+						estoque({{produtoJogo.quantidade}}).</div>
 
 				</div>
 				<div class="modal-footer" ng-disabled="true">
@@ -174,8 +174,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr
-						ng-repeat="item in itens">
+					<tr ng-repeat="item in itens">
 						<td><span ng-bind="item.produto.nome"></span></td>
 						<td><span ng-bind="item.produto.preco | currency: 'R$'"></span>
 						</td>
@@ -195,7 +194,8 @@
 				<div class="nav-content">
 					<ul class="tabs tabs-transparent">
 						<li class="tab"><a href="#principal"
-							ng-click="abaSelecionada('principal')" class="active">Contrato Locação</a></li>
+							ng-click="abaSelecionada('principal')" class="active">Contrato
+								Locação</a></li>
 					</ul>
 				</div>
 			</nav>

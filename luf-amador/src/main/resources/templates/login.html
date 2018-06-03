@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
 
 <!--Let browser know website is optimized for mobile-->
@@ -83,15 +84,15 @@ form {
 						<label for="password">Senha</label>
 					</div>
 
-					<button id="loginbtn" class="waves-effect waves-light btn"
+					<button id="loginbtn" class="waves-effect waves-light btn"xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity"
 						style="background-color: #ff8a80" name='btn_login'>Entrar
 					</button>
-<!-- 					                <div class='input-field col s12'> -->
-											
-<!-- 					                        <input type="checkbox" id="remember-me" name="remember-me"/> -->
-<!-- 					                        <label for="remember-me">Lembrar Login</label> -->
+					<!-- 					                <div class='input-field col s12'> -->
 
-<!-- 					                </div> -->
+					<!-- 					                        <input type="checkbox" id="remember-me" name="remember-me"/> -->
+					<!-- 					                        <label for="remember-me">Lembrar Login</label> -->
+
+					<!-- 					                </div> -->
 
 				</form>
 

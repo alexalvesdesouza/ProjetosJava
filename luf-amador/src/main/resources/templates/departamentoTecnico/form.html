@@ -1,88 +1,92 @@
 <!DOCTYPE html>
-<html ng-app="departamentoTecnico">
+<html ng-app="departamentoTecnico"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"
+	charset="UTF-8" />
 
-    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection"/>
-    <link type="text/css" rel="stylesheet" href="/estilos/estilo.css" media="screen,projection"/>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link type="text/css" rel="stylesheet"
+	href="materialize/css/materialize.min.css" media="screen,projection" />
+<link type="text/css" rel="stylesheet" href="/estilos/estilo.css"
+	media="screen,projection" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet" />
 
-    <title>Departamento Técnico</title>
+<title>Departamento Técnico</title>
 </head>
 
 <body ng-controller="departamentoTecnicoController">
-<div ng-include="'../template/header.html'"></div>
-<nav class="nav-extended" style="margin-top: 10px;">
-    <div class="nav-content">
-        <ul class="tabs tabs-transparent">
-            <li class="tab">
-                <a href="#editais" ng-click="abaSelecionada('editais')" class="active">Editais</a>
-            </li>
-            <li class="tab">
-                <a href="#comunicados" ng-click="abaSelecionada('comunicados')"> Comunicados</a>
-            </li>
-            <li class="tab">
-                <a href="#nota-oficiais" ng-click="abaSelecionada('notas-oficiais')">Notas Oficiais</a>
-            </li>
-            <li class="tab">
-                <a href="#sumulas" ng-click="abaSelecionada('sumulas')">Sumulas</a>
-            </li>
-            <li class="tab">
-                <a href="#artilharia" ng-click="abaSelecionada('artilharia-defesa')">Artilharia/Defesa menos vasada</a>
-            </li>
-                   </ul>
-    </div>
-</nav>
+	<div ng-include="'../template/header.html'"></div>
+	<nav class="nav-extended" style="margin-top: 10px;">
+		<div class="nav-content">
+			<ul class="tabs tabs-transparent">
+				<li class="tab"><a href="#editais"
+					ng-click="abaSelecionada('editais')" class="active">Editais</a></li>
+				<li class="tab"><a href="#comunicados"
+					ng-click="abaSelecionada('comunicados')"> Comunicados</a></li>
+				<li class="tab"><a href="#nota-oficiais"
+					ng-click="abaSelecionada('notas-oficiais')">Notas Oficiais</a></li>
+				<li class="tab"><a href="#sumulas"
+					ng-click="abaSelecionada('sumulas')">Sumulas</a></li>
+				<li class="tab"><a href="#artilharia"
+					ng-click="abaSelecionada('artilharia-defesa')">Artilharia/Defesa
+						menos vasada</a></li>
+			</ul>
+		</div>
+	</nav>
 
-<div id="editais" class="NavBarForm">
-    <div ng-include="'../template/form-dpto-tecnico.html'"></div>
-</div>
-<div id="comunicados" class="NavBarForm">
-    <div ng-include="'../template/form-dpto-tecnico.html'"></div>
-</div>
-<div id="nota-oficiais" class="NavBarForm">
-    <div ng-include="'../template/form-dpto-tecnico.html'"></div>
-</div>
-<div id="sumulas" class="NavBarForm">
-    <div ng-include="'../template/form-dpto-tecnico.html'"></div>
-</div>
-<div id="artilharia" class="NavBarForm">
-    <div ng-include="'../template/form-dpto-tecnico.html'"></div>
-</div>
+	<div id="editais" class="NavBarForm">
+		<div ng-include="'../template/form-dpto-tecnico.html'"></div>
+	</div>
+	<div id="comunicados" class="NavBarForm">
+		<div ng-include="'../template/form-dpto-tecnico.html'"></div>
+	</div>
+	<div id="nota-oficiais" class="NavBarForm">
+		<div ng-include="'../template/form-dpto-tecnico.html'"></div>
+	</div>
+	<div id="sumulas" class="NavBarForm">
+		<div ng-include="'../template/form-dpto-tecnico.html'"></div>
+	</div>
+	<div id="artilharia" class="NavBarForm">
+		<div ng-include="'../template/form-dpto-tecnico.html'"></div>
+	</div>
 
-<div id="modalAlertaDeleteCategoria" class="modal">
-    <nav class="nav-extended">
-        <div class="nav-content">
-            <ul class="tabs tabs-transparent">
-                <li class="tab">
-                    <a class="active">Deleta {{departamentoTecnicoDeletar.categoria}}</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <div class="modal-content">
-        Deseja realmente deletar a {{departamentoTecnicoDeletar.categoria}} n° {{departamentoTecnicoDeletar.numero}} ?
-    </div>
-    <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat blue-text">Não</a>
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat blue-text"
-           ng-click="deletarDepartamentoTecnico(departamentoTecnicoDeletar)">Sim</a>
-    </div>
-</div>
+	<div id="modalAlertaDeleteCategoria" class="modal">
+		<nav class="nav-extended">
+			<div class="nav-content">
+				<ul class="tabs tabs-transparent">
+					<li class="tab"><a class="active">Deleta
+							{{departamentoTecnicoDeletar.categoria}}</a></li>
+				</ul>
+			</div>
+		</nav>
+		<div class="modal-content">Deseja realmente deletar a
+			{{departamentoTecnicoDeletar.categoria}} n°
+			{{departamentoTecnicoDeletar.numero}} ?</div>
+		<div class="modal-footer">
+			<a href="#!"
+				class="modal-action modal-close waves-effect waves-green btn-flat blue-text">Não</a>
+			<a href="#!"
+				class="modal-action modal-close waves-effect waves-green btn-flat blue-text"
+				ng-click="deletarDepartamentoTecnico(departamentoTecnicoDeletar)">Sim</a>
+		</div>
+	</div>
 
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
-<script src="scripts/angularjs/angular-1.5.0-rc.0/angular.js"></script>
-<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-resource.js"></script>
-<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-messages.js"></script>
-<script src="scripts/angularjs/locale/pt-BR.js"></script>
-<script src="scripts/controllers/dptoTecnicoCtrl.js"></script>
-<script src="scripts/controllers/format.js"></script>
-<script src="scripts/js/ngMask.min.js"></script>
-<script src="scripts/js/uteis.js"></script>
-<script src="scripts/js/moment.min.js"></script>
+	<script type="text/javascript"
+		src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+	<script src="scripts/angularjs/angular-1.5.0-rc.0/angular.js"></script>
+	<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-resource.js"></script>
+	<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-messages.js"></script>
+	<script src="scripts/angularjs/locale/pt-BR.js"></script>
+	<script src="scripts/controllers/dptoTecnicoCtrl.js"></script>
+	<script src="scripts/controllers/format.js"></script>
+	<script src="scripts/js/ngMask.min.js"></script>
+	<script src="scripts/js/uteis.js"></script>
+	<script src="scripts/js/moment.min.js"></script>
 </body>
 
 </html>

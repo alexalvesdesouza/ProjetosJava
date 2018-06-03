@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -22,6 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers(HttpMethod.GET, "/")
         .permitAll()
+        .antMatchers("/view-atletas").hasAnyRole("ESC_ATLETAS")
         .anyRequest()
         .authenticated()
         .and()
@@ -32,21 +32,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .logout()
         .logoutSuccessUrl("/login?logout");
   }
-
+  
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     BCryptPasswordEncoder encoder = passwordEncoder();
     auth.inMemoryAuthentication()
         .withUser("alex")
         .password(encoder.encode("123"))
-        .roles("ADMIN");
+        .roles("ADMIN", "ESC_AGREMIACAO");
   }
 
   @Bean
   public BCryptPasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
-
 
   @Override
   public void configure(WebSecurity web) throws Exception {
