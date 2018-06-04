@@ -22,43 +22,43 @@ public class IndexController {
     return "template";
   }
 
-  @RequestMapping(value = "/view-escala", method = RequestMethod.GET)
+  @RequestMapping(method = RequestMethod.GET, path = "/view-escala")
   public String fluxoCiaxa() {
     return "departamentoArbitros/escalas";
   }
 
-  @RequestMapping(value = "/view-tempo-real", method = RequestMethod.GET)
+  @RequestMapping(method = RequestMethod.GET, path = "/view-tempo-real")
   public String tempoReal() {
     return "tempoReal/tempo-real";
   }
 
-  @RequestMapping(value = "/view-tjdu", method = RequestMethod.GET)
+  @RequestMapping(method = RequestMethod.GET, path = "/view-tjdu")
   public String getTjdu() {
     return "tjdu/form";
   }
 
-  @RequestMapping(value = "/view-dpto-tecnico", method = RequestMethod.GET)
+  @RequestMapping(method = RequestMethod.GET, path = "/view-dpto-tecnico")
   public String dptoTecnico() {
     return "departamentoTecnico/form";
   }
 
-  @RequestMapping(value = "/view-atletas", method = RequestMethod.GET)
+  @RequestMapping(method = RequestMethod.GET, path = "/view-atletas")
   public String atletas() {
     return "atletas/form";
   }
 
-  @RequestMapping(value = "/view-campeonato", method = RequestMethod.GET)
+  @RequestMapping(method = RequestMethod.GET, path = "/view-campeonato")
   public String competicoes() {
     return "campeonato/form";
   }
 
-  @RequestMapping(value = "/view-agremiacoes", method = RequestMethod.GET)
+  @RequestMapping(method = RequestMethod.GET, path = "/view-agremiacoes")
   public String agremiacoes() {
     return "agremiacoes/form";
   }
 
-  @RequestMapping(value = "/view-tabela-jogos", method = RequestMethod.GET)
+  @RequestMapping(method = RequestMethod.GET, path = "/view-tabela-jogos")
   public String tabelaJogos() {
-    return "tabelaJogos/form";
+    return "tabela/form";
   }
 }

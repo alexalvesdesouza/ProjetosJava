@@ -14,6 +14,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+  private final String ROLE_ESC_ATLETAS      = "ESC_ATLETAS";
+  private final String ROLE_ESC_AGREMIACOES  = "ESC_AGREMIACOES";
+  private final String ROLE_ESC_TJDU         = "ESC_TJDU";
+  private final String ROLE_ESC_TEMPO_REAL   = "ESC_TEMPO_REAL";
+  private final String ROLE_ESC_DPTO_TECNICO = "ESC_DPTO_TECNICO";
+
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.csrf()
@@ -21,7 +27,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers(HttpMethod.GET, "/")
         .permitAll()
-        .antMatchers("/view-atletas").hasAnyRole("ESC_ATLETAS")
+        .antMatchers("/view-atletas")
+        .hasAnyRole(ROLE_ESC_ATLETAS)
         .anyRequest()
         .authenticated()
         .and()
@@ -32,14 +39,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .logout()
         .logoutSuccessUrl("/login?logout");
   }
-  
+
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     BCryptPasswordEncoder encoder = passwordEncoder();
     auth.inMemoryAuthentication()
         .withUser("alex")
         .password(encoder.encode("123"))
-        .roles("ADMIN", "ESC_AGREMIACAO");
+        .roles(ROLE_ESC_ATLETAS, ROLE_ESC_AGREMIACOES, ROLE_ESC_TJDU, ROLE_ESC_TEMPO_REAL, ROLE_ESC_DPTO_TECNICO);
+
+    auth.inMemoryAuthentication()
+        .withUser("celiana")
+        .password(encoder.encode("celiana@luf"))
+        .roles(ROLE_ESC_ATLETAS, ROLE_ESC_AGREMIACOES, ROLE_ESC_TJDU, ROLE_ESC_TEMPO_REAL, ROLE_ESC_DPTO_TECNICO);
+
+    auth.inMemoryAuthentication()
+        .withUser("leticia")
+        .password(encoder.encode("leticia@luf"))
+        .roles(ROLE_ESC_ATLETAS, ROLE_ESC_AGREMIACOES, ROLE_ESC_TJDU, ROLE_ESC_TEMPO_REAL, ROLE_ESC_DPTO_TECNICO);
   }
 
   @Bean

@@ -4,7 +4,7 @@ tabelaJogo.controller("tabelaJogoController",
             $filter,
             $http) {
 
-            const BASE_PATH = "/tabelaJogos";
+            const BASE_PATH = "/tabela-jogos";
             const BASE_PATH_CAMPEONATOS = "/campeonatos";
 
             $scope.tabelaJogos = [];
@@ -72,7 +72,7 @@ tabelaJogo.controller("tabelaJogoController",
                     .success(function (tabelaJogoCadastrada) {
                         limparFormularioTabelaJogo();
                         carregarTabelaJogos();
-                        //$scope.formularioTabelaJogo.$setPristine();
+                        // $scope.formularioTabelaJogo.$setPristine();
                         Materialize.toast('TabelaJogo cadastrada com sucesso.', 4000, 'rounded');
                     })
                     .error(function (data, status) {
@@ -86,7 +86,7 @@ tabelaJogo.controller("tabelaJogoController",
                         limparFormularioTabelaJogo();
                         $scope.modoEdicao = false;
                         carregarTabelaJogos();
-                        //$scope.formularioTabelaJogo.$setPristine();
+                        // $scope.formularioTabelaJogo.$setPristine();
                         Materialize.toast('TabelaJogo atualizada com sucesso.', 4000, 'rounded');
                     })
                     .error(function (data, status) {
@@ -136,7 +136,7 @@ tabelaJogo.controller("tabelaJogoController",
 
                         carregarTabelaJogos();
                         limparFormularioTabelaJogo();
-                        //$scope.formularioTabelaJogo.$setPristine();
+                        // $scope.formularioTabelaJogo.$setPristine();
                         Materialize.toast('TabelaJogo deletado com sucesso.', 4000, 'rounded');
                     })
                     .error(function (data, status) {

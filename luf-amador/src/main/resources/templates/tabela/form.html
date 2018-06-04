@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="tabelaJogo"
-	xmlns:th="http://www.thymeleaf.org"
+<html ng-app="tabelaJogo" xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 <head>
@@ -22,12 +21,8 @@
 
 	<nav class="nav-extended" style="margin-top: 10px;">
 		<div class="nav-content">
-			<ul class="tabs tabs-transparent">
-				<div class="nav-content">
-					<span class="nav-title" style="margin: -19px 0 0 10px !important">Cadastro
-						de Tabela de Jogos</span>
-				</div>
-			</ul>
+			<span class="nav-title" style="margin: -19px 0 0 10px !important">Cadastro
+				de Tabela de Jogos</span>
 		</div>
 	</nav>
 	<form name="tabelaJogoForm" id="tabelaJogoForm" action="" method="post"
@@ -91,19 +86,19 @@
 			</div>
 			<div class="col s2">
 
-				<div class="preloader-wrapper big active" ng-if="inTransfer">
-					<div class="spinner-layer spinner-blue-only">
-						<div class="circle-clipper left">
-							<div class="circle"></div>
-						</div>
-						<div class="gap-patch">
-							<div class="circle"></div>
-						</div>
-						<div class="circle-clipper right">
-							<div class="circle"></div>
-						</div>
-					</div>
-				</div>
+				<!-- 				<div class="preloader-wrapper big active" ng-if="inTransfer"> -->
+				<!-- 					<div class="spinner-layer spinner-blue-only"> -->
+				<!-- 						<div class="circle-clipper"> -->
+				<!-- 							<div class="circle"></div> -->
+				<!-- 						</div> -->
+				<!-- 						<div class="gap-patch"> -->
+				<!-- 							<div class="circle"></div> -->
+				<!-- 						</div> -->
+				<!-- 						<div class="circle-clipper right"> -->
+				<!-- 							<div class="circle"></div> -->
+				<!-- 						</div> -->
+				<!-- 					</div> -->
+				<!-- 				</div> -->
 
 			</div>
 			<div id="inscritos" class="col s5">
@@ -185,8 +180,8 @@
 			<div class="input-field col s2">
 				<input type="text" class="timepicker" ng-model="jogo.horarioInicio"
 					id="horarioInicio" name="horarioInicio"
-					ng-blur="addClassFieldDatePicker('classHorarioInicio')" />
-				<label for="horarioInicio" ng-model="jogo.horarioInicio"
+					ng-blur="addClassFieldDatePicker('classHorarioInicio')" /> <label
+					for="horarioInicio" ng-model="jogo.horarioInicio"
 					ng-class="{active: classHorarioInicio}">Horário</label>
 			</div>
 
@@ -200,21 +195,7 @@
 
 		</div>
 
-
-
-		<!-- <div class="input-field col s12 container">
-            <a ng-if="!modoEdicao" class="waves-effect waves-light btn" ng-click="salvarTabelaJogo(tabelaJogo)">
-                <i class="material-icons right">done</i>Salvar</a>
-
-            <a ng-if="modoEdicao" class="waves-effect waves-light btn" ng-click="atualizarTabelaJogo(tabelaJogo)">
-                <i class="material-icons right">save</i>Atualizar</a>
-        </div> -->
 	</form>
-
-
-
-
-
 
 	<div ng-if="tabelaJogo && tabelaJogos.length" class="row container">
 		<table class="responsive-table highlight">
