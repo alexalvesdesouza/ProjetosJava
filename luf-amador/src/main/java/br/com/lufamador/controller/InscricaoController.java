@@ -51,7 +51,7 @@ public class InscricaoController {
     }
 
     @RequestMapping(path = "/{codigo}/", method = RequestMethod.DELETE)
-    public ResponseEntity deletaInscricao(@PathVariable("codigo") Long codigo) {
+    public ResponseEntity<?> deletaInscricao(@PathVariable("codigo") Long codigo) {
         this.inscricaoService.excluirInscricao(codigo);
         HttpStatus status = HttpStatus.OK;
         return new ResponseEntity<>(status);

@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import br.com.lufamador.model.Agremiacao;
-import br.com.lufamador.model.Inscricao;
 
 public interface AgremiacaoRepository extends JpaRepository<Agremiacao, Long> {
 

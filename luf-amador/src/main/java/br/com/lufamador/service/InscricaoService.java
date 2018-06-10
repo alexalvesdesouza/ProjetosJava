@@ -45,6 +45,10 @@ public class InscricaoService {
 
         return inscricoes.isEmpty();
     }
+    
+    public void deletaInscricao(Inscricao inscricao) {
+      this.repository.delete(inscricao);
+    }
 
     public List<Inscricao> getInscricoes() {
         return this.repository.findAll();
