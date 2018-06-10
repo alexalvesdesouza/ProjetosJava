@@ -50,8 +50,8 @@
 					<div class="input-field col s4">
 						<input type="text" id="dataMandatoDiretoria" ng-disabled="true"
 							class="datepicker" name="dataMandatoDiretoria"
-							ng-model="jogo.dataMandatoDiretoria" />
-						<label for="dataMandatoDiretoria" ng-class="{active: classEdit}">Data
+							ng-model="jogo.dataMandatoDiretoria" /> <label
+							for="dataMandatoDiretoria" ng-class="{active: classEdit}">Data
 							mandato Diretoria</label>
 					</div>
 
@@ -137,7 +137,10 @@
 			<tbody>
 				<tr ng-repeat="agremiacao in agremiacoes">
 					<td><span ng-bind="agremiacao.nome"></span></td>
-					<td><span ng-bind="agremiacao.escudo"></span></td>
+					<td><img
+						src="/assets/agremiacoes/{{agremiacao.nomeSigla}}.png" alt=""
+						height="30" width="30" /></td>
+
 					<td><span ng-bind="agremiacao.dataAfiliacao"></span></td>
 					<td><span ng-bind="agremiacao.dataMandatoDiretoria"></span></td>
 					<td><span ng-bind="agremiacao.observacao"></span></td>

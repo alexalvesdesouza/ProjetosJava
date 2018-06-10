@@ -24,128 +24,147 @@ import br.com.lufamador.utils.datas.LocalDateTimeSerializer;
 @Table(name = "luf_jogo")
 public class Jogo implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    private Long codigo;
+  @Id
+  @GeneratedValue(generator = "increment")
+  @GenericGenerator(name = "increment", strategy = "increment")
+  private Long              codigo;
 
-    @JsonSerialize(using = LocalDateSerializer.class)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    private LocalDate dataPartida;
-    private String horario;
-    @OneToOne
-    private Local local;
-    @OneToOne
-    private Agremiacao equipeA;
-    @OneToOne
-    private Agremiacao equipeB;
-    private Integer golsEquipeA;
-    private Integer golsEquipeB;
-    private String chave;
-    private Boolean partidaEncerrada;
+  @JsonSerialize(using = LocalDateSerializer.class)
+  @JsonDeserialize(using = LocalDateDeserializer.class)
+  private LocalDate         dataPartida;
+  private String            horarioPartida;
+  // @OneToOne
+  private String            local;
+  @OneToOne
+  private Agremiacao        agremiacaoA;
+  @OneToOne
+  private Agremiacao        agremiacaoB;
+  private Integer           golsAgremiacaoA;
+  private Integer           golsAgremiacaoB;
+  private String            chave;
+  private String            rodada;
+  private Boolean           partidaEncerrada;
+  private String            keyConfronto;
 
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime dataCriacao;
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime dataAtualizacao;
+  @JsonSerialize(using = LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+  private LocalDateTime     dataCriacao;
+  @JsonSerialize(using = LocalDateTimeSerializer.class)
+  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+  private LocalDateTime     dataAtualizacao;
 
-    public Long getCodigo() {
-        return codigo;
-    }
+  public Long getCodigo() {
+    return codigo;
+  }
 
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
-    }
+  public void setCodigo(Long codigo) {
+    this.codigo = codigo;
+  }
 
-    public LocalDate getDataPartida() {
-        return dataPartida;
-    }
+  public LocalDate getDataPartida() {
+    return dataPartida;
+  }
 
-    public void setDataPartida(LocalDate dataPartida) {
-        this.dataPartida = dataPartida;
-    }
+  public void setDataPartida(LocalDate dataPartida) {
+    this.dataPartida = dataPartida;
+  }
 
-    public String getHorario() {
-        return horario;
-    }
+  public String getHorarioPartida() {
+    return horarioPartida;
+  }
 
-    public void setHorario(String horario) {
-        this.horario = horario;
-    }
+  public void setHorarioPartida(String horarioPartida) {
+    this.horarioPartida = horarioPartida;
+  }
 
-    public Local getLocal() {
-        return local;
-    }
+  public String getLocal() {
+    return local;
+  }
 
-    public void setLocal(Local local) {
-        this.local = local;
-    }
+  public void setLocal(String local) {
+    this.local = local;
+  }
 
-    public Agremiacao getEquipeA() {
-        return equipeA;
-    }
+  public Agremiacao getAgremiacaoA() {
+    return agremiacaoA;
+  }
 
-    public void setEquipeA(Agremiacao equipeA) {
-        this.equipeA = equipeA;
-    }
+  public void setAgremiacaoA(Agremiacao agremiacaoA) {
+    this.agremiacaoA = agremiacaoA;
+  }
 
-    public Agremiacao getEquipeB() {
-        return equipeB;
-    }
+  public Agremiacao getAgremiacaoB() {
+    return agremiacaoB;
+  }
 
-    public void setEquipeB(Agremiacao equipeB) {
-        this.equipeB = equipeB;
-    }
+  public void setAgremiacaoB(Agremiacao agremiacaoB) {
+    this.agremiacaoB = agremiacaoB;
+  }
 
-    public Integer getGolsEquipeA() {
-        return golsEquipeA;
-    }
+  public Integer getGolsAgremiacaoA() {
+    return golsAgremiacaoA;
+  }
 
-    public void setGolsEquipeA(Integer golsEquipeA) {
-        this.golsEquipeA = golsEquipeA;
-    }
+  public void setGolsAgremiacaoA(Integer golsAgremiacaoA) {
+    this.golsAgremiacaoA = golsAgremiacaoA;
+  }
 
-    public Integer getGolsEquipeB() {
-        return golsEquipeB;
-    }
+  public Integer getGolsAgremiacaoB() {
+    return golsAgremiacaoB;
+  }
 
-    public void setGolsEquipeB(Integer golsEquipeB) {
-        this.golsEquipeB = golsEquipeB;
-    }
+  public void setGolsAgremiacaoB(Integer golsAgremiacaoB) {
+    this.golsAgremiacaoB = golsAgremiacaoB;
+  }
 
-    public String getChave() {
-        return chave;
-    }
+  public String getChave() {
+    return chave;
+  }
 
-    public void setChave(String chave) {
-        this.chave = chave;
-    }
+  public void setChave(String chave) {
+    this.chave = chave;
+  }
 
-    public Boolean getPartidaEncerrada() {
-        return partidaEncerrada;
-    }
+  public String getRodada() {
+    return rodada;
+  }
 
-    public void setPartidaEncerrada(Boolean partidaEncerrada) {
-        this.partidaEncerrada = partidaEncerrada;
-    }
+  public void setRodada(String rodada) {
+    this.rodada = rodada;
+  }
 
-    public LocalDateTime getDataCriacao() {
-        return dataCriacao;
-    }
+  public Boolean getPartidaEncerrada() {
+    return partidaEncerrada;
+  }
 
-    public void setDataCriacao(LocalDateTime dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
+  public void setPartidaEncerrada(Boolean partidaEncerrada) {
+    this.partidaEncerrada = partidaEncerrada;
+  }
 
-    public LocalDateTime getDataAtualizacao() {
-        return dataAtualizacao;
-    }
+  public String getKeyConfronto() {
+    return keyConfronto;
+  }
 
-    public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
-        this.dataAtualizacao = dataAtualizacao;
-    }
+  public void setKeyConfronto(String keyConfronto) {
+    this.keyConfronto = keyConfronto;
+  }
+
+  public LocalDateTime getDataCriacao() {
+    return dataCriacao;
+  }
+
+  public void setDataCriacao(LocalDateTime dataCriacao) {
+    this.dataCriacao = dataCriacao;
+  }
+
+  public LocalDateTime getDataAtualizacao() {
+    return dataAtualizacao;
+  }
+
+  public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
+    this.dataAtualizacao = dataAtualizacao;
+  }
+
 }

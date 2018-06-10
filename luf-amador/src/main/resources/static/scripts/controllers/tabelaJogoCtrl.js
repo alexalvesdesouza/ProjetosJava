@@ -13,32 +13,26 @@ tabelaJogo.controller("tabelaJogoController",
             $scope.tabelaJogo = {};
             $scope.agremiacaoB = {};
             $scope.agremiacaoA = {};
+            $scope.rodada = {};
+            $scope.chave = {};
+            $scope.dataPartida = {};
+            $scope.horarioPartida = {};
             $scope.jogo = {};
             $scope.modoEdicao = false;
             $scope.classEdit = false;
             $scope.isEdit = false;
             $scope.campeonatoSelected = false;
+            $scope.hasEquipeASelecionada = false;
+            $scope.hasEquipeBSelecionada = false;
+            $scope.hasConfronto = false;
 
             var carregaInscricoes = function () {
+            	$scope.inscricoes = [];
                 $scope.inscricoes = $scope.campeonatoSelecionado.inscricoes;
             };
 
             var carregaLocais = function () {
 
-            };
-
-            $scope.selecionaAgremiacaoA = function (inscricao) {
-                var agremiacao = inscricao.agremiacao;
-                var index = $scope.inscricoes.valueOf(inscricao);
-                $scope.inscricoes.splice(index, 1);
-                $scope.agremiacaoA = agremiacao;
-            };
-
-            $scope.selecionaAgremiacaoB = function (inscricao) {
-                var agremiacao = inscricao.agremiacao;
-                var index = $scope.inscricoes.valueOf(inscricao);
-                $scope.inscricoes.splice(index, 1);
-                $scope.agremiacaoB = agremiacao;
             };
 
 
@@ -65,7 +59,6 @@ tabelaJogo.controller("tabelaJogoController",
                 });
                 $scope.filterCampeonato = output;
             };
-
 
             $scope.salvarTabelaJogo = function (tabelaJogo) {
                 $http.post(BASE_PATH, tabelaJogo)
@@ -143,10 +136,121 @@ tabelaJogo.controller("tabelaJogoController",
                         Materialize.toast(data.message, 4000, 'rounded');
                     });
             };
+            
+            $scope.salvarJogosRodada = function () {
+            	var tabelaJogos = {};
+            	tabelaJogos.jogos = $scope.tabelaJogos;
+            	tabelaJogos.campeonato = $scope.campeonato;
+            	$http.post(BASE_PATH, tabelaJogos)
+            	.success(function (tabela) {
+            		
+            		carregarTabelaJogos();
+            		limparFormularioTabelaJogo();
+            		// $scope.formularioTabelaJogo.$setPristine();
+            		Materialize.toast('TabelaJogo deletado com sucesso.', 4000, 'rounded');
+            	})
+            	.error(function (data, status) {
+            		Materialize.toast(data.message, 4000, 'rounded');
+            	});
+            };
 
             $scope.abaSelecionada = function (abaSelecionada) {
                 $scope.abaSelecionada = abaSelecionada;
             };
+            
+            $scope.addJogo = function () {
+
+            	jogo = {};
+            	jogo.agremiacaoA = $scope.agremiacaoA;
+            	jogo.agremiacaoB = $scope.agremiacaoB;
+            	jogo.dataPartida = $scope.dataPartida;
+            	jogo.horarioPartida = $scope.horarioPartida;
+            	jogo.chave = $scope.chave;
+            	jogo.rodada = $scope.rodada;
+            	jogo.local = $scope.local;
+            	
+            	$scope.tabelaJogos.push(jogo);
+            	limparForm('tabelaJogoForm');
+            };
+            
+
+            $scope.selecionaAgremiacaoA = function (inscricao) {
+            	if ($scope.hasEquipeASelecionada) {
+            		Materialize.toast('Já existe uma Agremiação A selecionada. Seleciona agora a Agremiação B.', 4000, 'rounded');
+            	} else {
+	                var agremiacao = inscricao.agremiacao;
+	                var index = $scope.inscricoes.indexOf(inscricao);
+	                $scope.inscricoes.splice(index, 1);
+	                $scope.agremiacaoA = agremiacao;
+	                $scope.hasEquipeASelecionada = true;
+	                if ($scope.hasEquipeASelecionada && $scope.hasEquipeBSelecionada) {
+	                	 $scope.hasConfronto = true;
+	                	 return;
+	                }
+	                $scope.hasConfronto = false;
+            	}
+            };
+
+            $scope.selecionaAgremiacaoB = function (inscricao) {
+            	if ($scope.hasEquipeBSelecionada) {
+            		Materialize.toast('Já existe uma Agremiação B selecionada. Seleciona agora a Agremiação A.', 4000, 'rounded');
+            	} else {
+	                var agremiacao = inscricao.agremiacao;
+	                var index = $scope.inscricoes.indexOf(inscricao);
+	                $scope.inscricoes.splice(index, 1);
+	                $scope.agremiacaoB = agremiacao;
+	                $scope.hasEquipeBSelecionada = true;
+	                if ($scope.hasEquipeASelecionada && $scope.hasEquipeBSelecionada) {
+	                	 $scope.hasConfronto = true;
+	                	 return;
+	                }
+	                $scope.hasConfronto = false;
+            	}
+            };
+            
+            var limparForm = function (idForm) {
+            	
+            	$scope.agremiacaoA = {};
+            	$scope.agremiacaoB = {};
+            	$scope.jogo = {};
+            	$scope.hasConfronto = false; 
+            	
+            	$scope.hasEquipeBSelecionada = false;
+                $scope.hasEquipeASelecionada = false;
+                $scope.hasConfronto = false;
+               
+            	$scope.jogo =  $scope.jogoCopy;
+    		   
+//    		   var form = document.getElementById(idForm);
+//    		   if (form === null) {
+//    				return;
+//    			}
+//
+//    		   var inputs = form.querySelectorAll('input');
+//    		   for (var i = 0; i < inputs.length; i++) {
+//    			   if (inputs[i].type != 'checkbox' && inputs[i].type != 'radio') {
+//    				   inputs[i].value = '';
+//    			   }
+//    		   }
+//    	   
+//    		   var textarea = form.querySelectorAll('textarea');
+//    		   for (var i = 0; i < textarea.length; i++) {
+//    			   textarea[i].value = '';
+//    		   }
+//    	   
+//    		   inputs = form.querySelectorAll('input[type=checkbox], input[type=radio]');
+//    		   for (i = 0; i < inputs.length; i++) {
+//    			   inputs[i].checked = false;
+//    		   }
+//    	   
+//    		   var selects = form.querySelectorAll('select');
+//    		   for (i = 0; i < selects.length; i++) {
+//    			   var options = selects[i].querySelectorAll('option');
+//    			   if (options.length > 0) {
+//    				   selects[i].value = options[0].value;
+//    			   }
+//    		   }
+    		};
 
             carregarTabelaJogos();
             carregarCampeonatos();

@@ -25,211 +25,237 @@
 				de Tabela de Jogos</span>
 		</div>
 	</nav>
-	<form name="tabelaJogoForm" id="tabelaJogoForm" action="" method="post"
-		class="col s12 m4 offset-m4 l4 offset-l4">
+	
+	<form name="tabelaJogoForm" id="tabelaJogoForm" action="" method="post">
 
-		<div class="row container NavBarForm">
-			<div class="row">
-				<div class="input-field col s12">
-					<i class="material-icons prefix">textsms</i> <input type="text"
-						name="campeonato" ng-model="nomeCampeonatoSelectionado"
-						ng-keyup="completeCampeonato(nomeCampeonatoSelectionado)"
-						id="autocomplete-input-campeonato" class="autocomplete" />
-					<ul class="collection" ng-model="hideListCampeonato"
-						ng-hide="hideListCampeonato" style="margin-top: -21px;">
-						<li class="collection-item"
-							ng-repeat="campeonato in filterCampeonato"
-							ng-click="selecionarCampeonato(campeonato)">{{campeonato.categoria}}
-							- {{campeonato.nomeCampeonato}}</li>
-					</ul>
-					<label ng-class="{active: classEdit}"
-						for="autocomplete-input-campeonato">Buscar Campeonato</label>
-				</div>
-
+		<div class="row container NewContainer">
+		
+			<div class="input-field col s12">
+				<i class="material-icons prefix">textsms</i> <input type="text"
+					name="campeonato" ng-model="nomeCampeonatoSelectionado"
+					ng-keyup="completeCampeonato(nomeCampeonatoSelectionado)"
+					id="autocomplete-input-campeonato" class="autocomplete" />
+				<ul class="collection" ng-model="hideListCampeonato"
+					ng-hide="hideListCampeonato" style="margin-top: -21px;">
+					<li class="collection-item"
+						ng-repeat="campeonato in filterCampeonato"
+						ng-click="selecionarCampeonato(campeonato)">{{campeonato.categoria}}
+						- {{campeonato.nomeCampeonato}}</li>
+				</ul>
+				<label ng-class="{active: classEdit}"
+					for="autocomplete-input-campeonato">Buscar Campeonato</label>
 			</div>
+
+			
+			
+		</div>
+		
+		<div class="row container NewContainer">
+		
+		<div class="input-field col s3">
+				<select ng-model="rodada">
+					<option value="" ng-disabled="true" ng-selected="true">Selecione</option>
+					<option value="1">1° Rodada</option>
+					<option value="2">2° Rodada</option>
+					<option value="3">3° Rodada</option>
+					<option value="4">4° Rodada</option>
+					<option value="5">5° Rodada</option>
+					<option value="6">6° Rodada</option>
+					<option value="7">7° Rodada</option>
+					<option value="8">8° Rodada</option>
+					<option value="9">9° Rodada</option>
+					<option value="10">10° Rodada</option>
+					<option value="11">11° Rodada</option>
+					<option value="SEMI_FINAL_IDA">Semi-final ida</option>
+					<option value="SEMI_FINAL_VOLTA">Semi-final volta</option>
+					<option value="FINAL_IDA">Final ida</option>
+					<option value="FINAL_VOLTA">Final volta</option>
+				</select> <label>Rodada</label>
+			</div>
+			
+			 <div class="input-field col s3">
+				<select ng-model="chave">
+					<option value="" ng-disabled="true" ng-selected="true">Selecione</option>
+					<option value="CHAVE_A">Chave A</option>
+					<option value="CHAVE_N">Chave B</option>
+	
+				</select> <label>Chave</label>
+				</div>
+			        <div class="input-field col s3">
+					<input type="text" id="dataPartida" class="datepicker"
+						name="dataPartida" ng-model="dataPartida" /> <label
+						for="dataPartida" ng-class="{active: classEdit}">Data
+						Partida</label>
+				</div>
+				<div class="input-field col s3">
+					<input type="text" class="timepicker" ng-model="horarioPartida"
+						id="horarioInicio" name="horarioInicio"
+						ng-blur="addClassFieldDatePicker('classHorarioInicio')" /> 
+						<label	for="horarioInicio" ng-class="{active: classHorarioInicio}">Horário</label>
+				</div>
+		
 		</div>
 
-		<div class="row container">
+		<div class="row container NewContainer">
 
-			<div id="candidatos-inscricao" class="col s5">
+			<div id="candidatos-inscricao" class="col s4">
 				<table class="responsive-table highlight">
 					<thead>
 						<tr>
 							<h5>Agremiações Mandante</h5>
 						</tr>
 						<tr>
-							<!--<th>Selecionar</th>-->
-							<!-- <th>Escudo</th> -->
+							<th>Selecionar</th>
 							<th>Agremiação</th>
-							<th>Inscrever</th>
+							<th>Escudo</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="inscricao in inscricoes">
-							<td style="width: 25px;"><input type="checkbox"
-								id="{{ 'agremiacao-' + $index }}"
-								name="{{ 'agremiacao-' + $index }}"
-								ng-click="selecionaAgremiacaoA(inscricao)" class="filled-in" />
+							<td style="width: 25px;">
+								<input 	type="checkbox"
+										ng-disabled="hasConfronto"
+										id="{{ 'agremiacao-' + $index }}"
+										name="{{ 'agremiacao-' + $index }}"
+										ng-click="selecionaAgremiacaoA(inscricao)" class="filled-in" />
 								<label for="{{ 'agremiacao-' + $index }}"></label></td>
 
 							<td><span ng-bind="inscricao.agremiacao.nome"></span></td>
-							<!-- <td style="width: 15px;">
-                                <a href="#" ng-click="selecionaAgremiacaoA(agremiacao)">
-                                    <i class="material-icons right Icons-Inscricao">
-                                        arrow_forward</i>
-                                </a>
-                            </td> -->
+							<td><img
+								src="/assets/agremiacoes/{{inscricao.agremiacao.nomeSigla}}.png"
+								alt="" height="30" width="30" /></td>
 
 						</tr>
 					</tbody>
 				</table>
 			</div>
-			<div class="col s2">
-
-				<!-- 				<div class="preloader-wrapper big active" ng-if="inTransfer"> -->
-				<!-- 					<div class="spinner-layer spinner-blue-only"> -->
-				<!-- 						<div class="circle-clipper"> -->
-				<!-- 							<div class="circle"></div> -->
-				<!-- 						</div> -->
-				<!-- 						<div class="gap-patch"> -->
-				<!-- 							<div class="circle"></div> -->
-				<!-- 						</div> -->
-				<!-- 						<div class="circle-clipper right"> -->
-				<!-- 							<div class="circle"></div> -->
-				<!-- 						</div> -->
-				<!-- 					</div> -->
-				<!-- 				</div> -->
-
+			<div class="col s4">
+			
+		        <div class="card-panel grey lighten-5 z-depth-1" style="margin-top: 95px;">
+		        	
+		          <div class="row valign-wrapper">
+		            <div class="col s4">
+		              <img src="/assets/agremiacoes/{{agremiacaoA.nomeSigla}}.png" alt="" height="70" width="70" class="responsive-img"> <!-- notice the "circle" class -->
+		              <br />
+		              {{agremiacaoA.nome}}
+		            </div>
+		            <div class="col s4">
+		              <span class="black-text">
+		               VS
+		              </span>
+		            </div>
+		             <div class="col s4">
+		              <img src="/assets/agremiacoes/{{agremiacaoB.nomeSigla}}.png" alt="" height="70" width="70" class="responsive-img"> <!-- notice the "circle" class -->
+		              <br />
+		              {{agremiacaoB.nome}}
+		            </div>
+		          </div>
+		        </div>
+		        
+		       
+		        <div class="input-field col s8">
+					<select ng-model="local">
+						<option value="" ng-disabled="true" ng-selected="true">Selecione</option>
+						<option value="ESTADIO_AIRTON_BORGES">ESTÁDIO AIRTON BORGES</option>
+						<option value="POLIESPORTIVO_CUSTODIO_PEREIRA">POLIESPORTIVO CUSTODIO PEREIRA</option>
+						<option value="POLIESPORTIVO_JARDIM_BRASILIA">POLIESPORTIVO JARDIM BRASILIA</option>
+						<option value="POLIESPORTIVO_TANCREDO_NEVES">POLIESPORTIVO TANCREDO NEVES</option>
+						<option value="POLIESPORTIVO_PATRIMONIO">POLIESPORTIVO PATRIMONIO</option>
+						<option value="POLIESPORTIVO_LUIZOTE_DE_FREITAS">POLIESPORTIVO LUIZOTE DE FREITAS</option>
+						<option value="POLIESPORTIVO_SANTA_LUZIA">POLIESPORTIVO SANTA LUZIA</option>
+						<option value="POLIESPORTIVO_TOCANTINS">POLIESPORTIVO TOCANTINS</option>
+						<option value="POLIESPORTIVO_JOAO NAVES_DE_AVILA">POLIESPORTIVO JOÃO NAVES DE ÁVILA</option>
+						<option value="POLIESPORTIVO_SAO_JORGE">POLIESPORTIVO SÃO JORGE</option>
+						<option value="POLIESPORTIVO_FLUMINENSE">POLIESPORTIVO FLUMINENSE</option>
+					</select> <label>Local</label>
+				</div>
+			
+				<div class="input-field col s4">
+				<a class="btn-floating" ng-click="addJogo()"><i class="material-icons">add</i></a>
+				</div>	
+		        
 			</div>
-			<div id="inscritos" class="col s5">
+			
+			
+			<div id="inscritos" class="col s4">
 				<table class="responsive-table highlight">
 					<thead>
 						<tr>
 							<h5>Agremiações Visitantes</h5>
 						</tr>
 						<tr>
-							<th>Desinscrever</th>
-							<!--<th>Escudo</th>-->
+							<th>Selecionar</th>
 							<th>Agremiação</th>
+							<th>Escudo</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="inscricao in inscricoes">
-							<!-- <td style="width: 15px;">
-                                <a href="#" ng-click="selecionaAgremiacao(item)">
-                                    <i class="material-icons right Icons-Inscricao">
-                                        arrow_back</i>
-                                </a>
-                            </td> -->
-							<td style="width: 25px;"><input type="checkbox"
-								id="{{ 'inscricao-' + $index }}"
-								name="{{ 'inscricao-' + $index }}"
-								ng-click="selecionaAgremiacaoB(inscricao)" class="filled-in" />
+						<tr ng-repeat="inscricao in inscricoes" >
+							
+							<td style="width: 25px;" >
+							<input 	type="checkbox"
+									ng-disabled="hasConfronto"
+									id="{{ 'inscricao-' + $index }}"
+									name="{{ 'inscricao-' + $index }}"
+									ng-click="selecionaAgremiacaoB(inscricao)" class="filled-in" />
 								<label for="{{ 'inscricao-' + $index }}"></label></td>
-							<!--<td>-->
-							<!--<span ng-bind="agremiacao.contato"></span>-->
-							<!--</td>-->
+
 							<td><span ng-bind="inscricao.agremiacao.nome"></span></td>
+							<td><img
+								src="/assets/agremiacoes/{{inscricao.agremiacao.nomeSigla}}.png"
+								alt="" height="30" width="30" /></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-
-			<div class="input-field col s4">
-				<select ng-model="jogo.chave">
-					<option value="" ng-disabled="true" ng-selected="true">Selecione</option>
-					<option value="CHAVE_A">Chave A</option>
-					<option value="CHAVE_N">Chave B</option>
-
-				</select> <label>Chave</label>
-			</div>
-			<div class="input-field col s4">
-				<select ng-model="jogo.local">
-					<option value="" ng-disabled="true" ng-selected="true">Selecione</option>
-					<option value="ESTADIO_AIRTON_BORGES">ESTÁDIO AIRTON
-						BORGES</option>
-					<option value="POLIESPORTIVO_CUSTODIO_PEREIRA">POLIESPORTIVO
-						CUSTODIO PEREIRA</option>
-					<option value="POLIESPORTIVO_JARDIM_BRASILIA">POLIESPORTIVO
-						JARDIM BRASILIA</option>
-					<option value="POLIESPORTIVO_TANCREDO_NEVES">POLIESPORTIVO
-						TANCREDO NEVES</option>
-					<option value="POLIESPORTIVO_PATRIMONIO">POLIESPORTIVO
-						PATRIMONIO</option>
-					<option value="POLIESPORTIVO_LUIZOTE_DE_FREITAS">POLIESPORTIVO
-						LUIZOTE DE FREITAS</option>
-					<option value="POLIESPORTIVO_SANTA_LUZIA">POLIESPORTIVO
-						SANTA LUZIA</option>
-					<option value="POLIESPORTIVO_TOCANTINS">POLIESPORTIVO
-						TOCANTINS</option>
-					<option value="POLIESPORTIVO_JOAO NAVES_DE_AVILA">POLIESPORTIVO
-						JOÃO NAVES DE ÁVILA</option>
-					<option value="POLIESPORTIVO_SAO_JORGE">POLIESPORTIVO SÃO
-						JORGE</option>
-					<option value="POLIESPORTIVO_FLUMINENSE">POLIESPORTIVO
-						FLUMINENSE</option>
-				</select> <label>Local</label>
-			</div>
-
-			<div class="input-field col s2">
-				<input type="text" id="dataPartida" class="datepicker"
-					name="dataPartida" ng-model="jogo.dataPartida" /> <label
-					for="dataPartida" ng-class="{active: classEdit}">Data
-					Partida</label>
-			</div>
-			<div class="input-field col s2">
-				<input type="text" class="timepicker" ng-model="jogo.horarioInicio"
-					id="horarioInicio" name="horarioInicio"
-					ng-blur="addClassFieldDatePicker('classHorarioInicio')" /> <label
-					for="horarioInicio" ng-model="jogo.horarioInicio"
-					ng-class="{active: classHorarioInicio}">Horário</label>
-			</div>
-
-			<div class="input-field col s12" style="margin-top: 10px;">
-
-				Confronto: {{agremiacaoA.nome}} X {{agremiacaoB.nome}} pela Chave:
-				{{jogo.chave}} <br /> Local: {{jogo.local}} - Data:
-				{{jogo.dataPartida}} - Horário: {{jogo.horarioInicio}}
-			</div>
-
-
+			
 		</div>
-
+		
 	</form>
 
-	<div ng-if="tabelaJogo && tabelaJogos.length" class="row container">
+	<div ng-if="tabelaJogo && tabelaJogos.length" class="row container NewContainer">
+	
+		<button class="btn waves-effect waves-light"
+				ng-click="salvarJogosRodada()" 
+				name="action">Salvar jogos {{rodada}}° rodada.
+	    	<i class="material-icons right">send</i>
+	  	</button>
+			
 		<table class="responsive-table highlight">
 			<thead>
 				<tr>
-					<th>Nome</th>
-					<th>Categoria</th>
-					<th>Edição</th>
-					<th>Início</th>
-					<th>Encerramento</th>
-					<th>Inscrições Encerradas ?</th>
-					<th>Editar</th>
-					<th>Encerrar</th>
+					<th>Rodada</th>
+					<th>Chave</th>
+					<th>Agremiacao A</th>
+					<th>Escudo</th>
+					<th>Local</th>
+					<th>Data/Horario</th>
+					<th>Escudo</th>
+					<th>Agremiação B</th>
+					<th>Editar Jogo</th>
+					<th>Excluir</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="tabelaJogo in tabelaJogos">
-					<td><span ng-bind="tabelaJogo.nomeTabelaJogo"></span></td>
-					<td><span ng-bind="tabelaJogo.categoria"></span></td>
-
-					<td><span ng-bind="tabelaJogo.edicao"></span></td>
-					<td><span ng-bind="tabelaJogo.dataInicio"></span></td>
-					<td><span ng-bind="tabelaJogo.dataEncerramento"></span></td>
-					<td><span ng-if="tabelaJogo.inscricoesEncerradas">Sim</span> <span
-						ng-if="!tabelaJogo.inscricoesEncerradas">Não</span></td>
-					<td><a href="" ng-click="editarTabelaJogo(tabelaJogo)"> <i
+					
+					<td><span ng-bind="tabelaJogo.rodada"></span></td>
+					<td><span ng-bind="tabelaJogo.chave"></span></td>
+					<td><span ng-bind="tabelaJogo.agremiacaoA.nome"></span></td>
+					<td><img src="/assets/agremiacoes/{{tabelaJogo.agremiacaoA.nomeSigla}}.png" alt="" height="30" width="30" /></td>
+					<td><span ng-bind="tabelaJogo.local"></span></td>
+					<td>{{tabelaJogo.dataPartida}} - {{tabelaJogo.horarioPartida}}</td>
+					<td><img src="/assets/agremiacoes/{{tabelaJogo.agremiacaoB.nomeSigla}}.png" alt="" height="30" width="30" /></td>
+					<td><span ng-bind="tabelaJogo.agremiacaoB.nome"></span></td>					
+					<td><a href="" ng-click="editarJogo(tabelaJogo)"> <i
 							class="material-icons" style="color: #3d5afe;">create</i>
 					</a></td>
-					<td><a href="" ng-click="encerrarInscricoes(tabelaJogo)">
+					<td><a href="" ng-click="excluirJogo(tabelaJogo)">
 							<i class="material-icons" style="color: #e57373;">delete_forever</i>
 					</a></td>
 				</tr>
 			</tbody>
-		</table>
+		</table>	
 
 	</div>
 

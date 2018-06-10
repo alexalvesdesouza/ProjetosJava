@@ -51,18 +51,18 @@
 			<tbody>
 				<tr ng-repeat="jogo in tabelaJogosTempoReal">
 					<td><span ng-bind="jogo.dataPartida"></span></td>
-					<td><span ng-bind="jogo.horario"></span></td>
-					<td><span ng-bind="jogo.local.nome"></span></td>
-					<td><span ng-bind="jogo.equipeA.nome"></span></td>
+					<td><span ng-bind="jogo.horarioPartida"></span></td>
+					<td><span ng-bind="jogo.local"></span></td>
+					<td><span ng-bind="jogo.agremiacaoA.nome"></span></td>
 					<td><img
-						src="/assets/agremiacoes/{{jogo.equipeA.nomeSigla}}.png" alt=""
+						src="/assets/agremiacoes/{{jogo.agremiacaoA.nomeSigla}}.png" alt=""
 						height="30" width="30" /></td>
 					<td><span ng-bind="jogo.golsEquipeA"></span></td>
 					<td><span ng-bind="jogo.golsEquipeB"></span></td>
 					<td><img
-						src="/assets/agremiacoes/{{jogo.equipeB.nomeSigla}}.png" alt=""
+						src="/assets/agremiacoes/{{jogo.agremiacaoB.nomeSigla}}.png" alt=""
 						height="30" width="30" /></td>
-					<td><span ng-bind="jogo.equipeB.nome"></span></td>
+					<td><span ng-bind="jogo.agremiacaoB.nome"></span></td>
 					<td ng-if="!jogoEncerrado"><a
 						class="waves-effect waves-light modal-trigger" disabled="true"
 						href="#modalEditJogo" ng-click="editarJogo(jogo)"> <i
@@ -97,8 +97,8 @@
 
 				<div class="row">
 					<div class="col s6">
-						{{jogoSelecionado.equipeA.nome}} <img
-							src="/assets/agremiacoes/{{jogoSelecionado.equipeA.nomeSigla}}.png"
+						{{jogoSelecionado.agremiacaoA.nome}} <img
+							src="/assets/agremiacoes/{{jogoSelecionado.agremiacaoA.nomeSigla}}.png"
 							alt="" height="30" width="30" style="margin-bottom: -11px;" />
 						<div class="input-field inline">
 							<input id="parcialEquipeA" type="number" class="validate"
@@ -115,9 +115,9 @@
 								data-success="Gol Válido">Gols Equipe B</label>
 						</div>
 						<img
-							src="/assets/agremiacoes/{{jogoSelecionado.equipeB.nomeSigla}}.png"
+							src="/assets/agremiacoes/{{jogoSelecionado.agremiacaoB.nomeSigla}}.png"
 							alt="" height="30" width="30" style="margin-bottom: -11px;" />
-						{{jogoSelecionado.equipeB.nome}}
+						{{jogoSelecionado.agremiacaoB.nome}}
 					</div>
 				</div>
 

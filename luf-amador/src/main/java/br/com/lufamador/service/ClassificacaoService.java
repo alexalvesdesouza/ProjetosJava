@@ -30,8 +30,8 @@ public class ClassificacaoService {
 
     public void geraClassificacao(final Jogo jogo) {
 
-        this.golsEquipeA = jogo.getGolsEquipeA();
-        this.golsEquipeB = jogo.getGolsEquipeB();
+        this.golsEquipeA = jogo.getGolsAgremiacaoA();
+        this.golsEquipeB = jogo.getGolsAgremiacaoB();
 
         this.validaSeFoiEmpate();
 
@@ -48,7 +48,7 @@ public class ClassificacaoService {
 
     private void geraClassificacaoEquipeA(final Jogo jogo) {
 
-        Classificacao classificacaoAgremiacaoA = this.repository.findByAgremiacao_Codigo(jogo.getEquipeA().getCodigo());
+        Classificacao classificacaoAgremiacaoA = this.repository.findByAgremiacao_Codigo(jogo.getAgremiacaoA().getCodigo());
 
         if (classificacaoAgremiacaoA != null) {
 
@@ -80,7 +80,7 @@ public class ClassificacaoService {
     }
 
     private void geraClassificacaoEquipeB(final Jogo jogo) {
-        Classificacao classificacaoAgremiacaoB = this.repository.findByAgremiacao_Codigo(jogo.getEquipeB().getCodigo());
+        Classificacao classificacaoAgremiacaoB = this.repository.findByAgremiacao_Codigo(jogo.getAgremiacaoB().getCodigo());
 
         if (classificacaoAgremiacaoB != null) {
             Integer qtdJogos = classificacaoAgremiacaoB.getQtdJogos();
@@ -111,7 +111,7 @@ public class ClassificacaoService {
     private void insereClassificacaoEquipeA(Jogo jogo) {
 
         Classificacao classificacaoAgremiacaoA = new Classificacao();
-        classificacaoAgremiacaoA.setAgremiacao(jogo.getEquipeA());
+        classificacaoAgremiacaoA.setAgremiacao(jogo.getAgremiacaoA());
         classificacaoAgremiacaoA.setGolsPro(this.golsEquipeA);
         classificacaoAgremiacaoA.setGolsContra(this.golsEquipeB);
         classificacaoAgremiacaoA.setQtdJogos(1);
@@ -139,7 +139,7 @@ public class ClassificacaoService {
     private void insereClassificacaoEquipeB(Jogo jogo) {
 
         Classificacao classificacaoAgremiacaoB = new Classificacao();
-        classificacaoAgremiacaoB.setAgremiacao(jogo.getEquipeB());
+        classificacaoAgremiacaoB.setAgremiacao(jogo.getAgremiacaoB());
         classificacaoAgremiacaoB.setGolsPro(this.golsEquipeB);
         classificacaoAgremiacaoB.setGolsContra(this.golsEquipeA);
         classificacaoAgremiacaoB.setQtdJogos(1);

@@ -36,6 +36,10 @@
 
 }
 
+.NewContainer {
+	min-width: 90% !important;
+}
+
 /*
 .detalhesFluxoCaixa {
     min-width: 90% !important;
