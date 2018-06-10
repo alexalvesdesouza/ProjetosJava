@@ -1,8 +1,11 @@
 package br.com.lufamador.service;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -99,7 +102,10 @@ public class AgremiacaoService {
   }
 
   public List<Agremiacao> getAgremiacoesDisponiveis(final Long codigoCampeonato) {
-    return this.repository.getAgremiacoesDisponiveis(codigoCampeonato);
+    return this.repository.getAgremiacoesDisponiveis(codigoCampeonato)
+                          .stream()
+                          .filter(agremiacao -> !agremiacao.getInativa())
+                          .collect(Collectors.toList());
   }
 
   public final Agremiacao atualizarAgremiacao(Agremiacao agremiacao) {
