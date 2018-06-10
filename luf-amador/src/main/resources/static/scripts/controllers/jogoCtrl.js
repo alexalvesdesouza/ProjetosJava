@@ -24,7 +24,12 @@ jogo.controller("jogoController",
 
         var atualizarResultadoParcialJogo = function () {
             var jogo = $scope.jogoSelecionado;
-
+            delete jogo.dataAtualizacao;
+            delete jogo.dataCriacao;
+            delete jogo.agremiacaoA.dataAtualizacao;
+            delete jogo.agremiacaoA.dataCriacao;
+            delete jogo.agremiacaoB.dataAtualizacao;
+            delete jogo.agremiacaoB.dataCriacao;
             $http.put(BASE_PATH + '/tempo-real/atualizar', jogo)
                 .success(function (jogoAtualizado) {
                     delete $scope.jogoSelecionado;

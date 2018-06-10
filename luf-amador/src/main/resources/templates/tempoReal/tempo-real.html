@@ -38,12 +38,12 @@
 					<th>Data</th>
 					<th>Hora</th>
 					<th>Local</th>
-					<th>Equipe A</th>
+					<th>Agremiacao A</th>
 					<th>Esc</th>
 					<th>PLA</th>
 					<th>PLB</th>
 					<th>Esc</th>
-					<th>Equipe B</th>
+					<th>Agremiacao B</th>
 					<th>Editar Jogo</th>
 					<th>Encerrar jogo</th>
 				</tr>
@@ -57,8 +57,8 @@
 					<td><img
 						src="/assets/agremiacoes/{{jogo.agremiacaoA.nomeSigla}}.png" alt=""
 						height="30" width="30" /></td>
-					<td><span ng-bind="jogo.golsEquipeA"></span></td>
-					<td><span ng-bind="jogo.golsEquipeB"></span></td>
+					<td><span ng-bind="jogo.golsAgremiacaoA"></span></td>
+					<td><span ng-bind="jogo.golsAgremiacaoB"></span></td>
 					<td><img
 						src="/assets/agremiacoes/{{jogo.agremiacaoB.nomeSigla}}.png" alt=""
 						height="30" width="30" /></td>
@@ -101,18 +101,18 @@
 							src="/assets/agremiacoes/{{jogoSelecionado.agremiacaoA.nomeSigla}}.png"
 							alt="" height="30" width="30" style="margin-bottom: -11px;" />
 						<div class="input-field inline">
-							<input id="parcialEquipeA" type="number" class="validate"
-								ng-model="jogoSelecionado.golsEquipeA"> <label
-								for="parcialEquipeA" data-error="Campo Inválido"
-								data-success="Gol Válido">Gols Equipe A</label>
+							<input id="parcialAgremiacaoA" type="number" class="validate"
+								ng-model="jogoSelecionado.golsAgremiacaoA"> <label
+								for="parcialAgremiacaoA" data-error="Campo Inválido"
+								data-success="Gol Válido">Gols Agremiacao A</label>
 						</div>
 					</div>
 					<div class="col s6">
 						<div class="input-field inline">
-							<input id="parcialEquipeB" type="number" class="validate"
-								ng-model="jogoSelecionado.golsEquipeB"> <label
-								for="parcialEquipeB" data-error="Campo Inválido"
-								data-success="Gol Válido">Gols Equipe B</label>
+							<input id="parcialAgremiacaoB" type="number" class="validate"
+								ng-model="jogoSelecionado.golsAgremiacaoB"> <label
+								for="parcialAgremiacaoB" data-error="Campo Inválido"
+								data-success="Gol Válido">Gols Agremiacao B</label>
 						</div>
 						<img
 							src="/assets/agremiacoes/{{jogoSelecionado.agremiacaoB.nomeSigla}}.png"
