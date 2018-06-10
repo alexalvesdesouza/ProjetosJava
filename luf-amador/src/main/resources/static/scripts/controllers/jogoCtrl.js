@@ -5,8 +5,10 @@ jogo.controller("jogoController",
         $http) {
 
         const BASE_PATH = "/jogos";
+        const BASE_PATH_CLASSIFICACAO = "/classificacoes";
 
         $scope.tabelaJogosTempoReal = [];
+        $scope.classificacoes = [];
         $scope.tabelaCampeonato = {};
         $scope.jogoSelecionado = {};
 
@@ -21,6 +23,18 @@ jogo.controller("jogoController",
 
                 });
         };
+        
+        var carregarClassificacao = function () {
+        	$http
+        	.get(BASE_PATH_CLASSIFICACAO)
+        	.success(function (ret) {
+        		$scope.classificacoes = [];
+        		$scope.classificacoes = ret;
+        	})
+        	.error(function (data, status) {
+        		
+        	});
+        };
 
         var atualizarResultadoParcialJogo = function () {
             var jogo = $scope.jogoSelecionado;
@@ -30,6 +44,7 @@ jogo.controller("jogoController",
             delete jogo.agremiacaoA.dataCriacao;
             delete jogo.agremiacaoB.dataAtualizacao;
             delete jogo.agremiacaoB.dataCriacao;
+            
             $http.put(BASE_PATH + '/tempo-real/atualizar', jogo)
                 .success(function (jogoAtualizado) {
                     delete $scope.jogoSelecionado;
@@ -65,6 +80,12 @@ jogo.controller("jogoController",
         $scope.mudarPlacarJogo = function (jogo) {
             $scope.jogoSelecionado = jogo;
             atualizarResultadoParcialJogo();
+        };
+        
+        $scope.abaSelecionada = function(abaSelecionada) {
+        	if (abaSelecionada === 'classificacao') {
+        		carregarClassificacao();
+        	}
         };
 
         carregarJogosTempoReal();
