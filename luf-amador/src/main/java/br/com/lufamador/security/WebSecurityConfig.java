@@ -57,6 +57,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .withUser("leticia")
         .password(encoder.encode("leticia@luf"))
         .roles(ROLE_ESC_ATLETAS, ROLE_ESC_AGREMIACOES, ROLE_ESC_TJDU, ROLE_ESC_TEMPO_REAL, ROLE_ESC_DPTO_TECNICO);
+    
+    auth.inMemoryAuthentication()
+    .withUser("ranier")
+    .password(encoder.encode("ranier@luf"))
+    .roles(ROLE_ESC_ATLETAS, ROLE_ESC_AGREMIACOES, ROLE_ESC_TJDU, ROLE_ESC_TEMPO_REAL, ROLE_ESC_DPTO_TECNICO);
   }
 
   @Bean
