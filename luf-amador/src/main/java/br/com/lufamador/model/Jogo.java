@@ -43,6 +43,7 @@ public class Jogo implements Serializable {
   private Agremiacao        agremiacaoB;
   private Integer           golsAgremiacaoA;
   private Integer           golsAgremiacaoB;
+  private Integer           codigoCompeticao;
   private String            chave;
   private String            rodada;
   private Boolean           partidaEncerrada;
@@ -167,4 +168,11 @@ public class Jogo implements Serializable {
     this.dataAtualizacao = dataAtualizacao;
   }
 
+  public Integer getCodigoCompeticao() {
+    return codigoCompeticao;
+  }
+
+  public void setCodigoCompeticao(Integer codigoCompeticao) {
+    this.codigoCompeticao = codigoCompeticao;
+  }
 }

@@ -59,11 +59,8 @@ public class JogoService {
     String keyJogo = this.geraKeyJogoUnico(jogo);
     jogo.setKeyConfronto(keyJogo);
     final Jogo jogoAtualizado = this.repository.saveAndFlush(jogo);
-    // this.classificacaoService.geraClassificacao(jogoAtualizado);
     return jogoAtualizado;
   }
-
-  // public void updateResultadoJogoTempoReal(final Jogo jogo)
 
   @Transactional(value = Transactional.TxType.REQUIRES_NEW, rollbackOn = Exception.class)
   public Jogo encerrarJogo(final Jogo jogo) throws NoSuchAlgorithmException {
@@ -103,6 +100,6 @@ public class JogoService {
                           .stream()
                           .filter(jogo -> !jogo.getPartidaEncerrada())
                           .collect(Collectors.toList());
-    
+
   }
 }

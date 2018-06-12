@@ -61,6 +61,7 @@ jogo.controller("jogoController",
         var encerrarJogoRodada = function () {
             var jogo = $scope.jogoEncerrar;
             delete jogo.dataAtualizacao;
+            delete jogo.dataCriacao;
             $http.put(BASE_PATH + '/tempo-real/encerrar', jogo)
                 .success(function (jogoAtualizado) {
                     delete $scope.jogoSelecionado;

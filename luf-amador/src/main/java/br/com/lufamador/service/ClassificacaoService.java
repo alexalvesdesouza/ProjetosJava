@@ -69,7 +69,7 @@ public class ClassificacaoService {
   private void geraClassificacaoEquipeA(final Jogo jogo) throws NoSuchAlgorithmException {
 
     Classificacao classificacaoAgremiacaoA = this.repository.findByAgremiacao_Codigo(jogo.getAgremiacaoA()
-                                                                                         .getCodigo());
+                                                                                         .getCodigo());   
 
     if (classificacaoAgremiacaoA != null) {
 
@@ -97,6 +97,7 @@ public class ClassificacaoService {
         classificacaoAgremiacaoA.setQtdVitorias(qtdVitorias);
       }
 
+      classificacaoAgremiacaoA.setChave(jogo.getChave());
       this.repository.saveAndFlush(classificacaoAgremiacaoA);
     } else {
       this.insereClassificacaoEquipeA(jogo);

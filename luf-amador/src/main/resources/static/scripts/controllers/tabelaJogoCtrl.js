@@ -168,6 +168,7 @@ tabelaJogo.controller("tabelaJogoController",
             	jogo.chave = $scope.chave;
             	jogo.rodada = $scope.rodada;
             	jogo.local = $scope.local;
+            	jogo.codigoCompeticao = $scope.campeonato.codigo;
             	
             	$scope.tabelaJogos.push(jogo);
             	limparForm('tabelaJogoForm');
