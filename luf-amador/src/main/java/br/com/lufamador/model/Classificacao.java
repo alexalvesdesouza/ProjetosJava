@@ -14,92 +14,112 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "luf_classificacao")
 public class Classificacao implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    private Long codigo;
+  @Id
+  @GeneratedValue(generator = "increment")
+  @GenericGenerator(name = "increment", strategy = "increment")
+  private Long              codigo;
 
-    @OneToOne
-    private Agremiacao agremiacao;
-    private Integer posClassificacao;
-    private Integer qtdJogos;
-    private Integer qtdPontos;
-    private Integer qtdVitorias;
-    private Integer golsPro;
-    private Integer golsContra;
-    private String keyMD5;
+  @OneToOne
+  private Agremiacao        agremiacao;
+  @OneToOne
+  private Campeonato        campeonato;
 
-    public String getKeyMD5() {
-        return keyMD5;
-    }
+  private Integer           posClassificacao;
+  private Integer           qtdJogos;
+  private Integer           qtdPontos;
+  private Integer           qtdVitorias;
+  private Integer           golsPro;
+  private Integer           golsContra;
+  private String            chave;
+  private String            keyMD5;
 
-    public void setKeyMD5(String keyMD5) {
-        this.keyMD5 = keyMD5;
-    }
+  public Campeonato getCampeonato() {
+    return campeonato;
+  }
 
-    public Long getCodigo() {
-        return codigo;
-    }
+  public void setCampeonato(Campeonato campeonato) {
+    this.campeonato = campeonato;
+  }
 
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
-    }
+  public String getChave() {
+    return chave;
+  }
 
-    public Agremiacao getAgremiacao() {
-        return agremiacao;
-    }
+  public void setChave(String chave) {
+    this.chave = chave;
+  }
 
-    public void setAgremiacao(Agremiacao agremiacao) {
-        this.agremiacao = agremiacao;
-    }
+  public String getKeyMD5() {
+    return keyMD5;
+  }
 
-    public Integer getPosClassificacao() {
-        return posClassificacao;
-    }
+  public void setKeyMD5(String keyMD5) {
+    this.keyMD5 = keyMD5;
+  }
 
-    public void setPosClassificacao(Integer posClassificacao) {
-        this.posClassificacao = posClassificacao;
-    }
+  public Long getCodigo() {
+    return codigo;
+  }
 
-    public Integer getQtdJogos() {
-        return qtdJogos;
-    }
+  public void setCodigo(Long codigo) {
+    this.codigo = codigo;
+  }
 
-    public void setQtdJogos(Integer qtdJogos) {
-        this.qtdJogos = qtdJogos;
-    }
+  public Agremiacao getAgremiacao() {
+    return agremiacao;
+  }
 
-    public Integer getQtdPontos() {
-        return qtdPontos;
-    }
+  public void setAgremiacao(Agremiacao agremiacao) {
+    this.agremiacao = agremiacao;
+  }
 
-    public void setQtdPontos(Integer qtdPontos) {
-        this.qtdPontos = qtdPontos;
-    }
+  public Integer getPosClassificacao() {
+    return posClassificacao;
+  }
 
-    public Integer getQtdVitorias() {
-        return qtdVitorias;
-    }
+  public void setPosClassificacao(Integer posClassificacao) {
+    this.posClassificacao = posClassificacao;
+  }
 
-    public void setQtdVitorias(Integer qtdVitorias) {
-        this.qtdVitorias = qtdVitorias;
-    }
+  public Integer getQtdJogos() {
+    return qtdJogos;
+  }
 
-    public Integer getGolsPro() {
-        return golsPro;
-    }
+  public void setQtdJogos(Integer qtdJogos) {
+    this.qtdJogos = qtdJogos;
+  }
 
-    public void setGolsPro(Integer golsPro) {
-        this.golsPro = golsPro;
-    }
+  public Integer getQtdPontos() {
+    return qtdPontos;
+  }
 
-    public Integer getGolsContra() {
-        return golsContra;
-    }
+  public void setQtdPontos(Integer qtdPontos) {
+    this.qtdPontos = qtdPontos;
+  }
 
-    public void setGolsContra(Integer golsContra) {
-        this.golsContra = golsContra;
-    }
+  public Integer getQtdVitorias() {
+    return qtdVitorias;
+  }
+
+  public void setQtdVitorias(Integer qtdVitorias) {
+    this.qtdVitorias = qtdVitorias;
+  }
+
+  public Integer getGolsPro() {
+    return golsPro;
+  }
+
+  public void setGolsPro(Integer golsPro) {
+    this.golsPro = golsPro;
+  }
+
+  public Integer getGolsContra() {
+    return golsContra;
+  }
+
+  public void setGolsContra(Integer golsContra) {
+    this.golsContra = golsContra;
+  }
 }

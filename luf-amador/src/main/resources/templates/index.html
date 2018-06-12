@@ -1,120 +1,105 @@
 <!DOCTYPE html>
-<html ng-app="jogo">
+<html ng-app="jogo" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"
-          charset="UTF-8"/>
-    <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet"
-          href="materialize/css/materialize.min.css" media="screen,projection"/>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"
+	charset="UTF-8" />
+<!--Import materialize.css-->
+<link type="text/css" rel="stylesheet"
+	href="materialize/css/materialize.min.css" media="screen,projection" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet" />
 
-    <title>Index</title>
+<title>Index</title>
 </head>
 
 
 <body>
 
-<ul id="slide-out" class="side-nav fixed">
+	<ul id="slide-out" class="side-nav fixed">
 
-    <li>
-        <div class="user-view">
-            <div class="background">
-                <img src="/images/enzo.jpg" alt="">
-            </div>
-            <a href="#"><img src="/images/enzo.jpg" alt=""></a>
-            <a href=""><span class="black-text name">Alex Alves de Souza</span></a>
-            <a href=""><span class="black-text identidade">alvesdesouzaalex@gmail.com</span></a>
-        </div>
-    </li>
+		<li>
+			<div class="user-view">
+				<div class="background">
+					<img src="/images/enzo.jpg" alt="">
+				</div>
+				<a href="#"><img src="/images/enzo.jpg" alt=""></a> <a href=""><span
+					class="black-text name">Alex Alves de Souza</span></a> <a href=""><span
+					class="black-text identidade">alvesdesouzaalex@gmail.com</span></a>
+			</div>
+		</li>
 
-    <li>
-        <a href="/view-atletas" class="waves-effect">
-            <i class="material-icons left">directions_run</i>Home</a>
-    </li>
-    <li>
-        <div class="divider"></div>
-    </li>
-
-
-    <li class="no=padding">
-        <ul class="collapsible collapsible-accordion">
-            <li>
-                <a href="" class="collapsible-header">
-                    Departamento Técnico
-                    <i class="material-icons">arrow_drop_down</i>
-                    <div class="collapsible-body">
-                        <ul>
-                            <li>
-                                <a href="/view-tabela-jogos">
-                                    <i class="material-icons left">date_range</i>Tabela Jogos</a>
-                            </li>
-                            <li>
-                                <a href="/view-tempo-real">
-                                    <i class="material-icons left">access_time</i>Tempo Real</a>
-                            </li>
-                        </ul>
-                    </div>
-                </a>
-            </li>
-        </ul>
-    </li>
+		<li><a href="/view-atletas" class="waves-effect"> <i
+				class="material-icons left">directions_run</i>Home
+		</a></li>
+		<li>
+			<div class="divider"></div>
+		</li>
 
 
-    <li>
-        <a href="/view-atletas">
-            <i class="material-icons left">directions_run</i>Atletas</a>
-    </li>
-    <li>
-        <a href="/view-agremiacoes">
-            <i class="material-icons left">account_balance</i>Agremiações</a>
-    </li>
-    <li>
-        <a href="/view-campeonato">
-            <i class="material-icons left">games</i>Competições</a>
-    </li>
-
-    <li>
-        <a href="/view-escala">
-            <i class="material-icons left">assignment</i>Escalas</a>
-    </li>
-    <li>
-        <a href="/view-tjdu">
-            <i class="material-icons left">monetization_on</i>TJDU</a>
-    </li>
-    <li>
-        <a href="/view-dpto-tecnico">
-            <i class="material-icons left">people_outline</i>Departamento Técnico</a>
-    </li>
-
-    <li>
-        <a href="/logout">
-            <i class="material-icons left">exit_to_app</i>Sair</a>
-    </li>
-</ul>
-
-<a class="btn hide-on-large-only" style="width: 100%;" data-activates="slide-out"><i class="material-icons">menu</i></a>
+		<li class="no=padding">
+			<ul class="collapsible collapsible-accordion">
+				<li><a href="" class="collapsible-header"> Departamento
+						Técnico <i class="material-icons">arrow_drop_down</i>
+						<div class="collapsible-body">
+							<ul>
+								<li><a href="/view-tabela-jogos"> <i
+										class="material-icons left">date_range</i>Tabela Jogos
+								</a></li>
+								<li><a href="/view-tempo-real"> <i
+										class="material-icons left">access_time</i>Tempo Real
+								</a></li>
+							</ul>
+						</div>
+				</a></li>
+			</ul>
+		</li>
 
 
-<script type="text/javascript"
-        src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
-<script src="scripts/angularjs/angular-1.5.0-rc.0/angular.js"></script>
-<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-resource.js"></script>
-<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-messages.js"></script>
-<script src="scripts/angularjs/locale/pt-BR.js"></script>
-<script src="scripts/controllers/jogoCtrl.js"></script>
-<script src="scripts/controllers/format.js"></script>
-<script src="scripts/js/ngMask.min.js"></script>
-<script src="scripts/js/uteis.js"></script>
-<script src="scripts/js/moment.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $(".btn").sideNav();
-    });
+		<li sec:authorize="hasRole('ESC_ATLETAS')"><a href="/view-atletas"> <i class="material-icons left">directions_run</i>Atletas
+		</a></li>
+		<li><a href="/view-agremiacoes"> <i
+				class="material-icons left">account_balance</i>Agremiações
+		</a></li>
+		<li><a href="/view-campeonato"> <i
+				class="material-icons left">games</i>Competições
+		</a></li>
 
-</script>
+		<li><a href="/view-escala"> <i class="material-icons left">assignment</i>Escalas
+		</a></li>
+		<li><a href="/view-tjdu"> <i class="material-icons left">monetization_on</i>TJDU
+		</a></li>
+		<li><a href="/view-dpto-tecnico"> <i
+				class="material-icons left">people_outline</i>Departamento Técnico
+		</a></li>
+
+		<li><a href="/logout"> <i class="material-icons left">exit_to_app</i>Sair
+		</a></li>
+	</ul>
+
+	<a class="btn hide-on-large-only" style="width: 100%;"
+		data-activates="slide-out"><i class="material-icons">menu</i></a>
+
+
+	<script type="text/javascript"
+		src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+	<script src="scripts/angularjs/angular-1.5.0-rc.0/angular.js"></script>
+	<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-resource.js"></script>
+	<script src="scripts/angularjs/angular-1.5.0-rc.0/angular-messages.js"></script>
+	<script src="scripts/angularjs/locale/pt-BR.js"></script>
+	<script src="scripts/controllers/jogoCtrl.js"></script>
+	<script src="scripts/controllers/format.js"></script>
+	<script src="scripts/js/ngMask.min.js"></script>
+	<script src="scripts/js/uteis.js"></script>
+	<script src="scripts/js/moment.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$(".btn").sideNav();
+		});
+	</script>
 </body>
 
 </html>

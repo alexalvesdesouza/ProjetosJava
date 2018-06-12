@@ -10,8 +10,7 @@ import br.com.lufamador.model.Jogo;
 
 public interface JogoRepository extends JpaRepository<Jogo, Long> {
 
-    //TODO colocar filtro com Data
-    @Query(value = "select * from luf_jogo  order by data_atualizacao desc", nativeQuery = true)
+    @Query(value = "select * from luf_jogo WHERE data_partida = ?1 order by data_atualizacao  desc;", nativeQuery = true)
     List<Jogo> getJogosParaTempoReal(LocalDate localDate);
 
 }

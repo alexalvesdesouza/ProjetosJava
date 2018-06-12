@@ -1,5 +1,6 @@
 package br.com.lufamador.controller;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +36,19 @@ public class JogoController {
     }
 
     @RequestMapping(path = "/tempo-real/atualizar",  method = RequestMethod.PUT)
-    public ResponseEntity<Jogo> atualizarJogo(@RequestBody Jogo jogo) {
+    public ResponseEntity<Jogo> atualizarJogo(@RequestBody Jogo jogo) throws NoSuchAlgorithmException {
         final Jogo jogoSaved = this.jogoService.atualizarJogo(jogo);
         HttpStatus status = (null == jogoSaved) ? HttpStatus.CONFLICT : HttpStatus.OK;
         return new ResponseEntity<Jogo>(jogoSaved,
                 status);
+    }
+    
+    @RequestMapping(path = "/tempo-real/encerrar",  method = RequestMethod.PUT)
+    public ResponseEntity<Jogo> encerrarJogo(@RequestBody Jogo jogo) throws NoSuchAlgorithmException {
+      final Jogo jogoSaved = this.jogoService.encerrarJogo(jogo);
+      HttpStatus status = (null == jogoSaved) ? HttpStatus.CONFLICT : HttpStatus.OK;
+      return new ResponseEntity<Jogo>(jogoSaved,
+          status);
     }
 
     @RequestMapping(path = "/tempo-real",method = RequestMethod.GET)

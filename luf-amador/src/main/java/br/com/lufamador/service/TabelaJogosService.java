@@ -1,12 +1,10 @@
 package br.com.lufamador.service;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.lufamador.model.Jogo;
 import br.com.lufamador.model.TabelaJogos;
 import br.com.lufamador.repository.TabelaJogosRepository;
 import br.com.lufamador.validate.TabelaJogosValidate;
@@ -27,7 +25,6 @@ public class TabelaJogosService {
 
     public TabelaJogos cadastraTabelaJogos(TabelaJogos tabelaJogos) {
         TabelaJogos tabelaJogosSaved = null;
-        this.validate.validaTabelaJogosExistente(tabelaJogos);
         try {
             this.jogoService.cadastrarJogos(tabelaJogos.getJogos());
             tabelaJogosSaved = this.repository.saveAndFlush(tabelaJogos);

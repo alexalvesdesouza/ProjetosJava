@@ -11,6 +11,7 @@ jogo.controller("jogoController",
         $scope.classificacoes = [];
         $scope.tabelaCampeonato = {};
         $scope.jogoSelecionado = {};
+        $scope.jogoEncerrar = {};
 
         var carregarJogosTempoReal = function () {
             $http
@@ -58,14 +59,15 @@ jogo.controller("jogoController",
         };
 
         var encerrarJogoRodada = function () {
-            var jogo = $scope.jogoSelecionado;
-
-            $http.put(BASE_PATH + '/tempo-real/atualizar', jogo)
+            var jogo = $scope.jogoEncerrar;
+            delete jogo.dataAtualizacao;
+            $http.put(BASE_PATH + '/tempo-real/encerrar', jogo)
                 .success(function (jogoAtualizado) {
                     delete $scope.jogoSelecionado;
                     carregarJogosTempoReal();
+                    $scope.jogoEncerrar = {};
                     limparForm('formTempoReal');
-                    Materialize.toast('Resultado jogo atualizado sucesso', 4000, 'rounded');
+                    Materialize.toast('Jogo encerrado com sucesso', 4000, 'rounded');
                 })
                 .error(function (data, status) {
                     Materialize.toast(data.message, 4000, 'rounded');
@@ -75,6 +77,15 @@ jogo.controller("jogoController",
         $scope.editarJogo = function (jogo) {
             $scope.jogoSelecionado = {};
             $scope.jogoSelecionado = jogo;
+        };
+        
+        $scope.selecionaJogoEncerrar = function (jogo) {
+        	$scope.jogoEncerrar = {};
+        	$scope.jogoEncerrar = jogo;
+        };
+        
+        $scope.encerrarPartinda = function() {
+        	encerrarJogoRodada();
         };
 
         $scope.mudarPlacarJogo = function (jogo) {

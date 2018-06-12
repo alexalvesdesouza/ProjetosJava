@@ -76,7 +76,7 @@
 						<td ng-if="jogoEncerrado"><i style="color: #d50000;"
 							class="material-icons" ng-disabled="true">block</i></td>
 						<td><a class="waves-effect waves-light modal-trigger"
-							href="#modalEncerrarJogo" ng-click="editarJogo(jogo)"> <i
+							href="#modalEncerrarJogo" ng-click="selecionaJogoEncerrar(jogo)"> <i
 								style="color: #26a69a;" class="material-icons">close</i>
 						</a></td>
 
@@ -198,6 +198,30 @@
 				class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
 			<a href="#!" ng-click="mudarPlacarJogo(jogoSelecionado)"
 				class="modal-action modal-close waves-effect waves-green btn-flat">Salvar</a>
+		</div>
+	</div>
+	
+	<div id="modalEncerrarJogo" class="modal">
+		<nav class="nav-extended">
+			<div class="nav-content">
+				<ul class="tabs tabs-transparent">
+					<li class="tab"><a href="#"
+						ng-click="abaDetalheSelecionada('principal')" class="active">Encerramento Jogo
+						</a> <span ng-model="numeroJogo"></span></li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="row">
+			Deseja realmente encerrar o Jogo : {{jogoEncerrar.agremiacaoA.nome}} - {{jogoEncerrar.golsAgremiacaoA}} 
+			x {{jogoEncerrar.golsAgremiacaoB}} - {{jogoEncerrar.agremiacaoB.nome}} ?
+		</div>
+
+		<div class="modal-footer">
+			<a href="#!"
+				class="modal-action modal-close waves-effect waves-green btn-flat">Não</a>
+			<a href="#!" ng-click="encerrarPartinda()"
+				class="modal-action modal-close waves-effect waves-green btn-flat">Sim</a>
 		</div>
 	</div>
 
