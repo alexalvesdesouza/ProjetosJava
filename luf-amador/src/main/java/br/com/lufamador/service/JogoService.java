@@ -96,10 +96,32 @@ public class JogoService {
   }
 
   public List<Jogo> getJogosTempoReal() {
-    return this.repository.getJogosParaTempoReal(LocalDate.now())
-                          .stream()
-                          .filter(jogo -> !jogo.getPartidaEncerrada())
-                          .collect(Collectors.toList());
+    List<Jogo> jogos = this.repository.getJogosParaTempoReal(LocalDate.now())
+                                      .stream()
+                                      .filter(jogo -> !jogo.getPartidaEncerrada())
+                                      .collect(Collectors.toList());
+    jogos.stream()
+         .forEach(item -> {
+           item.setChave(item.getChave()
+                             .replace("_", " "));
+           item.setLocal(item.getLocal()
+                             .replace("_", " "));
+         });
 
+    return jogos;
+  }
+
+  public List<Jogo> getResultadosJogos() {
+    List<Jogo> jogos = this.repository.findAll()
+                                      .stream()
+                                      .filter(jogo -> jogo.getPartidaEncerrada())
+                                      .collect(Collectors.toList());
+    jogos.stream()
+         .forEach(item -> {
+           item.setChave(item.getChave()
+                             .replaceAll("_", " "));
+         });
+
+    return jogos;
   }
 }

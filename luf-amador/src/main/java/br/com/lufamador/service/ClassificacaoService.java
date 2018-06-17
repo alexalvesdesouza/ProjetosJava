@@ -26,7 +26,13 @@ public class ClassificacaoService {
   }
 
   public List<Classificacao> getClassificacoes() {
-    return this.repository.listaClassificacoPorCriterio();
+    List<Classificacao> classificacoes = this.repository.listaClassificacoPorCriterio();
+    int posicao = 1;
+    for (Classificacao classificacao : classificacoes) {
+      classificacao.setPosClassificacao(posicao);
+      posicao++;
+    }
+    return classificacoes;
   }
 
   private final String geraKeyJogoUnico(Jogo jogo) throws NoSuchAlgorithmException {
@@ -69,7 +75,7 @@ public class ClassificacaoService {
   private void geraClassificacaoEquipeA(final Jogo jogo) throws NoSuchAlgorithmException {
 
     Classificacao classificacaoAgremiacaoA = this.repository.findByAgremiacao_Codigo(jogo.getAgremiacaoA()
-                                                                                         .getCodigo());   
+                                                                                         .getCodigo());
 
     if (classificacaoAgremiacaoA != null) {
 

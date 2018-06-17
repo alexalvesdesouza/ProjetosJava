@@ -12,34 +12,44 @@ import br.com.lufamador.validate.TabelaJogosValidate;
 @Service
 public class TabelaJogosService {
 
-    private final TabelaJogosRepository repository;
-    private final TabelaJogosValidate validate;
-    private final JogoService jogoService;
+  private final TabelaJogosRepository repository;
+  private final TabelaJogosValidate   validate;
+  private final JogoService           jogoService;
 
-    @Autowired
-    public TabelaJogosService(TabelaJogosRepository repository, TabelaJogosValidate validate, JogoService jogoService) {
-        this.repository = repository;
-        this.validate = validate;
-        this.jogoService = jogoService;
+  @Autowired
+  public TabelaJogosService(TabelaJogosRepository repository, TabelaJogosValidate validate, JogoService jogoService) {
+    this.repository = repository;
+    this.validate = validate;
+    this.jogoService = jogoService;
+  }
+
+  public TabelaJogos cadastraTabelaJogos(TabelaJogos tabelaJogos) {
+    TabelaJogos tabelaJogosSaved = null;
+    try {
+      this.jogoService.cadastrarJogos(tabelaJogos.getJogos());
+      tabelaJogosSaved = this.repository.saveAndFlush(tabelaJogos);
+    } catch (Exception e) {
+
     }
+    return tabelaJogosSaved;
+  }
 
-    public TabelaJogos cadastraTabelaJogos(TabelaJogos tabelaJogos) {
-        TabelaJogos tabelaJogosSaved = null;
-        try {
-            this.jogoService.cadastrarJogos(tabelaJogos.getJogos());
-            tabelaJogosSaved = this.repository.saveAndFlush(tabelaJogos);
-        } catch (Exception e) {
+  public List<TabelaJogos> getTabelaJogoss() {
+    List<TabelaJogos> tabelas = this.repository.findAll();
+    tabelas.forEach(tabela -> {
+      tabela.getJogos()
+            .forEach(jogo -> {
+              jogo.setChave(jogo.getChave()
+                                .replace("_", " "));
+              jogo.setLocal(jogo.getLocal()
+                                .replace("_", " "));
+            });
+    });
+    return tabelas;
+  }
 
-        }
-        return tabelaJogosSaved;
-    }
-
-    public List<TabelaJogos> getTabelaJogoss() {
-        return this.repository.findAll();
-    }
-
-    public final TabelaJogos atualizarTabelaJogos(TabelaJogos tabelaJogos) {
-        return this.repository.saveAndFlush(tabelaJogos);
-    }
+  public final TabelaJogos atualizarTabelaJogos(TabelaJogos tabelaJogos) {
+    return this.repository.saveAndFlush(tabelaJogos);
+  }
 
 }

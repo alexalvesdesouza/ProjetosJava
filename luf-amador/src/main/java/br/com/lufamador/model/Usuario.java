@@ -1,111 +1,137 @@
 package br.com.lufamador.model;
 
-import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "luf_usuario")
-public class Usuario implements Serializable {
+public class Usuario implements UserDetails {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    private Long codigo;
-    private String login;
-    private String email;
-    private String nome;
-    private String senha;
-    private Boolean ativo;
+  @Id
+  @GeneratedValue(generator = "increment")
+  @GenericGenerator(name = "increment", strategy = "increment")
+  private Long              codigo;
+  private String            login;
+  private String            nome;
+  private String            senha;
+  private String            email;
+  private Boolean           ativo;
 
-    public Long getCodigo() {
-        return codigo;
-    }
+  @ManyToMany
+  @JoinTable(name = "usuario_roles", joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "login"),
+      inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "nomeRole"))
+  private List<Role>        roles;
+   
 
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
-    }
+  public Long getCodigo() {
+    return codigo;
+  }
 
-    public String getLogin() {
-        return login;
-    }
+  public void setCodigo(Long codigo) {
+    this.codigo = codigo;
+  }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
+  public String getLogin() {
+    return login;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public void setLogin(String login) {
+    this.login = login;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public String getNome() {
+    return nome;
+  }
 
-    public String getNome() {
-        return nome;
-    }
+  public void setNome(String nome) {
+    this.nome = nome;
+  }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+  public String getSenha() {
+    return senha;
+  }
 
-    public String getSenha() {
-        return senha;
-    }
+  public void setSenha(String senha) {
+    this.senha = senha;
+  }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public Boolean getAtivo() {
-        return ativo;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
-    }
+  public Boolean getAtivo() {
+    return ativo;
+  }
 
+  public void setAtivo(Boolean ativo) {
+    this.ativo = ativo;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+  public List<Role> getRoles() {
+    return roles;
+  }
 
-        Usuario usuario = (Usuario) o;
+  public void setRoles(List<Role> roles) {
+    this.roles = roles;
+  }
 
-        if (login != null ? !login.equals(usuario.login) : usuario.login != null) return false;
-        if (email != null ? !email.equals(usuario.email) : usuario.email != null) return false;
-        if (nome != null ? !nome.equals(usuario.nome) : usuario.nome != null) return false;
-        if (senha != null ? !senha.equals(usuario.senha) : usuario.senha != null) return false;
-        return ativo != null ? ativo.equals(usuario.ativo) : usuario.ativo == null;
-    }
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+  
+    return this.roles;
+  }
 
-    @Override
-    public int hashCode() {
-        int result = login != null ? login.hashCode() : 0;
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (nome != null ? nome.hashCode() : 0);
-        result = 31 * result + (senha != null ? senha.hashCode() : 0);
-        result = 31 * result + (ativo != null ? ativo.hashCode() : 0);
-        return result;
-    }
+  @Override
+  public String getPassword() {
+    // TODO Auto-generated method stub
+    return this.getPassword();
+  }
 
-    @Override
-    public String toString() {
-        return "Usuario{" +
-                "login='" + login + '\'' +
-                ", email='" + email + '\'' +
-                ", nome='" + nome + '\'' +
-                ", senha='" + senha + '\'' +
-                ", ativo=" + ativo +
-                '}';
-    }
+  @Override
+  public String getUsername() {
+    // TODO Auto-generated method stub
+    return this.getNome();
+  }
+
+  @Override
+  public boolean isAccountNonExpired() {
+    // TODO Auto-generated method stub
+    return true;
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    // TODO Auto-generated method stub
+    return true;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    // TODO Auto-generated method stub
+    return true;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    // TODO Auto-generated method stub
+    return true;
+  }
 }

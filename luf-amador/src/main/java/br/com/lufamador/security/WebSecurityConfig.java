@@ -1,5 +1,6 @@
 package br.com.lufamador.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,18 +15,34 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-  private final String ROLE_ESC_ATLETAS      = "ESC_ATLETAS";
-  private final String ROLE_ESC_AGREMIACOES  = "ESC_AGREMIACOES";
-  private final String ROLE_ESC_TJDU         = "ESC_TJDU";
-  private final String ROLE_ESC_TEMPO_REAL   = "ESC_TEMPO_REAL";
-  private final String ROLE_ESC_DPTO_TECNICO = "ESC_DPTO_TECNICO";
+  private final String                 ROLE_ESC_ATLETAS      = "ESC_ATLETAS";
+  private final String                 ROLE_ESC_AGREMIACOES  = "ESC_AGREMIACOES";
+  private final String                 ROLE_ESC_TJDU         = "ESC_TJDU";
+  private final String                 ROLE_ESC_TEMPO_REAL   = "ESC_TEMPO_REAL";
+  private final String                 ROLE_ESC_DPTO_TECNICO = "ESC_DPTO_TECNICO";
+
+  @Autowired
+  private ImplementsUserDetailsService userDetails;
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.csrf()
         .disable()
         .authorizeRequests()
-        .antMatchers(HttpMethod.GET, "/")
+        .antMatchers(HttpMethod.GET,
+                     "/classificacoes",
+                     "/departamento-tecnico/editais",
+                     "/departamento-tecnico/comunicados",
+                     "/departamento-tecnico/notas-oficiais",
+                     "/departamento-tecnico/sumulas",
+                     "/departamento-tecnico/artilharia-defesa",
+                     "/tabela-jogos",
+                     "/tjdus/editais",
+                     "/tjdus/portarias",
+                     "/tjdus/resultados",
+                     "/escalas",
+                     "/jogos/tempo-real",
+                     "/jogos/resultados")
         .permitAll()
         .antMatchers("/view-atletas")
         .hasAnyRole(ROLE_ESC_ATLETAS)
@@ -43,6 +60,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     BCryptPasswordEncoder encoder = passwordEncoder();
+
+    // auth.userDetailsService(userDetails).passwordEncoder(encoder);
+
+
     auth.inMemoryAuthentication()
         .withUser("alex")
         .password(encoder.encode("123"))
@@ -57,11 +78,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .withUser("leticia")
         .password(encoder.encode("leticia@luf"))
         .roles(ROLE_ESC_ATLETAS, ROLE_ESC_AGREMIACOES, ROLE_ESC_TJDU, ROLE_ESC_TEMPO_REAL, ROLE_ESC_DPTO_TECNICO);
-    
+
     auth.inMemoryAuthentication()
-    .withUser("ranier")
-    .password(encoder.encode("ranier@luf"))
-    .roles(ROLE_ESC_ATLETAS, ROLE_ESC_AGREMIACOES, ROLE_ESC_TJDU, ROLE_ESC_TEMPO_REAL, ROLE_ESC_DPTO_TECNICO);
+        .withUser("ranier")
+        .password(encoder.encode("ranier@luf"))
+        .roles(ROLE_ESC_ATLETAS, ROLE_ESC_AGREMIACOES, ROLE_ESC_TJDU, ROLE_ESC_TEMPO_REAL, ROLE_ESC_DPTO_TECNICO);
+
+
   }
 
   @Bean

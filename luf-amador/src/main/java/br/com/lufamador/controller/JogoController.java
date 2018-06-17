@@ -52,11 +52,17 @@ public class JogoController {
     }
 
     @RequestMapping(path = "/tempo-real",method = RequestMethod.GET)
-    public ResponseEntity<List<Jogo>> getJogos() {
+    public ResponseEntity<List<Jogo>> getJogosTempoReal() {
         final List<Jogo> jogos = this.jogoService.getJogosTempoReal();
         HttpStatus status = (null == jogos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(jogos, status);
     }
-
+    
+    @RequestMapping(path = "/resultados",method = RequestMethod.GET)
+    public ResponseEntity<List<Jogo>> getResultadoJogos() {
+      final List<Jogo> jogos = this.jogoService.getResultadosJogos();
+      HttpStatus status = (null == jogos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+      return new ResponseEntity<>(jogos, status);
+    }
 
 }
