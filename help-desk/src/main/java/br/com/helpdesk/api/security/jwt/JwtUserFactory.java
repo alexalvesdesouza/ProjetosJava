@@ -11,7 +11,7 @@ import br.com.helpdesk.api.enums.ProfileEnum;
 
 public class JwtUserFactory {
 
-  public JwtUserFactory() {}
+  private JwtUserFactory() {}
 
   public static JwtUser create(User user) {
     return new JwtUser(user.getId(),

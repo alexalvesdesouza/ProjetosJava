@@ -16,8 +16,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class JwtTokenUtil implements Serializable {
 
-  private static final long serialVersionUID   = 1L;
-
+  private static final long serialVersionUID   = 3849031865355897718L;
   static final String       CLAIM_KEY_USERNAME = "sub";
   static final String       CLAIM_KEY_CREATED  = "created";
   static final String       CLAIM_KEY_EXPIRED  = "exp";
