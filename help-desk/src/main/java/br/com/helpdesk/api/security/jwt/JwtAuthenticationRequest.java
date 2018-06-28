@@ -2,9 +2,7 @@ package br.com.helpdesk.api.security.jwt;
 
 import java.io.Serializable;
 
-import org.springframework.stereotype.Component;
-
-@Component
+//@Component
 public class JwtAuthenticationRequest implements Serializable {
 
   private static final long serialVersionUID = 1L;

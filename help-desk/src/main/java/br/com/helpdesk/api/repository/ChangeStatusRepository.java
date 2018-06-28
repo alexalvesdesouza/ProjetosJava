@@ -7,6 +7,7 @@ import br.com.helpdesk.api.entity.Ticket;
 
 public interface ChangeStatusRepository extends MongoRepository<ChangeStatus, String>{
 
-  Iterable<Ticket> findByTicketIdOrderByDateChangeStatusDesc(Integer ticketId);
+  Iterable<Ticket> findByTicketIdOrderByDateChangeStatusDesc(Integer ticketId);  
   
+  Iterable<ChangeStatus> findByTicketIdOrderByDateChangeStatusDesc(String ticketId);
 }

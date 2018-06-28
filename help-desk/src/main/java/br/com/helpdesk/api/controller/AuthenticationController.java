@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -11,12 +12,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.helpdesk.api.entity.User;
-import br.com.helpdesk.api.security.config.AuthenticationMananagerProvider;
 import br.com.helpdesk.api.security.jwt.JwtAuthenticationRequest;
 import br.com.helpdesk.api.security.jwt.JwtTokenUtil;
 import br.com.helpdesk.api.security.model.CurrentUser;
@@ -25,23 +26,23 @@ import br.com.helpdesk.api.service.UserService;
 @RestController
 @CrossOrigin(origins = "*")
 public class AuthenticationController {
+
   @Autowired
-  private AuthenticationMananagerProvider authenticationManagerProvider;
+  private AuthenticationManager authenticationManager;
   @Autowired
-  private JwtTokenUtil                    jwtTokenUtil;
+  private JwtTokenUtil          jwtTokenUtil;
   @Autowired
-  private UserDetailsService              userDetailsService;
+  private UserDetailsService    userDetailsService;
   @Autowired
-  private UserService                     userService;
+  private UserService           userService;
 
   @PostMapping(value = "/api/auth")
   public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest)
       throws AuthenticationException, Exception {
-    
+
     System.out.println("passou aqui");
-    final Authentication authentication = authenticationManagerProvider.authenticationManagerBean()
-                                                                       .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
-                                                                                                                             authenticationRequest.getPassword()));
+    final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
+                                                                                                                     authenticationRequest.getPassword()));
     SecurityContextHolder.getContext()
                          .setAuthentication(authentication);
     final UserDetails userDetails = this.userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
@@ -51,6 +52,11 @@ public class AuthenticationController {
 
     return ResponseEntity.ok(new CurrentUser(token,
                                              user));
+  }
+  
+  @GetMapping(value = "/api/teste")
+  public String teste() {
+    return "testes";
   }
 
   @PostMapping(value = "/api/refresh")
