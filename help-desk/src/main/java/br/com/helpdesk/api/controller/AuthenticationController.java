@@ -40,7 +40,6 @@ public class AuthenticationController {
   public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest)
       throws AuthenticationException, Exception {
 
-    System.out.println("passou aqui");
     final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
                                                                                                                      authenticationRequest.getPassword()));
     SecurityContextHolder.getContext()
