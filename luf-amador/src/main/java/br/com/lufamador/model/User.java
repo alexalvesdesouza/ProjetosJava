@@ -1,0 +1,66 @@
+package br.com.lufamador.model;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.GenericGenerator;
+
+import br.com.lufamador.utils.enums.ProfileEnum;
+
+@Entity
+@Table(name = "luf_user")
+public class User {
+
+  @Id
+  @GeneratedValue(generator = "increment")
+  @GenericGenerator(name = "increment", strategy = "increment")
+  private Long        id;
+
+  @NotBlank(message = "Email obrigatorio")
+  @Email(message = "Email inválido")
+  private String      email;
+
+  @NotBlank(message = "Password obrigatorio")
+  @Size(min = 6)
+  private String      password;
+
+  private ProfileEnum profile;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public ProfileEnum getProfile() {
+    return profile;
+  }
+
+  public void setProfile(ProfileEnum profile) {
+    this.profile = profile;
+  }
+
+}

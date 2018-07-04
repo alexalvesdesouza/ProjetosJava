@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.lufamador.model.Classificacao;
-import br.com.lufamador.service.ClassificacaoService;
+import br.com.lufamador.service.impl.ClassificacaoService;
 
 @RestController
 @CrossOrigin(origins = "*")

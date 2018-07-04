@@ -1,4 +1,4 @@
-package br.com.lufamador.service;
+package br.com.lufamador.service.impl;
 
 import static br.com.lufamador.utils.mensagens.MensagensErro.ENTIDADE_INEXISTENTE;
 

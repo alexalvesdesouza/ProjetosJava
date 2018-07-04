@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.lufamador.model.TabelaJogos;
-import br.com.lufamador.service.TabelaJogosService;
+import br.com.lufamador.service.impl.TabelaJogosService;
 
 @RestController
 @CrossOrigin(origins = "*")

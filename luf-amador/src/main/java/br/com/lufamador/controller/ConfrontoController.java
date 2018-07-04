@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.com.lufamador.model.Jogo;
-import br.com.lufamador.service.ConfrontoService;
+import br.com.lufamador.service.impl.ConfrontoService;
 
 @Controller
 @CrossOrigin(origins = "*")

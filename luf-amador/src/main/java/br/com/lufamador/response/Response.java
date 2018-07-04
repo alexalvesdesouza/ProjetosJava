@@ -1,4 +1,4 @@
-package br.com.helpdesk.api.response;
+package br.com.lufamador.response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,5 +26,6 @@ public class Response<T> {
   public void setErrors(List<String> errors) {
     this.errors = errors;
   }
+
 
 }

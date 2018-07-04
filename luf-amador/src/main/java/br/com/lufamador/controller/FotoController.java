@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import br.com.lufamador.service.Disco;
+import br.com.lufamador.service.impl.Disco;
 
 @RestController
 @RequestMapping(path = "/fotos")

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.lufamador.model.Campeonato;
-import br.com.lufamador.service.CampeonatoService;
+import br.com.lufamador.service.impl.CampeonatoService;
 
 @RestController
 @CrossOrigin(origins = "*")

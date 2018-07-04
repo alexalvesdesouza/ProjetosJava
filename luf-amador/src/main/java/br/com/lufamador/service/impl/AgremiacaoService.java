@@ -1,4 +1,4 @@
-package br.com.lufamador.service;
+package br.com.lufamador.service.impl;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.com.lufamador.model.Jogo;
-import br.com.lufamador.service.JogoService;
+import br.com.lufamador.service.impl.JogoService;
 
 @Controller
 @CrossOrigin(origins = "*")

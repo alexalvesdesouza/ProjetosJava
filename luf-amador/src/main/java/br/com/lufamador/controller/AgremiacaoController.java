@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.lufamador.model.Agremiacao;
 import br.com.lufamador.model.Tjdu;
-import br.com.lufamador.service.AgremiacaoService;
+import br.com.lufamador.service.impl.AgremiacaoService;
 
 @RestController
 @CrossOrigin(origins = "*")

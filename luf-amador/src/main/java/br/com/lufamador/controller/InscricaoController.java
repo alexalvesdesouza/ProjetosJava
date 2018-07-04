@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.lufamador.model.Inscricao;
-import br.com.lufamador.service.InscricaoService;
+import br.com.lufamador.service.impl.InscricaoService;
 
 @RestController
 @CrossOrigin(origins = "*")

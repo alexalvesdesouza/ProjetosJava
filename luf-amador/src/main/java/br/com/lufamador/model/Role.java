@@ -19,7 +19,7 @@ public class Role implements GrantedAuthority {
   private String            nomeRole;
 
   @ManyToMany
-  private List<Usuario>     usuarios;
+  private List<User>     usuarios;
 
   @Override
   public String getAuthority() {
@@ -35,11 +35,11 @@ public class Role implements GrantedAuthority {
     this.nomeRole = nomeRole;
   }
 
-  public List<Usuario> getUsuarios() {
+  public List<User> getUsuarios() {
     return usuarios;
   }
 
-  public void setUsuarios(List<Usuario> usuarios) {
+  public void setUsuarios(List<User> usuarios) {
     this.usuarios = usuarios;
   }
 

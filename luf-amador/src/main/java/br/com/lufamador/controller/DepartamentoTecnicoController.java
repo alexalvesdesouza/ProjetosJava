@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.com.lufamador.model.DepartamentoTecnico;
-import br.com.lufamador.service.DepartamentoTecnicoService;
+import br.com.lufamador.service.impl.DepartamentoTecnicoService;
 import br.com.lufamador.utils.constants.CategoriaConstant;
 
 @Controller

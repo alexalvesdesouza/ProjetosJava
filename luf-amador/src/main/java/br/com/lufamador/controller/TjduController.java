@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.com.lufamador.model.Tjdu;
-import br.com.lufamador.service.TjduService;
+import br.com.lufamador.service.impl.TjduService;
 import br.com.lufamador.utils.constants.CategoriaConstant;
 
 @Controller

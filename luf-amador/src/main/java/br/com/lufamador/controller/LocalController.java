@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.com.lufamador.model.Local;
+import br.com.lufamador.service.impl.LocalService;
 import br.com.lufamador.model.Local;
-import br.com.lufamador.service.LocalService;
 
 @Controller
 @CrossOrigin(origins = "*")
