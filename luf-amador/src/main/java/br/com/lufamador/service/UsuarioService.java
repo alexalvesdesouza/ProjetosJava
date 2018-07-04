@@ -3,6 +3,9 @@ package br.com.lufamador.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.lufamador.model.Usuario;
@@ -34,5 +37,10 @@ public class UsuarioService {
 
     public List<Usuario> getUsuarios() {
         return this.repository.findAll();
+    }
+    
+    public Page<Usuario> findAll(int page, int count) {
+      Pageable pages = PageRequest.of(page, count);
+      return this.repository.findAll(pages);
     }
 }

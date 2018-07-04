@@ -214,8 +214,10 @@ public class TicketController {
 
   @GetMapping(value = "{page}/{count}/{number}/{title}/{status}/{priority}/{assigned}")
   @PreAuthorize("hasAnyRole('CUSTOMER', 'TECHNICIAN')")
-  public ResponseEntity<Response<Page<Ticket>>> findByParameters(HttpServletRequest request, @PathVariable("page") int page,
-                                                                 @PathVariable("count") int count, @PathVariable("number") Integer number,
+  public ResponseEntity<Response<Page<Ticket>>> findByParameters(HttpServletRequest request, 
+                                                                 @PathVariable("page") int page,
+                                                                 @PathVariable("count") int count, 
+                                                                 @PathVariable("number") Integer number,
                                                                  @PathVariable("title") String title, @PathVariable("status") String status,
                                                                  @PathVariable("priority") String priority,
                                                                  @PathVariable("assigned") boolean assigned) {
