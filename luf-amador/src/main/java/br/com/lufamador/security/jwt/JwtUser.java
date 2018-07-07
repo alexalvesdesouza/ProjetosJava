@@ -64,7 +64,7 @@ public class JwtUser implements UserDetails {
     return true;
   }
 
-  // @JsonIgnore
+  @JsonIgnore
   public Long getId() {
     return id;
   }
