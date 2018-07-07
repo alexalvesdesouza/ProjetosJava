@@ -62,7 +62,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js")
+                .antMatchers(HttpMethod.GET,
+                             "/",
+                             "/*.html",
+                             "/favicon.ico",
+                             "/**/*.html",
+                             "/**/*.css",
+                             "/**/*.js",
+                             "/classificacoes",
+                             "/departamento-tecnico/editais",
+                             "/departamento-tecnico/comunicados",
+                             "/departamento-tecnico/notas-oficiais",
+                             "/departamento-tecnico/sumulas",
+                             "/departamento-tecnico/artilharia-defesa",
+                             "/tabela-jogos",
+                             "/tjdus/editais",
+                             "/tjdus/portarias",
+                             "/tjdus/resultados",
+                             "/escalas",
+                             "/jogos/tempo-real",
+                             "/jogos/resultados")
                 .permitAll()
                 .antMatchers("/api/auth/**")
                 .permitAll()

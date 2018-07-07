@@ -21,6 +21,8 @@ public class User {
   @GenericGenerator(name = "increment", strategy = "increment")
   private Long        id;
 
+  private String      nome;
+
   @NotBlank(message = "Email obrigatorio")
   @Email(message = "Email inválido")
   private String      email;
@@ -63,4 +65,12 @@ public class User {
     this.profile = profile;
   }
 
+  public String getNome() {
+    return nome;
+  }
+
+  public void setNome(String nome) {
+    this.nome = nome;
+  }
+  
 }
