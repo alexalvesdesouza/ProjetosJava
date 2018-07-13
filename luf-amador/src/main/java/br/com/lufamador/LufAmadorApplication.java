@@ -26,7 +26,8 @@ public class LufAmadorApplication {
 
 	  private void iniUsers(UserRepository repository, PasswordEncoder encoder) {
 	    User admin = new User();
-	    admin.setEmail("admin@helpdesk.com.br");
+	    admin.setNome("Ranier");
+	    admin.setEmail("admin@lufamador.com.br");
 	    admin.setPassword(encoder.encode("123456"));
 	    admin.setProfile(ProfileEnum.ROLE_ADMIN);
 

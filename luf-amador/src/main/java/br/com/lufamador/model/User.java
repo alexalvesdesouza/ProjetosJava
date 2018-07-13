@@ -31,6 +31,8 @@ public class User {
   @Size(min = 6)
   private String      password;
 
+  private String      image;
+
   private ProfileEnum profile;
 
   public Long getId() {
@@ -72,5 +74,15 @@ public class User {
   public void setNome(String nome) {
     this.nome = nome;
   }
+
+  public String getImage() {
+    return image;
+  }
+
+  public void setImage(String image) {
+    this.image = image;
+  }
   
+  
+
 }
