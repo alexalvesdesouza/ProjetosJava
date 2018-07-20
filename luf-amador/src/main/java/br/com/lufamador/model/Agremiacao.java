@@ -3,6 +3,7 @@ package br.com.lufamador.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -30,6 +31,9 @@ public class Agremiacao implements Serializable {
 
     private String nome;
     private String nomeSigla;
+    private String categoria;
+    @Column(columnDefinition = "TEXT")
+    private String image;
     private String linkEscudo;
     private Boolean inativa;
     @JsonSerialize(using = LocalDateSerializer.class)
@@ -42,6 +46,14 @@ public class Agremiacao implements Serializable {
 
     @OneToOne
     private Endereco endereco;
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
 
     public Long getCodigo() {
       return codigo;
@@ -115,4 +127,11 @@ public class Agremiacao implements Serializable {
       this.endereco = endereco;
     }
 
+    public String getImage() {
+      return image;
+    }
+
+    public void setImage(String image) {
+      this.image = image;
+    }
 }

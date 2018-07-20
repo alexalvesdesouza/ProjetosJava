@@ -16,11 +16,11 @@ public class InscricaoService {
 
     private final InscricaoRepository repository;
     private final InscricaoValidate validate;
-    private final AgremiacaoService agremiacaoService;
+    private final AgremiacaoServiceImpl agremiacaoService;
 
     @Autowired
     public InscricaoService(InscricaoRepository repository, InscricaoValidate validate,
-            AgremiacaoService agremiacaoService) {
+            AgremiacaoServiceImpl agremiacaoService) {
         this.repository = repository;
         this.validate = validate;
         this.agremiacaoService = agremiacaoService;

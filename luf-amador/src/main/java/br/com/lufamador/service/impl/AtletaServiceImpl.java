@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.lufamador.model.Atleta;
 import br.com.lufamador.repository.AtletaRepository;
+import br.com.lufamador.service.AgremiacaoService;
 import br.com.lufamador.service.AtletaService;
 import br.com.lufamador.validate.AtletaValidate;
 
@@ -51,8 +52,10 @@ public class AtletaServiceImpl implements AtletaService {
     Atleta atletaAtualizado = null;
     final Optional<Atleta> atleta = this.repository.findById(atletaAtualizar.getCodigo());
     if (atleta.isPresent()) {
-      this.enderecoService.atualizaEndereco(atletaAtualizar.getEndereco());
-      this.agremiacaoService.atualizarAgremiacao(atletaAtualizar.getAgremiacao());
+      if (null != atletaAtualizar.getEndereco())
+        this.enderecoService.atualizaEndereco(atletaAtualizar.getEndereco());
+      if (null != atletaAtualizar.getAgremiacao())
+        this.agremiacaoService.createOrUpdate(atletaAtualizar.getAgremiacao());
       atletaAtualizado = this.repository.saveAndFlush(atletaAtualizar);
     }
     return atletaAtualizado;
@@ -86,11 +89,7 @@ public class AtletaServiceImpl implements AtletaService {
       this.repository.delete(atleta.get());
 
   }
-  //
-  // public List<Atleta> getAtletas() {
-  // return this.repository.findAll();
-  // }
-
+ 
   @Override
   public Page<Atleta> findAll(int page, int count) {
     Pageable pages = PageRequest.of(page, count);
@@ -105,9 +104,8 @@ public class AtletaServiceImpl implements AtletaService {
   }
 
   @Override
-  public Atleta findById(Long id) {
-    // TODO Auto-generated method stub
-    return null;
+  public Atleta findByCodigo(Long codigo) {
+    return this.repository.findByCodigo(codigo);
   }
 
   @Override

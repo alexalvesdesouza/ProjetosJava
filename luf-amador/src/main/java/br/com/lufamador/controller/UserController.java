@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,16 +30,17 @@ import br.com.lufamador.service.UserService;
 public class UserController {
 
   private final UserService     userService;
-  private final PasswordEncoder passwordEncoder;
+ // private final PasswordEncoder passwordEncoder;
 
   @Autowired
-  public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+  public UserController(UserService userService
+                        /*, PasswordEncoder passwordEncoder*/) {
     this.userService = userService;
-    this.passwordEncoder = passwordEncoder;
+    //this.passwordEncoder = passwordEncoder;
   }
 
   @PostMapping
-  @PreAuthorize("hasAnyRole('ADMIN')")
+  //@PreAuthorize("hasAnyRole('ADMIN')")
   public ResponseEntity<Response<User>> create(HttpServletRequest request, @RequestBody User user, BindingResult result) {
 
     Response<User> response = new Response<User>();
@@ -54,7 +55,7 @@ public class UserController {
                              .body(response);
       }
 
-      user.setPassword(passwordEncoder.encode(user.getPassword()));
+      //user.setPassword(passwordEncoder.encode(user.getPassword()));
       User saved = userService.createOrUpdate(user);
       response.setData(saved);
 
@@ -80,7 +81,7 @@ public class UserController {
   }
 
   @PutMapping
-  @PreAuthorize("hasAnyRole('ADMIN')")
+  //@PreAuthorize("hasAnyRole('ADMIN')")
   public ResponseEntity<Response<User>> update(HttpServletRequest request, @RequestBody User user, BindingResult result) {
 
     Response<User> response = new Response<User>();
@@ -96,7 +97,7 @@ public class UserController {
                              .body(response);
       }
 
-      user.setPassword(passwordEncoder.encode(user.getPassword()));
+     // user.setPassword(passwordEncoder.encode(user.getPassword()));
       User saved = userService.createOrUpdate(user);
       response.setData(saved);
 
@@ -121,7 +122,7 @@ public class UserController {
   }
 
   @GetMapping(value = "{id}")
-  @PreAuthorize("hasAnyRole('ADMIN')")
+  //@PreAuthorize("hasAnyRole('ADMIN')")
   public ResponseEntity<Response<User>> findById(@PathVariable("id") Long id) {
     Response<User> response = new Response<User>();
     User user = this.userService.findById(id);
@@ -136,7 +137,7 @@ public class UserController {
   }
 
   @DeleteMapping(value = "{id}")
-  @PreAuthorize("hasAnyRole('ADMIN')")
+  //@PreAuthorize("hasAnyRole('ADMIN')")
   public ResponseEntity<Response<String>> deleteById(@PathVariable("id") Long id) {
     Response<String> response = new Response<String>();
     User user = this.userService.findById(id);
@@ -152,7 +153,7 @@ public class UserController {
   }
 
   @GetMapping(value = "{page}/{count}")
-  @PreAuthorize("hasAnyRole('ADMIN')")
+  //@PreAuthorize("hasAnyRole('ADMIN')")
   public ResponseEntity<Response<Page<User>>> findAll(@PathVariable("page") int page, @PathVariable("count") int count) {
     Response<Page<User>> response = new Response<Page<User>>();
     Page<User> users = this.userService.findAll(page, count);

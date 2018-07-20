@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -42,19 +41,8 @@ public class Campeonato implements Serializable {
     private Boolean campeonatoEncerrado;
     private Boolean inscricoesEncerradas;
 
-    @OneToOne
-    private FormaDisputa formaDisputa;
-
     @OneToMany
-    private List<Inscricao> inscricoes;
-
-    public List<Inscricao> getInscricoes() {
-        return inscricoes;
-    }
-
-    public void setInscricoes(List<Inscricao> inscricoes) {
-        this.inscricoes = inscricoes;
-    }
+    private List<Agremiacao> inscricoes;
 
     public Long getCodigo() {
         return codigo;
@@ -120,11 +108,11 @@ public class Campeonato implements Serializable {
         this.inscricoesEncerradas = inscricoesEncerradas;
     }
 
-    public FormaDisputa getFormaDisputa() {
-        return formaDisputa;
+    public List<Agremiacao> getInscricoes() {
+        return inscricoes;
     }
 
-    public void setFormaDisputa(FormaDisputa formaDisputa) {
-        this.formaDisputa = formaDisputa;
+    public void setInscricoes(List<Agremiacao> inscricoes) {
+        this.inscricoes = inscricoes;
     }
 }

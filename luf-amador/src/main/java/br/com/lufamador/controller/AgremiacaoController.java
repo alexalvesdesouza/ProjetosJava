@@ -1,20 +1,26 @@
 package br.com.lufamador.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.lufamador.model.Agremiacao;
-import br.com.lufamador.model.Tjdu;
-import br.com.lufamador.service.impl.AgremiacaoService;
+import br.com.lufamador.response.Response;
+import br.com.lufamador.service.AgremiacaoService;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -28,47 +34,78 @@ public class AgremiacaoController {
         this.agremiacaoService = agremiacaoService;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Agremiacao> cadastraAgremiacao(@RequestBody Agremiacao agremiacao) {
-        final Agremiacao agremiacaoSaved = this.agremiacaoService.cadastraAgremiacao(agremiacao);
-        HttpStatus status = (null == agremiacaoSaved) ? HttpStatus.CONFLICT : HttpStatus.CREATED;
-        return new ResponseEntity<>(agremiacaoSaved,
-                status);
+    @GetMapping(value = "{page}/{count}")
+    public ResponseEntity<Response<Page<Agremiacao>>> findAll(@PathVariable("page") int page,
+            @PathVariable("count") int count) {
+
+        Response<Page<Agremiacao>> response = new Response<>();
+        Page<Agremiacao> agremiacoes = this.agremiacaoService.findAll(page, count);
+        response.setData(agremiacoes);
+        return ResponseEntity.ok(response);
+
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<Agremiacao>> getAgremiacoes() {
-        final List<Agremiacao> agremiacoes = this.agremiacaoService.getAgremiacoes();
-        HttpStatus status = (null == agremiacoes) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
-        return new ResponseEntity<>(agremiacoes, status);
+//    @GetMapping(value = "{page}/{count}")
+//    public Map<String, Agremiacao> findAll(@PathVariable("page") int page,
+//            @PathVariable("count") int count) {
+//
+//        return this.agremiacaoService.findAllMap(page, count);
+//
+//    }
+
+    @GetMapping(value = "{codigo}")
+    //@PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<Response<Agremiacao>> findById(@PathVariable("codigo") Long codigo) {
+        Response<Agremiacao> response = new Response<>();
+        Agremiacao agremiacao = this.agremiacaoService.findByCodigo(codigo);
+        if (null == agremiacao) {
+            response.getErrors()
+                    .add("Register not found " + codigo);
+            return ResponseEntity.badRequest()
+                    .body(response);
+        }
+        response.setData(agremiacao);
+        return ResponseEntity.ok(response);
     }
 
-    @RequestMapping(path = "/{codigoCampeonato}/inscritas", method = RequestMethod.GET)
+    @PostMapping
+    public ResponseEntity<Response<Agremiacao>> cadastraAgremiacao(@RequestBody Agremiacao agremiacao) {
+        Response<Agremiacao> response = new Response<>();
+        final Agremiacao agremiacaoSaved = this.agremiacaoService.createOrUpdate(agremiacao);
+        response.setData(agremiacaoSaved);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping
+    public ResponseEntity<Response<Agremiacao>> atualizaAgremiacao(@RequestBody Agremiacao agremiacao) {
+        Response<Agremiacao> response = new Response<>();
+        final Agremiacao agremiacaoSaved = this.agremiacaoService.createOrUpdate(agremiacao);
+        response.setData(agremiacaoSaved);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(path = "/{codigoCampeonato}/inscritas")
     public ResponseEntity<List<Agremiacao>> getAgremiacoesInscritas(
             @PathVariable(value = "codigoCampeonato") Long codigoCampeonato) {
         final List<Agremiacao> agremiacoes = this.agremiacaoService.getAgremiacoesInscritas(codigoCampeonato);
         HttpStatus status = (null == agremiacoes) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
-        return new ResponseEntity<>(agremiacoes, status);
+        return new ResponseEntity<>(agremiacoes,
+                status);
     }
 
-    @RequestMapping(path = "/{codigoCampeonato}/disponiveis", method = RequestMethod.GET)
-    public ResponseEntity<List<Agremiacao>> getAgremiacoesDisponiveis(
-            @PathVariable(value = "codigoCampeonato") Long codigoCampeonato) {
+    @GetMapping(path = "/{codigo}/disponiveis")
+    public ResponseEntity<Response<List<Agremiacao>>> getAgremiacoesDisponiveis(
+            @PathVariable(value = "codigo") Long codigoCampeonato) {
+        Response<List<Agremiacao>> response = new Response<>();
+
         final List<Agremiacao> agremiacoes = this.agremiacaoService.getAgremiacoesDisponiveis(codigoCampeonato);
-        HttpStatus status = (null == agremiacoes) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
-        return new ResponseEntity<>(agremiacoes, status);
+        response.setData(agremiacoes);
+        return  ResponseEntity.ok(response);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Agremiacao> atualizaAgremiacao(@RequestBody Agremiacao agremiacao) {
-        final Agremiacao agremiacaoSuspenso = this.agremiacaoService.atualizarAgremiacao(agremiacao);
-        HttpStatus status = (null == agremiacaoSuspenso) ? HttpStatus.UNPROCESSABLE_ENTITY : HttpStatus.OK;
-        return new ResponseEntity<>(agremiacaoSuspenso, status);
-    }
-
-    @RequestMapping(path = "/{codigo}/", method = RequestMethod.DELETE)
-    public ResponseEntity<Tjdu> deletaAgremiacao(@PathVariable(value = "codigo") Long codigo) {
-        this.agremiacaoService.deletarAgremiacao(codigo);
+    @DeleteMapping(path = "{codigo}")
+    public ResponseEntity<?> deletaAgremiacao(@PathVariable(value = "codigo") Long codigo) {
+        this.agremiacaoService.delete(codigo);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

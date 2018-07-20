@@ -12,4 +12,6 @@ public interface TjduRepository extends JpaRepository<Tjdu, Long> {
     Tjdu findByNumeroAndCategoria(final String numero, final String categoria);
 
     List<Tjdu> findByCategoria(String categoria);
+
+    Tjdu findByCodigo(Long codigo);
 }

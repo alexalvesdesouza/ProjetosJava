@@ -3,6 +3,7 @@ package br.com.lufamador.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -45,6 +46,16 @@ public class Atleta implements Serializable {
     @OneToOne
     private Agremiacao agremiacao;
     private Boolean suspenso;
+    @Column(columnDefinition = "TEXT")
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public Long getCodigo() {
         return codigo;

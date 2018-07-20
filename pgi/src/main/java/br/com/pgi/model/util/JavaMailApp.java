@@ -38,7 +38,7 @@ public class JavaMailApp implements Serializable{
 				new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
 						return new PasswordAuthentication(
-								"alvesdesouzaalex@gmail.com", "arroba30@50");
+								"alvesdesouzaalex@gmail.com", "Arroba30@50");
 					}
 				});
 

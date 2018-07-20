@@ -10,7 +10,7 @@ public interface AtletaService {
   
   Atleta createOrUpdate(Atleta atleta);
 
-  Atleta findById(Long id);
+  Atleta findByCodigo(Long id);
 
   void delete(Long id);
 

@@ -21,11 +21,13 @@ public class EnderecoService {
 
     public Endereco cadastraEndereco(Endereco endereco) {
         Endereco enderecoSaved = null;
-        this.validate.validaEnderecoExistente(endereco);
-        try {
-            enderecoSaved = this.repository.saveAndFlush(endereco);
-        } catch (Exception e) {
+        if (null != endereco) {
+            this.validate.validaEnderecoExistente(endereco);
+            try {
+                enderecoSaved = this.repository.saveAndFlush(endereco);
+            } catch (Exception e) {
 
+            }
         }
         return enderecoSaved;
     }

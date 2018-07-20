@@ -7,4 +7,5 @@ import br.com.lufamador.model.Atleta;
 
 public interface AtletaRepository extends JpaRepository<Atleta, Long> {
 
+    Atleta findByCodigo(Long codigo);
 }

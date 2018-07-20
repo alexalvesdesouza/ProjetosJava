@@ -1,5 +1,6 @@
 package br.com.lufamador.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -31,6 +32,7 @@ public class User {
   @Size(min = 6)
   private String      password;
 
+  @Column(columnDefinition = "TEXT")
   private String      image;
 
   private ProfileEnum profile;

@@ -1,56 +1,78 @@
 package br.com.lufamador.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.com.lufamador.model.EscalaArbitros;
-import br.com.lufamador.service.impl.EscalaArbitrosService;
+import br.com.lufamador.response.Response;
+import br.com.lufamador.service.impl.EscalaArbitrosServiceImpl;
 
 @Controller
 @CrossOrigin(origins = "*")
 @RequestMapping("/escalas")
 public class EscalaArbitrosController {
 
-    private EscalaArbitrosService escalaArbitrosService;
+    private EscalaArbitrosServiceImpl escalaArbitrosService;
 
     @Autowired
-    public EscalaArbitrosController(EscalaArbitrosService escalaArbitrosService) {
+    public EscalaArbitrosController(EscalaArbitrosServiceImpl escalaArbitrosService) {
         this.escalaArbitrosService = escalaArbitrosService;
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<EscalaArbitros> cadastraEscalaArbitros(@RequestBody EscalaArbitros escalaArbitros) {
-        final EscalaArbitros escalaArbitrosSaved = this.escalaArbitrosService.cadastraEscalaArbitros(escalaArbitros);
-        HttpStatus status = (null == escalaArbitrosSaved) ? HttpStatus.CONFLICT : HttpStatus.CREATED;
-        return new ResponseEntity<>(escalaArbitrosSaved,
-
-                status);
+    public ResponseEntity<Response<EscalaArbitros>> cadastraEscalaArbitros(@RequestBody EscalaArbitros escalaArbitros) {
+        Response<EscalaArbitros> response = new Response<>();
+        final EscalaArbitros entity = this.escalaArbitrosService.createOrUpdate(escalaArbitros);
+        response.setData(entity);
+        return ResponseEntity.ok(response);
     }
+
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<EscalaArbitros> atualizarEscalaArbitros(@RequestBody EscalaArbitros escalaArbitros) {
-        final EscalaArbitros escalaArbitrosSaved = this.escalaArbitrosService.atualizarEscalaArbitros(escalaArbitros);
-        HttpStatus status = (null == escalaArbitrosSaved) ? HttpStatus.CONFLICT : HttpStatus.CREATED;
-        return new ResponseEntity<>(escalaArbitrosSaved,
-                status);
+    public ResponseEntity<Response<EscalaArbitros>> atualizarEscalaArbitros(
+            @RequestBody EscalaArbitros escalaArbitros) {
+        Response<EscalaArbitros> response = new Response<>();
+        final EscalaArbitros entity = this.escalaArbitrosService.createOrUpdate(escalaArbitros);
+        response.setData(entity);
+        return ResponseEntity.ok(response);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<EscalaArbitros>> getEscalaArbitross() {
-        final List<EscalaArbitros> escalaArbitross = this.escalaArbitrosService.getEscalaArbitrosList();
-        HttpStatus status = (null == escalaArbitross) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
-        return new ResponseEntity<>(escalaArbitross, status);
+    @GetMapping(value = "{page}/{count}")
+    public ResponseEntity<Response<Page<EscalaArbitros>>> findAll(@PathVariable("page") int page,
+            @PathVariable("count") int count) {
+
+        Response<Page<EscalaArbitros>> response = new Response<>();
+        Page<EscalaArbitros> entitys = this.escalaArbitrosService.findAll(page, count);
+        response.setData(entitys);
+        return ResponseEntity.ok(response);
+
     }
 
-    @RequestMapping(path = "/{codigo}/", method = RequestMethod.DELETE)
+    @GetMapping(value = "{codigo}")
+    //@PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<Response<EscalaArbitros>> findById(@PathVariable("codigo") Long codigo) {
+        Response<EscalaArbitros> response = new Response<>();
+        EscalaArbitros entity = this.escalaArbitrosService.findByCodigo(codigo);
+        if (null == entity) {
+            response.getErrors()
+                    .add("Register not found " + codigo);
+            return ResponseEntity.badRequest()
+                    .body(response);
+        }
+        response.setData(entity);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping(value = "{codigo}")
     public ResponseEntity deletaInscricao(@PathVariable("codigo") Long codigo) {
         this.escalaArbitrosService.excluirEscala(codigo);
         HttpStatus status = HttpStatus.OK;

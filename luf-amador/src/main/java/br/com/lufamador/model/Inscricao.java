@@ -27,9 +27,6 @@ public class Inscricao implements Serializable {
     @OneToOne
     private Agremiacao agremiacao;
 
-    @OneToMany
-    private List<Atleta> atletas;
-
 
     public Long getCodigo() {
         return codigo;
@@ -47,11 +44,4 @@ public class Inscricao implements Serializable {
         this.agremiacao = agremiacao;
     }
 
-    public List<Atleta> getAtletas() {
-        return atletas;
-    }
-
-    public void setAtletas(List<Atleta> atletas) {
-        this.atletas = atletas;
-    }
 }
