@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.lufamador.exception.BussinessException;
 import br.com.lufamador.model.Campeonato;
-import br.com.lufamador.model.Inscricao;
+import br.com.lufamador.model.TabelaJogos;
 import br.com.lufamador.repository.CampeonatoRepository;
 import br.com.lufamador.service.CampeonatoService;
 import br.com.lufamador.utils.mensagens.MensagensErro;
@@ -24,22 +24,21 @@ public class CampeonatoServiceImpl implements CampeonatoService {
 
     private final CampeonatoRepository repository;
     private final CampeonatoValidate validate;
-    private final InscricaoService inscricaoService;
+    private final TabelaJogosService tabelaJogosService;
 
     @Autowired
     public CampeonatoServiceImpl(CampeonatoRepository repository, CampeonatoValidate validate,
-            InscricaoService inscricaoService) {
+            TabelaJogosService tabelaJogosService) {
         this.repository = repository;
         this.validate = validate;
-        this.inscricaoService = inscricaoService;
+        this.tabelaJogosService = tabelaJogosService;
     }
 
     private Campeonato create(Campeonato campeonato) {
         Campeonato campeonatoSaved = null;
         this.validate.validaCampeonatoExistente(campeonato);
         try {
-            campeonato.setEdicao(String.valueOf(LocalDateTime.now()
-                    .getYear()));
+            campeonato.setEdicao(String.valueOf(LocalDateTime.now().getYear()));
             campeonato.setInscricoesEncerradas(false);
             campeonato.setCampeonatoEncerrado(false);
             campeonatoSaved = this.repository.saveAndFlush(campeonato);
@@ -63,38 +62,15 @@ public class CampeonatoServiceImpl implements CampeonatoService {
     }
 
     private Campeonato update(Campeonato campeonato) {
+        TabelaJogos tabela = campeonato.getTabelaJogos();
+        if (null != tabela)
+            this.tabelaJogosService.createOrUdate(tabela);
         return this.repository.saveAndFlush(campeonato);
     }
 
     public final Campeonato inscricaoAgremiacaoCampeonato(Campeonato campeonato) {
-
         Campeonato campeonatoSaved = this.getCampeonato(campeonato.getCodigo());
-//        deletarInscricoes(campeonatoSaved.getInscricoes());
-//        List<Inscricao> incricoes = new ArrayList<>();
-//        campeonato.getInscricoes()
-//                .forEach(inscricao -> {
-//                    Inscricao cadastraInscricao = inscricaoService.cadastraInscricao(inscricao);
-//                    incricoes.add(cadastraInscricao);
-//                });
-//
-//        campeonato.setInscricoes(new ArrayList<>());
-//        campeonato.setInscricoes(incricoes);
-
         return this.update(campeonato);
-    }
-
-    private void deletarInscricoes(List<Inscricao> inscricoes) {
-        try {
-
-            inscricoes.stream()
-                    .forEach(inscricao -> {
-                        this.repository.deleteFromLufCampeonatoInscricoes(inscricao.getCodigo());
-                        this.inscricaoService.deletaInscricao(inscricao);
-                    });
-
-        } catch (Exception e) {
-            throw new BussinessException("Erro ao excluir inscricoes");
-        }
     }
 
     private Campeonato getCampeonato(Long codigoCampeonato) {
@@ -114,9 +90,16 @@ public class CampeonatoServiceImpl implements CampeonatoService {
 
     @Override
     public Campeonato createOrUpdate(Campeonato entity) {
+        this.insereCorCampeonato(entity);
         if (null != entity.getCodigo())
             return this.update(entity);
         return this.create(entity);
+    }
+
+    public final Campeonato registraTabelaJotos(Campeonato entity) {
+        Campeonato byCodigo = this.findByCodigo(entity.getCodigo());
+        entity.setInscricoes(byCodigo.getInscricoes());
+        return this.createOrUpdate(entity);
     }
 
     @Override
@@ -127,5 +110,38 @@ public class CampeonatoServiceImpl implements CampeonatoService {
     @Override
     public void delete(Long codigo) {
         this.delete(codigo);
+    }
+
+    private void insereCorCampeonato(Campeonato campeonato) {
+
+        String categoria = campeonato.getCategoria();
+        String cor = "red";
+        switch (categoria) {
+            case "AMADOR_ESPECIAL":
+                cor = "blue lighten-1";
+                break;
+            case "AMADOR_ACESSO":
+                cor = "lime lighten-1";
+                break;
+            case "VETERANOS":
+                cor = "deep-purple lighten-1";
+                break;
+            case "RURAL":
+                cor = "deep-orange lighten-1";
+                break;
+            case "JUNIORES":
+                cor = "light-green lighten-1";
+                break;
+            case "JUVENIL":
+                cor = "yellow lighten-1";
+                break;
+
+            default:
+                cor = "red";
+                break;
+        }
+
+        campeonato.setCor(cor);
+
     }
 }

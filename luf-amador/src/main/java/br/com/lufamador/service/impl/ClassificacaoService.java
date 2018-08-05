@@ -45,8 +45,7 @@ public class ClassificacaoService {
                   .getNome())
       .append(jogo.getDataPartida()
                   .toString())
-      .append(jogo.getChave())
-      .append(jogo.getRodada());
+      .append(jogo.getChave());
 
     return EncryptToMD5.converterParaMD5(sb.toString());
 

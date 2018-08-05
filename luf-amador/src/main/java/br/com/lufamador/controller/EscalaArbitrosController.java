@@ -1,9 +1,12 @@
 package br.com.lufamador.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,6 +33,7 @@ public class EscalaArbitrosController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<EscalaArbitros>> cadastraEscalaArbitros(@RequestBody EscalaArbitros escalaArbitros) {
         Response<EscalaArbitros> response = new Response<>();
         final EscalaArbitros entity = this.escalaArbitrosService.createOrUpdate(escalaArbitros);
@@ -38,6 +42,7 @@ public class EscalaArbitrosController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<EscalaArbitros>> atualizarEscalaArbitros(
             @RequestBody EscalaArbitros escalaArbitros) {
         Response<EscalaArbitros> response = new Response<>();
@@ -46,7 +51,14 @@ public class EscalaArbitrosController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping(value = "{page}/{count}")
+    @GetMapping
+    public ResponseEntity<List<EscalaArbitros>> getEscalas() {
+        List<EscalaArbitros> list = this.escalaArbitrosService.getEscalaArbitrosList();
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping(value = "/{page}/{count}/list")
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<Page<EscalaArbitros>>> findAll(@PathVariable("page") int page,
             @PathVariable("count") int count) {
 
@@ -57,8 +69,8 @@ public class EscalaArbitrosController {
 
     }
 
-    @GetMapping(value = "{codigo}")
-    //@PreAuthorize("hasAnyRole('ADMIN')")
+    @GetMapping(value = "/{codigo}/find")
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<EscalaArbitros>> findById(@PathVariable("codigo") Long codigo) {
         Response<EscalaArbitros> response = new Response<>();
         EscalaArbitros entity = this.escalaArbitrosService.findByCodigo(codigo);
@@ -73,6 +85,7 @@ public class EscalaArbitrosController {
     }
 
     @DeleteMapping(value = "{codigo}")
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity deletaInscricao(@PathVariable("codigo") Long codigo) {
         this.escalaArbitrosService.excluirEscala(codigo);
         HttpStatus status = HttpStatus.OK;

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,6 +66,7 @@ public class CampeonatoController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<Campeonato>> cadastraCampeonato(@RequestBody Campeonato campeonato) {
         Response<Campeonato> response = new Response<>();
         final Campeonato entity = this.campeonatoService.createOrUpdate(campeonato);
@@ -73,6 +75,7 @@ public class CampeonatoController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<Campeonato>> atualiza(@RequestBody Campeonato campeonato) {
         Response<Campeonato> response = new Response<>();
         final Campeonato entity = this.campeonatoService.createOrUpdate(campeonato);
@@ -80,14 +83,14 @@ public class CampeonatoController {
         return ResponseEntity.ok(response);
     }
 
-//    @GetMapping(path = "/{inscricoesAbertas}/")
-//    public ResponseEntity<List<Campeonato>> getCampeonatos(
-//            @PathVariable(value = "inscricoesAbertas") Boolean inscricoesAbertas) {
-//
-//        final List<Campeonato> campeonatos = this.campeonatoService.getCampeonatos(inscricoesAbertas);
-//        HttpStatus status = (null == campeonatos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
-//        return new ResponseEntity<>(campeonatos, status);
-//    }
+    @PutMapping(value = "/tabela-jogos")
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
+    public ResponseEntity<Response<Campeonato>> registraTabelaJogos(@RequestBody Campeonato campeonato) {
+        Response<Campeonato> response = new Response<>();
+        final Campeonato entity = this.campeonatoService.registraTabelaJotos(campeonato);
+        response.setData(entity);
+        return ResponseEntity.ok(response);
+    }
 
     @GetMapping(path = "/{codigo}/find")
     public ResponseEntity<Response<Campeonato>> getCampeonato(
@@ -99,6 +102,7 @@ public class CampeonatoController {
     }
 
     @PutMapping(path = "/agremiacoes-inscrever")
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<Campeonato>> inscricaoAgremiacaoCampeonato(@RequestBody Campeonato campeonato) {
         Response<Campeonato> response = new Response<>();
         final Campeonato entity = this.campeonatoService.inscricaoAgremiacaoCampeonato(campeonato);

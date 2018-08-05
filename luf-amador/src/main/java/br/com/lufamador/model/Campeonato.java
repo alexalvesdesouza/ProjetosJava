@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -32,6 +33,7 @@ public class Campeonato implements Serializable {
     private String nomeCampeonato;
     private String categoria;
     private String edicao;
+    private String cor;
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate dataInicio;
@@ -43,6 +45,24 @@ public class Campeonato implements Serializable {
 
     @OneToMany
     private List<Agremiacao> inscricoes;
+    @OneToOne
+    private TabelaJogos tabelaJogos;
+
+    public TabelaJogos getTabelaJogos() {
+        return tabelaJogos;
+    }
+
+    public void setTabelaJogos(TabelaJogos tabelaJogos) {
+        this.tabelaJogos = tabelaJogos;
+    }
+
+    public String getCor() {
+        return cor;
+    }
+
+    public void setCor(String cor) {
+        this.cor = cor;
+    }
 
     public Long getCodigo() {
         return codigo;

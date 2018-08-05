@@ -6,13 +6,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.com.lufamador.model.Jogo;
+import br.com.lufamador.response.Response;
 import br.com.lufamador.service.impl.JogoService;
 
 @Controller
@@ -27,42 +30,45 @@ public class JogoController {
         this.jogoService = jogoService;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Jogo> cadastraJogo(@RequestBody Jogo jogo) {
-        final Jogo jogoSaved = this.jogoService.cadastraJogo(jogo);
-        HttpStatus status = (null == jogoSaved) ? HttpStatus.CONFLICT : HttpStatus.CREATED;
-        return new ResponseEntity<Jogo>(jogoSaved,
-                status);
-    }
-
-    @RequestMapping(path = "/tempo-real/atualizar",  method = RequestMethod.PUT)
+    @RequestMapping(path = "/tempo-real/atualizar", method = RequestMethod.PUT)
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Jogo> atualizarJogo(@RequestBody Jogo jogo) throws NoSuchAlgorithmException {
         final Jogo jogoSaved = this.jogoService.atualizarJogo(jogo);
         HttpStatus status = (null == jogoSaved) ? HttpStatus.CONFLICT : HttpStatus.OK;
         return new ResponseEntity<Jogo>(jogoSaved,
                 status);
     }
-    
-    @RequestMapping(path = "/tempo-real/encerrar",  method = RequestMethod.PUT)
+
+    @RequestMapping(path = "/tempo-real/encerrar", method = RequestMethod.PUT)
+    @PreAuthorize("hasAnyRole('ADM_JOGOS')")
     public ResponseEntity<Jogo> encerrarJogo(@RequestBody Jogo jogo) throws NoSuchAlgorithmException {
-      final Jogo jogoSaved = this.jogoService.encerrarJogo(jogo);
-      HttpStatus status = (null == jogoSaved) ? HttpStatus.CONFLICT : HttpStatus.OK;
-      return new ResponseEntity<Jogo>(jogoSaved,
-          status);
+        final Jogo jogoSaved = this.jogoService.encerrarJogo(jogo);
+        HttpStatus status = (null == jogoSaved) ? HttpStatus.CONFLICT : HttpStatus.OK;
+        return new ResponseEntity<Jogo>(jogoSaved,
+                status);
     }
 
-    @RequestMapping(path = "/tempo-real",method = RequestMethod.GET)
-    public ResponseEntity<List<Jogo>> getJogosTempoReal() {
+    @GetMapping(value = "/tempo-real/list")
+    @PreAuthorize("hasAnyRole('ADM_JOGOS')")
+    public ResponseEntity<Response<List<Jogo>>> getJogosTempoRealList() {
+
+        Response<List<Jogo>> response = new Response<>();
         final List<Jogo> jogos = this.jogoService.getJogosTempoReal();
-        HttpStatus status = (null == jogos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
-        return new ResponseEntity<>(jogos, status);
+        response.setData(jogos);
+        return ResponseEntity.ok(response);
+
     }
-    
-    @RequestMapping(path = "/resultados",method = RequestMethod.GET)
+
+    @GetMapping(value = "/tempo-real")
+    public ResponseEntity<List<Jogo>> getJogosTempoReal() {
+        List<Jogo> jogos = this.jogoService.getJogosTempoReal();
+        return ResponseEntity.ok(jogos);
+    }
+
+    @GetMapping(path = "/resultados")
     public ResponseEntity<List<Jogo>> getResultadoJogos() {
-      final List<Jogo> jogos = this.jogoService.getResultadosJogos();
-      HttpStatus status = (null == jogos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
-      return new ResponseEntity<>(jogos, status);
+        List<Jogo> jogos = this.jogoService.getResultadosJogos();
+        return ResponseEntity.ok(jogos);
     }
 
 }

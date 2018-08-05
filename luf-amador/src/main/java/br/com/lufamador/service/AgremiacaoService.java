@@ -19,7 +19,7 @@ public interface AgremiacaoService {
   
   List<Agremiacao> getAgremiacoesInscritas(final Long codigoCampeonato);
   
-  List<Agremiacao> getAgremiacoesDisponiveis(final Long codigoCampeonato);
+  List<Agremiacao> getAgremiacoesDisponiveis(final Long codigoCampeonato, final String categoria);
 
   Map<String, Agremiacao> findAllMap(int page, int count);
 

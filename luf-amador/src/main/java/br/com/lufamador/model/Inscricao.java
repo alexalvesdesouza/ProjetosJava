@@ -27,6 +27,15 @@ public class Inscricao implements Serializable {
     @OneToOne
     private Agremiacao agremiacao;
 
+    private String chave;
+
+    public String getChave() {
+        return chave;
+    }
+
+    public void setChave(String chave) {
+        this.chave = chave;
+    }
 
     public Long getCodigo() {
         return codigo;

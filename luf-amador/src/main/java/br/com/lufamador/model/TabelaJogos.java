@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -22,10 +21,6 @@ public class TabelaJogos implements Serializable {
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long codigo;
-
-    @OneToOne
-    private Campeonato campeonato;
-
     @OneToMany
     private List<Jogo> jogos;
 
@@ -35,14 +30,6 @@ public class TabelaJogos implements Serializable {
 
     public void setCodigo(Long codigo) {
         this.codigo = codigo;
-    }
-
-    public Campeonato getCampeonato() {
-        return campeonato;
-    }
-
-    public void setCampeonato(Campeonato campeonato) {
-        this.campeonato = campeonato;
     }
 
     public List<Jogo> getJogos() {

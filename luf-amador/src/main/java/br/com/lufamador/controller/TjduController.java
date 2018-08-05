@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,6 +34,7 @@ public class TjduController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<Tjdu>> cadastraTjdu(@RequestBody Tjdu tjdu) {
         Response<Tjdu> response = new Response<>();
         final Tjdu entity = this.tjduService.createOrUpdate(tjdu);
@@ -41,6 +43,7 @@ public class TjduController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<Tjdu>> editarTjdu(@RequestBody Tjdu tjdu) {
         Response<Tjdu> response = new Response<>();
         final Tjdu entity = this.tjduService.createOrUpdate(tjdu);
@@ -49,6 +52,7 @@ public class TjduController {
     }
 
     @GetMapping(value = "{page}/{count}")
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<Page<Tjdu>>> findAll(@PathVariable("page") int page,
             @PathVariable("count") int count) {
 
@@ -60,7 +64,7 @@ public class TjduController {
     }
 
     @GetMapping(value = "{codigo}")
-    //@PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<Tjdu>> findById(@PathVariable("codigo") Long codigo) {
         Response<Tjdu> response = new Response<>();
         Tjdu entity = this.tjduService.findByCodigo(codigo);
@@ -76,26 +80,27 @@ public class TjduController {
 
 
     @DeleteMapping(value = "{codigo}")
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Tjdu> deletarTjdu(@PathVariable(value = "codigo") Long codigo) {
         this.tjduService.delete(codigo);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/editais", method = RequestMethod.GET)
+    @GetMapping(value = "/editais")
     public ResponseEntity<List<Tjdu>> getEditaisTjdus() {
         final List<Tjdu> tjdus = this.tjduService.getTjduList(CategoriaConstant.EDITAIS.name());
         HttpStatus status = (null == tjdus) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(tjdus, status);
     }
 
-    @RequestMapping(path = "/portarias", method = RequestMethod.GET)
+    @GetMapping(value = "/portarias")
     public ResponseEntity<List<Tjdu>> getPortatiasTjdus() {
         final List<Tjdu> tjdus = this.tjduService.getTjduList(CategoriaConstant.PORTARIAS.name());
         HttpStatus status = (null == tjdus) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(tjdus, status);
     }
 
-    @RequestMapping(path = "/resultados", method = RequestMethod.GET)
+    @GetMapping(value = "/resultados")
     public ResponseEntity<List<Tjdu>> getTjdus() {
         final List<Tjdu> tjdus = this.tjduService.getTjduList(CategoriaConstant.RESULTADOS.name());
         HttpStatus status = (null == tjdus) ? HttpStatus.NO_CONTENT : HttpStatus.OK;

@@ -1,7 +1,6 @@
 package br.com.lufamador.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.lufamador.model.Agremiacao;
@@ -93,14 +91,16 @@ public class AgremiacaoController {
                 status);
     }
 
-    @GetMapping(path = "/{codigo}/disponiveis")
+    @GetMapping(path = "/{codigo}/{categoria}/disponiveis")
     public ResponseEntity<Response<List<Agremiacao>>> getAgremiacoesDisponiveis(
-            @PathVariable(value = "codigo") Long codigoCampeonato) {
+            @PathVariable(value = "codigo") Long codigoCampeonato,
+            @PathVariable(value = "categoria") String categoria) {
         Response<List<Agremiacao>> response = new Response<>();
 
-        final List<Agremiacao> agremiacoes = this.agremiacaoService.getAgremiacoesDisponiveis(codigoCampeonato);
+        final List<Agremiacao> agremiacoes = this.agremiacaoService.getAgremiacoesDisponiveis(codigoCampeonato,
+                categoria);
         response.setData(agremiacoes);
-        return  ResponseEntity.ok(response);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping(path = "{codigo}")

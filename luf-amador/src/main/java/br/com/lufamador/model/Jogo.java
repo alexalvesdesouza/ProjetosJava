@@ -2,7 +2,6 @@ package br.com.lufamador.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,162 +16,168 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import br.com.lufamador.utils.datas.LocalDateDeserializer;
 import br.com.lufamador.utils.datas.LocalDateSerializer;
-import br.com.lufamador.utils.datas.LocalDateTimeDeserializer;
-import br.com.lufamador.utils.datas.LocalDateTimeSerializer;
 
 @Entity
 @Table(name = "luf_jogo")
 public class Jogo implements Serializable {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  @Id
-  @GeneratedValue(generator = "increment")
-  @GenericGenerator(name = "increment", strategy = "increment")
-  private Long              codigo;
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    private Long codigo;
 
-  @JsonSerialize(using = LocalDateSerializer.class)
-  @JsonDeserialize(using = LocalDateDeserializer.class)
-  private LocalDate         dataPartida;
-  private String            horarioPartida;
-  // @OneToOne
-  private String            local;
-  @OneToOne
-  private Agremiacao        agremiacaoA;
-  @OneToOne
-  private Agremiacao        agremiacaoB;
-  private Integer           golsAgremiacaoA;
-  private Integer           golsAgremiacaoB;
-  private Integer           codigoCompeticao;
-  private String            chave;
-  private String            rodada;
-  private Boolean           partidaEncerrada;
-  private String            keyConfronto;
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDate dataPartida;
+    private String horarioPartida;
+    private String local;
+    @OneToOne
+    private Agremiacao agremiacaoA;
+    @OneToOne
+    private Agremiacao agremiacaoB;
+    private Integer golsAgremiacaoA;
+    private Integer golsAgremiacaoB;
+    private Integer codigoCompeticao;
+    private String chave;
+    private String rodada;
+    private String fase;
+    private Boolean partidaEncerrada;
+    private String keyConfronto;
 
-  @JsonSerialize(using = LocalDateTimeSerializer.class)
-  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-  private LocalDateTime     dataCriacao;
-  @JsonSerialize(using = LocalDateTimeSerializer.class)
-  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-  private LocalDateTime     dataAtualizacao;
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDate dataCriacao;
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDate dataAtualizacao;
 
-  public Long getCodigo() {
-    return codigo;
-  }
+    public String getRodada() {
+        return rodada;
+    }
 
-  public void setCodigo(Long codigo) {
-    this.codigo = codigo;
-  }
+    public void setRodada(String rodada) {
+        this.rodada = rodada;
+    }
 
-  public LocalDate getDataPartida() {
-    return dataPartida;
-  }
+    public Long getCodigo() {
+        return codigo;
+    }
 
-  public void setDataPartida(LocalDate dataPartida) {
-    this.dataPartida = dataPartida;
-  }
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
+    }
 
-  public String getHorarioPartida() {
-    return horarioPartida;
-  }
+    public LocalDate getDataPartida() {
+        return dataPartida;
+    }
 
-  public void setHorarioPartida(String horarioPartida) {
-    this.horarioPartida = horarioPartida;
-  }
+    public void setDataPartida(LocalDate dataPartida) {
+        this.dataPartida = dataPartida;
+    }
 
-  public String getLocal() {
-    return local;
-  }
+    public String getHorarioPartida() {
+        return horarioPartida;
+    }
 
-  public void setLocal(String local) {
-    this.local = local;
-  }
+    public void setHorarioPartida(String horarioPartida) {
+        this.horarioPartida = horarioPartida;
+    }
 
-  public Agremiacao getAgremiacaoA() {
-    return agremiacaoA;
-  }
+    public String getLocal() {
+        return local;
+    }
 
-  public void setAgremiacaoA(Agremiacao agremiacaoA) {
-    this.agremiacaoA = agremiacaoA;
-  }
+    public void setLocal(String local) {
+        this.local = local;
+    }
 
-  public Agremiacao getAgremiacaoB() {
-    return agremiacaoB;
-  }
+    public Agremiacao getAgremiacaoA() {
+        return agremiacaoA;
+    }
 
-  public void setAgremiacaoB(Agremiacao agremiacaoB) {
-    this.agremiacaoB = agremiacaoB;
-  }
+    public void setAgremiacaoA(Agremiacao agremiacaoA) {
+        this.agremiacaoA = agremiacaoA;
+    }
 
-  public Integer getGolsAgremiacaoA() {
-    return golsAgremiacaoA;
-  }
+    public Agremiacao getAgremiacaoB() {
+        return agremiacaoB;
+    }
 
-  public void setGolsAgremiacaoA(Integer golsAgremiacaoA) {
-    this.golsAgremiacaoA = golsAgremiacaoA;
-  }
+    public void setAgremiacaoB(Agremiacao agremiacaoB) {
+        this.agremiacaoB = agremiacaoB;
+    }
 
-  public Integer getGolsAgremiacaoB() {
-    return golsAgremiacaoB;
-  }
+    public Integer getGolsAgremiacaoA() {
+        return golsAgremiacaoA;
+    }
 
-  public void setGolsAgremiacaoB(Integer golsAgremiacaoB) {
-    this.golsAgremiacaoB = golsAgremiacaoB;
-  }
+    public void setGolsAgremiacaoA(Integer golsAgremiacaoA) {
+        this.golsAgremiacaoA = golsAgremiacaoA;
+    }
 
-  public String getChave() {
-    return chave;
-  }
+    public Integer getGolsAgremiacaoB() {
+        return golsAgremiacaoB;
+    }
 
-  public void setChave(String chave) {
-    this.chave = chave;
-  }
+    public void setGolsAgremiacaoB(Integer golsAgremiacaoB) {
+        this.golsAgremiacaoB = golsAgremiacaoB;
+    }
 
-  public String getRodada() {
-    return rodada;
-  }
+    public Integer getCodigoCompeticao() {
+        return codigoCompeticao;
+    }
 
-  public void setRodada(String rodada) {
-    this.rodada = rodada;
-  }
+    public void setCodigoCompeticao(Integer codigoCompeticao) {
+        this.codigoCompeticao = codigoCompeticao;
+    }
 
-  public Boolean getPartidaEncerrada() {
-    return partidaEncerrada;
-  }
+    public String getChave() {
+        return chave;
+    }
 
-  public void setPartidaEncerrada(Boolean partidaEncerrada) {
-    this.partidaEncerrada = partidaEncerrada;
-  }
+    public void setChave(String chave) {
+        this.chave = chave;
+    }
 
-  public String getKeyConfronto() {
-    return keyConfronto;
-  }
+    public Boolean getPartidaEncerrada() {
+        return partidaEncerrada;
+    }
 
-  public void setKeyConfronto(String keyConfronto) {
-    this.keyConfronto = keyConfronto;
-  }
+    public void setPartidaEncerrada(Boolean partidaEncerrada) {
+        this.partidaEncerrada = partidaEncerrada;
+    }
 
-  public LocalDateTime getDataCriacao() {
-    return dataCriacao;
-  }
+    public String getKeyConfronto() {
+        return keyConfronto;
+    }
 
-  public void setDataCriacao(LocalDateTime dataCriacao) {
-    this.dataCriacao = dataCriacao;
-  }
+    public void setKeyConfronto(String keyConfronto) {
+        this.keyConfronto = keyConfronto;
+    }
 
-  public LocalDateTime getDataAtualizacao() {
-    return dataAtualizacao;
-  }
+    public LocalDate getDataCriacao() {
+        return dataCriacao;
+    }
 
-  public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
-    this.dataAtualizacao = dataAtualizacao;
-  }
+    public void setDataCriacao(LocalDate dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
 
-  public Integer getCodigoCompeticao() {
-    return codigoCompeticao;
-  }
+    public LocalDate getDataAtualizacao() {
+        return dataAtualizacao;
+    }
 
-  public void setCodigoCompeticao(Integer codigoCompeticao) {
-    this.codigoCompeticao = codigoCompeticao;
-  }
+    public void setDataAtualizacao(LocalDate dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public String getFase() {
+        return fase;
+    }
+
+    public void setFase(String fase) {
+        this.fase = fase;
+    }
 }

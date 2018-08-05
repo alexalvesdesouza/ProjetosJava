@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +44,7 @@ public class AtletaController {
     }
 
     @GetMapping(value = "{codigo}")
-    //@PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<Atleta>> findById(@PathVariable("codigo") Long codigo) {
         Response<Atleta> response = new Response<>();
         Atleta atleta = this.atletaService.findByCodigo(codigo);
@@ -58,6 +59,7 @@ public class AtletaController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<Atleta>> cadastraAtleta(@RequestBody Atleta atleta) {
         Response<Atleta> response = new Response<>();
         final Atleta atletaSaved = this.atletaService.createOrUpdate(atleta);
@@ -66,6 +68,7 @@ public class AtletaController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<Atleta>> atualizaAtleta(@RequestBody Atleta atleta) {
         Response<Atleta> response = new Response<>();
         final Atleta atletaSaved = this.atletaService.createOrUpdate(atleta);
@@ -74,7 +77,7 @@ public class AtletaController {
     }
 
     @PutMapping(value = "/{codigo}/baixa-suspensao/")
-    // @PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Atleta> baixaSuspensaoAtleta(@PathVariable("codigo") Long codigo) {
         final Atleta atletaSuspenso = this.atletaService.baixarSuspensaoAtleta(codigo);
         HttpStatus status = (null == atletaSuspenso) ? HttpStatus.UNPROCESSABLE_ENTITY : HttpStatus.OK;
@@ -83,7 +86,7 @@ public class AtletaController {
     }
 
     @PutMapping(value = "/{codigo}/suspender/")
-    //@PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Atleta> suspendeAtleta(@PathVariable("codigo") Long codigo) {
         final Atleta atletaSuspenso = this.atletaService.suspenderAtleta(codigo);
         HttpStatus status = (null == atletaSuspenso) ? HttpStatus.UNPROCESSABLE_ENTITY : HttpStatus.OK;
@@ -92,7 +95,7 @@ public class AtletaController {
     }
 
     @DeleteMapping(value = "{codigo}")
-    // @PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<?> deletaAtleta(@PathVariable("codigo") Long codigo) {
         this.atletaService.delete(codigo);
         HttpStatus status = HttpStatus.OK;

@@ -102,8 +102,8 @@ public class AgremiacaoServiceImpl implements AgremiacaoService {
         return this.repository.getAgremiacoesInscritas(codigoCampeonato);
     }
 
-    public List<Agremiacao> getAgremiacoesDisponiveis(final Long codigoCampeonato) {
-        return this.repository.getAgremiacoesDisponiveis(codigoCampeonato)
+    public List<Agremiacao> getAgremiacoesDisponiveis(final Long codigoCampeonato, final String categoria) {
+        return this.repository.getAgremiacoesDisponiveis(codigoCampeonato, categoria)
                 .stream()
                 .filter(agremiacao -> !agremiacao.getInativa())
                 .collect(Collectors.toList());
