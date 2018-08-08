@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import br.com.lufamador.model.Agremiacao;
 import br.com.lufamador.model.DepartamentoTecnico;
 import br.com.lufamador.response.Response;
 import br.com.lufamador.service.impl.DepartamentoTecnicoServiceImpl;
@@ -102,6 +101,14 @@ public class DepartamentoTecnicoController {
     public ResponseEntity<List<DepartamentoTecnico>> getArtilhariasCampeonatos() {
         final List<DepartamentoTecnico> departamentoTecnicos = this.departamentoTecnicoServiceImpl.getDepartamentoTecnicoList(
                 CategoriaConstant.ARTILHARIA_DEFESA.name());
+        HttpStatus status = (null == departamentoTecnicos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(departamentoTecnicos, status);
+    }
+
+    @RequestMapping(path = "/tabelas-jogos", method = RequestMethod.GET)
+    public ResponseEntity<List<DepartamentoTecnico>> getTabelasJogos() {
+        final List<DepartamentoTecnico> departamentoTecnicos = this.departamentoTecnicoServiceImpl.getDepartamentoTecnicoList(
+                CategoriaConstant.TABELA_JOGOS.name());
         HttpStatus status = (null == departamentoTecnicos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(departamentoTecnicos, status);
     }

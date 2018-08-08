@@ -9,7 +9,7 @@ import br.com.lufamador.model.Classificacao;
 
 public interface ClassificacaoRepository extends JpaRepository<Classificacao, Long> {
 
-    @Query(value = "select * from luf_classificacao lc order by lc.qtd_pontos desc, lc.qtd_vitorias desc, lc.gols_pro desc, lc.gols_contra asc;", nativeQuery = true)
+    @Query(value = "select * from luf_classificacao lc order by lc.chave asc, lc.qtd_pontos desc, lc.qtd_vitorias desc, lc.gols_pro desc, lc.gols_contra asc;", nativeQuery = true)
     List<Classificacao> listaClassificacoPorCriterio();
 
 

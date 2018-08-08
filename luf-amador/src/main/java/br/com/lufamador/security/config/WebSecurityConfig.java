@@ -75,6 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/departamento-tecnico/notas-oficiais",
                         "/departamento-tecnico/sumulas",
                         "/departamento-tecnico/artilharia-defesa",
+                        "/departamento-tecnico/tabelas-jogos",
                         "/tabela-jogos",
                         "/tjdus/editais",
                         "/tjdus/portarias",

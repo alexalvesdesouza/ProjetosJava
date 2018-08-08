@@ -93,6 +93,7 @@ public class CampeonatoController {
     }
 
     @GetMapping(path = "/{codigo}/find")
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<Campeonato>> getCampeonato(
             @PathVariable(value = "codigo") Long codigo) {
         Response<Campeonato> response = new Response<>();

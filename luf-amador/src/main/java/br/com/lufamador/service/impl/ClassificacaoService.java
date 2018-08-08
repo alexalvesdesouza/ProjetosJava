@@ -28,11 +28,22 @@ public class ClassificacaoService {
   public List<Classificacao> getClassificacoes() {
     List<Classificacao> classificacoes = this.repository.listaClassificacoPorCriterio();
     int posicao = 1;
+    String chave = "A";
     for (Classificacao classificacao : classificacoes) {
+
+      if (!chave.equals(classificacao.getChave())) {
+        chave = classificacao.getChave();
+        posicao = 1;
+      }
       classificacao.setPosClassificacao(posicao);
+      this.registraPosicaoTabelaClassificacao(classificacao);
       posicao++;
     }
     return classificacoes;
+  }
+
+  private void registraPosicaoTabelaClassificacao(Classificacao classificacao) {
+    this.repository.saveAndFlush(classificacao);
   }
 
   private final String geraKeyJogoUnico(Jogo jogo) throws NoSuchAlgorithmException {

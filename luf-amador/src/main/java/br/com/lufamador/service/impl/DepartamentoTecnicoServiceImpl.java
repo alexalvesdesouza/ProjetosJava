@@ -53,7 +53,7 @@ public class DepartamentoTecnicoServiceImpl implements DepartamentoTecnicoServic
     }
 
     public List<DepartamentoTecnico> getDepartamentoTecnicoList(String categoria) {
-        return this.repository.findByCategoria(categoria.replace("_", "-"));
+        return this.repository.findByCategoria(categoria);
     }
 
     public void deletarEntidadeDepartamentoTecnico(final Long codigo) {
