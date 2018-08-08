@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -42,20 +41,6 @@ public class CampeonatoController {
         return ResponseEntity.ok(response);
 
     }
-
-//    @GetMapping(value = "{page}/{count}/inscricoes-abertas")
-//    public ResponseEntity<Map<String, Campeonato>> findAllOpen(@PathVariable("page") int page,
-//            @PathVariable("count") int count) {
-//
-//        Response<Page<Campeonato>> response = new Response<>();
-//        Page<Campeonato> entity = this.campeonatoService.findAll(page, count);
-//        Map<String, Campeonato> map = new HashMap<>();
-//        entity.getContent().forEach(item -> {
-//            map.put(item.getNomeCampeonato(), item);
-//        });
-//        return ResponseEntity.ok(map);
-//
-//    }
 
     @GetMapping(value = "/inscricoes-abertas")
     public ResponseEntity<Response<List<Campeonato>>> findAllOpen() {

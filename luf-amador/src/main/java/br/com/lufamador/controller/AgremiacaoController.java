@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,7 @@ public class AgremiacaoController {
     }
 
     @GetMapping(value = "{page}/{count}")
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<Page<Agremiacao>>> findAll(@PathVariable("page") int page,
             @PathVariable("count") int count) {
 
@@ -43,16 +45,8 @@ public class AgremiacaoController {
 
     }
 
-//    @GetMapping(value = "{page}/{count}")
-//    public Map<String, Agremiacao> findAll(@PathVariable("page") int page,
-//            @PathVariable("count") int count) {
-//
-//        return this.agremiacaoService.findAllMap(page, count);
-//
-//    }
-
     @GetMapping(value = "{codigo}")
-    //@PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<Agremiacao>> findById(@PathVariable("codigo") Long codigo) {
         Response<Agremiacao> response = new Response<>();
         Agremiacao agremiacao = this.agremiacaoService.findByCodigo(codigo);
@@ -67,6 +61,7 @@ public class AgremiacaoController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<Agremiacao>> cadastraAgremiacao(@RequestBody Agremiacao agremiacao) {
         Response<Agremiacao> response = new Response<>();
         final Agremiacao agremiacaoSaved = this.agremiacaoService.createOrUpdate(agremiacao);
@@ -75,6 +70,7 @@ public class AgremiacaoController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<Agremiacao>> atualizaAgremiacao(@RequestBody Agremiacao agremiacao) {
         Response<Agremiacao> response = new Response<>();
         final Agremiacao agremiacaoSaved = this.agremiacaoService.createOrUpdate(agremiacao);
@@ -83,6 +79,7 @@ public class AgremiacaoController {
     }
 
     @GetMapping(path = "/{codigoCampeonato}/inscritas")
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<List<Agremiacao>> getAgremiacoesInscritas(
             @PathVariable(value = "codigoCampeonato") Long codigoCampeonato) {
         final List<Agremiacao> agremiacoes = this.agremiacaoService.getAgremiacoesInscritas(codigoCampeonato);
@@ -92,6 +89,7 @@ public class AgremiacaoController {
     }
 
     @GetMapping(path = "/{codigo}/{categoria}/disponiveis")
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<List<Agremiacao>>> getAgremiacoesDisponiveis(
             @PathVariable(value = "codigo") Long codigoCampeonato,
             @PathVariable(value = "categoria") String categoria) {
@@ -104,6 +102,7 @@ public class AgremiacaoController {
     }
 
     @DeleteMapping(path = "{codigo}")
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<?> deletaAgremiacao(@PathVariable(value = "codigo") Long codigo) {
         this.agremiacaoService.delete(codigo);
         return new ResponseEntity<>(HttpStatus.OK);

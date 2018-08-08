@@ -81,6 +81,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/tjdus/portarias",
                         "/tjdus/resultados",
                         "/escalas",
+                        "/arbitros/load",
                         "/jogos/tempo-real",
                         "/jogos/resultados")
                 .permitAll()
