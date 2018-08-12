@@ -100,18 +100,12 @@ public class JogoService {
     }
 
     public List<Jogo> jogosTempoRealPorCategoria(String categoria) {
-        List<Jogo> jogos = this.getJogosTempoReal();
-        return jogos.stream().filter(jogo -> jogo.getAgremiacaoA().getCategoria().equals(categoria)
-                || jogo.getAgremiacaoB().getCategoria().equals(categoria)
-        ).collect(
-                Collectors.toList());
-    }
-
-    public List<Jogo> getJogosTempoReal() {
-        List<Jogo> jogos = this.repository.getJogosParaTempoReal(LocalDate.now())
+        List<Jogo> jogos = this.getJogosTempoReal()
                 .stream()
-                .filter(jogo -> !jogo.getPartidaEncerrada())
-                .collect(Collectors.toList());
+                .filter(jogo -> jogo.getAgremiacaoA().getCategoria().equals(categoria)
+                        || jogo.getAgremiacaoB().getCategoria().equals(categoria))
+                .collect(
+                        Collectors.toList());
 
         jogos.stream().sorted(Comparator.comparing(Jogo::getDataAtualizacao).reversed()).collect(
                 Collectors.toList());
@@ -122,6 +116,13 @@ public class JogoService {
         });
 
         return jogos;
+    }
+
+    private List<Jogo> getJogosTempoReal() {
+        return this.repository.getJogosParaTempoReal(LocalDate.now())
+                .stream()
+                .filter(jogo -> !jogo.getPartidaEncerrada())
+                .collect(Collectors.toList());
 
     }
 
