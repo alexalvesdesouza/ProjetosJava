@@ -34,7 +34,6 @@ public class Agremiacao implements Serializable {
     private String categoria;
     @Column(columnDefinition = "TEXT")
     private String image;
-    private String linkEscudo;
     private Boolean inativa;
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
@@ -77,14 +76,6 @@ public class Agremiacao implements Serializable {
 
     public void setNomeSigla(String nomeSigla) {
       this.nomeSigla = nomeSigla;
-    }
-
-    public String getLinkEscudo() {
-      return linkEscudo;
-    }
-
-    public void setLinkEscudo(String linkEscudo) {
-      this.linkEscudo = linkEscudo;
     }
 
     public Boolean getInativa() {

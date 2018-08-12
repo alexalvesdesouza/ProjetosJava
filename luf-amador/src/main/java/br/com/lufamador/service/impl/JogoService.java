@@ -2,6 +2,8 @@ package br.com.lufamador.service.impl;
 
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,15 +33,13 @@ public class JogoService {
 
     @Transactional(value = Transactional.TxType.REQUIRES_NEW, rollbackOn = Exception.class)
     public List<Jogo> cadastraJogo(List<Jogo> jogos) {
-//        jogo.setDataAtualizacao(LocalDateTime.now());
-//        jogo.setDataCriacao(LocalDateTime.now());
 
         jogos.forEach(jogo -> {
 
             try {
 
                 final String key = this.geraKeyJogoUnico(jogo);
-                if(this.validate.validaJogoExistente(jogo)) {
+                if (this.validate.validaJogoExistente(jogo)) {
                     return;
                 }
                 if (null == jogo.getGolsAgremiacaoA())
@@ -51,6 +51,8 @@ public class JogoService {
                 if (null == jogo.getPartidaEncerrada())
                     jogo.setPartidaEncerrada(false);
                 jogo.setKeyConfronto(key);
+                jogo.setDataAtualizacao(LocalDateTime.now());
+                jogo.setDataCriacao(LocalDateTime.now());
                 this.repository.saveAndFlush(jogo);
             } catch (Exception e) {
 
@@ -63,7 +65,7 @@ public class JogoService {
 
     @Transactional(value = Transactional.TxType.REQUIRES_NEW, rollbackOn = Exception.class)
     public Jogo atualizarJogo(final Jogo jogo) throws NoSuchAlgorithmException {
-//        jogo.setDataAtualizacao(LocalDateTime.now());
+        jogo.setDataAtualizacao(LocalDateTime.now());
         String keyJogo = this.geraKeyJogoUnico(jogo);
         jogo.setKeyConfronto(keyJogo);
         final Jogo jogoAtualizado = this.repository.saveAndFlush(jogo);
@@ -72,7 +74,7 @@ public class JogoService {
 
     @Transactional(value = Transactional.TxType.REQUIRES_NEW, rollbackOn = Exception.class)
     public Jogo encerrarJogo(final Jogo jogo) throws NoSuchAlgorithmException {
-//        jogo.setDataAtualizacao(LocalDateTime.now());
+        jogo.setDataAtualizacao(LocalDateTime.now());
         String keyJogo = this.geraKeyJogoUnico(jogo);
         jogo.setKeyConfronto(keyJogo);
         jogo.setPartidaEncerrada(true);
@@ -97,33 +99,38 @@ public class JogoService {
 
     }
 
+    public List<Jogo> jogosTempoRealPorCategoria(String categoria) {
+        List<Jogo> jogos = this.getJogosTempoReal();
+        return jogos.stream().filter(jogo -> jogo.getAgremiacaoA().getCategoria().equals(categoria)
+                || jogo.getAgremiacaoB().getCategoria().equals(categoria)
+        ).collect(
+                Collectors.toList());
+    }
+
     public List<Jogo> getJogosTempoReal() {
         List<Jogo> jogos = this.repository.getJogosParaTempoReal(LocalDate.now())
                 .stream()
                 .filter(jogo -> !jogo.getPartidaEncerrada())
                 .collect(Collectors.toList());
-        jogos.stream()
-                .forEach(item -> {
-                    item.setChave(item.getChave()
-                            .replace("_", " "));
-                    item.setLocal(item.getLocal()
-                            .replace("_", " "));
-                });
+
+        jogos.stream().sorted(Comparator.comparing(Jogo::getDataAtualizacao).reversed()).collect(
+                Collectors.toList());
+
+        jogos.forEach(item -> {
+            item.setDataCriacao(null);
+            item.setDataAtualizacao(null);
+        });
 
         return jogos;
+
     }
 
-    public List<Jogo> getResultadosJogos() {
+    public List<Jogo> getResultadosJogos(String categoria) {
         List<Jogo> jogos = this.repository.findAll()
                 .stream()
                 .filter(jogo -> jogo.getPartidaEncerrada())
                 .collect(Collectors.toList());
-        jogos.stream()
-                .forEach(item -> {
-                    item.setChave(item.getChave()
-                            .replaceAll("_", " "));
-                });
-
-        return jogos;
+        return jogos.stream().filter(jogo -> jogo.getAgremiacaoA().getCategoria().equals(categoria)
+                || jogo.getAgremiacaoB().getCategoria().equals(categoria)).collect(Collectors.toList());
     }
 }

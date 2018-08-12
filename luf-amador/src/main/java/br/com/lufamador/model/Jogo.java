@@ -2,6 +2,7 @@ package br.com.lufamador.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +17,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import br.com.lufamador.utils.datas.LocalDateDeserializer;
 import br.com.lufamador.utils.datas.LocalDateSerializer;
+import br.com.lufamador.utils.datas.LocalDateTimeDeserializer;
+import br.com.lufamador.utils.datas.LocalDateTimeSerializer;
 
 @Entity
 @Table(name = "luf_jogo")
@@ -46,12 +49,12 @@ public class Jogo implements Serializable {
     private Boolean partidaEncerrada;
     private String keyConfronto;
 
-    @JsonSerialize(using = LocalDateSerializer.class)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    private LocalDate dataCriacao;
-    @JsonSerialize(using = LocalDateSerializer.class)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    private LocalDate dataAtualizacao;
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime dataCriacao;
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime dataAtualizacao;
 
     public String getRodada() {
         return rodada;
@@ -157,19 +160,19 @@ public class Jogo implements Serializable {
         this.keyConfronto = keyConfronto;
     }
 
-    public LocalDate getDataCriacao() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(LocalDate dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    public LocalDate getDataAtualizacao() {
+    public LocalDateTime getDataAtualizacao() {
         return dataAtualizacao;
     }
 
-    public void setDataAtualizacao(LocalDate dataAtualizacao) {
+    public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
 

@@ -27,18 +27,18 @@ public class ClassificacaoController {
         this.classificacaoService = classificacaoService;
     }
 
-    @GetMapping(value = "/load")
-    public ResponseEntity<List<Classificacao>> getClassificacoes() {
-        List<Classificacao> list = this.classificacaoService.getClassificacoes();
+    @GetMapping(value = "/{categoria}/load")
+    public ResponseEntity<List<Classificacao>> getClassificacoes(@PathVariable(value = "categoria") String categoria) {
+        List<Classificacao> list = this.classificacaoService.loadClassificacaoPorCategoria(categoria);
         return ResponseEntity.ok(list);
     }
 
-    @GetMapping(value = "/{page}/{count}/list")
+    @GetMapping(value = "/{page}/{count}/{categoria}/list")
     @PreAuthorize("hasAnyRole('ADM_JOGOS')")
     public ResponseEntity<Response<List<Classificacao>>> carregarClassificacoes(@PathVariable("page") int page,
-            @PathVariable("count") int count) {
+            @PathVariable("count") int count, @PathVariable(value = "categoria") String categoria) {
         Response<List<Classificacao>> response = new Response<>();
-        final List<Classificacao> classificacoes = classificacaoService.getClassificacoes();
+        final List<Classificacao> classificacoes = classificacaoService.loadClassificacaoPorCategoria(categoria);
         response.setData(classificacoes);
         return ResponseEntity.ok(response);
 

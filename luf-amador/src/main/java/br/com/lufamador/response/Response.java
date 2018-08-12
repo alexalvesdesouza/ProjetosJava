@@ -6,26 +6,34 @@ import java.util.List;
 public class Response<T> {
 
 
-  private T            data;
-  private List<String> errors;
+    private T data;
+    private String param;
+    private List<String> errors;
 
-  public T getData() {
-    return data;
-  }
+    public T getData() {
+        return data;
+    }
 
-  public void setData(T data) {
-    this.data = data;
-  }
+    public void setData(T data) {
+        this.data = data;
+    }
 
-  public List<String> getErrors() {
-    if (this.errors == null)
-      this.errors = new ArrayList<>();
-    return errors;
-  }
+    public List<String> getErrors() {
+        if (this.errors == null)
+            this.errors = new ArrayList<>();
+        return errors;
+    }
 
-  public void setErrors(List<String> errors) {
-    this.errors = errors;
-  }
+    public void setErrors(List<String> errors) {
+        this.errors = errors;
+    }
 
 
+    public String getParam() {
+        return param;
+    }
+
+    public void setParam(String param) {
+        this.param = param;
+    }
 }

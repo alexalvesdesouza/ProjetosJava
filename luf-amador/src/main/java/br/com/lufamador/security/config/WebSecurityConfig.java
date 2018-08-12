@@ -69,7 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js",
-                        "/classificacoes/load",
+                        "/classificacoes/{categoria}/load",
                         "/departamento-tecnico/editais",
                         "/departamento-tecnico/comunicados",
                         "/departamento-tecnico/notas-oficiais",
@@ -82,8 +82,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/tjdus/resultados",
                         "/escalas",
                         "/arbitros/load",
-                        "/jogos/tempo-real",
-                        "/jogos/resultados")
+                        "/jogos/tempo-real/{categoria}",
+                        "/jogos/resultados/{categoria}")
                 .permitAll()
                 .antMatchers("/api/auth/**")
                 .permitAll()

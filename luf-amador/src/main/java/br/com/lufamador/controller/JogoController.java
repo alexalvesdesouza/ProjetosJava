@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,11 +32,11 @@ public class JogoController {
     }
 
     @RequestMapping(path = "/tempo-real/atualizar", method = RequestMethod.PUT)
-    @PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole('ADM_JOGOS')")
     public ResponseEntity<Jogo> atualizarJogo(@RequestBody Jogo jogo) throws NoSuchAlgorithmException {
         final Jogo jogoSaved = this.jogoService.atualizarJogo(jogo);
         HttpStatus status = (null == jogoSaved) ? HttpStatus.CONFLICT : HttpStatus.OK;
-        return new ResponseEntity<Jogo>(jogoSaved,
+        return new ResponseEntity<>(jogoSaved,
                 status);
     }
 
@@ -44,30 +45,33 @@ public class JogoController {
     public ResponseEntity<Jogo> encerrarJogo(@RequestBody Jogo jogo) throws NoSuchAlgorithmException {
         final Jogo jogoSaved = this.jogoService.encerrarJogo(jogo);
         HttpStatus status = (null == jogoSaved) ? HttpStatus.CONFLICT : HttpStatus.OK;
-        return new ResponseEntity<Jogo>(jogoSaved,
+        return new ResponseEntity<>(jogoSaved,
                 status);
     }
 
-    @GetMapping(value = "/tempo-real/list")
+    @GetMapping(value = "/tempo-real/{categoria}/list")
     @PreAuthorize("hasAnyRole('ADM_JOGOS')")
-    public ResponseEntity<Response<List<Jogo>>> getJogosTempoRealList() {
+    public ResponseEntity<Response<List<Jogo>>> getJogosTempoRealList(@PathVariable(value = "categoria") String categoria) {
 
         Response<List<Jogo>> response = new Response<>();
-        final List<Jogo> jogos = this.jogoService.getJogosTempoReal();
+        final List<Jogo> jogos = this.jogoService.jogosTempoRealPorCategoria(categoria);
         response.setData(jogos);
         return ResponseEntity.ok(response);
 
     }
 
-    @GetMapping(value = "/tempo-real")
-    public ResponseEntity<List<Jogo>> getJogosTempoReal() {
-        List<Jogo> jogos = this.jogoService.getJogosTempoReal();
-        return ResponseEntity.ok(jogos);
+    @GetMapping(value = "/tempo-real/{categoria}")
+    public ResponseEntity<Response<List<Jogo>>> getJogosTempoReal(@PathVariable(value = "categoria") String categoria) {
+        Response<List<Jogo>> response = new Response<>();
+        final List<Jogo> jogos = this.jogoService.jogosTempoRealPorCategoria(categoria);
+        response.setData(jogos);
+        response.setParam("newGol");
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping(path = "/resultados")
-    public ResponseEntity<List<Jogo>> getResultadoJogos() {
-        List<Jogo> jogos = this.jogoService.getResultadosJogos();
+    @GetMapping(path = "/resultados/{categoria}")
+    public ResponseEntity<List<Jogo>> getResultadoJogos(@PathVariable(value = "categoria") String categoria) {
+        List<Jogo> jogos = this.jogoService.getResultadosJogos(categoria);
         return ResponseEntity.ok(jogos);
     }
 
