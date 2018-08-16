@@ -24,12 +24,8 @@ import br.com.lufamador.service.impl.JogoService;
 @RequestMapping("/jogos")
 public class JogoController {
 
-    private JogoService jogoService;
-
     @Autowired
-    public JogoController(JogoService jogoService) {
-        this.jogoService = jogoService;
-    }
+    private JogoService jogoService;
 
     @RequestMapping(path = "/tempo-real/atualizar", method = RequestMethod.PUT)
     @PreAuthorize("hasAnyRole('ADM_JOGOS')")

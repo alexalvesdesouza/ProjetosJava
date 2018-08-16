@@ -56,17 +56,6 @@ public class DepartamentoTecnicoController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    @GetMapping(value = "{page}/{count}")
-//    public ResponseEntity<Response<Page<DepartamentoTecnico>>> findAll(@PathVariable("page") int page,
-//            @PathVariable("count") int count) {
-//
-//        Response<Page<DepartamentoTecnico>> response = new Response<>();
-//        Page<DepartamentoTecnico> entitys = this.departamentoTecnicoServiceImpl.findAll(page, count);
-//        response.setData(entitys);
-//        return ResponseEntity.ok(response);
-//
-//    }
-
     @GetMapping(value = "{codigo}")
     @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<DepartamentoTecnico>> findById(@PathVariable("codigo") Long codigo) {

@@ -24,13 +24,8 @@ import br.com.lufamador.service.NotaService;
 @RequestMapping("/notas")
 public class NotaController {
 
-    private NotaService notaService;
-
     @Autowired
-    public NotaController(NotaService notaService) {
-        this.notaService = notaService;
-    }
-
+    private NotaService notaService;
 
     @GetMapping(value = "{page}/{count}")
     @PreAuthorize("hasAnyRole('FINANCEIRO')")

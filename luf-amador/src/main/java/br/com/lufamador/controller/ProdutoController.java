@@ -24,13 +24,8 @@ import br.com.lufamador.service.ProdutoService;
 @RequestMapping("/produtos")
 public class ProdutoController {
 
-    private ProdutoService produtoService;
-
     @Autowired
-    public ProdutoController(ProdutoService produtoService) {
-        this.produtoService = produtoService;
-    }
-
+    private ProdutoService produtoService;
 
     @GetMapping(value = "{page}/{count}")
     @PreAuthorize("hasAnyRole('FINANCEIRO')")
