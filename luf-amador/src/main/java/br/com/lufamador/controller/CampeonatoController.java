@@ -24,14 +24,11 @@ import br.com.lufamador.service.impl.CampeonatoServiceImpl;
 @RequestMapping("/campeonatos")
 public class CampeonatoController {
 
+    @Autowired
     private CampeonatoServiceImpl campeonatoService;
 
-    @Autowired
-    public CampeonatoController(CampeonatoServiceImpl campeonatoService) {
-        this.campeonatoService = campeonatoService;
-    }
-
     @GetMapping(value = "{page}/{count}")
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<Page<Campeonato>>> findAll(@PathVariable("page") int page,
             @PathVariable("count") int count) {
 
@@ -43,6 +40,7 @@ public class CampeonatoController {
     }
 
     @GetMapping(value = "/inscricoes-abertas")
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<List<Campeonato>>> findAllOpen() {
         Response<List<Campeonato>> response = new Response<>();
         List<Campeonato> campeonatos = this.campeonatoService.getCampeonatos();

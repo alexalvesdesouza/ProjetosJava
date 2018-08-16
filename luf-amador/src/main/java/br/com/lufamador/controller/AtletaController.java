@@ -19,22 +19,16 @@ import br.com.lufamador.model.Atleta;
 import br.com.lufamador.response.Response;
 import br.com.lufamador.service.impl.AtletaServiceImpl;
 
-//import org.springframework.security.access.prepost.PreAuthorize;
-
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/atletas")
 public class AtletaController {
 
+    @Autowired
     private AtletaServiceImpl atletaService;
 
-    @Autowired
-    public AtletaController(AtletaServiceImpl atletaService) {
-        this.atletaService = atletaService;
-    }
-
     @GetMapping(value = "{page}/{count}")
-    //@PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole('SECRETARIA')")
     public ResponseEntity<Response<Page<Atleta>>> findAll(@PathVariable("page") int page,
             @PathVariable("count") int count) {
         Response<Page<Atleta>> response = new Response<Page<Atleta>>();

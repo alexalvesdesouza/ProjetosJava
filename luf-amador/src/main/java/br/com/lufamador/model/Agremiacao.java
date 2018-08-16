@@ -7,7 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -32,8 +31,6 @@ public class Agremiacao implements Serializable {
     private String nome;
     private String nomeSigla;
     private String categoria;
-    @Column(columnDefinition = "TEXT")
-    private String image;
     private Boolean inativa;
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
@@ -42,9 +39,6 @@ public class Agremiacao implements Serializable {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate dataMandatoDiretoria;
     private String observacao;
-
-    @OneToOne
-    private Endereco endereco;
 
     public String getCategoria() {
         return categoria;
@@ -55,74 +49,59 @@ public class Agremiacao implements Serializable {
     }
 
     public Long getCodigo() {
-      return codigo;
+        return codigo;
     }
 
     public void setCodigo(Long codigo) {
-      this.codigo = codigo;
+        this.codigo = codigo;
     }
 
     public String getNome() {
-      return nome;
+        return nome;
     }
 
     public void setNome(String nome) {
-      this.nome = nome;
+        this.nome = nome;
     }
 
     public String getNomeSigla() {
-      return nomeSigla;
+        return nomeSigla;
     }
 
     public void setNomeSigla(String nomeSigla) {
-      this.nomeSigla = nomeSigla;
+        this.nomeSigla = nomeSigla;
     }
 
     public Boolean getInativa() {
-      return inativa;
+        return inativa;
     }
 
     public void setInativa(Boolean inativa) {
-      this.inativa = inativa;
+        this.inativa = inativa;
     }
 
     public LocalDate getDataAfiliacao() {
-      return dataAfiliacao;
+        return dataAfiliacao;
     }
 
     public void setDataAfiliacao(LocalDate dataAfiliacao) {
-      this.dataAfiliacao = dataAfiliacao;
+        this.dataAfiliacao = dataAfiliacao;
     }
 
     public LocalDate getDataMandatoDiretoria() {
-      return dataMandatoDiretoria;
+        return dataMandatoDiretoria;
     }
 
     public void setDataMandatoDiretoria(LocalDate dataMandatoDiretoria) {
-      this.dataMandatoDiretoria = dataMandatoDiretoria;
+        this.dataMandatoDiretoria = dataMandatoDiretoria;
     }
 
     public String getObservacao() {
-      return observacao;
+        return observacao;
     }
 
     public void setObservacao(String observacao) {
-      this.observacao = observacao;
+        this.observacao = observacao;
     }
 
-    public Endereco getEndereco() {
-      return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-      this.endereco = endereco;
-    }
-
-    public String getImage() {
-      return image;
-    }
-
-    public void setImage(String image) {
-      this.image = image;
-    }
 }

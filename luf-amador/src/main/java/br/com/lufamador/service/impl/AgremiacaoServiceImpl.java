@@ -41,7 +41,6 @@ public class AgremiacaoServiceImpl implements AgremiacaoService {
 
         this.validate.validaCadastroAgremiacao(agremiacao);
         try {
-            this.enderecoService.cadastraEndereco(agremiacao.getEndereco());
             this.calculaDataMandatoDiretoria(agremiacao);
             if (null == agremiacao.getInativa())
                 agremiacao.setInativa(false);
@@ -72,7 +71,7 @@ public class AgremiacaoServiceImpl implements AgremiacaoService {
     public final String getNomeSigla(String sigla) {
 
         String siglaRetorno = sigla.toLowerCase();
-        siglaRetorno = siglaRetorno.replace(" ", "_")
+        siglaRetorno = siglaRetorno.replace(" ", "")
                 .replace("ç", "c")
                 .replace("á", "a")
                 .replace("à", "a")
@@ -93,7 +92,9 @@ public class AgremiacaoServiceImpl implements AgremiacaoService {
                 .replace("ú", "u")
                 .replace("ù", "u")
                 .replace("û", "u")
-                .replace("ũ", "u");
+                .replace("ũ", "u")
+                .replace(".", "")
+                .replace("_", "");
 
         return siglaRetorno.toUpperCase();
     }
@@ -111,8 +112,6 @@ public class AgremiacaoServiceImpl implements AgremiacaoService {
 
     private final Agremiacao atualizaAgremiacao(Agremiacao agremiacao) {
         this.validate.validaAtualizacaoAgremiacao(agremiacao);
-        if (null != agremiacao.getEndereco())
-            this.enderecoService.atualizaEndereco(agremiacao.getEndereco());
         this.calculaDataMandatoDiretoria(agremiacao);
         return this.repository.saveAndFlush(agremiacao);
     }

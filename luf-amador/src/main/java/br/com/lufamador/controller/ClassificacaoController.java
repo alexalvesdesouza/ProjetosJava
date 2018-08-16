@@ -20,18 +20,8 @@ import br.com.lufamador.service.impl.ClassificacaoService;
 @RequestMapping("/classificacoes")
 public class ClassificacaoController {
 
-    private ClassificacaoService classificacaoService;
-
     @Autowired
-    public ClassificacaoController(ClassificacaoService classificacaoService) {
-        this.classificacaoService = classificacaoService;
-    }
-
-    @GetMapping(value = "/{categoria}/load")
-    public ResponseEntity<List<Classificacao>> getClassificacoes(@PathVariable(value = "categoria") String categoria) {
-        List<Classificacao> list = this.classificacaoService.loadClassificacaoPorCategoria(categoria);
-        return ResponseEntity.ok(list);
-    }
+    private ClassificacaoService classificacaoService;
 
     @GetMapping(value = "/{page}/{count}/{categoria}/list")
     @PreAuthorize("hasAnyRole('ADM_JOGOS')")

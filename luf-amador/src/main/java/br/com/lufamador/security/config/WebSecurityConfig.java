@@ -68,22 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/favicon.ico",
                         "/**/*.html",
                         "/**/*.css",
-                        "/**/*.js",
-                        "/classificacoes/{categoria}/load",
-                        "/departamento-tecnico/editais",
-                        "/departamento-tecnico/comunicados",
-                        "/departamento-tecnico/notas-oficiais",
-                        "/departamento-tecnico/sumulas",
-                        "/departamento-tecnico/artilharia-defesa",
-                        "/departamento-tecnico/tabelas-jogos",
-                        "/tabela-jogos",
-                        "/tjdus/editais",
-                        "/tjdus/portarias",
-                        "/tjdus/resultados",
-                        "/escalas",
-                        "/arbitros/load",
-                        "/jogos/tempo-real/{categoria}",
-                        "/jogos/resultados/{categoria}")
+                        "/**/*.js")
                 .permitAll()
                 .antMatchers("/api/auth/**")
                 .permitAll()

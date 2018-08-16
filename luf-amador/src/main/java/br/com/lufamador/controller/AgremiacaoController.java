@@ -26,12 +26,8 @@ import br.com.lufamador.service.AgremiacaoService;
 @RequestMapping("/agremiacoes")
 public class AgremiacaoController {
 
-    private AgremiacaoService agremiacaoService;
-
     @Autowired
-    public AgremiacaoController(AgremiacaoService agremiacaoService) {
-        this.agremiacaoService = agremiacaoService;
-    }
+    private AgremiacaoService agremiacaoService;
 
     @GetMapping(value = "{page}/{count}")
     @PreAuthorize("hasAnyRole('SECRETARIA')")

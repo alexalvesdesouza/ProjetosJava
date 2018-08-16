@@ -23,12 +23,8 @@ import br.com.lufamador.service.impl.TabelaJogosService;
 @RequestMapping("/tabela-jogos")
 public class TabelaJogosController {
 
-    private final TabelaJogosService tabelaJogosService;
-
     @Autowired
-    public TabelaJogosController(TabelaJogosService tabelaJogosService) {
-        this.tabelaJogosService = tabelaJogosService;
-    }
+    private TabelaJogosService tabelaJogosService;
 
     @PostMapping
     @PreAuthorize("hasAnyRole('SECRETARIA')")
@@ -37,12 +33,6 @@ public class TabelaJogosController {
         final TabelaJogos entity = this.tabelaJogosService.cadastraTabelaJogos(tabelaJogos);
         response.setData(entity);
         return ResponseEntity.ok(response);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<TabelaJogos>> getTabelaJogos() {
-        List<TabelaJogos> list =  this.tabelaJogosService.getTabelaJogoss();
-        return ResponseEntity.ok(list);
     }
 
     @GetMapping(value = "{codigo}/campeonato")

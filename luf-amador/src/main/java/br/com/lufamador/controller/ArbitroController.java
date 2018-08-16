@@ -1,7 +1,5 @@
 package br.com.lufamador.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.lufamador.model.Arbitro;
-import br.com.lufamador.model.EscalaArbitros;
 import br.com.lufamador.response.Response;
 import br.com.lufamador.service.ArbitroService;
 
@@ -27,18 +24,8 @@ import br.com.lufamador.service.ArbitroService;
 @RequestMapping("/arbitros")
 public class ArbitroController {
 
-    private ArbitroService arbitroService;
-
     @Autowired
-    public ArbitroController(ArbitroService arbitroService) {
-        this.arbitroService = arbitroService;
-    }
-
-    @GetMapping(value = "/load")
-    public ResponseEntity<List<Arbitro>> getEscalas() {
-        List<Arbitro> list = this.arbitroService.getArbitros();
-        return ResponseEntity.ok(list);
-    }
+    private ArbitroService arbitroService;
 
     @GetMapping(value = "{page}/{count}")
     @PreAuthorize("hasAnyRole('SECRETARIA')")

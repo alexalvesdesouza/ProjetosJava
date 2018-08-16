@@ -1,7 +1,5 @@
 package br.com.lufamador.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -25,12 +23,8 @@ import br.com.lufamador.service.impl.EscalaArbitrosServiceImpl;
 @RequestMapping("/escalas")
 public class EscalaArbitrosController {
 
-    private EscalaArbitrosServiceImpl escalaArbitrosService;
-
     @Autowired
-    public EscalaArbitrosController(EscalaArbitrosServiceImpl escalaArbitrosService) {
-        this.escalaArbitrosService = escalaArbitrosService;
-    }
+    private EscalaArbitrosServiceImpl escalaArbitrosService;
 
     @RequestMapping(method = RequestMethod.POST)
     @PreAuthorize("hasAnyRole('SECRETARIA')")
@@ -49,12 +43,6 @@ public class EscalaArbitrosController {
         final EscalaArbitros entity = this.escalaArbitrosService.createOrUpdate(escalaArbitros);
         response.setData(entity);
         return ResponseEntity.ok(response);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<EscalaArbitros>> getEscalas() {
-        List<EscalaArbitros> list = this.escalaArbitrosService.getEscalaArbitrosList();
-        return ResponseEntity.ok(list);
     }
 
     @GetMapping(value = "/{page}/{count}/list")
