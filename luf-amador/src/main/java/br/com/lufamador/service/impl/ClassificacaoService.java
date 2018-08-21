@@ -72,7 +72,7 @@ public class ClassificacaoService {
 
     }
 
-    public void geraClassificacao(final Jogo jogo) throws NoSuchAlgorithmException {
+    private void geraClassificacao(final Jogo jogo) throws NoSuchAlgorithmException {
 
         this.golsEquipeA = jogo.getGolsAgremiacaoA();
         this.golsEquipeB = jogo.getGolsAgremiacaoB();

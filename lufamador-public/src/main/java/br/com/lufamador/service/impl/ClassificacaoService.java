@@ -15,12 +15,11 @@ public class ClassificacaoService {
     @Autowired
     private ClassificacaoRepository repository;
 
-    private List<Classificacao> getClassificacoes(String categoria) {
-        List<Classificacao> classificacoes = this.repository.listaClassificacoPorCriterio()
-                .stream().filter(item -> item.getCategoria().equals(categoria)).collect(Collectors.toList());
+    private List<Classificacao> getClassificacoes(String categoria, String chave) {
+        List<Classificacao> classificacoes = this.repository.listaClassificacoPorCriterio(categoria, chave);
 
         int posicao = 1;
-        String chave = "A";
+//        String chave = "A";
         for (Classificacao classificacao : classificacoes) {
 
             if (!chave.equals(classificacao.getChave())) {
@@ -35,9 +34,7 @@ public class ClassificacaoService {
     }
 
     public List<Classificacao> loadClassificacaoPorCategoriaChave(String categoria, String chave) {
-        return this.getClassificacoes(categoria).stream()
-                .filter(jg -> jg.getChave().equals(chave))
-                .collect(Collectors.toList());
+        return this.getClassificacoes(categoria, chave);
     }
 
     private void registraPosicaoTabelaClassificacao(Classificacao classificacao) {

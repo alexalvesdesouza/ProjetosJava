@@ -1,6 +1,8 @@
 package br.com.lufamador.service.impl;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,20 +39,34 @@ public class JogoService {
     }
 
     private List<Jogo> getJogosTempoReal() {
-        return this.repository.getJogosParaTempoReal(LocalDate.now())
-                .stream()
-                .filter(jogo -> !jogo.getPartidaEncerrada())
-                .collect(Collectors.toList());
+        LocalDate data = LocalDate.now().plusDays(-1l);
+        return this.repository.getJogosParaTempoReal(data, LocalDate.now());
 
     }
 
-    public List<Jogo> getResultadosJogos(String categoria) {
-        List<Jogo> jogos = this.repository.findAll()
-                .stream()
-                .filter(jogo -> jogo.getPartidaEncerrada())
-                .collect(Collectors.toList());
+    public List<Jogo> getResultadosJogos(String categoria, String dataRodada) {
+        LocalDate data;
+        List<Jogo> jogos;
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            data = LocalDate.parse(dataRodada, formatter);
+
+            jogos = this.repository.getJogosParaTempoReal(data, data);
+        } catch (Exception e) {
+            data = LocalDate.now().plusDays(-6);
+            jogos = this.repository.getJogosParaTempoReal(data, LocalDate.now());
+        }
+
+        if (null == jogos)
+            return new ArrayList<>();
 
         return jogos.stream().filter(jogo -> jogo.getAgremiacaoA().getCategoria().equals(categoria)
-                || jogo.getAgremiacaoB().getCategoria().equals(categoria)).collect(Collectors.toList());
+                || jogo.getAgremiacaoB().getCategoria().equals(categoria))
+                .filter(jg -> jg.getPartidaEncerrada())
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getDatasPartidas() {
+        return this.repository.getDatasPartidas();
     }
 }

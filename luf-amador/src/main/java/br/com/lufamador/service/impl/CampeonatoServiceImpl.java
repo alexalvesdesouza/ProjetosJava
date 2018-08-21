@@ -49,16 +49,20 @@ public class CampeonatoServiceImpl implements CampeonatoService {
     }
 
     public List<Campeonato> getCampeonatos() {
-        return this.repository.findAll()
+        List<Campeonato> list = this.repository.findAll()
                 .stream()
                 .filter(campeonato -> !campeonato.getInscricoesEncerradas())
                 .collect(Collectors.toList());
-    }
 
-    private Campeonato findCampeonato(final Long codigo) {
-        Optional<Campeonato> campeonato = this.repository.findById(codigo);
-        return campeonato.get();
+        list.forEach(cam -> {
+                    if (null != cam.getTabelaJogos()
+                            && (null != cam.getTabelaJogos().getJogos() && !cam.getTabelaJogos().getJogos().isEmpty())) {
+                        cam.getTabelaJogos().getJogos().forEach(jogo -> jogo.setDataAtualizacao(null));
+                    }
+                }
+        );
 
+        return list;
     }
 
     private Campeonato update(Campeonato campeonato) {

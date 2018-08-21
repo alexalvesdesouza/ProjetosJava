@@ -31,10 +31,17 @@ public class JogoController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping(path = "/resultados/{categoria}")
-    public ResponseEntity<List<Jogo>> getResultadoJogos(@PathVariable(value = "categoria") String categoria) {
-        List<Jogo> jogos = this.jogoService.getResultadosJogos(categoria);
+    @GetMapping(path = "/resultados/{categoria}/{dataRodada}")
+    public ResponseEntity<List<Jogo>> getResultadoJogos(@PathVariable(value = "categoria") String categoria,
+            @PathVariable(value = "dataRodada") String dataRodada) {
+        List<Jogo> jogos = this.jogoService.getResultadosJogos(categoria, dataRodada);
         return ResponseEntity.ok(jogos);
+    }
+
+    @GetMapping(path = "/datas-partidas")
+    public ResponseEntity<List<String>> getDatasPartidas() {
+        List<String> datas = this.jogoService.getDatasPartidas();
+        return ResponseEntity.ok(datas);
     }
 
 }

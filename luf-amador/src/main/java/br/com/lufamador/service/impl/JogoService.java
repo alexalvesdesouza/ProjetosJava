@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -12,6 +13,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.lufamador.exception.BussinessException;
 import br.com.lufamador.model.Jogo;
 import br.com.lufamador.repository.JogoRepository;
 import br.com.lufamador.utils.encripty.EncryptToMD5;
@@ -48,8 +50,11 @@ public class JogoService {
                 if (null == jogo.getGolsAgremiacaoB())
                     jogo.setGolsAgremiacaoB(0);
 
-                if (null == jogo.getPartidaEncerrada())
+                if (null == jogo.getPartidaEncerrada()) {
                     jogo.setPartidaEncerrada(false);
+                } else if (jogo.getPartidaEncerrada()) {
+                    return;
+                }
                 jogo.setKeyConfronto(key);
                 jogo.setDataAtualizacao(LocalDateTime.now());
                 jogo.setDataCriacao(LocalDateTime.now());
@@ -63,21 +68,28 @@ public class JogoService {
         return jogos;
     }
 
-    @Transactional(value = Transactional.TxType.REQUIRES_NEW, rollbackOn = Exception.class)
+    @Transactional
     public Jogo atualizarJogo(final Jogo jogo) throws NoSuchAlgorithmException {
         jogo.setDataAtualizacao(LocalDateTime.now());
         String keyJogo = this.geraKeyJogoUnico(jogo);
         jogo.setKeyConfronto(keyJogo);
-        final Jogo jogoAtualizado = this.repository.saveAndFlush(jogo);
-        return jogoAtualizado;
+        return this.repository.saveAndFlush(jogo);
     }
 
-    @Transactional(value = Transactional.TxType.REQUIRES_NEW, rollbackOn = Exception.class)
+    @Transactional
     public Jogo encerrarJogo(final Jogo jogo) throws NoSuchAlgorithmException {
         jogo.setDataAtualizacao(LocalDateTime.now());
         String keyJogo = this.geraKeyJogoUnico(jogo);
         jogo.setKeyConfronto(keyJogo);
         jogo.setPartidaEncerrada(true);
+
+        Optional<Jogo> saved = this.repository.findById(jogo.getCodigo());
+        if (saved.isPresent()) {
+            if (saved.get().getPartidaEncerrada()) {
+                throw new BussinessException("Partida encerrada");
+            }
+        }
+
         final Jogo jogoAtualizado = this.repository.saveAndFlush(jogo);
         this.classificacaoService.geraClassificacao(jogoAtualizado);
         return jogoAtualizado;

@@ -31,6 +31,8 @@ public class JogoController {
     @PreAuthorize("hasAnyRole('ADM_JOGOS')")
     public ResponseEntity<Jogo> atualizarJogo(@RequestBody Jogo jogo) throws NoSuchAlgorithmException {
         final Jogo jogoSaved = this.jogoService.atualizarJogo(jogo);
+        jogoSaved.setDataAtualizacao(null);
+        jogoSaved.setDataCriacao(null);
         HttpStatus status = (null == jogoSaved) ? HttpStatus.CONFLICT : HttpStatus.OK;
         return new ResponseEntity<>(jogoSaved,
                 status);
