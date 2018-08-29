@@ -24,9 +24,8 @@ public class ClassificacaoService {
         this.repository = repository;
     }
 
-    public List<Classificacao> loadClassificacaoPorCategoria(String categoria) {
-        List<Classificacao> list = this.repository.findAll();
-        return list.stream().filter(item -> item.getCategoria().equals(categoria)).collect(Collectors.toList());
+    public List<Classificacao> loadClassificacaoPorCategoria(String categoria, String chave) {
+        return this.repository.listaClassificacoPorCriterio(categoria, chave);
     }
 
     private void registraPosicaoTabelaClassificacao(Classificacao classificacao) {
@@ -46,6 +45,83 @@ public class ClassificacaoService {
                 .append(jogo.getChave());
 
         return EncryptToMD5.converterParaMD5(sb.toString());
+
+    }
+
+    @Transactional(value = Transactional.TxType.REQUIRES_NEW, rollbackOn = Exception.class)
+    public void recalculaClassificacao(final Jogo jogo) {
+
+        int golsEquipeA = jogo.getGolsAgremiacaoA();
+        int golsEquipeB = jogo.getGolsAgremiacaoB();
+        String fase = jogo.getFase();
+        String chave = jogo.getChave();
+        String categoria = jogo.getAgremiacaoA().getCategoria();
+
+        Classificacao classificacaoAgremiacaoA = this.repository.findByAgremiacao_Codigo(jogo.getAgremiacaoA()
+                .getCodigo());
+
+        if (null == classificacaoAgremiacaoA.getChave()) {
+            classificacaoAgremiacaoA.setChave(chave);
+        }
+
+        if (null == classificacaoAgremiacaoA.getCategoria()) {
+            classificacaoAgremiacaoA.setCategoria(categoria);
+        }
+
+        if (null == classificacaoAgremiacaoA.getFase() || !fase.equals(classificacaoAgremiacaoA.getFase())) {
+            classificacaoAgremiacaoA.setFase(fase);
+        }
+
+        classificacaoAgremiacaoA.setQtdJogos(classificacaoAgremiacaoA.getQtdJogos() - 1);
+        classificacaoAgremiacaoA.setGolsPro(classificacaoAgremiacaoA.getGolsPro() - golsEquipeA);
+        classificacaoAgremiacaoA.setGolsContra(classificacaoAgremiacaoA.getGolsContra() - golsEquipeB);
+
+        Classificacao classificacaoAgremiacaoB = this.repository.findByAgremiacao_Codigo(jogo.getAgremiacaoB()
+                .getCodigo());
+
+        if (null == classificacaoAgremiacaoB.getChave()) {
+            classificacaoAgremiacaoA.setChave(chave);
+        }
+
+        if (null == classificacaoAgremiacaoB.getCategoria()) {
+            classificacaoAgremiacaoB.setCategoria(categoria);
+        }
+
+        if (null == classificacaoAgremiacaoB.getFase() || !fase.equals(classificacaoAgremiacaoB.getFase())) {
+            classificacaoAgremiacaoB.setFase(fase);
+        }
+
+        classificacaoAgremiacaoB.setQtdJogos(classificacaoAgremiacaoB.getQtdJogos() - 1);
+        classificacaoAgremiacaoB.setGolsPro(classificacaoAgremiacaoB.getGolsPro() - golsEquipeB);
+        classificacaoAgremiacaoB.setGolsContra(classificacaoAgremiacaoB.getGolsContra() - golsEquipeA);
+
+        if (golsEquipeA == golsEquipeB) {
+
+            classificacaoAgremiacaoA.setQtdEmpates(classificacaoAgremiacaoA.getQtdEmpates() - 1);
+            classificacaoAgremiacaoA.setQtdPontos(classificacaoAgremiacaoA.getQtdPontos() - 1);
+
+            classificacaoAgremiacaoB.setQtdEmpates(classificacaoAgremiacaoB.getQtdEmpates() - 1);
+            classificacaoAgremiacaoB.setQtdPontos(classificacaoAgremiacaoB.getQtdPontos() - 1);
+
+        } else if (golsEquipeA > golsEquipeB) {
+
+            classificacaoAgremiacaoA.setQtdPontos(classificacaoAgremiacaoA.getQtdPontos() - 3);
+            classificacaoAgremiacaoA.setQtdVitorias(classificacaoAgremiacaoA.getQtdVitorias() - 1);
+
+            classificacaoAgremiacaoB.setQtdDerrotas(classificacaoAgremiacaoB.getQtdDerrotas() - 1);
+
+        } else {
+
+            classificacaoAgremiacaoB.setQtdPontos(classificacaoAgremiacaoB.getQtdPontos() - 3);
+            classificacaoAgremiacaoB.setQtdVitorias(classificacaoAgremiacaoB.getQtdVitorias() - 1);
+
+            classificacaoAgremiacaoA.setQtdDerrotas(classificacaoAgremiacaoA.getQtdDerrotas() - 1);
+
+        }
+
+        this.repository.saveAndFlush(classificacaoAgremiacaoA);
+        this.repository.saveAndFlush(classificacaoAgremiacaoB);
+        this.geraClassificacao(categoria, chave);
 
     }
 

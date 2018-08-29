@@ -80,10 +80,22 @@ public class JogoService {
 
     @Transactional(value = Transactional.TxType.REQUIRES_NEW, rollbackOn = Exception.class)
     public Jogo editarJogoEncerrado(final Jogo jogo) throws NoSuchAlgorithmException {
+
         jogo.setDataAtualizacao(LocalDateTime.now());
         String keyJogo = this.geraKeyJogoUnico(jogo);
         jogo.setKeyConfronto(keyJogo);
-        return this.repository.saveAndFlush(jogo);
+
+        Optional<Jogo> antigo = this.repository.findById(jogo.getCodigo());
+        recalculaClassificacao(antigo.get());
+
+        Jogo saved = this.repository.saveAndFlush(jogo);
+        this.classificacaoService.geraClassificacao(saved);
+
+        return saved;
+    }
+
+    private void recalculaClassificacao(final Jogo jogo) {
+        this.classificacaoService.recalculaClassificacao(jogo);
     }
 
     @Transactional(value = Transactional.TxType.REQUIRES_NEW, rollbackOn = Exception.class)
@@ -140,26 +152,33 @@ public class JogoService {
         return jogos;
     }
 
-    public List<Jogo> getJogosEditList(String categoria, String dataRodada) {
+    public List<Jogo> getJogosEditList(String categoria, String chave, String dataRodada) {
         LocalDate data;
         List<Jogo> jogos;
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             data = LocalDate.parse(dataRodada, formatter);
 
-            jogos = this.repository.getJogosEditList(data, data);
+            jogos = this.repository.getJogosEditList(data, data, chave);
         } catch (Exception e) {
             data = LocalDate.now().plusDays(-15);
-            jogos = this.repository.getJogosEditList(data, LocalDate.now());
+            jogos = this.repository.getJogosEditList(data, LocalDate.now(), chave);
         }
 
         if (null == jogos)
             return new ArrayList<>();
 
-        return jogos.stream().filter(jogo -> jogo.getAgremiacaoA().getCategoria().equals(categoria)
-                || jogo.getAgremiacaoB().getCategoria().equals(categoria))
-                .filter(jg -> jg.getPartidaEncerrada())
+        List<Jogo> collect = jogos.stream()
+                .filter(jogo -> jogo.getAgremiacaoA().getCategoria().equals(categoria))
+                .filter(jogo -> jogo.getAgremiacaoB().getCategoria().equals(categoria))
                 .collect(Collectors.toList());
+
+        collect.forEach(jogo -> {
+            jogo.setDataCriacao(null);
+            jogo.setDataAtualizacao(null);
+        });
+
+        return collect;
     }
 
     private List<Jogo> getJogosTempoReal() {

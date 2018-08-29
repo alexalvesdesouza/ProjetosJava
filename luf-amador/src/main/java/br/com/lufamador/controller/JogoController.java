@@ -43,7 +43,7 @@ public class JogoController {
     @RequestMapping(path = "/encerrados/editar", method = RequestMethod.PUT)
     @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
     public ResponseEntity<Jogo> editarJogoEncerrado(@RequestBody Jogo jogo) throws NoSuchAlgorithmException {
-        final Jogo jogoSaved = this.jogoService.atualizarJogo(jogo);
+        final Jogo jogoSaved = this.jogoService.editarJogoEncerrado(jogo);
         jogoSaved.setDataAtualizacao(null);
         jogoSaved.setDataCriacao(null);
         HttpStatus status = (null == jogoSaved) ? HttpStatus.CONFLICT : HttpStatus.OK;
@@ -72,14 +72,15 @@ public class JogoController {
 
     }
 
-    @GetMapping(value = "/encerrados/{categoria}")
+    @GetMapping(value = "/encerrados/{categoria}/{chave}")
     @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
     public ResponseEntity<Response<List<Jogo>>> getJogosEditList(
             @PathVariable(value = "categoria") String categoria,
+            @PathVariable(value = "chave") String chave,
             @QueryParam("dataJogo") String dataJogo) {
 
         Response<List<Jogo>> response = new Response<>();
-        final List<Jogo> jogos = this.jogoService.getJogosEditList(categoria, dataJogo);
+        final List<Jogo> jogos = this.jogoService.getJogosEditList(categoria, chave, dataJogo);
         response.setData(jogos);
         return ResponseEntity.ok(response);
 
