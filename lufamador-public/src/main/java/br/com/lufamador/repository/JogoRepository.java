@@ -14,7 +14,7 @@ public interface JogoRepository extends JpaRepository<Jogo, Long> {
             "and ?2 order by data_atualizacao  desc;", nativeQuery = true)
     List<Jogo> getJogosParaTempoReal(LocalDate perInicio, LocalDate perFim);
 
-    @Query(value = "select DISTINCT to_char(luf_jogo.data_partida, 'dd-MM-yyyy') as dta from luf_jogo;\n", nativeQuery = true)
+    @Query(value = "select DISTINCT to_char(luf_jogo.data_partida, 'dd-MM-yyyy') as dta from luf_jogo;", nativeQuery = true)
     List<String> getDatasPartidas();
 
 }

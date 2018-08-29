@@ -1,6 +1,7 @@
 package br.com.lufamador.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.lufamador.model.DepartamentoTecnico;
+import br.com.lufamador.model.EscalaArbitros;
 import br.com.lufamador.response.Response;
 import br.com.lufamador.service.impl.DepartamentoTecnicoServiceImpl;
 
@@ -27,7 +29,7 @@ public class DepartamentoTecnicoController {
     private DepartamentoTecnicoServiceImpl departamentoTecnicoServiceImpl;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<DepartamentoTecnico>> cadastrar(
             @RequestBody DepartamentoTecnico departamentoTecnico) {
         Response<DepartamentoTecnico> response = new Response<>();
@@ -38,7 +40,7 @@ public class DepartamentoTecnicoController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<DepartamentoTecnico>> atualizar(
             @RequestBody DepartamentoTecnico departamentoTecnico) {
         Response<DepartamentoTecnico> response = new Response<>();
@@ -49,7 +51,7 @@ public class DepartamentoTecnicoController {
     }
 
     @DeleteMapping(value = "{codigo}")
-    @PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<DepartamentoTecnico> deletarEntidadeDepartamentoTecnico(
             @PathVariable(value = "codigo") Long codigo) {
         this.departamentoTecnicoServiceImpl.deletarEntidadeDepartamentoTecnico(codigo);
@@ -57,7 +59,7 @@ public class DepartamentoTecnicoController {
     }
 
     @GetMapping(value = "{codigo}")
-    @PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<DepartamentoTecnico>> findById(@PathVariable("codigo") Long codigo) {
         Response<DepartamentoTecnico> response = new Response<>();
         DepartamentoTecnico entity = this.departamentoTecnicoServiceImpl.findByCodigo(codigo);
@@ -69,6 +71,18 @@ public class DepartamentoTecnicoController {
         }
         response.setData(entity);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(value = "/{page}/{count}")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+    public ResponseEntity<Response<Page<DepartamentoTecnico>>> findAll(@PathVariable("page") int page,
+            @PathVariable("count") int count) {
+
+        Response<Page<DepartamentoTecnico>> response = new Response<>();
+        Page<DepartamentoTecnico> entitys = this.departamentoTecnicoServiceImpl.findAll(page, count);
+        response.setData(entitys);
+        return ResponseEntity.ok(response);
+
     }
 
 }

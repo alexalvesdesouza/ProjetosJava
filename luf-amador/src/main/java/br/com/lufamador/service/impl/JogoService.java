@@ -3,6 +3,8 @@ package br.com.lufamador.service.impl;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -68,7 +70,7 @@ public class JogoService {
         return jogos;
     }
 
-    @Transactional
+    @Transactional(value = Transactional.TxType.REQUIRES_NEW, rollbackOn = Exception.class)
     public Jogo atualizarJogo(final Jogo jogo) throws NoSuchAlgorithmException {
         jogo.setDataAtualizacao(LocalDateTime.now());
         String keyJogo = this.geraKeyJogoUnico(jogo);
@@ -76,7 +78,15 @@ public class JogoService {
         return this.repository.saveAndFlush(jogo);
     }
 
-    @Transactional
+    @Transactional(value = Transactional.TxType.REQUIRES_NEW, rollbackOn = Exception.class)
+    public Jogo editarJogoEncerrado(final Jogo jogo) throws NoSuchAlgorithmException {
+        jogo.setDataAtualizacao(LocalDateTime.now());
+        String keyJogo = this.geraKeyJogoUnico(jogo);
+        jogo.setKeyConfronto(keyJogo);
+        return this.repository.saveAndFlush(jogo);
+    }
+
+    @Transactional(value = Transactional.TxType.REQUIRES_NEW, rollbackOn = Exception.class)
     public Jogo encerrarJogo(final Jogo jogo) throws NoSuchAlgorithmException {
         jogo.setDataAtualizacao(LocalDateTime.now());
         String keyJogo = this.geraKeyJogoUnico(jogo);
@@ -95,7 +105,7 @@ public class JogoService {
         return jogoAtualizado;
     }
 
-    public final String geraKeyJogoUnico(Jogo jogo) throws NoSuchAlgorithmException {
+    private String geraKeyJogoUnico(Jogo jogo) throws NoSuchAlgorithmException {
 
         StringBuffer sb = new StringBuffer();
 
@@ -130,11 +140,30 @@ public class JogoService {
         return jogos;
     }
 
-    private List<Jogo> getJogosTempoReal() {
-        return this.repository.getJogosParaTempoReal(LocalDate.now())
-                .stream()
-                .filter(jogo -> !jogo.getPartidaEncerrada())
+    public List<Jogo> getJogosEditList(String categoria, String dataRodada) {
+        LocalDate data;
+        List<Jogo> jogos;
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            data = LocalDate.parse(dataRodada, formatter);
+
+            jogos = this.repository.getJogosEditList(data, data);
+        } catch (Exception e) {
+            data = LocalDate.now().plusDays(-15);
+            jogos = this.repository.getJogosEditList(data, LocalDate.now());
+        }
+
+        if (null == jogos)
+            return new ArrayList<>();
+
+        return jogos.stream().filter(jogo -> jogo.getAgremiacaoA().getCategoria().equals(categoria)
+                || jogo.getAgremiacaoB().getCategoria().equals(categoria))
+                .filter(jg -> jg.getPartidaEncerrada())
                 .collect(Collectors.toList());
+    }
+
+    private List<Jogo> getJogosTempoReal() {
+        return this.repository.getJogosParaTempoReal(LocalDate.now());
 
     }
 
@@ -145,5 +174,9 @@ public class JogoService {
                 .collect(Collectors.toList());
         return jogos.stream().filter(jogo -> jogo.getAgremiacaoA().getCategoria().equals(categoria)
                 || jogo.getAgremiacaoB().getCategoria().equals(categoria)).collect(Collectors.toList());
+    }
+
+    public List<String> getDatasPartidas() {
+        return this.repository.getDatasPartidas();
     }
 }

@@ -27,7 +27,7 @@ public class TjduController {
     private TjduServiceImpl tjduService;
 
     @RequestMapping(method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Tjdu>> cadastraTjdu(@RequestBody Tjdu tjdu) {
         Response<Tjdu> response = new Response<>();
         final Tjdu entity = this.tjduService.createOrUpdate(tjdu);
@@ -36,7 +36,7 @@ public class TjduController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    @PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Tjdu>> editarTjdu(@RequestBody Tjdu tjdu) {
         Response<Tjdu> response = new Response<>();
         final Tjdu entity = this.tjduService.createOrUpdate(tjdu);
@@ -45,7 +45,7 @@ public class TjduController {
     }
 
     @GetMapping(value = "{page}/{count}")
-    @PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Page<Tjdu>>> findAll(@PathVariable("page") int page,
             @PathVariable("count") int count) {
 
@@ -57,7 +57,7 @@ public class TjduController {
     }
 
     @GetMapping(value = "{codigo}")
-    @PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Tjdu>> findById(@PathVariable("codigo") Long codigo) {
         Response<Tjdu> response = new Response<>();
         Tjdu entity = this.tjduService.findByCodigo(codigo);
@@ -73,7 +73,7 @@ public class TjduController {
 
 
     @DeleteMapping(value = "{codigo}")
-    @PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Tjdu> deletarTjdu(@PathVariable(value = "codigo") Long codigo) {
         this.tjduService.delete(codigo);
         return new ResponseEntity<>(HttpStatus.OK);

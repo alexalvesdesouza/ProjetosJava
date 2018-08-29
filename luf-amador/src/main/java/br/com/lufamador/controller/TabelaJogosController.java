@@ -27,7 +27,7 @@ public class TabelaJogosController {
     private TabelaJogosService tabelaJogosService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<TabelaJogos>> cadastraTabelaJogos(@RequestBody TabelaJogos tabelaJogos) {
         Response<TabelaJogos> response = new Response<>();
         final TabelaJogos entity = this.tabelaJogosService.cadastraTabelaJogos(tabelaJogos);
@@ -36,7 +36,7 @@ public class TabelaJogosController {
     }
 
     @GetMapping(value = "{codigo}/campeonato")
-    @PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<List<TabelaJogos>>> getTabelaJogosPorCampeonato(
             @PathVariable(value = "codigo") Long codigo) {
         Response<List<TabelaJogos>> response = new Response<>();
@@ -46,7 +46,7 @@ public class TabelaJogosController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<TabelaJogos>> atualizaTabelaJogos(@RequestBody TabelaJogos tabelaJogos) {
         Response<TabelaJogos> response = new Response<>();
         final TabelaJogos entity = this.tabelaJogosService.atualizarTabelaJogos(tabelaJogos);

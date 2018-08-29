@@ -30,6 +30,8 @@ public class Classificacao implements Serializable {
     private Integer qtdJogos;
     private Integer qtdPontos;
     private Integer qtdVitorias;
+    private Integer qtdDerrotas;
+    private Integer qtdEmpates;
     private Integer golsPro;
     private Integer golsContra;
     private String chave;
@@ -37,6 +39,22 @@ public class Classificacao implements Serializable {
     private Boolean classificada;
     private String fase;
     private String categoria;
+
+    public Integer getQtdDerrotas() {
+        return qtdDerrotas;
+    }
+
+    public void setQtdDerrotas(Integer qtdDerrotas) {
+        this.qtdDerrotas = qtdDerrotas;
+    }
+
+    public Integer getQtdEmpates() {
+        return qtdEmpates;
+    }
+
+    public void setQtdEmpates(Integer qtdEmpates) {
+        this.qtdEmpates = qtdEmpates;
+    }
 
     public String getCategoria() {
         return categoria;

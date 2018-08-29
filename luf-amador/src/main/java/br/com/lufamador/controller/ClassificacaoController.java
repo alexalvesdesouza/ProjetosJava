@@ -24,12 +24,14 @@ public class ClassificacaoController {
     private ClassificacaoService classificacaoService;
 
     @GetMapping(value = "/{page}/{count}/{categoria}/list")
-    @PreAuthorize("hasAnyRole('ADM_JOGOS')")
+    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
     public ResponseEntity<Response<List<Classificacao>>> carregarClassificacoes(@PathVariable("page") int page,
             @PathVariable("count") int count, @PathVariable(value = "categoria") String categoria) {
+
         Response<List<Classificacao>> response = new Response<>();
         final List<Classificacao> classificacoes = classificacaoService.loadClassificacaoPorCategoria(categoria);
         response.setData(classificacoes);
+
         return ResponseEntity.ok(response);
 
     }

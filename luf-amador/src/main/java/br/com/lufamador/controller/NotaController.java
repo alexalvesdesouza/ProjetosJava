@@ -28,7 +28,7 @@ public class NotaController {
     private NotaService notaService;
 
     @GetMapping(value = "{page}/{count}")
-    @PreAuthorize("hasAnyRole('FINANCEIRO')")
+    @PreAuthorize("hasAnyRole({'FINANCEIRO', 'ADMIN'})")
     public ResponseEntity<Response<Page<Nota>>> findAll(@PathVariable("page") int page,
             @PathVariable("count") int count) {
         Response<Page<Nota>> response = new Response<Page<Nota>>();
@@ -38,7 +38,7 @@ public class NotaController {
     }
 
     @GetMapping(value = "{codigo}")
-    @PreAuthorize("hasAnyRole('FINANCEIRO')")
+    @PreAuthorize("hasAnyRole({'FINANCEIRO', 'ADMIN'})")
     public ResponseEntity<Response<Nota>> findById(@PathVariable("codigo") Long codigo) {
         Response<Nota> response = new Response<>();
         Nota nota = this.notaService.findByCodigo(codigo);
@@ -53,7 +53,7 @@ public class NotaController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('FINANCEIRO')")
+    @PreAuthorize("hasAnyRole({'FINANCEIRO', 'ADMIN'})")
     public ResponseEntity<Response<Nota>> cadastraNota(@RequestBody Nota nota) {
         Response<Nota> response = new Response<>();
         final Nota notaSaved = this.notaService.createOrUpdate(nota);
@@ -62,7 +62,7 @@ public class NotaController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAnyRole('FINANCEIRO')")
+    @PreAuthorize("hasAnyRole({'FINANCEIRO', 'ADMIN'})")
     public ResponseEntity<Response<Nota>> atualizaNota(@RequestBody Nota nota) {
         Response<Nota> response = new Response<>();
         final Nota notaSaved = this.notaService.createOrUpdate(nota);
@@ -71,7 +71,7 @@ public class NotaController {
     }
 
     @DeleteMapping(value = "{codigo}")
-    @PreAuthorize("hasAnyRole('FINANCEIRO')")
+    @PreAuthorize("hasAnyRole({'FINANCEIRO', 'ADMIN'})")
     public ResponseEntity<?> deletaNota(@PathVariable("codigo") Long codigo) {
         this.notaService.delete(codigo);
         HttpStatus status = HttpStatus.OK;

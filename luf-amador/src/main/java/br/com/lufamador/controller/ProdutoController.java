@@ -28,7 +28,7 @@ public class ProdutoController {
     private ProdutoService produtoService;
 
     @GetMapping(value = "{page}/{count}")
-    @PreAuthorize("hasAnyRole('FINANCEIRO')")
+    @PreAuthorize("hasAnyRole({'FINANCEIRO', 'ADMIN'})")
     public ResponseEntity<Response<Page<Produto>>> findAll(@PathVariable("page") int page,
             @PathVariable("count") int count) {
         Response<Page<Produto>> response = new Response<>();
@@ -38,7 +38,7 @@ public class ProdutoController {
     }
 
     @GetMapping(value = "{codigo}")
-    @PreAuthorize("hasAnyRole('FINANCEIRO')")
+    @PreAuthorize("hasAnyRole({'FINANCEIRO', 'ADMIN'})")
     public ResponseEntity<Response<Produto>> findById(@PathVariable("codigo") Long codigo) {
         Response<Produto> response = new Response<>();
         Produto nota = this.produtoService.findByCodigo(codigo);
@@ -53,7 +53,7 @@ public class ProdutoController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('FINANCEIRO')")
+    @PreAuthorize("hasAnyRole({'FINANCEIRO', 'ADMIN'})")
     public ResponseEntity<Response<Produto>> cadastraProduto(@RequestBody Produto nota) {
         Response<Produto> response = new Response<>();
         final Produto notaSaved = this.produtoService.createOrUpdate(nota);
@@ -62,7 +62,7 @@ public class ProdutoController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAnyRole('FINANCEIRO')")
+    @PreAuthorize("hasAnyRole({'FINANCEIRO', 'ADMIN'})")
     public ResponseEntity<Response<Produto>> atualizaProduto(@RequestBody Produto nota) {
         Response<Produto> response = new Response<>();
         final Produto notaSaved = this.produtoService.createOrUpdate(nota);
@@ -71,7 +71,7 @@ public class ProdutoController {
     }
 
     @DeleteMapping(value = "{codigo}")
-    @PreAuthorize("hasAnyRole('FINANCEIRO')")
+    @PreAuthorize("hasAnyRole({'FINANCEIRO', 'ADMIN'})")
     public ResponseEntity<?> deletaProduto(@PathVariable("codigo") Long codigo) {
         this.produtoService.delete(codigo);
         HttpStatus status = HttpStatus.OK;

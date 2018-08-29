@@ -68,7 +68,7 @@ public class AgremiacaoServiceImpl implements AgremiacaoService {
         agremiacao.setDataMandatoDiretoria(dataMandatoDiretoria);
     }
 
-    public final String getNomeSigla(String sigla) {
+    private String getNomeSigla(String sigla) {
 
         String siglaRetorno = sigla.toLowerCase();
         siglaRetorno = siglaRetorno.replace(" ", "")
@@ -113,6 +113,7 @@ public class AgremiacaoServiceImpl implements AgremiacaoService {
     private final Agremiacao atualizaAgremiacao(Agremiacao agremiacao) {
         this.validate.validaAtualizacaoAgremiacao(agremiacao);
         this.calculaDataMandatoDiretoria(agremiacao);
+        agremiacao.setNomeSigla(this.getNomeSigla(agremiacao.getNome()));
         return this.repository.saveAndFlush(agremiacao);
     }
 

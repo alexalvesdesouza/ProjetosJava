@@ -28,7 +28,7 @@ public class ArbitroController {
     private ArbitroService arbitroService;
 
     @GetMapping(value = "{page}/{count}")
-    @PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Page<Arbitro>>> findAll(@PathVariable("page") int page,
             @PathVariable("count") int count) {
 
@@ -40,7 +40,7 @@ public class ArbitroController {
     }
 
     @GetMapping(value = "{codigo}")
-    @PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Arbitro>> findById(@PathVariable("codigo") Long codigo) {
         Response<Arbitro> response = new Response<>();
         Arbitro arbitro = this.arbitroService.findByCodigo(codigo);
@@ -55,7 +55,7 @@ public class ArbitroController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Arbitro>> cadastraArbitro(@RequestBody Arbitro arbitro) {
         Response<Arbitro> response = new Response<>();
         final Arbitro arbitroSaved = this.arbitroService.createOrUpdate(arbitro);
@@ -64,7 +64,7 @@ public class ArbitroController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Arbitro>> atualizaArbitro(@RequestBody Arbitro arbitro) {
         Response<Arbitro> response = new Response<>();
         final Arbitro arbitroSaved = this.arbitroService.createOrUpdate(arbitro);
@@ -73,7 +73,7 @@ public class ArbitroController {
     }
 
     @DeleteMapping(path = "{codigo}")
-    @PreAuthorize("hasAnyRole('SECRETARIA')")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<?> deletaArbitro(@PathVariable(value = "codigo") Long codigo) {
         this.arbitroService.delete(codigo);
         return new ResponseEntity<>(HttpStatus.OK);
