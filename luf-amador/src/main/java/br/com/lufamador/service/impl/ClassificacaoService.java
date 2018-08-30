@@ -2,7 +2,6 @@ package br.com.lufamador.service.impl;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -97,26 +96,32 @@ public class ClassificacaoService {
 
         if (golsEquipeA == golsEquipeB) {
 
-            classificacaoAgremiacaoA.setQtdEmpates(classificacaoAgremiacaoA.getQtdEmpates() - 1);
+            classificacaoAgremiacaoA.setQtdEmpates(
+                    (classificacaoAgremiacaoA.getQtdEmpates() - 1) < 0 ? 0 : classificacaoAgremiacaoA.getQtdEmpates() - 1);
             classificacaoAgremiacaoA.setQtdPontos(classificacaoAgremiacaoA.getQtdPontos() - 1);
 
-            classificacaoAgremiacaoB.setQtdEmpates(classificacaoAgremiacaoB.getQtdEmpates() - 1);
-            classificacaoAgremiacaoB.setQtdPontos(classificacaoAgremiacaoB.getQtdPontos() - 1);
+            classificacaoAgremiacaoB.setQtdEmpates(
+                    (classificacaoAgremiacaoB.getQtdEmpates() - 1) < 0 ? 0 : classificacaoAgremiacaoB.getQtdEmpates() - 1);
+
+            classificacaoAgremiacaoB.setQtdPontos(
+                    (classificacaoAgremiacaoB.getQtdPontos() - 1) < 0 ? 0 : classificacaoAgremiacaoB.getQtdPontos() - 1);
 
         } else if (golsEquipeA > golsEquipeB) {
 
-            classificacaoAgremiacaoA.setQtdPontos(classificacaoAgremiacaoA.getQtdPontos() - 3);
-            classificacaoAgremiacaoA.setQtdVitorias(classificacaoAgremiacaoA.getQtdVitorias() - 1);
+            classificacaoAgremiacaoA.setQtdPontos(
+                    (classificacaoAgremiacaoA.getQtdPontos() - 3) < 0 ? 0 : classificacaoAgremiacaoA.getQtdPontos() - 3);
 
-            classificacaoAgremiacaoB.setQtdDerrotas(classificacaoAgremiacaoB.getQtdDerrotas() - 1);
+            classificacaoAgremiacaoA.setQtdVitorias(
+                    (classificacaoAgremiacaoA.getQtdVitorias() - 1) < 0 ? 0 : classificacaoAgremiacaoA.getQtdVitorias() - 1);
+
 
         } else {
 
-            classificacaoAgremiacaoB.setQtdPontos(classificacaoAgremiacaoB.getQtdPontos() - 3);
-            classificacaoAgremiacaoB.setQtdVitorias(classificacaoAgremiacaoB.getQtdVitorias() - 1);
+            classificacaoAgremiacaoB.setQtdPontos(
+                    (classificacaoAgremiacaoB.getQtdPontos() - 3) < 0 ? 0 : classificacaoAgremiacaoB.getQtdPontos() - 3);
 
-            classificacaoAgremiacaoA.setQtdDerrotas(classificacaoAgremiacaoA.getQtdDerrotas() - 1);
-
+            classificacaoAgremiacaoB.setQtdVitorias(
+                    (classificacaoAgremiacaoB.getQtdVitorias() - 1) < 0 ? 0 : classificacaoAgremiacaoB.getQtdVitorias() - 1);
         }
 
         this.repository.saveAndFlush(classificacaoAgremiacaoA);
@@ -185,14 +190,10 @@ public class ClassificacaoService {
             classificacaoAgremiacaoA.setQtdPontos(classificacaoAgremiacaoA.getQtdPontos() + 3);
             classificacaoAgremiacaoA.setQtdVitorias(classificacaoAgremiacaoA.getQtdVitorias() + 1);
 
-            classificacaoAgremiacaoB.setQtdDerrotas(classificacaoAgremiacaoB.getQtdDerrotas() + 1);
-
         } else {
 
             classificacaoAgremiacaoB.setQtdPontos(classificacaoAgremiacaoB.getQtdPontos() + 3);
             classificacaoAgremiacaoB.setQtdVitorias(classificacaoAgremiacaoB.getQtdVitorias() + 1);
-
-            classificacaoAgremiacaoA.setQtdDerrotas(classificacaoAgremiacaoA.getQtdDerrotas() + 1);
 
         }
 
@@ -219,38 +220,5 @@ public class ClassificacaoService {
         }
 
     }
-
-//    private void insereClassificacao(Jogo jogo) {
-//
-//        Classificacao classificacaoAgremiacaoA = new Classificacao();
-//        classificacaoAgremiacaoA.setAgremiacao(jogo.getAgremiacaoA());
-//        classificacaoAgremiacaoA.setGolsPro(this.golsEquipeA);
-//        classificacaoAgremiacaoA.setGolsContra(this.golsEquipeB);
-//        classificacaoAgremiacaoA.setQtdJogos(1);
-//        classificacaoAgremiacaoA.setQtdPontos(0);
-//        classificacaoAgremiacaoA.setQtdVitorias(0);
-//
-//        if (this.foiEmpate) {
-//            classificacaoAgremiacaoA.setQtdPontos(1);
-//        } else if (classificacaoAgremiacaoA.getGolsPro() > classificacaoAgremiacaoA.getGolsContra()) {
-//            classificacaoAgremiacaoA.setQtdPontos(3);
-//            classificacaoAgremiacaoA.setQtdVitorias(1);
-//        }
-//        try {
-//
-//            String agremiacao = jogo.getAgremiacaoA().getNome();
-//            String data = jogo.getDataPartida().toString();
-//            String hora = jogo.getHorarioPartida().toString();
-//            String code = agremiacao + data + hora;
-////            final String md5 = EncryptToMD5.converterParaMD5(code);
-//            classificacaoAgremiacaoA.setKeyMD5(md5);
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        }
-//        classificacaoAgremiacaoA.setChave(this.chaveClassificacao);
-//        classificacaoAgremiacaoA.setCategoria(this.categoria);
-//        this.repository.save(classificacaoAgremiacaoA);
-//    }
-
 
 }

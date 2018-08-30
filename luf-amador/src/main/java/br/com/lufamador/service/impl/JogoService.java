@@ -46,6 +46,7 @@ public class JogoService {
                 if (this.validate.validaJogoExistente(jogo)) {
                     return;
                 }
+
                 if (null == jogo.getGolsAgremiacaoA())
                     jogo.setGolsAgremiacaoA(0);
 

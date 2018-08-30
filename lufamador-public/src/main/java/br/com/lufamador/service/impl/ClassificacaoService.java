@@ -16,27 +16,10 @@ public class ClassificacaoService {
 
     private List<Classificacao> getClassificacoes(String categoria, String chave) {
         return this.repository.listaClassificacoPorCriterio(categoria, chave);
-
-//        int posicao = 1;
-//        for (Classificacao classificacao : classificacoes) {
-//
-//            if (!chave.equals(classificacao.getChave())) {
-//                chave = classificacao.getChave();
-//                posicao = 1;
-//            }
-//            classificacao.setPosClassificacao(posicao);
-//            this.registraPosicaoTabelaClassificacao(classificacao);
-//            posicao++;
-//        }
-//        return classificacoes;
     }
 
     public List<Classificacao> loadClassificacaoPorCategoriaChave(String categoria, String chave) {
         return this.getClassificacoes(categoria, chave);
-    }
-
-    private void registraPosicaoTabelaClassificacao(Classificacao classificacao) {
-        this.repository.saveAndFlush(classificacao);
     }
 
 }
