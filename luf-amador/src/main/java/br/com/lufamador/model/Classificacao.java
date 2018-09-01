@@ -39,6 +39,29 @@ public class Classificacao implements Serializable {
     private String fase;
     private String categoria;
 
+    public Classificacao() {
+        super();
+    }
+
+    public Classificacao(Agremiacao agremiacao, Campeonato campeonato, Integer posClassificacao, Integer qtdJogos,
+            Integer qtdPontos, Integer qtdVitorias, Integer qtdEmpates, Integer golsPro, Integer golsContra,
+            String chave, String keyMD5, Boolean classificada, String fase, String categoria) {
+        this.agremiacao = agremiacao;
+        this.campeonato = campeonato;
+        this.posClassificacao = posClassificacao;
+        this.qtdJogos = qtdJogos;
+        this.qtdPontos = qtdPontos;
+        this.qtdVitorias = qtdVitorias;
+        this.qtdEmpates = qtdEmpates;
+        this.golsPro = golsPro;
+        this.golsContra = golsContra;
+        this.chave = chave;
+        this.keyMD5 = keyMD5;
+        this.classificada = classificada;
+        this.fase = fase;
+        this.categoria = categoria;
+    }
+
     public Integer getQtdEmpates() {
         return qtdEmpates;
     }

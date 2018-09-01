@@ -57,7 +57,10 @@ public class CampeonatoServiceImpl implements CampeonatoService {
         list.forEach(cam -> {
                     if (null != cam.getTabelaJogos()
                             && (null != cam.getTabelaJogos().getJogos() && !cam.getTabelaJogos().getJogos().isEmpty())) {
-                        cam.getTabelaJogos().getJogos().forEach(jogo -> jogo.setDataAtualizacao(null));
+                        cam.getTabelaJogos().getJogos().forEach(jogo -> {
+                            jogo.setDataAtualizacao(null);
+                            jogo.setDataCriacao(null);
+                        });
                     }
                 }
         );

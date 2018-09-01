@@ -142,6 +142,11 @@ public class ClassificacaoService {
         Classificacao classificacaoAgremiacaoA = this.repository.findByAgremiacao_Codigo(jogo.getAgremiacaoA()
                 .getCodigo());
 
+        if (null == classificacaoAgremiacaoA) {
+            classificacaoAgremiacaoA = new Classificacao(jogo.getAgremiacaoA(), null, 0, 0, 0, 0, 0, 0, 0, chave, "",
+                    false, fase, categoria);
+        }
+
         if (null == classificacaoAgremiacaoA.getChave()) {
             classificacaoAgremiacaoA.setChave(chave);
         }
@@ -160,6 +165,12 @@ public class ClassificacaoService {
 
         Classificacao classificacaoAgremiacaoB = this.repository.findByAgremiacao_Codigo(jogo.getAgremiacaoB()
                 .getCodigo());
+
+        if (null == classificacaoAgremiacaoB) {
+            classificacaoAgremiacaoB = new Classificacao(jogo.getAgremiacaoA(), null, 0, 0, 0, 0, 0, 0, 0, chave, "",
+                    false, fase, categoria);
+        }
+
 
         if (null == classificacaoAgremiacaoB.getChave()) {
             classificacaoAgremiacaoA.setChave(chave);

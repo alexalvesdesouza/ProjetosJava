@@ -11,6 +11,8 @@ public interface AgremiacaoRepository extends JpaRepository<Agremiacao, Long> {
 
     Agremiacao findByNomeSigla(String nome);
 
+    Agremiacao findByNomeAndCategoria(String nome, String categoria);
+
     Agremiacao findByCodigo(Long codigo);
 
     @Query(value = "select * from luf_agremiacao agr\n" +

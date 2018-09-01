@@ -34,7 +34,7 @@ public class AgremiacaoValidate {
     }
 
     public void validaAgremiacaoExistente(final Agremiacao agremiacao) {
-        Agremiacao agremiacaoValidate = this.repository.findByNomeSigla(agremiacao.getNomeSigla());
+        Agremiacao agremiacaoValidate = this.repository.findByNomeAndCategoria(agremiacao.getNome(), agremiacao.getCategoria());
         if (agremiacaoValidate != null)
             throw new ValidateException(MensagensErro.ENTIDADE_DUPLICADA.replace("?", "Agremiação"));
     }
