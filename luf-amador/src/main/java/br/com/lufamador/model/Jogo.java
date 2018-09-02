@@ -48,6 +48,7 @@ public class Jogo implements Serializable {
     private String fase;
     private Boolean partidaEncerrada;
     private String keyConfronto;
+    private String categoria;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -55,6 +56,14 @@ public class Jogo implements Serializable {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime dataAtualizacao;
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
 
     public String getRodada() {
         return rodada;

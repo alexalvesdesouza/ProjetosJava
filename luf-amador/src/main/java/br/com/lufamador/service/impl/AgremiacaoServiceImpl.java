@@ -107,6 +107,7 @@ public class AgremiacaoServiceImpl implements AgremiacaoService {
         return this.repository.getAgremiacoesDisponiveis(codigoCampeonato, categoria)
                 .stream()
                 .filter(agremiacao -> !agremiacao.getInativa())
+                .sorted()
                 .collect(Collectors.toList());
     }
 

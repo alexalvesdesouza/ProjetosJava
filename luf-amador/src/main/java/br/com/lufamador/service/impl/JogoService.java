@@ -6,7 +6,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -16,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.lufamador.exception.BussinessException;
+import br.com.lufamador.model.Agremiacao;
 import br.com.lufamador.model.Jogo;
 import br.com.lufamador.repository.JogoRepository;
 import br.com.lufamador.utils.encripty.EncryptToMD5;
@@ -35,17 +38,51 @@ public class JogoService {
         this.classificacaoService = classificacaoService;
     }
 
+    private Map<Long, String> loadChaves() {
+        Map<Long, String> map = new HashMap<>();
+        final List<Jogo> jogos = this.repository.findAll();
+        jogos.forEach(jogo -> {
+            if (null != jogo.getAgremiacaoA().getCodigo() && null != jogo.getChave()) {
+                map.put(jogo.getAgremiacaoA().getCodigo(), jogo.getChave());
+            }
+            if (null != jogo.getAgremiacaoB().getCodigo() && null != jogo.getChave()) {
+                map.put(jogo.getAgremiacaoB().getCodigo(), jogo.getChave());
+            }
+        });
+        return map;
+    }
+
     @Transactional(value = Transactional.TxType.REQUIRES_NEW, rollbackOn = Exception.class)
     public List<Jogo> cadastraJogo(List<Jogo> jogos) {
+
+        final Map<Long, String> map = this.loadChaves();
 
         jogos.forEach(jogo -> {
 
             try {
 
+                if (jogo.getPartidaEncerrada()) {
+                    return;
+                }
+
                 final String key = this.geraKeyJogoUnico(jogo);
                 if (this.validate.validaJogoExistente(jogo)) {
                     return;
                 }
+
+                if (null == jogo.getCategoria()) {
+                    String categoria = jogo.getAgremiacaoA().getCategoria();
+                    if (null == categoria) {
+                        categoria = jogo.getAgremiacaoB().getCategoria();
+                    }
+                    jogo.setCategoria(categoria);
+                }
+
+//                String chave = map.get(jogo.getAgremiacaoA().getCodigo());
+//                if (null == chave) {
+//                    chave = map.get(jogo.getAgremiacaoB().getCodigo());
+//                }
+//                jogo.setChave(chave);
 
                 if (null == jogo.getGolsAgremiacaoA())
                     jogo.setGolsAgremiacaoA(0);
@@ -55,12 +92,11 @@ public class JogoService {
 
                 if (null == jogo.getPartidaEncerrada()) {
                     jogo.setPartidaEncerrada(false);
-                } else if (jogo.getPartidaEncerrada()) {
-                    return;
                 }
+
                 jogo.setKeyConfronto(key);
-                jogo.setDataAtualizacao(LocalDateTime.now());
-                jogo.setDataCriacao(LocalDateTime.now());
+//                jogo.setDataAtualizacao(LocalDateTime.now());
+//                jogo.setDataCriacao(LocalDateTime.now());
                 this.repository.saveAndFlush(jogo);
             } catch (Exception e) {
 
@@ -162,7 +198,7 @@ public class JogoService {
 
             jogos = this.repository.getJogosEditList(data, data, chave);
         } catch (Exception e) {
-            data = LocalDate.now().plusDays(-15);
+            data = LocalDate.now().plusDays(-7);
             jogos = this.repository.getJogosEditList(data, LocalDate.now(), chave);
         }
 
