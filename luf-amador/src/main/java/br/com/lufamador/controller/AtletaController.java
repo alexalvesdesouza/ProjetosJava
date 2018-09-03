@@ -1,5 +1,7 @@
 package br.com.lufamador.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.lufamador.model.Atleta;
+import br.com.lufamador.model.AtletaHistory;
 import br.com.lufamador.response.Response;
 import br.com.lufamador.service.impl.AtletaServiceImpl;
 
@@ -49,6 +52,21 @@ public class AtletaController {
                     .body(response);
         }
         response.setData(atleta);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(value = "{codigo}/history")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+    public ResponseEntity<Response<List<AtletaHistory>>> findHistoryById(@PathVariable("codigo") Long codigo) {
+        Response<List<AtletaHistory>> response = new Response<>();
+        List<AtletaHistory> history = this.atletaService.history(codigo);
+        if (null == history) {
+            response.getErrors()
+                    .add("Register not found " + codigo);
+            return ResponseEntity.badRequest()
+                    .body(response);
+        }
+        response.setData(history);
         return ResponseEntity.ok(response);
     }
 

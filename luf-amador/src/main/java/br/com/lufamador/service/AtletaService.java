@@ -1,8 +1,11 @@
 package br.com.lufamador.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 
 import br.com.lufamador.model.Atleta;
+import br.com.lufamador.model.AtletaHistory;
 
 public interface AtletaService {
   
@@ -13,5 +16,7 @@ public interface AtletaService {
   Atleta findByCodigo(Long id);
 
   void delete(Long id);
+
+  List<AtletaHistory> history(Long id);
 
 }

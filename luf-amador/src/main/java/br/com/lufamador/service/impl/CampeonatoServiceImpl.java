@@ -1,6 +1,7 @@
 package br.com.lufamador.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.lufamador.exception.BussinessException;
+import br.com.lufamador.model.Agremiacao;
 import br.com.lufamador.model.Campeonato;
 import br.com.lufamador.model.TabelaJogos;
 import br.com.lufamador.repository.CampeonatoRepository;
@@ -64,6 +66,9 @@ public class CampeonatoServiceImpl implements CampeonatoService {
                     }
                 }
         );
+
+        list.forEach(campeonato ->
+                campeonato.getInscricoes().sort(Comparator.comparing(Agremiacao::getNome)));
 
         return list;
     }
