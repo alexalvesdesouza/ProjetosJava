@@ -1,6 +1,7 @@
 package br.com.lufamador.service.impl;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,6 +102,13 @@ public class AgremiacaoServiceImpl implements AgremiacaoService {
 
     public List<Agremiacao> getAgremiacoesInscritas(final Long codigoCampeonato) {
         return this.repository.getAgremiacoesInscritas(codigoCampeonato);
+    }
+
+    @Override
+    public List<Agremiacao> loadAll() {
+        List<Agremiacao> all = this.repository.findAll();
+        all.sort(Comparator.comparing(Agremiacao::getNome));
+        return all;
     }
 
     public List<Agremiacao> getAgremiacoesDisponiveis(final Long codigoCampeonato, final String categoria) {

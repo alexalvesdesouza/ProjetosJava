@@ -29,6 +29,16 @@ public class AtletaHistory implements Serializable {
 
     private String temporada;
 
+    private String observacao;
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
     public Long getCodigo() {
         return codigo;
     }

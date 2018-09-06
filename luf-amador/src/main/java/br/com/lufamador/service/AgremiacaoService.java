@@ -18,6 +18,8 @@ public interface AgremiacaoService {
   void delete(Long id);
   
   List<Agremiacao> getAgremiacoesInscritas(final Long codigoCampeonato);
+
+  List<Agremiacao> loadAll();
   
   List<Agremiacao> getAgremiacoesDisponiveis(final Long codigoCampeonato, final String categoria);
 

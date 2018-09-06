@@ -41,6 +41,17 @@ public class AgremiacaoController {
 
     }
 
+    @GetMapping(value = "/load-for-select")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+    public ResponseEntity<Response<List<Agremiacao>>> loadForSelect() {
+
+        Response<List<Agremiacao>> response = new Response<>();
+        List<Agremiacao> agremiacoes = this.agremiacaoService.loadAll();
+        response.setData(agremiacoes);
+        return ResponseEntity.ok(response);
+
+    }
+
     @GetMapping(value = "{codigo}")
     @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Agremiacao>> findById(@PathVariable("codigo") Long codigo) {

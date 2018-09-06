@@ -15,6 +15,7 @@ import br.com.lufamador.exception.BussinessException;
 import br.com.lufamador.model.DepartamentoTecnico;
 import br.com.lufamador.repository.DepartamentoTecnicoRepository;
 import br.com.lufamador.service.DepartamentoTecnicoService;
+import br.com.lufamador.utils.constants.CategoriaConstant;
 import br.com.lufamador.validate.DepartamentoTecnicoValidate;
 
 @Service
@@ -35,17 +36,33 @@ public class DepartamentoTecnicoServiceImpl implements DepartamentoTecnicoServic
         departamentoTecnico.setCategoria(departamentoTecnico.getCategoria().toUpperCase());
         this.validate.validaCadastroTJDU(departamentoTecnico);
         try {
+            this.alteraCorDocs(departamentoTecnico);
             departamentoTecnicoSaved = this.repository.saveAndFlush(departamentoTecnico);
         } catch (Exception e) {
         }
         return departamentoTecnicoSaved;
     }
 
+    private void alteraCorDocs(DepartamentoTecnico departamentoTecnico) {
+        String cor = "#FFFFFF";
+        if (CategoriaConstant.PORTARIAS.name().equals(departamentoTecnico.getCategoria())) {
+            cor = "#b3b3cc";
+        }
+        if (CategoriaConstant.COMUNICADOS.name().equals(departamentoTecnico.getCategoria())) {
+            cor = "#80d4ff";
+        }
+        if (CategoriaConstant.NOTAS_OFICIAIS.name().equals(departamentoTecnico.getCategoria())) {
+            cor = "#ffb84d";
+        }
+
+        departamentoTecnico.setCor(cor);
+    }
+
     private DepartamentoTecnico update(DepartamentoTecnico departamentoTecnico) {
         DepartamentoTecnico departamentoTecnicoSaved = null;
-        //this.validate.validaCadastroTJDU(departamentoTecnico);
         departamentoTecnico.setCategoria(departamentoTecnico.getCategoria().toUpperCase());
         try {
+            this.alteraCorDocs(departamentoTecnico);
             departamentoTecnicoSaved = this.repository.saveAndFlush(departamentoTecnico);
         } catch (Exception e) {
         }

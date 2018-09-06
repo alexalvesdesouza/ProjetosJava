@@ -21,8 +21,35 @@ public class DepartamentoTecnico implements Serializable {
     private Long codigo;
     private String numero;
     private String categoria;
+    private String subCategoria;
     private String link;
     private String descricao;
+    private Boolean exibirPaginaPrincipal;
+    private String cor;
+
+    public String getSubCategoria() {
+        return subCategoria;
+    }
+
+    public void setSubCategoria(String subCategoria) {
+        this.subCategoria = subCategoria;
+    }
+
+    public String getCor() {
+        return cor;
+    }
+
+    public void setCor(String cor) {
+        this.cor = cor;
+    }
+
+    public Boolean getExibirPaginaPrincipal() {
+        return exibirPaginaPrincipal;
+    }
+
+    public void setExibirPaginaPrincipal(Boolean exibirPaginaPrincipal) {
+        this.exibirPaginaPrincipal = exibirPaginaPrincipal;
+    }
 
     public Long getCodigo() {
         return codigo;

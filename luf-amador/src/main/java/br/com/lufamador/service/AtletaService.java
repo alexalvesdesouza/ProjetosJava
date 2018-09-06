@@ -8,15 +8,14 @@ import br.com.lufamador.model.Atleta;
 import br.com.lufamador.model.AtletaHistory;
 
 public interface AtletaService {
-  
-  Page<Atleta> findAll(int page, int count);
-  
-  Atleta createOrUpdate(Atleta atleta);
 
-  Atleta findByCodigo(Long id);
+    Page<Atleta> findAll(int page, int count);
 
-  void delete(Long id);
+    Atleta createOrUpdate(Atleta atleta);
 
-  List<AtletaHistory> history(Long id);
+    Atleta findByCodigo(Long id);
 
+    void delete(Long id);
+
+    List<AtletaHistory> history(Long id);
 }

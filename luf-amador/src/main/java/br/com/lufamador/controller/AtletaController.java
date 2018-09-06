@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.lufamador.model.Atleta;
 import br.com.lufamador.model.AtletaHistory;
 import br.com.lufamador.response.Response;
+import br.com.lufamador.service.impl.AtletaHistoryServiceImpl;
 import br.com.lufamador.service.impl.AtletaServiceImpl;
 
 @RestController
@@ -29,6 +31,9 @@ public class AtletaController {
 
     @Autowired
     private AtletaServiceImpl atletaService;
+
+    @Autowired
+    private AtletaHistoryServiceImpl atletaHistoryService;
 
     @GetMapping(value = "{page}/{count}")
     @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
@@ -112,6 +117,23 @@ public class AtletaController {
         this.atletaService.delete(codigo);
         HttpStatus status = HttpStatus.OK;
         return new ResponseEntity<>(status);
+    }
+
+    @DeleteMapping(value = "/history/{codigo}")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+    public ResponseEntity<?> deletaAtletaHistory(@PathVariable("codigo") Long codigo) {
+        this.atletaHistoryService.deletaHistory(codigo);
+        HttpStatus status = HttpStatus.OK;
+        return new ResponseEntity<>(status);
+    }
+
+    @PostMapping(value = "/history-new")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+    public ResponseEntity<Response<AtletaHistory>> atletaHistory(@RequestBody AtletaHistory history) {
+        Response<AtletaHistory> response = new Response<>();
+        final AtletaHistory atletaSaved = this.atletaHistoryService.cadastra(history);
+        response.setData(atletaSaved);
+        return ResponseEntity.ok(response);
     }
 
 }

@@ -26,6 +26,18 @@ public class AtletaHistoryServiceImpl {
 
     }
 
+    public AtletaHistory cadastra(AtletaHistory history) {
+        return this.repository.saveAndFlush(history);
+    }
+
+    public void deletaHistory(final Long codigo) {
+        this.repository.delete(this.find(codigo));
+    }
+
+    private AtletaHistory find(Long codigo) {
+        return this.repository.findByCodigo(codigo);
+    }
+
     public List<AtletaHistory> history(Atleta atleta) {
         return this.repository.findByAtleta(atleta);
     }

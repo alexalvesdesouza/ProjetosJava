@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -26,7 +27,7 @@ public class DepartamentoTecnicoController {
     @GetMapping(path = "/editais")
     public ResponseEntity<List<DepartamentoTecnico>> getEditaisDepartamentoTecnico() {
         final List<DepartamentoTecnico> departamentoTecnicos = this.departamentoTecnicoServiceImpl.getDepartamentoTecnicoList(
-                CategoriaConstant.EDITAIS.name());
+                CategoriaConstant.EDITAIS.name(), null);
         HttpStatus status = (null == departamentoTecnicos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(departamentoTecnicos, status);
     }
@@ -34,7 +35,23 @@ public class DepartamentoTecnicoController {
     @RequestMapping(path = "/comunicados", method = RequestMethod.GET)
     public ResponseEntity<List<DepartamentoTecnico>> getComunicadosDepartamentoTecnico() {
         final List<DepartamentoTecnico> departamentoTecnicos = this.departamentoTecnicoServiceImpl.getDepartamentoTecnicoList(
-                CategoriaConstant.COMUNICADOS.name());
+                CategoriaConstant.COMUNICADOS.name(), null);
+        HttpStatus status = (null == departamentoTecnicos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(departamentoTecnicos, status);
+    }
+
+    @RequestMapping(path = "/regulamentos", method = RequestMethod.GET)
+    public ResponseEntity<List<DepartamentoTecnico>> getRegulamentosDepartamentoTecnico() {
+        final List<DepartamentoTecnico> departamentoTecnicos = this.departamentoTecnicoServiceImpl.getDepartamentoTecnicoList(
+                CategoriaConstant.REGULAMENTOS.name(), null);
+        HttpStatus status = (null == departamentoTecnicos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(departamentoTecnicos, status);
+    }
+
+    @RequestMapping(path = "/portarias", method = RequestMethod.GET)
+    public ResponseEntity<List<DepartamentoTecnico>> getPortariasDepartamentoTecnico() {
+        final List<DepartamentoTecnico> departamentoTecnicos = this.departamentoTecnicoServiceImpl.getDepartamentoTecnicoList(
+                CategoriaConstant.PORTARIAS.name(), null);
         HttpStatus status = (null == departamentoTecnicos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(departamentoTecnicos, status);
     }
@@ -42,23 +59,27 @@ public class DepartamentoTecnicoController {
     @RequestMapping(path = "/notas-oficiais", method = RequestMethod.GET)
     public ResponseEntity<List<DepartamentoTecnico>> getNotasOficiaisDepartamentoTecnico() {
         final List<DepartamentoTecnico> departamentoTecnicos = this.departamentoTecnicoServiceImpl.getDepartamentoTecnicoList(
-                CategoriaConstant.NOTAS_OFICIAIS.name());
+                CategoriaConstant.NOTAS_OFICIAIS.name(), null);
         HttpStatus status = (null == departamentoTecnicos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(departamentoTecnicos, status);
     }
 
-    @RequestMapping(path = "/sumulas", method = RequestMethod.GET)
-    public ResponseEntity<List<DepartamentoTecnico>> getSumulasDepartamentoTecnicos() {
+    @RequestMapping(path = "/sumulas/{subCategoria}", method = RequestMethod.GET)
+    public ResponseEntity<List<DepartamentoTecnico>> getSumulasDepartamentoTecnicos(
+            @PathVariable(value = "subCategoria") String subCategoria) {
+
         final List<DepartamentoTecnico> departamentoTecnicos = this.departamentoTecnicoServiceImpl.getDepartamentoTecnicoList(
-                CategoriaConstant.SUMULAS.name());
+                CategoriaConstant.SUMULAS.name(), subCategoria);
         HttpStatus status = (null == departamentoTecnicos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(departamentoTecnicos, status);
     }
 
-    @RequestMapping(path = "/artilharia-defesa", method = RequestMethod.GET)
-    public ResponseEntity<List<DepartamentoTecnico>> getArtilhariasCampeonatos() {
+    @RequestMapping(path = "/artilharia-defesa/{subCategoria}", method = RequestMethod.GET)
+    public ResponseEntity<List<DepartamentoTecnico>> getArtilhariasCampeonatos(
+            @PathVariable(value = "subCategoria") String subCategoria) {
+
         final List<DepartamentoTecnico> departamentoTecnicos = this.departamentoTecnicoServiceImpl.getDepartamentoTecnicoList(
-                CategoriaConstant.ARTILHARIA_DEFESA.name());
+                CategoriaConstant.ARTILHARIA_DEFESA.name(), subCategoria);
         HttpStatus status = (null == departamentoTecnicos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(departamentoTecnicos, status);
     }
@@ -66,10 +87,16 @@ public class DepartamentoTecnicoController {
     @RequestMapping(path = "/tabelas-jogos", method = RequestMethod.GET)
     public ResponseEntity<List<DepartamentoTecnico>> getTabelasJogos() {
         final List<DepartamentoTecnico> departamentoTecnicos = this.departamentoTecnicoServiceImpl.getDepartamentoTecnicoList(
-                CategoriaConstant.TABELA_JOGOS.name());
+                CategoriaConstant.TABELA_JOGOS.name(), null);
         HttpStatus status = (null == departamentoTecnicos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(departamentoTecnicos, status);
     }
 
+    @RequestMapping(path = "/docs-principal", method = RequestMethod.GET)
+    public ResponseEntity<List<DepartamentoTecnico>> getDocsPrincipal() {
+        final List<DepartamentoTecnico> departamentoTecnicos = this.departamentoTecnicoServiceImpl.getDocsList();
+        HttpStatus status = (null == departamentoTecnicos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(departamentoTecnicos, status);
+    }
 
 }

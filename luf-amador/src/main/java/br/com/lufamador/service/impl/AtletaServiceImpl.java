@@ -1,6 +1,7 @@
 package br.com.lufamador.service.impl;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -121,6 +122,8 @@ public class AtletaServiceImpl implements AtletaService {
     @Override
     public List<AtletaHistory> history(Long id) {
         List<AtletaHistory> list = this.atletaHistoryService.history(this.findByCodigo(id));
+        list.sort(Comparator.comparing(AtletaHistory::getTemporada).reversed());
         return list;
     }
+
 }
