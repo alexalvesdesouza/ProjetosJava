@@ -61,6 +61,10 @@ public class JogoService {
 
             try {
 
+                if (null == jogo.getPartidaEncerrada()) {
+                    jogo.setPartidaEncerrada(false);
+                }
+
                 if (jogo.getPartidaEncerrada()) {
                     return;
                 }
@@ -90,13 +94,10 @@ public class JogoService {
                 if (null == jogo.getGolsAgremiacaoB())
                     jogo.setGolsAgremiacaoB(0);
 
-                if (null == jogo.getPartidaEncerrada()) {
-                    jogo.setPartidaEncerrada(false);
-                }
 
                 jogo.setKeyConfronto(key);
-//                jogo.setDataAtualizacao(LocalDateTime.now());
-//                jogo.setDataCriacao(LocalDateTime.now());
+                jogo.setDataAtualizacao(LocalDateTime.now());
+                jogo.setDataCriacao(LocalDateTime.now());
                 this.repository.saveAndFlush(jogo);
             } catch (Exception e) {
 
@@ -110,8 +111,7 @@ public class JogoService {
     @Transactional(value = Transactional.TxType.REQUIRES_NEW, rollbackOn = Exception.class)
     public Jogo atualizarJogo(final Jogo jogo) throws NoSuchAlgorithmException {
         jogo.setDataAtualizacao(LocalDateTime.now());
-        String keyJogo = this.geraKeyJogoUnico(jogo);
-        jogo.setKeyConfronto(keyJogo);
+        jogo.setKeyConfronto(this.geraKeyJogoUnico(jogo));
         return this.repository.saveAndFlush(jogo);
     }
 

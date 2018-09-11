@@ -24,11 +24,12 @@ public class JogoService {
                 .stream()
                 .filter(jogo -> jogo.getAgremiacaoA().getCategoria().equals(categoria)
                         || jogo.getAgremiacaoB().getCategoria().equals(categoria))
+                .sorted(Comparator.comparing(Jogo::getDataAtualizacao).reversed())
                 .collect(
                         Collectors.toList());
 
-        jogos.stream().sorted(Comparator.comparing(Jogo::getDataAtualizacao).reversed()).collect(
-                Collectors.toList());
+//        jogos.stream().sorted(Comparator.comparing(Jogo::getDataAtualizacao).reversed()).collect(
+//                Collectors.toList());
 
         jogos.forEach(item -> {
             item.setDataCriacao(null);
