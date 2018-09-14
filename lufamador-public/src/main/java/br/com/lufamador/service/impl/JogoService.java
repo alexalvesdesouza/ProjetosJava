@@ -68,6 +68,6 @@ public class JogoService {
     }
 
     public List<String> getDatasPartidas() {
-        return this.repository.getDatasPartidas();
+        return this.repository.getDatasPartidas().stream().sorted().collect(Collectors.toList());
     }
 }

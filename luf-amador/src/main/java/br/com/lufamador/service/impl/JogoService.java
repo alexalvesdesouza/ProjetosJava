@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import br.com.lufamador.exception.BussinessException;
 import br.com.lufamador.model.Agremiacao;
 import br.com.lufamador.model.Jogo;
+import br.com.lufamador.model.LocalJogo;
 import br.com.lufamador.repository.JogoRepository;
 import br.com.lufamador.utils.encripty.EncryptToMD5;
 import br.com.lufamador.validate.JogoValidate;
@@ -93,7 +94,6 @@ public class JogoService {
 
                 if (null == jogo.getGolsAgremiacaoB())
                     jogo.setGolsAgremiacaoB(0);
-
 
                 jogo.setKeyConfronto(key);
                 jogo.setDataAtualizacao(LocalDateTime.now());

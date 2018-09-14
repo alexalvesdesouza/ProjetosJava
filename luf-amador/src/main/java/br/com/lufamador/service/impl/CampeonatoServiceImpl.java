@@ -73,6 +73,27 @@ public class CampeonatoServiceImpl implements CampeonatoService {
         return list;
     }
 
+    public List<Campeonato> getCampeonatosAndamento() {
+        List<Campeonato> list = this.repository.findAll()
+                .stream()
+                .filter(campeonato -> !campeonato.getCampeonatoEncerrado())
+                .sorted(Comparator.comparing(Campeonato::getNomeCampeonato))
+                .collect(Collectors.toList());
+
+        list.forEach(campeonato -> {
+                    if (null != campeonato.getTabelaJogos()
+                            && (null != campeonato.getTabelaJogos().getJogos() && !campeonato.getTabelaJogos().getJogos().isEmpty())) {
+                        campeonato.getTabelaJogos().getJogos().forEach(jogo -> {
+                            jogo.setDataAtualizacao(null);
+                            jogo.setDataCriacao(null);
+                        });
+                    }
+                }
+        );
+
+        return list;
+    }
+
     private Campeonato update(Campeonato campeonato) {
         TabelaJogos tabela = campeonato.getTabelaJogos();
         if (null != tabela)

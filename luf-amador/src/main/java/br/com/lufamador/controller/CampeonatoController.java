@@ -48,6 +48,15 @@ public class CampeonatoController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping(value = "/andamento")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+    public ResponseEntity<Response<List<Campeonato>>> findAllAndamento() {
+        Response<List<Campeonato>> response = new Response<>();
+        List<Campeonato> campeonatos = this.campeonatoService.getCampeonatosAndamento();
+        response.setData(campeonatos);
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping
     @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Campeonato>> cadastraCampeonato(@RequestBody Campeonato campeonato) {

@@ -37,6 +37,8 @@ public class Jogo implements Serializable {
     private String horarioPartida;
     private String local;
     @OneToOne
+    private LocalJogo localJogo;
+    @OneToOne
     private Agremiacao agremiacaoA;
     @OneToOne
     private Agremiacao agremiacaoB;
@@ -57,6 +59,14 @@ public class Jogo implements Serializable {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime dataAtualizacao;
+
+    public LocalJogo getLocalJogo() {
+        return localJogo;
+    }
+
+    public void setLocalJogo(LocalJogo localJogo) {
+        this.localJogo = localJogo;
+    }
 
     public String getCategoria() {
         return categoria;

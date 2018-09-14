@@ -37,6 +37,8 @@ public class Jogo implements Serializable {
     private String horarioPartida;
     private String local;
     @OneToOne
+    private LocalJogo localJogo;
+    @OneToOne
     private Agremiacao agremiacaoA;
     @OneToOne
     private Agremiacao agremiacaoB;
@@ -55,14 +57,6 @@ public class Jogo implements Serializable {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime dataAtualizacao;
-
-    public String getRodada() {
-        return rodada;
-    }
-
-    public void setRodada(String rodada) {
-        this.rodada = rodada;
-    }
 
     public Long getCodigo() {
         return codigo;
@@ -94,6 +88,14 @@ public class Jogo implements Serializable {
 
     public void setLocal(String local) {
         this.local = local;
+    }
+
+    public LocalJogo getLocalJogo() {
+        return localJogo;
+    }
+
+    public void setLocalJogo(LocalJogo localJogo) {
+        this.localJogo = localJogo;
     }
 
     public Agremiacao getAgremiacaoA() {
@@ -144,6 +146,22 @@ public class Jogo implements Serializable {
         this.chave = chave;
     }
 
+    public String getRodada() {
+        return rodada;
+    }
+
+    public void setRodada(String rodada) {
+        this.rodada = rodada;
+    }
+
+    public String getFase() {
+        return fase;
+    }
+
+    public void setFase(String fase) {
+        this.fase = fase;
+    }
+
     public Boolean getPartidaEncerrada() {
         return partidaEncerrada;
     }
@@ -174,13 +192,5 @@ public class Jogo implements Serializable {
 
     public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
-    }
-
-    public String getFase() {
-        return fase;
-    }
-
-    public void setFase(String fase) {
-        this.fase = fase;
     }
 }
