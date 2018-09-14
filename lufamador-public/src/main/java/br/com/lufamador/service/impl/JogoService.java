@@ -28,9 +28,6 @@ public class JogoService {
                 .collect(
                         Collectors.toList());
 
-//        jogos.stream().sorted(Comparator.comparing(Jogo::getDataAtualizacao).reversed()).collect(
-//                Collectors.toList());
-
         jogos.forEach(item -> {
             item.setDataCriacao(null);
             item.setDataAtualizacao(null);

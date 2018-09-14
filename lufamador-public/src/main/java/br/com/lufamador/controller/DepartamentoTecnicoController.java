@@ -27,7 +27,7 @@ public class DepartamentoTecnicoController {
     @GetMapping(path = "/editais")
     public ResponseEntity<List<DepartamentoTecnico>> getEditaisDepartamentoTecnico() {
         final List<DepartamentoTecnico> departamentoTecnicos = this.departamentoTecnicoServiceImpl.getDepartamentoTecnicoList(
-                CategoriaConstant.EDITAIS.name(), null);
+                CategoriaConstant.EDITAIS.name(), CategoriaConstant.EDITAIS.name());
         HttpStatus status = (null == departamentoTecnicos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(departamentoTecnicos, status);
     }
@@ -35,15 +35,15 @@ public class DepartamentoTecnicoController {
     @RequestMapping(path = "/comunicados", method = RequestMethod.GET)
     public ResponseEntity<List<DepartamentoTecnico>> getComunicadosDepartamentoTecnico() {
         final List<DepartamentoTecnico> departamentoTecnicos = this.departamentoTecnicoServiceImpl.getDepartamentoTecnicoList(
-                CategoriaConstant.COMUNICADOS.name(), null);
+                CategoriaConstant.COMUNICADOS.name(), CategoriaConstant.COMUNICADOS.name());
         HttpStatus status = (null == departamentoTecnicos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(departamentoTecnicos, status);
     }
 
-    @RequestMapping(path = "/regulamentos", method = RequestMethod.GET)
-    public ResponseEntity<List<DepartamentoTecnico>> getRegulamentosDepartamentoTecnico() {
+    @RequestMapping(path = "/regulamentos/{subCategoria}", method = RequestMethod.GET)
+    public ResponseEntity<List<DepartamentoTecnico>> getRegulamentosDepartamentoTecnico(@PathVariable(value = "subCategoria") String subCategoria) {
         final List<DepartamentoTecnico> departamentoTecnicos = this.departamentoTecnicoServiceImpl.getDepartamentoTecnicoList(
-                CategoriaConstant.REGULAMENTOS.name(), null);
+                CategoriaConstant.REGULAMENTOS.name(), subCategoria);
         HttpStatus status = (null == departamentoTecnicos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(departamentoTecnicos, status);
     }
@@ -51,7 +51,7 @@ public class DepartamentoTecnicoController {
     @RequestMapping(path = "/portarias", method = RequestMethod.GET)
     public ResponseEntity<List<DepartamentoTecnico>> getPortariasDepartamentoTecnico() {
         final List<DepartamentoTecnico> departamentoTecnicos = this.departamentoTecnicoServiceImpl.getDepartamentoTecnicoList(
-                CategoriaConstant.PORTARIAS.name(), null);
+                CategoriaConstant.PORTARIAS.name(), CategoriaConstant.PORTARIAS.name());
         HttpStatus status = (null == departamentoTecnicos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(departamentoTecnicos, status);
     }
@@ -59,7 +59,7 @@ public class DepartamentoTecnicoController {
     @RequestMapping(path = "/notas-oficiais", method = RequestMethod.GET)
     public ResponseEntity<List<DepartamentoTecnico>> getNotasOficiaisDepartamentoTecnico() {
         final List<DepartamentoTecnico> departamentoTecnicos = this.departamentoTecnicoServiceImpl.getDepartamentoTecnicoList(
-                CategoriaConstant.NOTAS_OFICIAIS.name(), null);
+                CategoriaConstant.NOTAS_OFICIAIS.name(), CategoriaConstant.NOTAS_OFICIAIS.name());
         HttpStatus status = (null == departamentoTecnicos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(departamentoTecnicos, status);
     }
@@ -84,10 +84,10 @@ public class DepartamentoTecnicoController {
         return new ResponseEntity<>(departamentoTecnicos, status);
     }
 
-    @RequestMapping(path = "/tabelas-jogos", method = RequestMethod.GET)
-    public ResponseEntity<List<DepartamentoTecnico>> getTabelasJogos() {
+    @RequestMapping(path = "/tabelas-jogos/{subCategoria}", method = RequestMethod.GET)
+    public ResponseEntity<List<DepartamentoTecnico>> getTabelasJogos(@PathVariable(value = "subCategoria") String subCategoria) {
         final List<DepartamentoTecnico> departamentoTecnicos = this.departamentoTecnicoServiceImpl.getDepartamentoTecnicoList(
-                CategoriaConstant.TABELA_JOGOS.name(), null);
+                CategoriaConstant.TABELA_JOGOS.name(), subCategoria);
         HttpStatus status = (null == departamentoTecnicos) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(departamentoTecnicos, status);
     }

@@ -1,16 +1,10 @@
 package br.com.lufamador.repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.com.lufamador.model.Tjdu;
+import br.com.lufamador.model.Edital;
 
-public interface EditalRepository extends JpaRepository<Tjdu, Long> {
+public interface EditalRepository extends JpaRepository<Edital, Long> {
 
-    Tjdu findByNumeroAndCategoria(final String numero, final String categoria);
-
-    List<Tjdu> findByCategoria(String categoria);
-
-    Tjdu findByCodigo(Long codigo);
+    Edital findByCodigo(Long codigo);
 }

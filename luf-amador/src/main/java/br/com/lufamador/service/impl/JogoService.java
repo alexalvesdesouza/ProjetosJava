@@ -18,9 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.lufamador.exception.BussinessException;
-import br.com.lufamador.model.Agremiacao;
 import br.com.lufamador.model.Jogo;
-import br.com.lufamador.model.LocalJogo;
 import br.com.lufamador.repository.JogoRepository;
 import br.com.lufamador.utils.encripty.EncryptToMD5;
 import br.com.lufamador.validate.JogoValidate;
@@ -72,7 +70,7 @@ public class JogoService {
 
                 final String key = this.geraKeyJogoUnico(jogo);
                 if (this.validate.validaJogoExistente(jogo)) {
-                    return;
+                    throw new BussinessException("Jogo já existente");
                 }
 
                 if (null == jogo.getCategoria()) {
@@ -83,17 +81,34 @@ public class JogoService {
                     jogo.setCategoria(categoria);
                 }
 
-//                String chave = map.get(jogo.getAgremiacaoA().getCodigo());
-//                if (null == chave) {
-//                    chave = map.get(jogo.getAgremiacaoB().getCodigo());
-//                }
-//                jogo.setChave(chave);
+                String chaveA = map.get(jogo.getAgremiacaoA().getCodigo());
+                String chaveB = map.get(jogo.getAgremiacaoB().getCodigo());
 
-                if (null == jogo.getGolsAgremiacaoA())
+                if (null == chaveA && null == chaveB && null == jogo.getChave()) {
+                    throw new BussinessException("Informe a chave do jogo");
+                }
+
+                if (null == chaveA && null != chaveB) {
+                    chaveA = chaveB;
+                } else if (null == chaveB && null != chaveA) {
+                    chaveB = chaveA;
+                }
+
+                if (!chaveA.equals(chaveB)) {
+                    throw new BussinessException("Agremiações com chaves divergentes");
+                }
+
+                if (null == jogo.getChave() || jogo.getChave().equals("")) {
+                    jogo.setChave(chaveA);
+                }
+
+                if (null == jogo.getGolsAgremiacaoA()) {
                     jogo.setGolsAgremiacaoA(0);
+                }
 
-                if (null == jogo.getGolsAgremiacaoB())
+                if (null == jogo.getGolsAgremiacaoB()) {
                     jogo.setGolsAgremiacaoB(0);
+                }
 
                 jogo.setKeyConfronto(key);
                 jogo.setDataAtualizacao(LocalDateTime.now());
@@ -173,13 +188,9 @@ public class JogoService {
     public List<Jogo> jogosTempoRealPorCategoria(String categoria) {
         List<Jogo> jogos = this.getJogosTempoReal()
                 .stream()
-                .filter(jogo -> jogo.getAgremiacaoA().getCategoria().equals(categoria)
-                        || jogo.getAgremiacaoB().getCategoria().equals(categoria))
-                .collect(
-                        Collectors.toList());
-
-        jogos.stream().sorted(Comparator.comparing(Jogo::getDataAtualizacao).reversed()).collect(
-                Collectors.toList());
+                .filter(jogo -> jogo.getCategoria().equals(categoria))
+                .sorted(Comparator.comparing(Jogo::getDataAtualizacao).reversed())
+                .collect(Collectors.toList());
 
         jogos.forEach(item -> {
             item.setDataCriacao(null);

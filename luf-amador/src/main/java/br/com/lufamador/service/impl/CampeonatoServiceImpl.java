@@ -91,6 +91,10 @@ public class CampeonatoServiceImpl implements CampeonatoService {
                 }
         );
 
+        list.forEach(campeonato ->
+                campeonato.getInscricoes().sort(Comparator.comparing(Agremiacao::getNome))
+        );
+
         return list;
     }
 
