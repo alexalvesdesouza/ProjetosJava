@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.lufamador.exception.BussinessException;
+import br.com.lufamador.model.Agremiacao;
 import br.com.lufamador.model.Jogo;
 import br.com.lufamador.repository.JogoRepository;
 import br.com.lufamador.utils.encripty.EncryptToMD5;
@@ -29,18 +30,24 @@ public class JogoService {
     private final JogoRepository repository;
     private final JogoValidate validate;
     private final ClassificacaoService classificacaoService;
+    private final List<String> keysConfrontos;
+    private final Map<Long, String> mapChaves;
+    private final List<Jogo> allJogos;
 
     @Autowired
     public JogoService(JogoRepository repository, JogoValidate validate, ClassificacaoService classificacaoService) {
         this.repository = repository;
         this.validate = validate;
         this.classificacaoService = classificacaoService;
+        this.allJogos = this.repository.findAll();
+        this.mapChaves = this.loadChaves();
+        this.keysConfrontos = this.loadKeysConfrontos();
     }
 
     private Map<Long, String> loadChaves() {
         Map<Long, String> map = new HashMap<>();
-        final List<Jogo> jogos = this.repository.findAll();
-        jogos.forEach(jogo -> {
+
+        this.allJogos.forEach(jogo -> {
             if (null != jogo.getAgremiacaoA().getCodigo() && null != jogo.getChave()) {
                 map.put(jogo.getAgremiacaoA().getCodigo(), jogo.getChave());
             }
@@ -51,10 +58,12 @@ public class JogoService {
         return map;
     }
 
+    private List<String> loadKeysConfrontos() {
+        return this.allJogos.stream().map(Jogo::getKeyConfronto).collect(Collectors.toList());
+    }
+
     @Transactional(value = Transactional.TxType.REQUIRES_NEW, rollbackOn = Exception.class)
     public List<Jogo> cadastraJogo(List<Jogo> jogos) {
-
-        final Map<Long, String> map = this.loadChaves();
 
         jogos.forEach(jogo -> {
 
@@ -68,8 +77,8 @@ public class JogoService {
                     return;
                 }
 
-                final String key = this.geraKeyJogoUnico(jogo);
-                if (this.validate.validaJogoExistente(jogo)) {
+                final String keyConfronto = this.geraKeyJogoUnico(jogo);
+                if (this.keysConfrontos.contains(keyConfronto)) {
                     throw new BussinessException("Jogo já existente");
                 }
 
@@ -81,8 +90,8 @@ public class JogoService {
                     jogo.setCategoria(categoria);
                 }
 
-                String chaveA = map.get(jogo.getAgremiacaoA().getCodigo());
-                String chaveB = map.get(jogo.getAgremiacaoB().getCodigo());
+                String chaveA = mapChaves.get(jogo.getAgremiacaoA().getCodigo());
+                String chaveB = mapChaves.get(jogo.getAgremiacaoB().getCodigo());
 
                 if (null == chaveA && null == chaveB && null == jogo.getChave()) {
                     throw new BussinessException("Informe a chave do jogo");
@@ -110,12 +119,12 @@ public class JogoService {
                     jogo.setGolsAgremiacaoB(0);
                 }
 
-                jogo.setKeyConfronto(key);
+                jogo.setKeyConfronto(keyConfronto);
                 jogo.setDataAtualizacao(LocalDateTime.now());
                 jogo.setDataCriacao(LocalDateTime.now());
                 this.repository.saveAndFlush(jogo);
             } catch (Exception e) {
-
+                throw new BussinessException(e);
             }
 
         });
@@ -138,7 +147,9 @@ public class JogoService {
         jogo.setKeyConfronto(keyJogo);
 
         Optional<Jogo> antigo = this.repository.findById(jogo.getCodigo());
-        recalculaClassificacao(antigo.get());
+        if (antigo.isPresent()) {
+            recalculaClassificacao(antigo.get());
+        }
 
         Jogo saved = this.repository.saveAndFlush(jogo);
         this.classificacaoService.geraClassificacao(saved);
@@ -158,10 +169,8 @@ public class JogoService {
         jogo.setPartidaEncerrada(true);
 
         Optional<Jogo> saved = this.repository.findById(jogo.getCodigo());
-        if (saved.isPresent()) {
-            if (saved.get().getPartidaEncerrada()) {
-                throw new BussinessException("Partida encerrada");
-            }
+        if (saved.isPresent() && saved.get().getPartidaEncerrada()) {
+            throw new BussinessException("Partida encerrada");
         }
 
         final Jogo jogoAtualizado = this.repository.saveAndFlush(jogo);
@@ -171,15 +180,17 @@ public class JogoService {
 
     private String geraKeyJogoUnico(Jogo jogo) throws NoSuchAlgorithmException {
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
-        sb.append(jogo.getAgremiacaoA()
-                .getNome())
-                .append(jogo.getAgremiacaoB()
-                        .getNome())
-                .append(jogo.getDataPartida()
-                        .toString())
-                .append(jogo.getRodada());
+        Agremiacao agremiacaoA = jogo.getAgremiacaoA();
+        Agremiacao agremiacaoB = jogo.getAgremiacaoB();
+        final Integer codigoCompeticao = jogo.getCodigoCompeticao();
+        String fase = jogo.getFase();
+
+        sb.append(agremiacaoA.getCodigo())
+                .append(agremiacaoB.getCodigo())
+                .append(codigoCompeticao)
+                .append(fase);
 
         return EncryptToMD5.converterParaMD5(sb.toString());
 
@@ -232,15 +243,6 @@ public class JogoService {
     private List<Jogo> getJogosTempoReal() {
         return this.repository.getJogosParaTempoReal(LocalDate.now());
 
-    }
-
-    public List<Jogo> getResultadosJogos(String categoria) {
-        List<Jogo> jogos = this.repository.findAll()
-                .stream()
-                .filter(jogo -> jogo.getPartidaEncerrada())
-                .collect(Collectors.toList());
-        return jogos.stream().filter(jogo -> jogo.getAgremiacaoA().getCategoria().equals(categoria)
-                || jogo.getAgremiacaoB().getCategoria().equals(categoria)).collect(Collectors.toList());
     }
 
     public List<String> getDatasPartidas() {
