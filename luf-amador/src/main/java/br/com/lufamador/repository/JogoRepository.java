@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.lufamador.model.Jogo;
 
@@ -22,5 +24,12 @@ public interface JogoRepository extends JpaRepository<Jogo, Long> {
     List<Jogo> getJogosEditList(LocalDate perInicio, LocalDate perFim, String chave);
 
     Jogo findByKeyConfronto(String keyConfronto);
+
+    Jogo findByCodigo(Long codigo);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from luf_tabela_jogos_jogos where jogos_codigo = ?1", nativeQuery = true)
+    void deleteFromLufTabelaJogos(Long codigo);
 
 }

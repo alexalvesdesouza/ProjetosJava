@@ -106,7 +106,6 @@ public class CampeonatoServiceImpl implements CampeonatoService {
     }
 
     public final Campeonato inscricaoAgremiacaoCampeonato(Campeonato campeonato) {
-        Campeonato campeonatoSaved = this.getCampeonato(campeonato.getCodigo());
         return this.update(campeonato);
     }
 

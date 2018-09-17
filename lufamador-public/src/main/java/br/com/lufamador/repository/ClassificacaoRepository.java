@@ -14,8 +14,7 @@ public interface ClassificacaoRepository extends JpaRepository<Classificacao, Lo
     @Query(value = "select *\n" +
             "from luf_classificacao lc\n" +
             "where lc.categoria = :categoria and lc.chave = :chave \n" +
-            "order by lc.chave asc,\n" +
-            "  lc.qtd_pontos desc, lc.qtd_vitorias desc, lc.gols_pro desc, lc.gols_contra asc", nativeQuery = true)
+            "order by lc.pos_classificacao asc;", nativeQuery = true)
     List<Classificacao> listaClassificacoPorCriterio(@Param(value = "categoria") String categoria,
             @Param(value = "chave") String chave);
 

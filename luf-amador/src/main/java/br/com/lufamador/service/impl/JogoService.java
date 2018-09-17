@@ -77,9 +77,12 @@ public class JogoService {
                     return;
                 }
 
-                final String keyConfronto = this.geraKeyJogoUnico(jogo);
+                String keyConfronto = this.geraKeyJogoUnico(jogo);
                 if (this.keysConfrontos.contains(keyConfronto)) {
-                    throw new BussinessException("Jogo já existente");
+//                    throw new BussinessException(
+//                            "Jogo entre: " + jogo.getAgremiacaoA().getNome() + " e "
+//                                    + jogo.getAgremiacaoB().getNome() + " já existente na fase: " + jogo.getFase());
+                    return;
                 }
 
                 if (null == jogo.getCategoria()) {
@@ -124,7 +127,7 @@ public class JogoService {
                 jogo.setDataCriacao(LocalDateTime.now());
                 this.repository.saveAndFlush(jogo);
             } catch (Exception e) {
-                throw new BussinessException(e);
+                throw new BussinessException(e.getMessage());
             }
 
         });
@@ -247,5 +250,19 @@ public class JogoService {
 
     public List<String> getDatasPartidas() {
         return this.repository.getDatasPartidas();
+    }
+
+    @Transactional
+    public void delete(Long codigo) {
+        final Jogo jogo = this.getJogo(codigo);
+        if (jogo.getPartidaEncerrada()) {
+            throw new BussinessException("Jogo não pode ser deletado, pois ja esta encerrado");
+        }
+        this.repository.delete(jogo);
+    }
+
+    private Jogo getJogo(Long codigo) {
+        this.repository.deleteFromLufTabelaJogos(codigo);
+        return this.repository.findByCodigo(codigo);
     }
 }

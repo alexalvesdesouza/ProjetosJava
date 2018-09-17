@@ -79,7 +79,7 @@ public class CampeonatoController {
     @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Campeonato>> registraTabelaJogos(@RequestBody Campeonato campeonato) {
         Response<Campeonato> response = new Response<>();
-        final Campeonato entity = this.campeonatoService.registraTabelaJotos(campeonato);
+        Campeonato entity = this.campeonatoService.registraTabelaJotos(campeonato);
         response.setData(entity);
         return ResponseEntity.ok(response);
     }
@@ -98,7 +98,7 @@ public class CampeonatoController {
     @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Campeonato>> inscricaoAgremiacaoCampeonato(@RequestBody Campeonato campeonato) {
         Response<Campeonato> response = new Response<>();
-        final Campeonato entity = this.campeonatoService.inscricaoAgremiacaoCampeonato(campeonato);
+        Campeonato entity = this.campeonatoService.inscricaoAgremiacaoCampeonato(campeonato);
         response.setData(entity);
         return ResponseEntity.ok(response);
     }
