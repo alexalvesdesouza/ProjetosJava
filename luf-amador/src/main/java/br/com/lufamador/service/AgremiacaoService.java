@@ -25,4 +25,6 @@ public interface AgremiacaoService {
 
   Map<String, Agremiacao> findAllMap(int page, int count);
 
+  List<Agremiacao> getAgremiacoesEmConfronto(Long codigoCampeonato);
+
 }

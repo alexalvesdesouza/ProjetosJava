@@ -158,6 +158,11 @@ public class AgremiacaoServiceImpl implements AgremiacaoService {
     }
 
     @Override
+    public List<Agremiacao> getAgremiacoesEmConfronto(Long codigoCampeonato) {
+        return this.repository.getAgremiacoesEmJogo(codigoCampeonato);
+    }
+
+    @Override
     public Agremiacao createOrUpdate(Agremiacao agremiacao) {
         if (agremiacao.getCodigo() != null)
             return this.atualizaAgremiacao(agremiacao);

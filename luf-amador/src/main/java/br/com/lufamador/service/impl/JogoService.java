@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -137,6 +136,9 @@ public class JogoService {
 
     @Transactional(value = Transactional.TxType.REQUIRES_NEW, rollbackOn = Exception.class)
     public Jogo atualizarJogo(final Jogo jogo) throws NoSuchAlgorithmException {
+        if (jogo.getDataPartida().isAfter(LocalDate.now())) {
+            throw new BussinessException("Partida não pode ser atualizada pois o jogo ainda não esta em andamento");
+        }
         jogo.setDataAtualizacao(LocalDateTime.now());
         jogo.setKeyConfronto(this.geraKeyJogoUnico(jogo));
         return this.repository.saveAndFlush(jogo);
@@ -176,6 +178,10 @@ public class JogoService {
             throw new BussinessException("Partida encerrada");
         }
 
+        if (jogo.getDataPartida().isAfter(LocalDate.now())) {
+            throw new BussinessException("Partida não pode ser encerrada pois ainda não aconteceu.");
+        }
+
         final Jogo jogoAtualizado = this.repository.saveAndFlush(jogo);
         this.classificacaoService.geraClassificacao(jogoAtualizado);
         return jogoAtualizado;
@@ -200,11 +206,7 @@ public class JogoService {
     }
 
     public List<Jogo> jogosTempoRealPorCategoria(String categoria) {
-        List<Jogo> jogos = this.getJogosTempoReal()
-                .stream()
-                .filter(jogo -> jogo.getCategoria().equals(categoria))
-                .sorted(Comparator.comparing(Jogo::getDataAtualizacao).reversed())
-                .collect(Collectors.toList());
+        List<Jogo> jogos = this.getJogosTempoReal(categoria);
 
         jogos.forEach(item -> {
             item.setDataCriacao(null);
@@ -243,9 +245,8 @@ public class JogoService {
         return collect;
     }
 
-    private List<Jogo> getJogosTempoReal() {
-        return this.repository.getJogosParaTempoReal(LocalDate.now());
-
+    private List<Jogo> getJogosTempoReal(String categoria) {
+        return this.repository.getJogosParaTempoReal(categoria);
     }
 
     public List<String> getDatasPartidas() {

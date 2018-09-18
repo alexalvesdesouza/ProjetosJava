@@ -1,6 +1,7 @@
 package br.com.lufamador.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +18,7 @@ import br.com.lufamador.model.Agremiacao;
 import br.com.lufamador.model.Campeonato;
 import br.com.lufamador.model.TabelaJogos;
 import br.com.lufamador.repository.CampeonatoRepository;
+import br.com.lufamador.service.AgremiacaoService;
 import br.com.lufamador.service.CampeonatoService;
 import br.com.lufamador.utils.mensagens.MensagensErro;
 import br.com.lufamador.validate.CampeonatoValidate;
@@ -27,13 +29,15 @@ public class CampeonatoServiceImpl implements CampeonatoService {
     private final CampeonatoRepository repository;
     private final CampeonatoValidate validate;
     private final TabelaJogosService tabelaJogosService;
+    private final AgremiacaoService agremiacaoService;
 
     @Autowired
     public CampeonatoServiceImpl(CampeonatoRepository repository, CampeonatoValidate validate,
-            TabelaJogosService tabelaJogosService) {
+            TabelaJogosService tabelaJogosService, AgremiacaoService agremiacaoService) {
         this.repository = repository;
         this.validate = validate;
         this.tabelaJogosService = tabelaJogosService;
+        this.agremiacaoService = agremiacaoService;
     }
 
     private Campeonato create(Campeonato campeonato) {
@@ -91,8 +95,18 @@ public class CampeonatoServiceImpl implements CampeonatoService {
                 }
         );
 
-        list.forEach(campeonato ->
-                campeonato.getInscricoes().sort(Comparator.comparing(Agremiacao::getNome))
+        list.forEach(campeonato -> {
+                    List<Agremiacao> agremiacoes = new ArrayList<>();
+                    List<Agremiacao> agremiacoesEmConfronto = this.agremiacaoService.getAgremiacoesEmConfronto(
+                            campeonato.getCodigo());
+                    campeonato.getInscricoes().forEach(agremiacao -> {
+                        if (!agremiacoesEmConfronto.contains(agremiacao)) {
+                            agremiacoes.add(agremiacao);
+                        }
+                    });
+                    campeonato.setInscricoes(agremiacoes);
+                    campeonato.getInscricoes().sort(Comparator.comparing(Agremiacao::getNome));
+                }
         );
 
         return list;

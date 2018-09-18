@@ -6,14 +6,15 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.lufamador.model.Jogo;
 
 public interface JogoRepository extends JpaRepository<Jogo, Long> {
 
-    @Query(value = "SELECT * FROM luf_jogo WHERE data_partida = ?1 ORDER BY data_atualizacao  DESC;", nativeQuery = true)
-    List<Jogo> getJogosParaTempoReal(LocalDate localDate);
+    @Query(value = "SELECT * FROM luf_jogo WHERE categoria = :categoria and partida_encerrada = false ORDER BY data_atualizacao  DESC;", nativeQuery = true)
+    List<Jogo> getJogosParaTempoReal(@Param(value = "categoria") String categoria);
 
     @Query(value = "SELECT DISTINCT to_char(luf_jogo.data_partida, 'dd-MM-yyyy') AS dta FROM luf_jogo;", nativeQuery = true)
     List<String> getDatasPartidas();
@@ -29,7 +30,7 @@ public interface JogoRepository extends JpaRepository<Jogo, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "delete from luf_tabela_jogos_jogos where jogos_codigo = ?1", nativeQuery = true)
+    @Query(value = "DELETE FROM luf_tabela_jogos_jogos WHERE jogos_codigo = ?1", nativeQuery = true)
     void deleteFromLufTabelaJogos(Long codigo);
 
 }
