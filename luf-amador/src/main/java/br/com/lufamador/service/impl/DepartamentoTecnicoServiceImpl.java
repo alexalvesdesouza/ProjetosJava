@@ -39,6 +39,7 @@ public class DepartamentoTecnicoServiceImpl implements DepartamentoTecnicoServic
             this.alteraCorDocs(departamentoTecnico);
             departamentoTecnicoSaved = this.repository.saveAndFlush(departamentoTecnico);
         } catch (Exception e) {
+            throw new BussinessException(e.getMessage());
         }
         return departamentoTecnicoSaved;
     }
@@ -65,6 +66,7 @@ public class DepartamentoTecnicoServiceImpl implements DepartamentoTecnicoServic
             this.alteraCorDocs(departamentoTecnico);
             departamentoTecnicoSaved = this.repository.saveAndFlush(departamentoTecnico);
         } catch (Exception e) {
+            throw new BussinessException(e.getMessage());
         }
         return departamentoTecnicoSaved;
     }
@@ -90,9 +92,18 @@ public class DepartamentoTecnicoServiceImpl implements DepartamentoTecnicoServic
 
     @Override
     public DepartamentoTecnico createOrUpdate(DepartamentoTecnico departamentoTecnico) {
+        this.setSubCategoria(departamentoTecnico);
         if (null != departamentoTecnico.getCodigo())
             return this.update(departamentoTecnico);
         return this.create(departamentoTecnico);
+    }
+
+    private void setSubCategoria(DepartamentoTecnico departamentoTecnico) {
+
+        String categoria = departamentoTecnico.getCategoria();
+        if (null == departamentoTecnico.getSubCategoria() || "".equals(departamentoTecnico.getSubCategoria())) {
+            departamentoTecnico.setSubCategoria(categoria);
+        }
     }
 
     @Override
