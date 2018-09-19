@@ -11,8 +11,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "luf_foto")
-public class Foto implements Serializable {
+@Table(name = "luf_video")
+public class Video implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,6 +32,14 @@ public class Foto implements Serializable {
 
     private Boolean exibirPaginaPrincipal;
 
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
     public Boolean getExibirPaginaPrincipal() {
         return exibirPaginaPrincipal;
     }
@@ -40,13 +48,6 @@ public class Foto implements Serializable {
         this.exibirPaginaPrincipal = exibirPaginaPrincipal;
     }
 
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
 
     public Long getCodigo() {
         return codigo;
