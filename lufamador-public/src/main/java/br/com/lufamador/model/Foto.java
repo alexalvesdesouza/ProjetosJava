@@ -1,4 +1,4 @@
-package br.com.lufamador.model.galeria;
+package br.com.lufamador.model;
 
 import java.io.Serializable;
 
@@ -11,8 +11,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "luf_video")
-public class Video implements Serializable {
+@Table(name = "luf_foto")
+public class Foto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,18 +28,16 @@ public class Video implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String image;
 
-    private String src;
-
     private String categoria;
 
     private Boolean exibirPaginaPrincipal;
 
-    public Long getCodigo() {
-        return codigo;
+    public Boolean getExibirPaginaPrincipal() {
+        return exibirPaginaPrincipal;
     }
 
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
+    public void setExibirPaginaPrincipal(Boolean exibirPaginaPrincipal) {
+        this.exibirPaginaPrincipal = exibirPaginaPrincipal;
     }
 
     public String getTitulo() {
@@ -48,6 +46,14 @@ public class Video implements Serializable {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public Long getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
     }
 
     public String getDescricao() {
@@ -66,27 +72,11 @@ public class Video implements Serializable {
         this.image = image;
     }
 
-    public String getSrc() {
-        return src;
-    }
-
-    public void setSrc(String src) {
-        this.src = src;
-    }
-
     public String getCategoria() {
         return categoria;
     }
 
     public void setCategoria(String categoria) {
         this.categoria = categoria;
-    }
-
-    public Boolean getExibirPaginaPrincipal() {
-        return exibirPaginaPrincipal;
-    }
-
-    public void setExibirPaginaPrincipal(Boolean exibirPaginaPrincipal) {
-        this.exibirPaginaPrincipal = exibirPaginaPrincipal;
     }
 }

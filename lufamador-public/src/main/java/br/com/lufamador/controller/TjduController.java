@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.lufamador.model.MembroTjdu;
 import br.com.lufamador.model.Tjdu;
 import br.com.lufamador.service.impl.TjduServiceImpl;
 import br.com.lufamador.utils.constants.CategoriaConstant;
@@ -41,6 +42,13 @@ public class TjduController {
         final List<Tjdu> tjdus = this.tjduService.getTjduList(CategoriaConstant.RESULTADOS.name());
         HttpStatus status = (null == tjdus) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return new ResponseEntity<>(tjdus, status);
+    }
+
+    @GetMapping(value = "/membros")
+    public ResponseEntity<List<MembroTjdu>> getMembros() {
+        final List<MembroTjdu> membros = this.tjduService.getMembros();
+        HttpStatus status = (null == membros) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return new ResponseEntity<>(membros, status);
     }
 
 }

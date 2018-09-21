@@ -15,6 +15,7 @@ public class VideoServiceImpl implements VideoService {
 
     @Autowired
     private VideoRepository repository;
+    private final String GET_YOUTUBE = "https://www.youtube.com/embed/";
 
     @Override
     public Page<Video> findAll(int page, int count) {
@@ -24,7 +25,14 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public Video createOrUpdate(Video entity) {
+        getSrc(entity);
         return this.repository.saveAndFlush(entity);
+    }
+
+    private void getSrc(Video entity) {
+       String link = entity.getImage();
+       String src = link.replace(GET_YOUTUBE, "");
+       entity.setSrc(src);
     }
 
     @Override

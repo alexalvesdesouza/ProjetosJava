@@ -1,4 +1,4 @@
-package br.com.lufamador.model.galeria;
+package br.com.lufamador.model;
 
 import java.io.Serializable;
 
