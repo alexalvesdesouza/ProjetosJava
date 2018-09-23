@@ -9,6 +9,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.UniqueElements;
 
 @Entity
 @Table(name = "luf_classificacao")
@@ -23,8 +24,9 @@ public class Classificacao implements Serializable {
 
     @OneToOne
     private Agremiacao agremiacao;
-    @OneToOne
-    private Campeonato campeonato;
+    //    @OneToOne
+//    private Campeonato campeonato;
+    private Integer campeonatoCodigo;
 
     private Integer posClassificacao;
     private Integer qtdJogos;
@@ -43,11 +45,11 @@ public class Classificacao implements Serializable {
         super();
     }
 
-    public Classificacao(Agremiacao agremiacao, Campeonato campeonato, Integer posClassificacao, Integer qtdJogos,
+    public Classificacao(Agremiacao agremiacao, Integer campeonatoCodigo, Integer posClassificacao, Integer qtdJogos,
             Integer qtdPontos, Integer qtdVitorias, Integer qtdEmpates, Integer golsPro, Integer golsContra,
             String chave, String keyMD5, Boolean classificada, String fase, String categoria) {
         this.agremiacao = agremiacao;
-        this.campeonato = campeonato;
+        this.campeonatoCodigo = campeonatoCodigo;
         this.posClassificacao = posClassificacao;
         this.qtdJogos = qtdJogos;
         this.qtdPontos = qtdPontos;
@@ -60,6 +62,14 @@ public class Classificacao implements Serializable {
         this.classificada = classificada;
         this.fase = fase;
         this.categoria = categoria;
+    }
+
+    public Integer getCampeonatoCodigo() {
+        return campeonatoCodigo;
+    }
+
+    public void setCampeonatoCodigo(Integer campeonatoCodigo) {
+        this.campeonatoCodigo = campeonatoCodigo;
     }
 
     public Integer getQtdEmpates() {
@@ -94,13 +104,13 @@ public class Classificacao implements Serializable {
         this.fase = fase;
     }
 
-    public Campeonato getCampeonato() {
-        return campeonato;
-    }
-
-    public void setCampeonato(Campeonato campeonato) {
-        this.campeonato = campeonato;
-    }
+//    public Campeonato getCampeonato() {
+//        return campeonato;
+//    }
+//
+//    public void setCampeonato(Campeonato campeonato) {
+//        this.campeonato = campeonato;
+//    }
 
     public String getChave() {
         return chave;

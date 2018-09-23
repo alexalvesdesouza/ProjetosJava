@@ -162,7 +162,7 @@ public class JogoService {
         return saved;
     }
 
-    private void recalculaClassificacao(final Jogo jogo) {
+    private void recalculaClassificacao(final Jogo jogo) throws NoSuchAlgorithmException {
         this.classificacaoService.recalculaClassificacao(jogo);
     }
 

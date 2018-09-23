@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.lufamador.exception.BussinessException;
@@ -49,7 +50,7 @@ public class LocalJogoServiceImpl implements LocalJogoService {
 
     @Override
     public Page<LocalJogo> findAll(int page, int count) {
-        Pageable pages = PageRequest.of(page, count);
+        Pageable pages = PageRequest.of(page, count, Sort.Direction.ASC, "nome");
         return this.repository.findAll(pages);
     }
 

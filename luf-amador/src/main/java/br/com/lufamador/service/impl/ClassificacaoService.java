@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +16,13 @@ import br.com.lufamador.repository.ClassificacaoRepository;
 import br.com.lufamador.utils.encripty.EncryptToMD5;
 
 @Service
+//@EnableScheduling
 public class ClassificacaoService {
 
+    private final Logger logger = LoggerFactory.getLogger(ClassificacaoService.class);
+    private final long SEGUNDO = 1000;
+    private final long MINUTO = SEGUNDO * 60;
+    private final long HORA = MINUTO * 60;
     private ClassificacaoRepository repository;
 
     @Autowired
@@ -31,33 +38,34 @@ public class ClassificacaoService {
         this.repository.saveAndFlush(classificacao);
     }
 
-    private final String geraKeyJogoUnico(Jogo jogo) throws NoSuchAlgorithmException {
+    private String geraKeyClassificacao(Long codigoAgremiacao, Integer codigoCampeonato,
+            String fase) throws NoSuchAlgorithmException {
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
-        sb.append(jogo.getAgremiacaoA()
-                .getNome())
-                .append(jogo.getAgremiacaoB()
-                        .getNome())
-                .append(jogo.getDataPartida()
-                        .toString())
-                .append(jogo.getChave());
+        sb.append(codigoAgremiacao)
+                .append(codigoCampeonato)
+                .append(fase);
 
         return EncryptToMD5.converterParaMD5(sb.toString());
 
     }
 
     @Transactional(value = Transactional.TxType.REQUIRES_NEW, rollbackOn = Exception.class)
-    public void recalculaClassificacao(final Jogo jogo) {
+    public void recalculaClassificacao(final Jogo jogo) throws NoSuchAlgorithmException {
 
         int golsEquipeA = jogo.getGolsAgremiacaoA();
         int golsEquipeB = jogo.getGolsAgremiacaoB();
         String fase = jogo.getFase();
         String chave = jogo.getChave();
         String categoria = jogo.getAgremiacaoA().getCategoria();
+        if (null == categoria) {
+            categoria = jogo.getAgremiacaoB().getCategoria();
+        }
 
-        Classificacao classificacaoAgremiacaoA = this.repository.findByAgremiacao_Codigo(jogo.getAgremiacaoA()
-                .getCodigo());
+        final String keyA = this.geraKeyClassificacao(jogo.getAgremiacaoA().getCodigo(), jogo.getCodigoCompeticao(),
+                fase);
+        Classificacao classificacaoAgremiacaoA = this.repository.findByAgremiacaoAndKeyMD5(jogo.getAgremiacaoA(), keyA);
 
         if (null == classificacaoAgremiacaoA.getChave()) {
             classificacaoAgremiacaoA.setChave(chave);
@@ -74,9 +82,11 @@ public class ClassificacaoService {
         classificacaoAgremiacaoA.setQtdJogos(classificacaoAgremiacaoA.getQtdJogos() - 1);
         classificacaoAgremiacaoA.setGolsPro(classificacaoAgremiacaoA.getGolsPro() - golsEquipeA);
         classificacaoAgremiacaoA.setGolsContra(classificacaoAgremiacaoA.getGolsContra() - golsEquipeB);
+        classificacaoAgremiacaoA.setKeyMD5(keyA);
 
-        Classificacao classificacaoAgremiacaoB = this.repository.findByAgremiacao_Codigo(jogo.getAgremiacaoB()
-                .getCodigo());
+        final String keyB = this.geraKeyClassificacao(jogo.getAgremiacaoB().getCodigo(), jogo.getCodigoCompeticao(),
+                fase);
+        Classificacao classificacaoAgremiacaoB = this.repository.findByAgremiacaoAndKeyMD5(jogo.getAgremiacaoB(), keyB);
 
         if (null == classificacaoAgremiacaoB.getChave()) {
             classificacaoAgremiacaoA.setChave(chave);
@@ -93,6 +103,7 @@ public class ClassificacaoService {
         classificacaoAgremiacaoB.setQtdJogos(classificacaoAgremiacaoB.getQtdJogos() - 1);
         classificacaoAgremiacaoB.setGolsPro(classificacaoAgremiacaoB.getGolsPro() - golsEquipeB);
         classificacaoAgremiacaoB.setGolsContra(classificacaoAgremiacaoB.getGolsContra() - golsEquipeA);
+        classificacaoAgremiacaoB.setKeyMD5(keyB);
 
         if (golsEquipeA == golsEquipeB) {
 
@@ -131,20 +142,25 @@ public class ClassificacaoService {
     }
 
     @Transactional(value = Transactional.TxType.REQUIRES_NEW, rollbackOn = Exception.class)
-    public void geraClassificacao(final Jogo jogo) {
+    public void geraClassificacao(final Jogo jogo) throws NoSuchAlgorithmException {
 
         int golsEquipeA = jogo.getGolsAgremiacaoA();
         int golsEquipeB = jogo.getGolsAgremiacaoB();
         String fase = jogo.getFase();
         String chave = jogo.getChave();
         String categoria = jogo.getAgremiacaoA().getCategoria();
+        if (null == categoria) {
+            categoria = jogo.getAgremiacaoB().getCategoria();
+        }
+        int codigoCampeonato = jogo.getCodigoCompeticao();
 
-        Classificacao classificacaoAgremiacaoA = this.repository.findByAgremiacao_Codigo(jogo.getAgremiacaoA()
-                .getCodigo());
+        final String keyA = this.geraKeyClassificacao(jogo.getAgremiacaoA().getCodigo(), jogo.getCodigoCompeticao(),
+                fase);
+        Classificacao classificacaoAgremiacaoA = this.repository.findByAgremiacaoAndKeyMD5(jogo.getAgremiacaoA(), keyA);
 
         if (null == classificacaoAgremiacaoA) {
-            classificacaoAgremiacaoA = new Classificacao(jogo.getAgremiacaoA(), null, 0, 0, 0, 0, 0, 0, 0, chave, "",
-                    false, fase, categoria);
+            classificacaoAgremiacaoA = new Classificacao(jogo.getAgremiacaoA(), codigoCampeonato, 0, 0, 0, 0, 0, 0, 0,
+                    chave, keyA, false, fase, categoria);
         }
 
         if (null == classificacaoAgremiacaoA.getChave()) {
@@ -162,13 +178,15 @@ public class ClassificacaoService {
         classificacaoAgremiacaoA.setQtdJogos(classificacaoAgremiacaoA.getQtdJogos() + 1);
         classificacaoAgremiacaoA.setGolsPro(classificacaoAgremiacaoA.getGolsPro() + golsEquipeA);
         classificacaoAgremiacaoA.setGolsContra(classificacaoAgremiacaoA.getGolsContra() + golsEquipeB);
+        classificacaoAgremiacaoA.setKeyMD5(keyA);
 
-        Classificacao classificacaoAgremiacaoB = this.repository.findByAgremiacao_Codigo(jogo.getAgremiacaoB()
-                .getCodigo());
+        final String keyB = this.geraKeyClassificacao(jogo.getAgremiacaoB().getCodigo(), jogo.getCodigoCompeticao(),
+                fase);
+        Classificacao classificacaoAgremiacaoB = this.repository.findByAgremiacaoAndKeyMD5(jogo.getAgremiacaoB(), keyB);
 
         if (null == classificacaoAgremiacaoB) {
-            classificacaoAgremiacaoB = new Classificacao(jogo.getAgremiacaoA(), null, 0, 0, 0, 0, 0, 0, 0, chave, "",
-                    false, fase, categoria);
+            classificacaoAgremiacaoB = new Classificacao(jogo.getAgremiacaoA(), codigoCampeonato, 0, 0, 0, 0, 0, 0, 0,
+                    chave, keyB, false, fase, categoria);
         }
 
 
@@ -187,6 +205,7 @@ public class ClassificacaoService {
         classificacaoAgremiacaoB.setQtdJogos(classificacaoAgremiacaoB.getQtdJogos() + 1);
         classificacaoAgremiacaoB.setGolsPro(classificacaoAgremiacaoB.getGolsPro() + golsEquipeB);
         classificacaoAgremiacaoB.setGolsContra(classificacaoAgremiacaoB.getGolsContra() + golsEquipeA);
+        classificacaoAgremiacaoB.setKeyMD5(keyB);
 
         if (golsEquipeA == golsEquipeB) {
 
@@ -213,6 +232,27 @@ public class ClassificacaoService {
         this.geraClassificacao(categoria, chave);
     }
 
+//    @Scheduled(fixedDelay = MINUTO)
+//    protected void generatedKey() {
+//        this.repository.buscaTodasClassificacoesSemKey().forEach(classificacao -> {
+//                    try {
+//
+//                        Long codigoAgremiacao = classificacao.getAgremiacao().getCodigo();
+//                        Integer codigoCampeonato = classificacao.getCampeonatoCodigo();
+//                        String fase = classificacao.getFase();
+//                        if (null != codigoAgremiacao && null != codigoCampeonato && null != fase) {
+//
+//                            classificacao.setKeyMD5(this.geraKeyClassificacao(codigoAgremiacao, codigoCampeonato, fase));
+//                            this.repository.save(classificacao);
+//                            logger.info(classificacao.getKeyMD5());
+//                        }
+//
+//                    } catch (NoSuchAlgorithmException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//        );
+//    }
 
     private void geraClassificacao(String categoria, String chave) {
         List<Classificacao> classificacoes = this.repository.listaClassificacoPorCriterio(categoria, chave);

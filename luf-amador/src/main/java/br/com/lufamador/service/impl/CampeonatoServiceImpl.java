@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.lufamador.exception.BussinessException;
@@ -49,7 +50,7 @@ public class CampeonatoServiceImpl implements CampeonatoService {
             campeonato.setCampeonatoEncerrado(false);
             campeonatoSaved = this.repository.saveAndFlush(campeonato);
         } catch (Exception e) {
-
+          throw new BussinessException(e.getMessage());
         }
         return campeonatoSaved;
     }
@@ -133,7 +134,7 @@ public class CampeonatoServiceImpl implements CampeonatoService {
 
     @Override
     public Page<Campeonato> findAll(int page, int count) {
-        Pageable pages = PageRequest.of(page, count);
+        Pageable pages = PageRequest.of(page, count, Sort.Direction.ASC, "nome");
         return this.repository.findAll(pages);
     }
 
@@ -165,7 +166,7 @@ public class CampeonatoServiceImpl implements CampeonatoService {
     private void insereCorCampeonato(Campeonato campeonato) {
 
         String categoria = campeonato.getCategoria();
-        String cor = "red";
+        String cor = null;
         switch (categoria) {
             case "AMADOR_ESPECIAL":
                 cor = "blue lighten-1";

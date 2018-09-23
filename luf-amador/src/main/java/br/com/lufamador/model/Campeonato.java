@@ -47,6 +47,17 @@ public class Campeonato implements Serializable {
     private List<Agremiacao> inscricoes;
     @OneToOne
     private TabelaJogos tabelaJogos;
+//
+//    @OneToOne
+//    private Classificacao classificacao;
+
+//    public Classificacao getClassificacao() {
+//        return classificacao;
+//    }
+//
+//    public void setClassificacao(Classificacao classificacao) {
+//        this.classificacao = classificacao;
+//    }
 
     public TabelaJogos getTabelaJogos() {
         return tabelaJogos;

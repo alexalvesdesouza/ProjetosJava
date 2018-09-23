@@ -43,11 +43,6 @@ public class TabelaJogosService {
         return this.cadastraTabelaJogos(tabelaJogos);
     }
 
-    public List<TabelaJogos> getTabelaJogoss() {
-        List<TabelaJogos> tabelas = this.repository.findAll();
-        return tabelas;
-    }
-
     public List<TabelaJogos> getTabelaJogosPorCampeonato(final Long codigo) {
         List<TabelaJogos> tabelas = this.repository.findAll();
         return tabelas;
@@ -55,8 +50,9 @@ public class TabelaJogosService {
 
     private void interfaceCadastraJogos(final TabelaJogos tabelaJogos) {
         final List<Jogo> jogos = tabelaJogos.getJogos();
-        if (null != jogos && !jogos.isEmpty())
+        if (null != jogos && !jogos.isEmpty()) {
             this.jogoService.cadastraJogo(jogos);
+        }
 
     }
 

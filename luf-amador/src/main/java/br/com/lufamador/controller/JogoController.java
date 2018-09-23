@@ -99,7 +99,7 @@ public class JogoController {
 
     @DeleteMapping(value = "{codigo}")
     @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
-    public ResponseEntity<Tjdu> deletarTjdu(@PathVariable(value = "codigo") Long codigo) {
+    public ResponseEntity<?> deletarJogo(@PathVariable(value = "codigo") Long codigo) {
         this.jogoService.delete(codigo);
         return new ResponseEntity<>(HttpStatus.OK);
     }

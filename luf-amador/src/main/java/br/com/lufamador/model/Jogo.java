@@ -33,7 +33,7 @@ public class Jogo implements Serializable {
 
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
-    private LocalDate dataPartida;
+    private LocalDate dataPartida; //NOSONAR
     private String horarioPartida;
     private String local;
     @OneToOne
@@ -54,11 +54,11 @@ public class Jogo implements Serializable {
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime dataCriacao;
+    private LocalDateTime dataCriacao; //NOSONAR
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime dataAtualizacao;
+    private LocalDateTime dataAtualizacao; //NOSONAR
 
     public LocalJogo getLocalJogo() {
         return localJogo;
