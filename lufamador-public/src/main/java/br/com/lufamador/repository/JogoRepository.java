@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import br.com.lufamador.model.Jogo;
 
@@ -14,7 +15,7 @@ public interface JogoRepository extends JpaRepository<Jogo, Long> {
             "and ?2 order by data_atualizacao  desc;", nativeQuery = true)
     List<Jogo> getJogosParaTempoReal(LocalDate perInicio, LocalDate perFim);
 
-    @Query(value = "select DISTINCT to_char(luf_jogo.data_partida, 'dd-MM-yyyy') as dta from luf_jogo;", nativeQuery = true)
-    List<String> getDatasPartidas();
+    @Query(value = "select DISTINCT to_char(luf_jogo.data_partida, 'dd-MM-yyyy') as dta from luf_jogo where categoria = :categoria", nativeQuery = true)
+    List<String> getDatasPartidas(@Param(value = "categoria") String categoria);
 
 }

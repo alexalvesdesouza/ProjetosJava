@@ -164,6 +164,12 @@ public class AgremiacaoServiceImpl implements AgremiacaoService {
     }
 
     @Override
+    public List<Agremiacao> findAllClassificadas(Long codigo, String fase) {
+        return this.repository.getAgremiacoesClassificadas(codigo, fase).stream().sorted(
+                Comparator.comparing(Agremiacao::getNome)).collect(Collectors.toList());
+    }
+
+    @Override
     public Agremiacao createOrUpdate(Agremiacao agremiacao) {
         if (agremiacao.getCodigo() != null)
             return this.atualizaAgremiacao(agremiacao);

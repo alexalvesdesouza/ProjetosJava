@@ -27,4 +27,5 @@ public interface AgremiacaoService {
 
   List<Agremiacao> getAgremiacoesEmConfronto(Long codigoCampeonato);
 
+  List<Agremiacao> findAllClassificadas(Long codigo, String fase);
 }

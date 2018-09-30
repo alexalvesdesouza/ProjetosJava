@@ -21,10 +21,11 @@ public class ClassificacaoController {
     @Autowired
     private ClassificacaoService classificacaoService;
 
-    @GetMapping(value = "/{categoria}/{chave}/load")
+    @GetMapping(value = "/{categoria}/{chave}/{fase}/load")
     public ResponseEntity<List<Classificacao>> getClassificacoes(@PathVariable(value = "categoria") String categoria,
-            @PathVariable(value = "chave") String chave) {
-        List<Classificacao> list = this.classificacaoService.loadClassificacaoPorCategoriaChave(categoria, chave);
+            @PathVariable(value = "chave") String chave, @PathVariable(value = "fase") String fase) {
+
+        List<Classificacao> list = this.classificacaoService.loadClassificacaoPorCategoriaChave(categoria, chave, fase);
         return ResponseEntity.ok(list);
     }
 

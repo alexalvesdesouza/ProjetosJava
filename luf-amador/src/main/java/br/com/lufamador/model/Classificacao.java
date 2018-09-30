@@ -1,10 +1,12 @@
 package br.com.lufamador.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -24,8 +26,6 @@ public class Classificacao implements Serializable {
 
     @OneToOne
     private Agremiacao agremiacao;
-    //    @OneToOne
-//    private Campeonato campeonato;
     private Integer campeonatoCodigo;
 
     private Integer posClassificacao;
@@ -40,6 +40,9 @@ public class Classificacao implements Serializable {
     private Boolean classificada;
     private String fase;
     private String categoria;
+//
+//    @OneToMany
+//    private List<ClassificacaoTribunal> classificacaoTribunalList;
 
     public Classificacao() {
         super();
@@ -103,14 +106,6 @@ public class Classificacao implements Serializable {
     public void setFase(String fase) {
         this.fase = fase;
     }
-
-//    public Campeonato getCampeonato() {
-//        return campeonato;
-//    }
-//
-//    public void setCampeonato(Campeonato campeonato) {
-//        this.campeonato = campeonato;
-//    }
 
     public String getChave() {
         return chave;

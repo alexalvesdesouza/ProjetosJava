@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import br.com.lufamador.model.Agremiacao;
-import br.com.lufamador.model.Jogo;
 
 public interface AgremiacaoRepository extends JpaRepository<Agremiacao, Long> {
 
@@ -17,20 +16,20 @@ public interface AgremiacaoRepository extends JpaRepository<Agremiacao, Long> {
 
     Agremiacao findByCodigo(Long codigo);
 
-    @Query(value = "select * from luf_agremiacao agr\n" +
-            "where agr.codigo not in\n" +
+    @Query(value = "SELECT * FROM luf_agremiacao agr\n" +
+            "WHERE agr.codigo NOT IN\n" +
             "\n" +
-            "\t\t\t(select inscricoes_codigo from luf_campeonato_inscricoes\n" +
-            "\t\t\t\twhere campeonato_codigo = ?1) and agr.categoria = ?2", nativeQuery = true)
+            "\t\t\t(SELECT inscricoes_codigo FROM luf_campeonato_inscricoes\n" +
+            "\t\t\t\tWHERE campeonato_codigo = ?1) AND agr.categoria = ?2", nativeQuery = true)
     List<Agremiacao> getAgremiacoesDisponiveis(Long codigoCampeonato, String categoria);
 
 
-    @Query(value = "select lag.*\n" +
-            "from luf_agremiacao lag left join luf_inscricao lin on lin.agremiacao_codigo = lag.codigo\n" +
-            "where lin.codigo  in ( select lci.inscricoes_codigo from luf_campeonato_inscricoes lci where lci.campeonato_codigo = ?1 )\n", nativeQuery = true)
+    @Query(value = "SELECT lag.*\n" +
+            "FROM luf_agremiacao lag LEFT JOIN luf_inscricao lin ON lin.agremiacao_codigo = lag.codigo\n" +
+            "WHERE lin.codigo  IN ( SELECT lci.inscricoes_codigo FROM luf_campeonato_inscricoes lci WHERE lci.campeonato_codigo = ?1 )\n", nativeQuery = true)
     List<Agremiacao> getAgremiacoesInscritas(Long codigoCampeonato);
 
-    @Query(value = "select count(1) as tem_inscricao from luf_inscricao where agremiacao_codigo = ?1", nativeQuery = true)
+    @Query(value = "SELECT count(1) AS tem_inscricao FROM luf_inscricao WHERE agremiacao_codigo = ?1", nativeQuery = true)
     int localizaInscricaoDeAgremiacao(Long codigo);
 
     @Query(value = "SELECT * FROM luf_agremiacao WHERE codigo IN (SELECT agremiacaob_codigo FROM luf_jogo WHERE partida_encerrada = FALSE AND codigo_competicao = :codigo)\n" +
@@ -39,4 +38,10 @@ public interface AgremiacaoRepository extends JpaRepository<Agremiacao, Long> {
             nativeQuery = true)
     List<Agremiacao> getAgremiacoesEmJogo(@Param(value = "codigo") Long codigo);
 
+    @Query(value = "SELECT *\n" +
+            "FROM luf_agremiacao agr INNER JOIN luf_classificacao cla ON cla.agremiacao_codigo = agr.codigo\n" +
+            "WHERE cla.campeonato_codigo = :codigo\n" +
+            "AND cla.classificada = TRUE\n" +
+            "AND cla.fase = :fase", nativeQuery = true)
+    List<Agremiacao> getAgremiacoesClassificadas(@Param(value = "codigo") Long codigo, @Param(value = "fase") String fase);
 }

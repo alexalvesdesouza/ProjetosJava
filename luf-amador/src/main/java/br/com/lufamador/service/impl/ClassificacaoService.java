@@ -1,6 +1,7 @@
 package br.com.lufamador.service.impl;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -56,6 +57,8 @@ public class ClassificacaoService {
 
         int golsEquipeA = jogo.getGolsAgremiacaoA();
         int golsEquipeB = jogo.getGolsAgremiacaoB();
+        boolean wAgremiacaoA = jogo.iswAgremiacaoA();
+        boolean wAgremiacaoB = jogo.iswAgremiacaoB();
         String fase = jogo.getFase();
         String chave = jogo.getChave();
         String categoria = jogo.getAgremiacaoA().getCategoria();
@@ -105,7 +108,12 @@ public class ClassificacaoService {
         classificacaoAgremiacaoB.setGolsContra(classificacaoAgremiacaoB.getGolsContra() - golsEquipeA);
         classificacaoAgremiacaoB.setKeyMD5(keyB);
 
-        if (golsEquipeA == golsEquipeB) {
+        boolean isWO = false;
+        if (wAgremiacaoA || wAgremiacaoB) {
+            isWO = true;
+        }
+
+        if (golsEquipeA == golsEquipeB && !isWO) {
 
             classificacaoAgremiacaoA.setQtdEmpates(
                     (classificacaoAgremiacaoA.getQtdEmpates() - 1) < 0 ? 0 : classificacaoAgremiacaoA.getQtdEmpates() - 1);
@@ -117,7 +125,7 @@ public class ClassificacaoService {
             classificacaoAgremiacaoB.setQtdPontos(
                     (classificacaoAgremiacaoB.getQtdPontos() - 1) < 0 ? 0 : classificacaoAgremiacaoB.getQtdPontos() - 1);
 
-        } else if (golsEquipeA > golsEquipeB) {
+        } else if (golsEquipeA > golsEquipeB || wAgremiacaoA) {
 
             classificacaoAgremiacaoA.setQtdPontos(
                     (classificacaoAgremiacaoA.getQtdPontos() - 3) < 0 ? 0 : classificacaoAgremiacaoA.getQtdPontos() - 3);
@@ -137,7 +145,7 @@ public class ClassificacaoService {
 
         this.repository.saveAndFlush(classificacaoAgremiacaoA);
         this.repository.saveAndFlush(classificacaoAgremiacaoB);
-        this.geraClassificacao(categoria, chave);
+        this.geraClassificacao(categoria, chave, fase, jogo);
 
     }
 
@@ -146,9 +154,12 @@ public class ClassificacaoService {
 
         int golsEquipeA = jogo.getGolsAgremiacaoA();
         int golsEquipeB = jogo.getGolsAgremiacaoB();
+        boolean wAgremiacaoA = jogo.iswAgremiacaoA();
+        boolean wAgremiacaoB = jogo.iswAgremiacaoB();
         String fase = jogo.getFase();
         String chave = jogo.getChave();
         String categoria = jogo.getAgremiacaoA().getCategoria();
+
         if (null == categoria) {
             categoria = jogo.getAgremiacaoB().getCategoria();
         }
@@ -185,13 +196,13 @@ public class ClassificacaoService {
         Classificacao classificacaoAgremiacaoB = this.repository.findByAgremiacaoAndKeyMD5(jogo.getAgremiacaoB(), keyB);
 
         if (null == classificacaoAgremiacaoB) {
-            classificacaoAgremiacaoB = new Classificacao(jogo.getAgremiacaoA(), codigoCampeonato, 0, 0, 0, 0, 0, 0, 0,
+            classificacaoAgremiacaoB = new Classificacao(jogo.getAgremiacaoB(), codigoCampeonato, 0, 0, 0, 0, 0, 0, 0,
                     chave, keyB, false, fase, categoria);
         }
 
 
         if (null == classificacaoAgremiacaoB.getChave()) {
-            classificacaoAgremiacaoA.setChave(chave);
+            classificacaoAgremiacaoB.setChave(chave);
         }
 
         if (null == classificacaoAgremiacaoB.getCategoria()) {
@@ -207,29 +218,41 @@ public class ClassificacaoService {
         classificacaoAgremiacaoB.setGolsContra(classificacaoAgremiacaoB.getGolsContra() + golsEquipeA);
         classificacaoAgremiacaoB.setKeyMD5(keyB);
 
-        if (golsEquipeA == golsEquipeB) {
-
-            classificacaoAgremiacaoA.setQtdEmpates(classificacaoAgremiacaoA.getQtdEmpates() + 1);
-            classificacaoAgremiacaoA.setQtdPontos(classificacaoAgremiacaoA.getQtdPontos() + 1);
-
-            classificacaoAgremiacaoB.setQtdEmpates(classificacaoAgremiacaoB.getQtdEmpates() + 1);
-            classificacaoAgremiacaoB.setQtdPontos(classificacaoAgremiacaoB.getQtdPontos() + 1);
-
-        } else if (golsEquipeA > golsEquipeB) {
-
+        if (wAgremiacaoA) {
             classificacaoAgremiacaoA.setQtdPontos(classificacaoAgremiacaoA.getQtdPontos() + 3);
             classificacaoAgremiacaoA.setQtdVitorias(classificacaoAgremiacaoA.getQtdVitorias() + 1);
 
-        } else {
-
+        } else if (wAgremiacaoB) {
             classificacaoAgremiacaoB.setQtdPontos(classificacaoAgremiacaoB.getQtdPontos() + 3);
             classificacaoAgremiacaoB.setQtdVitorias(classificacaoAgremiacaoB.getQtdVitorias() + 1);
+        }
 
+        if (!wAgremiacaoA && !wAgremiacaoB) {
+
+            if (golsEquipeA == golsEquipeB) {
+
+                classificacaoAgremiacaoA.setQtdEmpates(classificacaoAgremiacaoA.getQtdEmpates() + 1);
+                classificacaoAgremiacaoA.setQtdPontos(classificacaoAgremiacaoA.getQtdPontos() + 1);
+
+                classificacaoAgremiacaoB.setQtdEmpates(classificacaoAgremiacaoB.getQtdEmpates() + 1);
+                classificacaoAgremiacaoB.setQtdPontos(classificacaoAgremiacaoB.getQtdPontos() + 1);
+
+            } else if (golsEquipeA > golsEquipeB) {
+
+                classificacaoAgremiacaoA.setQtdPontos(classificacaoAgremiacaoA.getQtdPontos() + 3);
+                classificacaoAgremiacaoA.setQtdVitorias(classificacaoAgremiacaoA.getQtdVitorias() + 1);
+
+            } else {
+
+                classificacaoAgremiacaoB.setQtdPontos(classificacaoAgremiacaoB.getQtdPontos() + 3);
+                classificacaoAgremiacaoB.setQtdVitorias(classificacaoAgremiacaoB.getQtdVitorias() + 1);
+
+            }
         }
 
         this.repository.saveAndFlush(classificacaoAgremiacaoA);
         this.repository.saveAndFlush(classificacaoAgremiacaoB);
-        this.geraClassificacao(categoria, chave);
+        this.geraClassificacao(categoria, chave, fase, jogo);
     }
 
 //    @Scheduled(fixedDelay = MINUTO)
@@ -254,8 +277,22 @@ public class ClassificacaoService {
 //        );
 //    }
 
-    private void geraClassificacao(String categoria, String chave) {
-        List<Classificacao> classificacoes = this.repository.listaClassificacoPorCriterio(categoria, chave);
+    private void geraClassificacao(String categoria, String chave, String fase, Jogo jogo) {
+
+        List<Classificacao> classificacoes = new ArrayList<>();
+        if (fase.equals("2")) {
+            Long codAgremiacaoA = jogo.getAgremiacaoA().getCodigo();
+            Long codAgremiacaoB = jogo.getAgremiacaoB().getCodigo();
+
+            classificacoes = this.repository.listaClassificacoPorCriterioFase2(categoria, chave, fase, codAgremiacaoA,
+                    codAgremiacaoB);
+
+        }
+
+        if (fase.equals("1")) {
+            classificacoes = this.repository.listaClassificacoPorCriterio(categoria, chave);
+        }
+
 
         int posicao = 1;
 
@@ -272,4 +309,9 @@ public class ClassificacaoService {
 
     }
 
+    public List<Classificacao> finalizaClassificacaoPorFase(List<Classificacao> classificacoes) {
+//        return this.repository.saveAndFlush(classificacao);
+        classificacoes.forEach(classificacao -> this.repository.saveAndFlush(classificacao));
+        return classificacoes;
+    }
 }

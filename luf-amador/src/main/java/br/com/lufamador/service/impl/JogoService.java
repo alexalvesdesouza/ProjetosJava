@@ -30,7 +30,7 @@ public class JogoService {
     private final JogoValidate validate;
     private final ClassificacaoService classificacaoService;
     private final List<String> keysConfrontos;
-    private final Map<Long, String> mapChaves;
+    private final Map<String, String> mapChaves;
     private final List<Jogo> allJogos;
 
     @Autowired
@@ -43,15 +43,17 @@ public class JogoService {
         this.keysConfrontos = this.loadKeysConfrontos();
     }
 
-    private Map<Long, String> loadChaves() {
-        Map<Long, String> map = new HashMap<>();
+    private Map<String, String> loadChaves() {
+        Map<String, String> map = new HashMap<>();
 
         this.allJogos.forEach(jogo -> {
             if (null != jogo.getAgremiacaoA().getCodigo() && null != jogo.getChave()) {
-                map.put(jogo.getAgremiacaoA().getCodigo(), jogo.getChave());
+                String key = jogo.getAgremiacaoA().getCodigo().toString().concat(jogo.getFase());
+                map.put(key, jogo.getChave());
             }
             if (null != jogo.getAgremiacaoB().getCodigo() && null != jogo.getChave()) {
-                map.put(jogo.getAgremiacaoB().getCodigo(), jogo.getChave());
+                String key = jogo.getAgremiacaoB().getCodigo().toString().concat(jogo.getFase());
+                map.put(key, jogo.getChave());
             }
         });
         return map;
@@ -92,11 +94,18 @@ public class JogoService {
                     jogo.setCategoria(categoria);
                 }
 
-                String chaveA = mapChaves.get(jogo.getAgremiacaoA().getCodigo());
-                String chaveB = mapChaves.get(jogo.getAgremiacaoB().getCodigo());
+                String key = jogo.getAgremiacaoA().getCodigo().toString().concat(jogo.getFase());
+                String chaveA = mapChaves.get(key);
+                key = jogo.getAgremiacaoB().getCodigo().toString().concat(jogo.getFase());
+                String chaveB = mapChaves.get(key);
 
                 if (null == chaveA && null == chaveB && null == jogo.getChave()) {
                     throw new BussinessException("Informe a chave do jogo");
+                }
+
+                if (null == chaveA && null == chaveB && null != jogo.getChave()) {
+                   chaveA = jogo.getChave();
+                   chaveB = chaveA;
                 }
 
                 if (null == chaveA && null != chaveB) {
@@ -154,6 +163,11 @@ public class JogoService {
         Optional<Jogo> antigo = this.repository.findById(jogo.getCodigo());
         if (antigo.isPresent()) {
             recalculaClassificacao(antigo.get());
+        }
+
+        if (jogo.iswAgremiacaoA() || jogo.iswAgremiacaoB()) {
+            jogo.setGolsAgremiacaoA(0);
+            jogo.setGolsAgremiacaoB(0);
         }
 
         Jogo saved = this.repository.saveAndFlush(jogo);

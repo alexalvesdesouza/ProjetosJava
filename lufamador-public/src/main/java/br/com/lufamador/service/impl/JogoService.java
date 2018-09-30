@@ -64,7 +64,7 @@ public class JogoService {
                 .collect(Collectors.toList());
     }
 
-    public List<String> getDatasPartidas() {
-        return this.repository.getDatasPartidas().stream().sorted().collect(Collectors.toList());
+    public List<String> getDatasPartidas(String categoria) {
+        return this.repository.getDatasPartidas(categoria).stream().sorted().collect(Collectors.toList());
     }
 }

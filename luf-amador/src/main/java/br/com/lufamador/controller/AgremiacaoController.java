@@ -41,6 +41,18 @@ public class AgremiacaoController {
 
     }
 
+    @GetMapping(value = "/{codigo}/{fase}/classificadas")
+    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+    public ResponseEntity<Response<List<Agremiacao>>> findAllClassificadas(@PathVariable("codigo") Long codigo,
+            @PathVariable("fase") String fase) {
+
+        Response<List<Agremiacao>> response = new Response<>();
+        List<Agremiacao> agremiacoes = this.agremiacaoService.findAllClassificadas(codigo, fase);
+        response.setData(agremiacoes);
+        return ResponseEntity.ok(response);
+
+    }
+
     @GetMapping(value = "/load-for-select")
     @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<List<Agremiacao>>> loadForSelect() {

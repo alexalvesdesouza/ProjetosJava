@@ -52,6 +52,9 @@ public class Jogo implements Serializable {
     private String keyConfronto;
     private String categoria;
 
+    private boolean wAgremiacaoA;
+    private boolean wAgremiacaoB;
+
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime dataCriacao; //NOSONAR
@@ -59,6 +62,22 @@ public class Jogo implements Serializable {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime dataAtualizacao; //NOSONAR
+
+    public boolean iswAgremiacaoA() {
+        return wAgremiacaoA;
+    }
+
+    public void setwAgremiacaoA(boolean wAgremiacaoA) {
+        this.wAgremiacaoA = wAgremiacaoA;
+    }
+
+    public boolean iswAgremiacaoB() {
+        return wAgremiacaoB;
+    }
+
+    public void setwAgremiacaoB(boolean wAgremiacaoB) {
+        this.wAgremiacaoB = wAgremiacaoB;
+    }
 
     public LocalJogo getLocalJogo() {
         return localJogo;
@@ -203,4 +222,6 @@ public class Jogo implements Serializable {
     public void setFase(String fase) {
         this.fase = fase;
     }
+
+
 }

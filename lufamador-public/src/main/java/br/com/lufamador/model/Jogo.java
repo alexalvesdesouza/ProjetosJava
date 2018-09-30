@@ -50,6 +50,8 @@ public class Jogo implements Serializable {
     private String fase;
     private Boolean partidaEncerrada;
     private String keyConfronto;
+    private boolean wAgremiacaoA;
+    private boolean wAgremiacaoB;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -57,6 +59,22 @@ public class Jogo implements Serializable {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime dataAtualizacao;
+
+    public boolean iswAgremiacaoA() {
+        return wAgremiacaoA;
+    }
+
+    public void setwAgremiacaoA(boolean wAgremiacaoA) {
+        this.wAgremiacaoA = wAgremiacaoA;
+    }
+
+    public boolean iswAgremiacaoB() {
+        return wAgremiacaoB;
+    }
+
+    public void setwAgremiacaoB(boolean wAgremiacaoB) {
+        this.wAgremiacaoB = wAgremiacaoB;
+    }
 
     public Long getCodigo() {
         return codigo;

@@ -38,9 +38,9 @@ public class JogoController {
         return ResponseEntity.ok(jogos);
     }
 
-    @GetMapping(path = "/datas-partidas")
-    public ResponseEntity<List<String>> getDatasPartidas() {
-        List<String> datas = this.jogoService.getDatasPartidas();
+    @GetMapping(path = "/{categoria}/datas-partidas")
+    public ResponseEntity<List<String>> getDatasPartidas(@PathVariable(value = "categoria") String categoria) {
+        List<String> datas = this.jogoService.getDatasPartidas(categoria);
         return ResponseEntity.ok(datas);
     }
 

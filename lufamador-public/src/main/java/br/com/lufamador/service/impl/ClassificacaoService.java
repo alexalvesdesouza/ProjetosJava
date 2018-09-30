@@ -14,12 +14,16 @@ public class ClassificacaoService {
     @Autowired
     private ClassificacaoRepository repository;
 
-    private List<Classificacao> getClassificacoes(String categoria, String chave) {
-        return this.repository.listaClassificacoPorCriterio(categoria, chave);
+    private List<Classificacao> getClassificacoes(String categoria, String chave, String fase) {
+
+        if (fase.equals("2")) {
+            return this.repository.listaClassificacoPorCriterioFase02(categoria, chave, fase);
+        }
+        return this.repository.listaClassificacoPorCriterio(categoria, chave, fase);
     }
 
-    public List<Classificacao> loadClassificacaoPorCategoriaChave(String categoria, String chave) {
-        return this.getClassificacoes(categoria, chave);
+    public List<Classificacao> loadClassificacaoPorCategoriaChave(String categoria, String chave, String fase) {
+        return this.getClassificacoes(categoria, chave, fase);
     }
 
 }
