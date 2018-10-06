@@ -77,7 +77,14 @@ public class JogoService {
                 if (jogo.getPartidaEncerrada()) {
                     return;
                 }
-
+                String fase = jogo.getFase();
+                if (fase.equals("2") && jogo.getTurno() == null) {
+                    String turno = "ida";
+                    if (jogo.getRodada().equals("2")) {
+                        turno = "volta";
+                    }
+                    jogo.setTurno(turno);
+                }
                 String keyConfronto = this.geraKeyJogoUnico(jogo);
                 if (this.keysConfrontos.contains(keyConfronto)) {
 //                    throw new BussinessException(
@@ -104,8 +111,8 @@ public class JogoService {
                 }
 
                 if (null == chaveA && null == chaveB && null != jogo.getChave()) {
-                   chaveA = jogo.getChave();
-                   chaveB = chaveA;
+                    chaveA = jogo.getChave();
+                    chaveB = chaveA;
                 }
 
                 if (null == chaveA && null != chaveB) {
@@ -209,11 +216,16 @@ public class JogoService {
         Agremiacao agremiacaoB = jogo.getAgremiacaoB();
         final Integer codigoCompeticao = jogo.getCodigoCompeticao();
         String fase = jogo.getFase();
+        String turno = jogo.getTurno();
+        if (null == turno) {
+            turno = fase;
+        }
 
         sb.append(agremiacaoA.getCodigo())
                 .append(agremiacaoB.getCodigo())
                 .append(codigoCompeticao)
-                .append(fase);
+                .append(fase)
+                .append(turno);
 
         return EncryptToMD5.converterParaMD5(sb.toString());
 

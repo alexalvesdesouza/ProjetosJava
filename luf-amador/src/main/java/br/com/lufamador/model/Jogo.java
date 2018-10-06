@@ -51,7 +51,7 @@ public class Jogo implements Serializable {
     private Boolean partidaEncerrada;
     private String keyConfronto;
     private String categoria;
-
+    private String turno;
     private boolean wAgremiacaoA;
     private boolean wAgremiacaoB;
 
@@ -223,5 +223,11 @@ public class Jogo implements Serializable {
         this.fase = fase;
     }
 
+    public String getTurno() {
+        return turno;
+    }
 
+    public void setTurno(String turno) {
+        this.turno = turno;
+    }
 }

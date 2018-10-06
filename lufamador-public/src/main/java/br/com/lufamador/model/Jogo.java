@@ -33,7 +33,7 @@ public class Jogo implements Serializable {
 
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
-    private LocalDate dataPartida;
+    private LocalDate dataPartida; //NOSONAR
     private String horarioPartida;
     private String local;
     @OneToOne
@@ -50,31 +50,18 @@ public class Jogo implements Serializable {
     private String fase;
     private Boolean partidaEncerrada;
     private String keyConfronto;
+    private String categoria;
+    private String turno;
     private boolean wAgremiacaoA;
     private boolean wAgremiacaoB;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime dataCriacao;
+    private LocalDateTime dataCriacao; //NOSONAR
+
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime dataAtualizacao;
-
-    public boolean iswAgremiacaoA() {
-        return wAgremiacaoA;
-    }
-
-    public void setwAgremiacaoA(boolean wAgremiacaoA) {
-        this.wAgremiacaoA = wAgremiacaoA;
-    }
-
-    public boolean iswAgremiacaoB() {
-        return wAgremiacaoB;
-    }
-
-    public void setwAgremiacaoB(boolean wAgremiacaoB) {
-        this.wAgremiacaoB = wAgremiacaoB;
-    }
+    private LocalDateTime dataAtualizacao; //NOSONAR
 
     public Long getCodigo() {
         return codigo;
@@ -194,6 +181,38 @@ public class Jogo implements Serializable {
 
     public void setKeyConfronto(String keyConfronto) {
         this.keyConfronto = keyConfronto;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getTurno() {
+        return turno;
+    }
+
+    public void setTurno(String turno) {
+        this.turno = turno;
+    }
+
+    public boolean iswAgremiacaoA() {
+        return wAgremiacaoA;
+    }
+
+    public void setwAgremiacaoA(boolean wAgremiacaoA) {
+        this.wAgremiacaoA = wAgremiacaoA;
+    }
+
+    public boolean iswAgremiacaoB() {
+        return wAgremiacaoB;
+    }
+
+    public void setwAgremiacaoB(boolean wAgremiacaoB) {
+        this.wAgremiacaoB = wAgremiacaoB;
     }
 
     public LocalDateTime getDataCriacao() {
