@@ -13,11 +13,11 @@ public interface ClassificacaoRepository extends JpaRepository<Classificacao, Lo
 
     @Query(value = "SELECT *\n" +
             "FROM luf_classificacao lc\n" +
-            "WHERE lc.categoria = :categoria AND lc.chave = :chave \n" +
+            "WHERE lc.categoria = :categoria AND lc.chave = :chave AND lc.fase = :fase \n" +
             "ORDER BY lc.chave ASC,\n" +
             "  lc.qtd_pontos DESC, lc.qtd_vitorias DESC, lc.gols_pro DESC, lc.gols_contra ASC", nativeQuery = true)
     List<Classificacao> listaClassificacoPorCriterio(@Param(value = "categoria") String categoria,
-            @Param(value = "chave") String chave);
+            @Param(value = "chave") String chave, @Param(value = "fase") String fase);
 
     @Query(value = "SELECT *\n" +
             "FROM luf_classificacao lc\n" +
@@ -33,6 +33,10 @@ public interface ClassificacaoRepository extends JpaRepository<Classificacao, Lo
 
     Classificacao findByAgremiacaoAndKeyMD5(Agremiacao agremiacao, String key);
 
+    Classificacao findByAgremiacaoAndCategoriaAndFaseAndChave(Agremiacao agremiacao, String categoria, String fase, String chave);
+
     @Query(value = "SELECT * FROM luf_classificacao WHERE keymd5 IS NULL", nativeQuery = true)
     List<Classificacao> buscaTodasClassificacoesSemKey();
+
+    List<Classificacao> findByCampeonatoCodigoAndChaveAndFase(Integer codigo, String chave, String fase);
 }

@@ -88,6 +88,19 @@ public class JogoController {
 
     }
 
+    @GetMapping(value = "/{codigoAgremiacao}/{codigoCampeonato}/all")
+    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
+    public ResponseEntity<Response<List<Jogo>>> getJogosFromAgremiacao(
+            @PathVariable(value = "codigoAgremiacao") Long codigoAgremiacao,
+            @PathVariable(value = "codigoCampeonato") Long codigoCampeonato) {
+
+        Response<List<Jogo>> response = new Response<>();
+        final List<Jogo> jogos = this.jogoService.getAllJogosPorAgremiacao(codigoAgremiacao, codigoCampeonato);
+        response.setData(jogos);
+        return ResponseEntity.ok(response);
+
+    }
+
     @GetMapping(path = "/datas-partidas")
     @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
     public ResponseEntity<Response<List<String>>>getDatasPartidas() {

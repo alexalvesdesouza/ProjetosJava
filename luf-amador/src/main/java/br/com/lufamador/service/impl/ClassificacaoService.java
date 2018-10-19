@@ -17,22 +17,26 @@ import br.com.lufamador.repository.ClassificacaoRepository;
 import br.com.lufamador.utils.encripty.EncryptToMD5;
 
 @Service
-//@EnableScheduling
+
 public class ClassificacaoService {
 
     private final Logger logger = LoggerFactory.getLogger(ClassificacaoService.class);
     private final long SEGUNDO = 1000;
     private final long MINUTO = SEGUNDO * 60;
     private final long HORA = MINUTO * 60;
+
+    @Autowired
     private ClassificacaoRepository repository;
 
     @Autowired
-    public ClassificacaoService(ClassificacaoRepository repository) {
-        this.repository = repository;
+    private IntervencaoServiceImpl intervencaoService;
+
+    public ClassificacaoService() {
+
     }
 
-    public List<Classificacao> loadClassificacaoPorCategoria(String categoria, String chave) {
-        return this.repository.listaClassificacoPorCriterio(categoria, chave);
+    public List<Classificacao> loadClassificacaoPorCategoria(String categoria, String chave, String fase) {
+        return this.repository.listaClassificacoPorCriterio(categoria, chave, fase);
     }
 
     private void registraPosicaoTabelaClassificacao(Classificacao classificacao) {
@@ -167,7 +171,10 @@ public class ClassificacaoService {
 
         final String keyA = this.geraKeyClassificacao(jogo.getAgremiacaoA().getCodigo(), jogo.getCodigoCompeticao(),
                 fase);
-        Classificacao classificacaoAgremiacaoA = this.repository.findByAgremiacaoAndKeyMD5(jogo.getAgremiacaoA(), keyA);
+//        Classificacao classificacaoAgremiacaoA = this.repository.findByAgremiacaoAndKeyMD5(jogo.getAgremiacaoA(), keyA);
+        Classificacao classificacaoAgremiacaoA =
+                this.repository.findByAgremiacaoAndCategoriaAndFaseAndChave(jogo.getAgremiacaoA(), categoria, fase,
+                        chave);
 
         if (null == classificacaoAgremiacaoA) {
             classificacaoAgremiacaoA = new Classificacao(jogo.getAgremiacaoA(), codigoCampeonato, 0, 0, 0, 0, 0, 0, 0,
@@ -193,7 +200,10 @@ public class ClassificacaoService {
 
         final String keyB = this.geraKeyClassificacao(jogo.getAgremiacaoB().getCodigo(), jogo.getCodigoCompeticao(),
                 fase);
-        Classificacao classificacaoAgremiacaoB = this.repository.findByAgremiacaoAndKeyMD5(jogo.getAgremiacaoB(), keyB);
+//        Classificacao classificacaoAgremiacaoB = this.repository.findByAgremiacaoAndKeyMD5(jogo.getAgremiacaoB(), keyB);
+        Classificacao classificacaoAgremiacaoB =
+                this.repository.findByAgremiacaoAndCategoriaAndFaseAndChave(jogo.getAgremiacaoB(), categoria, fase,
+                        chave);
 
         if (null == classificacaoAgremiacaoB) {
             classificacaoAgremiacaoB = new Classificacao(jogo.getAgremiacaoB(), codigoCampeonato, 0, 0, 0, 0, 0, 0, 0,
@@ -290,7 +300,7 @@ public class ClassificacaoService {
         }
 
         if (fase.equals("1")) {
-            classificacoes = this.repository.listaClassificacoPorCriterio(categoria, chave);
+            classificacoes = this.repository.listaClassificacoPorCriterio(categoria, chave, fase);
         }
 
 
@@ -310,8 +320,27 @@ public class ClassificacaoService {
     }
 
     public List<Classificacao> finalizaClassificacaoPorFase(List<Classificacao> classificacoes) {
-//        return this.repository.saveAndFlush(classificacao);
         classificacoes.forEach(classificacao -> this.repository.saveAndFlush(classificacao));
         return classificacoes;
     }
+
+    public Classificacao classificaAgremiacao(Classificacao classificacao) {
+        return this.repository.saveAndFlush(classificacao);
+    }
+
+    public Classificacao editaResultadoClassificacao(Classificacao classificacao) {
+
+        Classificacao anterior = this.getClassificacao(classificacao.getCodigo());
+
+        int pontosCorrigidos = classificacao.getQtdPontos();
+        int pontosAntigos = anterior.getQtdPontos();
+
+        this.intervencaoService.createOrUpdate(classificacao.getIntervencoes(), pontosCorrigidos, pontosAntigos);
+        return this.repository.saveAndFlush(classificacao);
+    }
+
+    private Classificacao getClassificacao(Long codigo) {
+        return this.repository.findById(codigo).get();
+    }
+
 }

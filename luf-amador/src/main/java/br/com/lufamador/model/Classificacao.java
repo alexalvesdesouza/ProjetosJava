@@ -40,9 +40,9 @@ public class Classificacao implements Serializable {
     private Boolean classificada;
     private String fase;
     private String categoria;
-//
-//    @OneToMany
-//    private List<ClassificacaoTribunal> classificacaoTribunalList;
+
+    @OneToMany
+    private List<Intervencao> intervencoes;
 
     public Classificacao() {
         super();
@@ -65,6 +65,14 @@ public class Classificacao implements Serializable {
         this.classificada = classificada;
         this.fase = fase;
         this.categoria = categoria;
+    }
+
+    public List<Intervencao> getIntervencoes() {
+        return intervencoes;
+    }
+
+    public void setIntervencoes(List<Intervencao> intervencoes) {
+        this.intervencoes = intervencoes;
     }
 
     public Integer getCampeonatoCodigo() {

@@ -179,6 +179,7 @@ public class JogoService {
 
         Jogo saved = this.repository.saveAndFlush(jogo);
         this.classificacaoService.geraClassificacao(saved);
+        //this.loadClassificacao(saved.getCodigoCompeticao(), saved.getChave(), saved.getFase());
 
         return saved;
     }
@@ -205,8 +206,16 @@ public class JogoService {
 
         final Jogo jogoAtualizado = this.repository.saveAndFlush(jogo);
         this.classificacaoService.geraClassificacao(jogoAtualizado);
+
+        // this.loadClassificacao(jogo.getCodigoCompeticao(), jogo.getChave(), jogo.getFase());
         return jogoAtualizado;
     }
+
+//    private void loadClassificacao(Integer codigo, String chave, String fase) {
+//        List<Jogo> jogos = this.repository.loadJogosClassificacao(codigo, chave, fase);
+//        this.classificacaoService.geraClassificacaoFinal(jogos, codigo, chave, fase);
+//
+//    }
 
     private String geraKeyJogoUnico(Jogo jogo) throws NoSuchAlgorithmException {
 
@@ -240,6 +249,10 @@ public class JogoService {
         });
 
         return jogos;
+    }
+
+    public List<Jogo> getAllJogosPorAgremiacao(Long codigoAgremiacao, Long codigoCampeonato) {
+        return this.repository.findByAgremiacaoAndCampeonato(codigoAgremiacao, codigoCampeonato);
     }
 
     public List<Jogo> getJogosEditList(String categoria, String chave, String dataRodada) {

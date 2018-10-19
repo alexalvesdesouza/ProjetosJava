@@ -44,8 +44,7 @@ public class TabelaJogosService {
     }
 
     public List<TabelaJogos> getTabelaJogosPorCampeonato(final Long codigo) {
-        List<TabelaJogos> tabelas = this.repository.findAll();
-        return tabelas;
+        return this.repository.findAll();
     }
 
     private void interfaceCadastraJogos(final TabelaJogos tabelaJogos) {
