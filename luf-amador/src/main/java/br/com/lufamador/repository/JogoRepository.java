@@ -21,8 +21,8 @@ public interface JogoRepository extends JpaRepository<Jogo, Long> {
 
     @Query(value = "SELECT * FROM luf_jogo WHERE partida_encerrada = TRUE " +
             "AND data_partida BETWEEN ?1 " +
-            "AND ?2  AND chave = ?3 ORDER BY data_atualizacao  DESC;", nativeQuery = true)
-    List<Jogo> getJogosEditList(LocalDate perInicio, LocalDate perFim, String chave);
+            "AND ?2  AND chave = ?3 AND fase = ?4 ORDER BY data_atualizacao  DESC;", nativeQuery = true)
+    List<Jogo> getJogosEditList(LocalDate perInicio, LocalDate perFim, String chave, String fase);
 
     Jogo findByKeyConfronto(String keyConfronto);
 

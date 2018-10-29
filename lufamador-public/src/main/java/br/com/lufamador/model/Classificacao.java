@@ -1,15 +1,18 @@
 package br.com.lufamador.model;
 
-
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.UniqueElements;
 
 @Entity
 @Table(name = "luf_classificacao")
@@ -24,14 +27,12 @@ public class Classificacao implements Serializable {
 
     @OneToOne
     private Agremiacao agremiacao;
-    @OneToOne
-    private Campeonato campeonato;
+    private Integer campeonatoCodigo;
 
     private Integer posClassificacao;
     private Integer qtdJogos;
     private Integer qtdPontos;
     private Integer qtdVitorias;
-    private Integer qtdDerrotas;
     private Integer qtdEmpates;
     private Integer golsPro;
     private Integer golsContra;
@@ -41,12 +42,57 @@ public class Classificacao implements Serializable {
     private String fase;
     private String categoria;
 
-    public Integer getQtdDerrotas() {
-        return qtdDerrotas;
+    @OneToMany
+    private List<Intervencao> intervencoes;
+
+    @Transient
+    private Intervencao last;
+
+    public Classificacao() {
+        super();
     }
 
-    public void setQtdDerrotas(Integer qtdDerrotas) {
-        this.qtdDerrotas = qtdDerrotas;
+    public Classificacao(Agremiacao agremiacao, Integer campeonatoCodigo, Integer posClassificacao, Integer qtdJogos,
+            Integer qtdPontos, Integer qtdVitorias, Integer qtdEmpates, Integer golsPro, Integer golsContra,
+            String chave, String keyMD5, Boolean classificada, String fase, String categoria) {
+        this.agremiacao = agremiacao;
+        this.campeonatoCodigo = campeonatoCodigo;
+        this.posClassificacao = posClassificacao;
+        this.qtdJogos = qtdJogos;
+        this.qtdPontos = qtdPontos;
+        this.qtdVitorias = qtdVitorias;
+        this.qtdEmpates = qtdEmpates;
+        this.golsPro = golsPro;
+        this.golsContra = golsContra;
+        this.chave = chave;
+        this.keyMD5 = keyMD5;
+        this.classificada = classificada;
+        this.fase = fase;
+        this.categoria = categoria;
+    }
+
+    public Intervencao getLast() {
+        return last;
+    }
+
+    public void setLast(Intervencao last) {
+        this.last = last;
+    }
+
+    public List<Intervencao> getIntervencoes() {
+        return intervencoes;
+    }
+
+    public void setIntervencoes(List<Intervencao> intervencoes) {
+        this.intervencoes = intervencoes;
+    }
+
+    public Integer getCampeonatoCodigo() {
+        return campeonatoCodigo;
+    }
+
+    public void setCampeonatoCodigo(Integer campeonatoCodigo) {
+        this.campeonatoCodigo = campeonatoCodigo;
     }
 
     public Integer getQtdEmpates() {
@@ -79,14 +125,6 @@ public class Classificacao implements Serializable {
 
     public void setFase(String fase) {
         this.fase = fase;
-    }
-
-    public Campeonato getCampeonato() {
-        return campeonato;
-    }
-
-    public void setCampeonato(Campeonato campeonato) {
-        this.campeonato = campeonato;
     }
 
     public String getChave() {

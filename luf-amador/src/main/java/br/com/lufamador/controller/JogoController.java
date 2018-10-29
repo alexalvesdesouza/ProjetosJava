@@ -74,15 +74,16 @@ public class JogoController {
 
     }
 
-    @GetMapping(value = "/encerrados/{categoria}/{chave}")
+    @GetMapping(value = "/encerrados/{categoria}/{chave}/{fase}")
     @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
     public ResponseEntity<Response<List<Jogo>>> getJogosEditList(
             @PathVariable(value = "categoria") String categoria,
             @PathVariable(value = "chave") String chave,
+            @PathVariable(value = "fase") String fase,
             @QueryParam("dataJogo") String dataJogo) {
 
         Response<List<Jogo>> response = new Response<>();
-        final List<Jogo> jogos = this.jogoService.getJogosEditList(categoria, chave, dataJogo);
+        final List<Jogo> jogos = this.jogoService.getJogosEditList(categoria, chave,fase, dataJogo);
         response.setData(jogos);
         return ResponseEntity.ok(response);
 

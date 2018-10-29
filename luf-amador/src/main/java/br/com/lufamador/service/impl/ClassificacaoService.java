@@ -2,7 +2,10 @@ package br.com.lufamador.service.impl;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -12,12 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.lufamador.model.Classificacao;
+import br.com.lufamador.model.ClassificacaoHistory;
 import br.com.lufamador.model.Jogo;
 import br.com.lufamador.repository.ClassificacaoRepository;
 import br.com.lufamador.utils.encripty.EncryptToMD5;
 
 @Service
-
 public class ClassificacaoService {
 
     private final Logger logger = LoggerFactory.getLogger(ClassificacaoService.class);
@@ -28,8 +31,14 @@ public class ClassificacaoService {
     @Autowired
     private ClassificacaoRepository repository;
 
+//    @Autowired
+//    private JavaMailUtil javaMailUtil;
+
     @Autowired
     private IntervencaoServiceImpl intervencaoService;
+
+    @Autowired
+    private ClassificacaoHistoryService historyService;
 
     public ClassificacaoService() {
 
@@ -53,6 +62,47 @@ public class ClassificacaoService {
                 .append(fase);
 
         return EncryptToMD5.converterParaMD5(sb.toString());
+
+    }
+
+    public void loadClassificacoesDuplicadas() {
+
+        Map<String, Classificacao> map = new HashMap<>();
+        this.repository.findAll().forEach(classificacao -> {
+
+            StringBuilder sb = new StringBuilder();
+            sb.append(classificacao.getFase())
+                    .append("_").append(classificacao.getChave())
+                    .append("_").append(classificacao.getCategoria());
+
+            map.put(sb.toString(), classificacao);
+        });
+
+        List<Integer> classificacoes = new ArrayList<>();
+
+        map.values().forEach(classificacao -> {
+            Integer code = this.repository.loadClassificacoesDuplicadas(classificacao.getFase(),
+                    classificacao.getChave(), classificacao.getCategoria());
+            if (null != code) {
+                classificacoes.add(code);
+            }
+        });
+
+        this.sendEmailClassificacaoDuplicada(classificacoes);
+    }
+
+    private void sendEmailClassificacaoDuplicada(List<Integer> classificacoes) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Classificações duplicacas\n");
+        if (!classificacoes.isEmpty()) {
+            classificacoes.forEach(item -> {
+                sb.append("[ ").append(item).append(" ]");
+
+            });
+
+//            javaMailUtil.sendEmail(sb.toString(), "Classificações duplidadas");
+        }
+
 
     }
 
@@ -160,9 +210,15 @@ public class ClassificacaoService {
         int golsEquipeB = jogo.getGolsAgremiacaoB();
         boolean wAgremiacaoA = jogo.iswAgremiacaoA();
         boolean wAgremiacaoB = jogo.iswAgremiacaoB();
+        boolean isPenalts = jogo.isPenaltis();
         String fase = jogo.getFase();
         String chave = jogo.getChave();
         String categoria = jogo.getAgremiacaoA().getCategoria();
+
+        if (isPenalts) {
+            golsEquipeA = jogo.getGolsPenaltisAgremiacaoA();
+            golsEquipeB = jogo.getGolsPenaltisAgremiacaoB();
+        }
 
         if (null == categoria) {
             categoria = jogo.getAgremiacaoB().getCategoria();
@@ -171,10 +227,9 @@ public class ClassificacaoService {
 
         final String keyA = this.geraKeyClassificacao(jogo.getAgremiacaoA().getCodigo(), jogo.getCodigoCompeticao(),
                 fase);
-//        Classificacao classificacaoAgremiacaoA = this.repository.findByAgremiacaoAndKeyMD5(jogo.getAgremiacaoA(), keyA);
-        Classificacao classificacaoAgremiacaoA =
-                this.repository.findByAgremiacaoAndCategoriaAndFaseAndChave(jogo.getAgremiacaoA(), categoria, fase,
-                        chave);
+
+        Classificacao classificacaoAgremiacaoA = this.repository.findByKeyMD5AndCampeonatoCodigo(keyA,
+                codigoCampeonato);
 
         if (null == classificacaoAgremiacaoA) {
             classificacaoAgremiacaoA = new Classificacao(jogo.getAgremiacaoA(), codigoCampeonato, 0, 0, 0, 0, 0, 0, 0,
@@ -200,10 +255,8 @@ public class ClassificacaoService {
 
         final String keyB = this.geraKeyClassificacao(jogo.getAgremiacaoB().getCodigo(), jogo.getCodigoCompeticao(),
                 fase);
-//        Classificacao classificacaoAgremiacaoB = this.repository.findByAgremiacaoAndKeyMD5(jogo.getAgremiacaoB(), keyB);
-        Classificacao classificacaoAgremiacaoB =
-                this.repository.findByAgremiacaoAndCategoriaAndFaseAndChave(jogo.getAgremiacaoB(), categoria, fase,
-                        chave);
+        Classificacao classificacaoAgremiacaoB = this.repository.findByKeyMD5AndCampeonatoCodigo(keyB,
+                codigoCampeonato);
 
         if (null == classificacaoAgremiacaoB) {
             classificacaoAgremiacaoB = new Classificacao(jogo.getAgremiacaoB(), codigoCampeonato, 0, 0, 0, 0, 0, 0, 0,
@@ -289,34 +342,41 @@ public class ClassificacaoService {
 
     private void geraClassificacao(String categoria, String chave, String fase, Jogo jogo) {
 
-        List<Classificacao> classificacoes = new ArrayList<>();
-        if (fase.equals("2")) {
+        List<Classificacao> classificacoes;
+
+        if (fase.equals("2") && this.getCategorias().contains(categoria) && null != jogo) {
             Long codAgremiacaoA = jogo.getAgremiacaoA().getCodigo();
             Long codAgremiacaoB = jogo.getAgremiacaoB().getCodigo();
 
             classificacoes = this.repository.listaClassificacoPorCriterioFase2(categoria, chave, fase, codAgremiacaoA,
                     codAgremiacaoB);
 
-        }
-
-        if (fase.equals("1")) {
+        } else {
             classificacoes = this.repository.listaClassificacoPorCriterio(categoria, chave, fase);
         }
 
 
         int posicao = 1;
 
-        for (Classificacao classificacao : classificacoes) {
+        if (null != classificacoes) {
 
-            if (!chave.equals(classificacao.getChave())) {
-                chave = classificacao.getChave();
-                posicao = 1;
+            for (Classificacao classificacao : classificacoes) {
+
+                if (!chave.equals(classificacao.getChave())) {
+                    chave = classificacao.getChave();
+                    posicao = 1;
+                }
+                classificacao.setPosClassificacao(posicao);
+                this.registraPosicaoTabelaClassificacao(classificacao);
+                posicao++;
             }
-            classificacao.setPosClassificacao(posicao);
-            this.registraPosicaoTabelaClassificacao(classificacao);
-            posicao++;
+
         }
 
+    }
+
+    private List<String> getCategorias() {
+        return Arrays.asList("AMADOR_ACESSO", "AMADOR_ESPECIAL");
     }
 
     public List<Classificacao> finalizaClassificacaoPorFase(List<Classificacao> classificacoes) {
@@ -332,11 +392,19 @@ public class ClassificacaoService {
 
         Classificacao anterior = this.getClassificacao(classificacao.getCodigo());
 
+        this.insereHistorico(anterior);
+
         int pontosCorrigidos = classificacao.getQtdPontos();
         int pontosAntigos = anterior.getQtdPontos();
 
         this.intervencaoService.createOrUpdate(classificacao.getIntervencoes(), pontosCorrigidos, pontosAntigos);
-        return this.repository.saveAndFlush(classificacao);
+        classificacao = this.repository.saveAndFlush(classificacao);
+        this.geraClassificacao(classificacao.getCategoria(), classificacao.getChave(),classificacao.getFase(), null);
+        return classificacao;
+    }
+
+    private void insereHistorico(Classificacao classificacao) {
+        this.historyService.insereHistorico(classificacao);
     }
 
     private Classificacao getClassificacao(Long codigo) {

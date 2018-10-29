@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.UniqueElements;
@@ -44,6 +45,9 @@ public class Classificacao implements Serializable {
     @OneToMany
     private List<Intervencao> intervencoes;
 
+    @Transient
+    private Intervencao last;
+
     public Classificacao() {
         super();
     }
@@ -65,6 +69,14 @@ public class Classificacao implements Serializable {
         this.classificada = classificada;
         this.fase = fase;
         this.categoria = categoria;
+    }
+
+    public Intervencao getLast() {
+        return last;
+    }
+
+    public void setLast(Intervencao last) {
+        this.last = last;
     }
 
     public List<Intervencao> getIntervencoes() {

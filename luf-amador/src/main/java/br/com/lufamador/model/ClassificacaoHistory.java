@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -33,10 +34,24 @@ public class ClassificacaoHistory implements Serializable {
     private Integer golsPro;
     private Integer golsContra;
     private String chave;
-    private String keyMD5;
     private Boolean classificada;
     private String fase;
     private String categoria;
+
+    @Transient
+    private Intervencao last;
+
+    public ClassificacaoHistory() {
+        super();
+    }
+
+    public Intervencao getLast() {
+        return last;
+    }
+
+    public void setLast(Intervencao last) {
+        this.last = last;
+    }
 
     public Integer getCampeonatoCodigo() {
         return campeonatoCodigo;
@@ -84,14 +99,6 @@ public class ClassificacaoHistory implements Serializable {
 
     public void setChave(String chave) {
         this.chave = chave;
-    }
-
-    public String getKeyMD5() {
-        return keyMD5;
-    }
-
-    public void setKeyMD5(String keyMD5) {
-        this.keyMD5 = keyMD5;
     }
 
     public Long getCodigo() {

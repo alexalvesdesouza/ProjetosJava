@@ -55,6 +55,7 @@ public class Jogo implements Serializable {
     private boolean wAgremiacaoA;
     private boolean wAgremiacaoB;
 
+
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime dataCriacao; //NOSONAR
@@ -62,6 +63,34 @@ public class Jogo implements Serializable {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime dataAtualizacao; //NOSONAR
+
+    private Integer golsPenaltisAgremiacaoA;
+    private Integer golsPenaltisAgremiacaoB;
+    private boolean penaltis;
+
+    public boolean isPenaltis() {
+        return penaltis;
+    }
+
+    public void setPenaltis(boolean penaltis) {
+        this.penaltis = penaltis;
+    }
+
+    public Integer getGolsPenaltisAgremiacaoA() {
+        return golsPenaltisAgremiacaoA;
+    }
+
+    public void setGolsPenaltisAgremiacaoA(Integer golsPenaltisAgremiacaoA) {
+        this.golsPenaltisAgremiacaoA = golsPenaltisAgremiacaoA;
+    }
+
+    public Integer getGolsPenaltisAgremiacaoB() {
+        return golsPenaltisAgremiacaoB;
+    }
+
+    public void setGolsPenaltisAgremiacaoB(Integer golsPenaltisAgremiacaoB) {
+        this.golsPenaltisAgremiacaoB = golsPenaltisAgremiacaoB;
+    }
 
     public boolean iswAgremiacaoA() {
         return wAgremiacaoA;

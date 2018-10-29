@@ -50,7 +50,7 @@ public class CampeonatoServiceImpl implements CampeonatoService {
             campeonato.setCampeonatoEncerrado(false);
             campeonatoSaved = this.repository.saveAndFlush(campeonato);
         } catch (Exception e) {
-          throw new BussinessException(e.getMessage());
+            throw new BussinessException(e.getMessage());
         }
         return campeonatoSaved;
     }
@@ -134,7 +134,7 @@ public class CampeonatoServiceImpl implements CampeonatoService {
 
     @Override
     public Page<Campeonato> findAll(int page, int count) {
-        Pageable pages = PageRequest.of(page, count, Sort.Direction.ASC, "nome");
+        Pageable pages = PageRequest.of(page, count, Sort.Direction.ASC, "nomeCampeonato");
         return this.repository.findAll(pages);
     }
 
@@ -160,7 +160,12 @@ public class CampeonatoServiceImpl implements CampeonatoService {
 
     @Override
     public void delete(Long codigo) {
-        this.delete(codigo);
+        try {
+
+            this.repository.delete(this.findByCodigo(codigo));
+        } catch (Exception e) {
+            throw new BussinessException("Campeonato esta em andamento e não pode mais ser excluido.");
+        }
     }
 
     private void insereCorCampeonato(Campeonato campeonato) {
