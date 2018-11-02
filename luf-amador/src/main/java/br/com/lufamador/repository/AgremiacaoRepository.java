@@ -41,7 +41,7 @@ public interface AgremiacaoRepository extends JpaRepository<Agremiacao, Long> {
     @Query(value = "SELECT *\n" +
             "FROM luf_agremiacao agr INNER JOIN luf_classificacao cla ON cla.agremiacao_codigo = agr.codigo\n" +
             "WHERE cla.campeonato_codigo = :codigo\n" +
-            "AND cla.classificada = TRUE\n" +
+            "AND cla.classificada = :isClassificada\n" +
             "AND cla.fase = :fase", nativeQuery = true)
-    List<Agremiacao> getAgremiacoesClassificadas(@Param(value = "codigo") Long codigo, @Param(value = "fase") String fase);
+    List<Agremiacao> getAgremiacoesClassificadas(@Param(value = "codigo") Long codigo, @Param(value = "fase") String fase, @Param(value = "isClassificada") boolean isClassificada);
 }

@@ -166,6 +166,8 @@ public class AgremiacaoServiceImpl implements AgremiacaoService {
     @Override
     public List<Agremiacao> findAllClassificadas(Long codigo, String fase) {
 
+        boolean isClassificada = true;
+
         if (fase.equalsIgnoreCase("2")) {
             fase = "1";
         } else if (fase.equalsIgnoreCase("QUARTAS")) {
@@ -176,9 +178,10 @@ public class AgremiacaoServiceImpl implements AgremiacaoService {
             fase = "SEMI-FINAL";
         } else {
             fase = "1";
+            isClassificada = false;
         }
 
-        return this.repository.getAgremiacoesClassificadas(codigo, fase).stream().sorted(
+        return this.repository.getAgremiacoesClassificadas(codigo, fase, isClassificada).stream().sorted(
                 Comparator.comparing(Agremiacao::getNome)).collect(Collectors.toList());
     }
 
