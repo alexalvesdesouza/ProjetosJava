@@ -31,7 +31,7 @@ public class AgremiacaoServiceImpl implements AgremiacaoService {
 
     @Autowired
     public AgremiacaoServiceImpl(AgremiacaoRepository repository, AgremiacaoValidate validate,
-            EnderecoService enderecoService) {
+                                 EnderecoService enderecoService) {
         this.repository = repository;
         this.validate = validate;
         this.enderecoService = enderecoService;
@@ -165,6 +165,19 @@ public class AgremiacaoServiceImpl implements AgremiacaoService {
 
     @Override
     public List<Agremiacao> findAllClassificadas(Long codigo, String fase) {
+
+        if (fase.equalsIgnoreCase("2")) {
+            fase = "1";
+        } else if (fase.equalsIgnoreCase("QUARTAS")) {
+            fase = "2";
+        } else if (fase.equalsIgnoreCase("SEMI-FINAL")) {
+            fase = "QUARTAS";
+        } else if (fase.equalsIgnoreCase("FINAL")) {
+            fase = "SEMI-FINAL";
+        } else {
+            fase = "1";
+        }
+
         return this.repository.getAgremiacoesClassificadas(codigo, fase).stream().sorted(
                 Comparator.comparing(Agremiacao::getNome)).collect(Collectors.toList());
     }
