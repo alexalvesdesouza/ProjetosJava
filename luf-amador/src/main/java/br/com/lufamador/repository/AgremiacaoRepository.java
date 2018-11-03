@@ -29,6 +29,12 @@ public interface AgremiacaoRepository extends JpaRepository<Agremiacao, Long> {
             "WHERE lin.codigo  IN ( SELECT lci.inscricoes_codigo FROM luf_campeonato_inscricoes lci WHERE lci.campeonato_codigo = ?1 )\n", nativeQuery = true)
     List<Agremiacao> getAgremiacoesInscritas(Long codigoCampeonato);
 
+
+    @Query(value = "SELECT lag.*\n" +
+            "FROM luf_agremiacao lag\n" +
+            "WHERE lag.codigo  IN ( SELECT lci.inscricoes_codigo FROM luf_campeonato_inscricoes lci WHERE lci.campeonato_codigo = :codigo)", nativeQuery = true)
+    List<Agremiacao> getAgremiacoesInscritasFilter(@Param(value = "codigo" ) Long codigo);
+
     @Query(value = "SELECT count(1) AS tem_inscricao FROM luf_inscricao WHERE agremiacao_codigo = ?1", nativeQuery = true)
     int localizaInscricaoDeAgremiacao(Long codigo);
 

@@ -168,6 +168,10 @@ public class AgremiacaoServiceImpl implements AgremiacaoService {
 
         boolean isClassificada = true;
 
+        if (fase.equalsIgnoreCase("1")) {
+            return this.repository.getAgremiacoesInscritasFilter(codigo);
+        }
+
         if (fase.equalsIgnoreCase("2")) {
             fase = "1";
         } else if (fase.equalsIgnoreCase("QUARTAS")) {

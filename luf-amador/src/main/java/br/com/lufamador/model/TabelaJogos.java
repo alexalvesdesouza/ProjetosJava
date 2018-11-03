@@ -21,6 +21,7 @@ public class TabelaJogos implements Serializable {
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long codigo;
+
     @OneToMany
     private List<Jogo> jogos;
 

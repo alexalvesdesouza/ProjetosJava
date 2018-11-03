@@ -63,7 +63,7 @@ public class JogoService {
         return this.allJogos.stream().map(Jogo::getKeyConfronto).collect(Collectors.toList());
     }
 
-    @Transactional(value = Transactional.TxType.REQUIRES_NEW, rollbackOn = Exception.class)
+    @Transactional
     public List<Jogo> cadastraJogo(List<Jogo> jogos) {
 
         jogos.forEach(jogo -> {
@@ -137,10 +137,18 @@ public class JogoService {
                     jogo.setGolsAgremiacaoB(0);
                 }
 
+                if (null == jogo.getGolsPenaltisAgremiacaoA()) {
+                    jogo.setGolsPenaltisAgremiacaoA(0);
+                }
+
+                if (null == jogo.getGolsPenaltisAgremiacaoB()) {
+                    jogo.setGolsPenaltisAgremiacaoB(0);
+                }
+
                 jogo.setKeyConfronto(keyConfronto);
                 jogo.setDataAtualizacao(LocalDateTime.now());
                 jogo.setDataCriacao(LocalDateTime.now());
-                this.repository.saveAndFlush(jogo);
+                this.repository.save(jogo);
             } catch (Exception e) {
                 throw new BussinessException(e.getMessage());
             }

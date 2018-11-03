@@ -57,7 +57,7 @@ public class TabelaJogosService {
 
     public final TabelaJogos atualizarTabelaJogos(TabelaJogos tabelaJogos) {
         this.interfaceCadastraJogos(tabelaJogos);
-        return this.repository.saveAndFlush(tabelaJogos);
+        return this.repository.save(tabelaJogos);
     }
 
 }
