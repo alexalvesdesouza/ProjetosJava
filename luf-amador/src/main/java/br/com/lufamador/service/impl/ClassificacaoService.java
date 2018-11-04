@@ -53,7 +53,7 @@ public class ClassificacaoService {
     }
 
     private String geraKeyClassificacao(Long codigoAgremiacao, Integer codigoCampeonato,
-            String fase) throws NoSuchAlgorithmException {
+                                        String fase) throws NoSuchAlgorithmException {
 
         StringBuilder sb = new StringBuilder();
 
@@ -318,31 +318,13 @@ public class ClassificacaoService {
         this.geraClassificacao(categoria, chave, fase, jogo);
     }
 
-//    @Scheduled(fixedDelay = MINUTO)
-//    protected void generatedKey() {
-//        this.repository.buscaTodasClassificacoesSemKey().forEach(classificacao -> {
-//                    try {
-//
-//                        Long codigoAgremiacao = classificacao.getAgremiacao().getCodigo();
-//                        Integer codigoCampeonato = classificacao.getCampeonatoCodigo();
-//                        String fase = classificacao.getFase();
-//                        if (null != codigoAgremiacao && null != codigoCampeonato && null != fase) {
-//
-//                            classificacao.setKeyMD5(this.geraKeyClassificacao(codigoAgremiacao, codigoCampeonato, fase));
-//                            this.repository.save(classificacao);
-//                            logger.info(classificacao.getKeyMD5());
-//                        }
-//
-//                    } catch (NoSuchAlgorithmException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//        );
-//    }
-
     private void geraClassificacao(String categoria, String chave, String fase, Jogo jogo) {
 
         List<Classificacao> classificacoes;
+
+        if (fase.equalsIgnoreCase("QUARTAS")) {
+            
+        }
 
         if (fase.equals("2") && this.getCategorias().contains(categoria) && null != jogo) {
             Long codAgremiacaoA = jogo.getAgremiacaoA().getCodigo();
@@ -399,7 +381,7 @@ public class ClassificacaoService {
 
         this.intervencaoService.createOrUpdate(classificacao.getIntervencoes(), pontosCorrigidos, pontosAntigos);
         classificacao = this.repository.saveAndFlush(classificacao);
-        this.geraClassificacao(classificacao.getCategoria(), classificacao.getChave(),classificacao.getFase(), null);
+        this.geraClassificacao(classificacao.getCategoria(), classificacao.getChave(), classificacao.getFase(), null);
         return classificacao;
     }
 
