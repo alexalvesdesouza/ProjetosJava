@@ -1,8 +1,11 @@
 package com.algaworks.algamoneyapi.resource;
 
+import com.algaworks.algamoneyapi.event.RecursoCriadoEvent;
 import com.algaworks.algamoneyapi.model.Categoria;
 import com.algaworks.algamoneyapi.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -19,6 +22,9 @@ public class CategoriaResource {
     @Autowired
     public CategoriaService categoriaService;
 
+    @Autowired
+    private ApplicationEventPublisher publisher;
+
     @GetMapping
     public List<Categoria> listar() {
         return this.categoriaService.listaTodasCategorias();
@@ -28,12 +34,8 @@ public class CategoriaResource {
     public ResponseEntity<Categoria> criar(@RequestBody @Valid Categoria categoria, HttpServletResponse response) {
 
         final Categoria categoriaSalva = this.categoriaService.cadastraCategoria(categoria);
-
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(categoriaSalva.getCodigo()).toUri();
-
-        response.setHeader("Location", uri.toASCIIString());
-
-        return ResponseEntity.created(uri).body(categoriaSalva);
+        publisher.publishEvent(new RecursoCriadoEvent(this, response, categoriaSalva.getCodigo()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoriaSalva);
     }
 
     @GetMapping("/{codigo}")
@@ -44,5 +46,11 @@ public class CategoriaResource {
             return ResponseEntity.notFound().build();
 
         return ResponseEntity.ok(categoria);
+    }
+
+    @DeleteMapping("/{codigo}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleta(@PathVariable Long codigo) {
+        this.categoriaService.deletaCategoria(codigo);
     }
 }

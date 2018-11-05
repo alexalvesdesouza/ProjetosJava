@@ -30,4 +30,8 @@ public class CategoriaService {
 
         return null;
     }
+
+    public void deletaCategoria(Long codigo) {
+        this.categoriaRepository.deleteById(codigo);
+    }
 }

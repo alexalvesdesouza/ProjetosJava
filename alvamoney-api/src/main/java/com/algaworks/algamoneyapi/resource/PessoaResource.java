@@ -1,8 +1,11 @@
 package com.algaworks.algamoneyapi.resource;
 
+import com.algaworks.algamoneyapi.event.RecursoCriadoEvent;
 import com.algaworks.algamoneyapi.model.Pessoa;
 import com.algaworks.algamoneyapi.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -17,7 +20,10 @@ import java.util.List;
 public class PessoaResource {
 
     @Autowired
-    public PessoaService pessoaService;
+    private PessoaService pessoaService;
+
+    @Autowired
+    private ApplicationEventPublisher publisher;
 
     @GetMapping
     public List<Pessoa> listar() {
@@ -28,12 +34,8 @@ public class PessoaResource {
     public ResponseEntity<Pessoa> criar(@RequestBody @Valid Pessoa pessoa, HttpServletResponse response) {
 
         final Pessoa pessoaSalva = this.pessoaService.cadastraPessoa(pessoa);
-
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(pessoaSalva.getCodigo()).toUri();
-
-        response.setHeader("Location", uri.toASCIIString());
-
-        return ResponseEntity.created(uri).body(pessoaSalva);
+        publisher.publishEvent(new RecursoCriadoEvent(this, response, pessoaSalva.getCodigo()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(pessoaSalva);
     }
 
     @GetMapping("/{codigo}")
@@ -44,5 +46,11 @@ public class PessoaResource {
             return ResponseEntity.notFound().build();
 
         return ResponseEntity.ok(pessoa);
+    }
+
+    @DeleteMapping("/{codigo}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleta(@PathVariable Long codigo) {
+        this.pessoaService.deletaPessoa(codigo);
     }
 }

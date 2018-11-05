@@ -30,4 +30,8 @@ public class PessoaService {
 
         return null;
     }
+
+    public void deletaPessoa(Long codigo) {
+        this.pessoaRepository.deleteById(codigo);
+    }
 }
