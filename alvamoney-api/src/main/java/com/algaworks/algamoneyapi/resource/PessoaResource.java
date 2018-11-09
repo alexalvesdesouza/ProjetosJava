@@ -53,4 +53,17 @@ public class PessoaResource {
     public void deleta(@PathVariable Long codigo) {
         this.pessoaService.deletaPessoa(codigo);
     }
+
+    @PutMapping("/{codigo}")
+    public ResponseEntity<Pessoa> atualiza(@PathVariable Long codigo, @RequestBody @Valid Pessoa pessoa) {
+        return this.pessoaService.atulizaPessoa(codigo, pessoa);
+
+    }
+
+    @PutMapping("/{codigo}/ativa")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void ativaInativa(@PathVariable Long codigo, @RequestBody Boolean ativa) {
+         this.pessoaService.ativaInativaPessoa(codigo, ativa);
+    }
+
 }
