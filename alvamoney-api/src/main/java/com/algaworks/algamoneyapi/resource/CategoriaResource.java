@@ -33,14 +33,14 @@ public class CategoriaResource {
     @Autowired
     private ApplicationEventPublisher publisher;
 
-    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
     @GetMapping
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
     public List<Categoria> listar() {
         return this.categoriaService.listaTodasCategorias();
     }
 
-    @PreAuthorize(value = "hasAuthority('ROLE_CRIAR_CATEGORIA') and #oauth2.hasScope('read')")
     @PostMapping
+    @PreAuthorize(value = "hasAuthority('ROLE_CRIAR_CATEGORIA') and #oauth2.hasScope('write')")
     public ResponseEntity<Categoria> criar(@RequestBody @Valid Categoria categoria, HttpServletResponse response) {
 
         final Categoria categoriaSalva = this.categoriaService.cadastraCategoria(categoria);
@@ -48,8 +48,8 @@ public class CategoriaResource {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoriaSalva);
     }
 
-    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
     @GetMapping("/{codigo}")
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
     public ResponseEntity<Categoria> busca(@PathVariable Long codigo) {
         Categoria categoria = this.categoriaService.buscaCategoria(codigo);
 
@@ -59,8 +59,8 @@ public class CategoriaResource {
         return ResponseEntity.ok(categoria);
     }
 
-    @PreAuthorize(value = "hasAuthority('ROLE_DELETAR_CATEGORIA') and #oauth2.hasScope('read')")
     @DeleteMapping("/{codigo}")
+    @PreAuthorize(value = "hasAuthority('ROLE_DELETAR_CATEGORIA') and #oauth2.hasScope('read')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleta(@PathVariable Long codigo) {
         this.categoriaService.deletaCategoria(codigo);

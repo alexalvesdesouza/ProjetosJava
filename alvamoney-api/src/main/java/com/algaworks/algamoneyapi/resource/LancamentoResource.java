@@ -50,19 +50,19 @@ public class LancamentoResource {
     private MessageSource messageSource;
 
     @GetMapping
-    @PreAuthorize(value = "#oauth2.hasScope('read') and hasAuthority('ROLE_PESQUISAR_LANCAMENTO')")
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
     public Page<Lancamento> pesquisar(LancamentoFilter filter, Pageable pageable) {
         return this.lancamentoService.listaTodasLancamentos(filter, pageable);
     }
 
     @GetMapping("/resumo")
-    @PreAuthorize(value = "#oauth2.hasScope('read') and hasAuthority('ROLE_PESQUISAR_LANCAMENTO')")
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
     public Page<ResumoLancamento> resumo(LancamentoFilter filter, Pageable pageable) {
         return this.lancamentoService.resumo(filter, pageable);
     }
 
-
     @PostMapping
+    @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and #oauth2.hasScope('write')")
     public ResponseEntity<Lancamento> criar(@RequestBody @Valid Lancamento lancamento, HttpServletResponse response) {
 
         final Lancamento lancamentoSalva = this.lancamentoService.cadastraLancamento(lancamento);
@@ -71,6 +71,7 @@ public class LancamentoResource {
     }
 
     @GetMapping("/{codigo}")
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
     public ResponseEntity<Lancamento> busca(@PathVariable Long codigo) {
         Lancamento lancamento = this.lancamentoService.buscaLancamento(codigo);
 
@@ -82,11 +83,13 @@ public class LancamentoResource {
 
     @DeleteMapping("/{codigo}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_LANCAMENTO') and #oauth2.hasScope('write')")
     public void deleta(@PathVariable Long codigo) {
         this.lancamentoService.deletaLancamento(codigo);
     }
 
     @PutMapping("/{codigo}")
+    @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and #oauth2.hasScope('write')")
     public ResponseEntity<Lancamento> atualiza(@PathVariable Long codigo, @RequestBody @Valid Lancamento lancamento) {
         return this.lancamentoService.atulizaLancamento(codigo, lancamento);
 
