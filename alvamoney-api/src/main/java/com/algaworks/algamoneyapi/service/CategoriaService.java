@@ -1,12 +1,12 @@
 package com.algaworks.algamoneyapi.service;
 
-import com.algaworks.algamoneyapi.model.Categoria;
-import com.algaworks.algamoneyapi.repository.CategoriaRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.algaworks.algamoneyapi.model.Categoria;
+import com.algaworks.algamoneyapi.repository.CategoriaRepository;
 
 @Service
 public class CategoriaService {
@@ -23,15 +23,15 @@ public class CategoriaService {
     }
 
     public Categoria buscaCategoria(Long codigo) {
-        Optional<Categoria> categoria = this.categoriaRepository.findById(codigo);
-        if (categoria.isPresent()) {
-            return categoria.get();
+        Categoria categoria = this.categoriaRepository.findOne(codigo);
+        if (categoria != null ) {
+            return categoria;
         }
 
         return null;
     }
 
     public void deletaCategoria(Long codigo) {
-        this.categoriaRepository.deleteById(codigo);
+        this.categoriaRepository.delete(codigo);
     }
 }

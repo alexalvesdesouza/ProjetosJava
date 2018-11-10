@@ -1,22 +1,19 @@
 package com.algaworks.algamoneyapi.service;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
 import com.algaworks.algamoneyapi.exceptions.PessoaInexistenteOuInativaException;
 import com.algaworks.algamoneyapi.model.Lancamento;
 import com.algaworks.algamoneyapi.model.Pessoa;
 import com.algaworks.algamoneyapi.repository.LancamentoRepository;
 import com.algaworks.algamoneyapi.repository.filter.LancamentoFilter;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
+import com.algaworks.algamoneyapi.repository.projection.ResumoLancamento;
 
 @Service
 public class LancamentoService {
@@ -31,6 +28,10 @@ public class LancamentoService {
         return this.lancamentoRepository.filtrar(filter, pageable);
     }
 
+    public Page<ResumoLancamento> resumo(LancamentoFilter filter, Pageable pageable) {
+        return this.lancamentoRepository.resumir(filter, pageable);
+    }
+
     public Lancamento cadastraLancamento(Lancamento entity) {
         final Pessoa pessoa = this.pessoaService.buscaPessoa(entity.getPessoa().getCodigo());
         if (pessoa == null || pessoa.isInativa()) {
@@ -40,17 +41,17 @@ public class LancamentoService {
     }
 
     public Lancamento buscaLancamento(Long codigo) {
-        Optional<Lancamento> lancamento = this.lancamentoRepository.findById(codigo);
+        Lancamento lancamento = this.lancamentoRepository.findOne(codigo);
 
-        if (!lancamento.isPresent()) {
+        if (lancamento == null) {
             throw new EmptyResultDataAccessException(1);
         }
 
-        return lancamento.get();
+        return lancamento;
     }
 
     public void deletaLancamento(Long codigo) {
-        this.lancamentoRepository.deleteById(codigo);
+        this.lancamentoRepository.delete(codigo);
     }
 
     public ResponseEntity<Lancamento> atulizaLancamento(Long codigo, Lancamento lancamento) {

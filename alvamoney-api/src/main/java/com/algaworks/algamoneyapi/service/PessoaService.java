@@ -1,15 +1,15 @@
 package com.algaworks.algamoneyapi.service;
 
-import com.algaworks.algamoneyapi.model.Pessoa;
-import com.algaworks.algamoneyapi.repository.PessoaRepository;
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.algaworks.algamoneyapi.model.Pessoa;
+import com.algaworks.algamoneyapi.repository.PessoaRepository;
 
 @Service
 public class PessoaService {
@@ -26,17 +26,17 @@ public class PessoaService {
     }
 
     public Pessoa buscaPessoa(Long codigo) {
-        Optional<Pessoa> pessoa = this.pessoaRepository.findById(codigo);
+       Pessoa pessoa = this.pessoaRepository.findOne(codigo);
 
-        if (!pessoa.isPresent()) {
+        if (pessoa == null) {
             throw new EmptyResultDataAccessException(1);
         }
 
-        return pessoa.get();
+        return pessoa;
     }
 
     public void deletaPessoa(Long codigo) {
-        this.pessoaRepository.deleteById(codigo);
+        this.pessoaRepository.delete(codigo);
     }
 
     public ResponseEntity<Pessoa> atulizaPessoa(Long codigo, Pessoa pessoa) {
