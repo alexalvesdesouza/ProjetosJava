@@ -1,6 +1,7 @@
 package com.ideaapi.model;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,4 +24,49 @@ public class Horario {
     private String horaExame;
 
     private Boolean disponivel;
+
+    public Long getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
+    }
+
+    public LocalDate getDataExame() {
+        return dataExame;
+    }
+
+    public void setDataExame(LocalDate dataExame) {
+        this.dataExame = dataExame;
+    }
+
+    public String getHoraExame() {
+        return horaExame;
+    }
+
+    public void setHoraExame(String horaExame) {
+        this.horaExame = horaExame;
+    }
+
+    public Boolean getDisponivel() {
+        return disponivel;
+    }
+
+    public void setDisponivel(Boolean disponivel) {
+        this.disponivel = disponivel;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Horario horario = (Horario) o;
+        return Objects.equals(codigo, horario.codigo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigo);
+    }
 }

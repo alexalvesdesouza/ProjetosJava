@@ -8,7 +8,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.ideaapi.exceptions.EmpesaInexsistenteOuInativaException;
 import com.ideaapi.model.Agendamento;
+import com.ideaapi.model.Empresa;
+import com.ideaapi.model.Funcionario;
 import com.ideaapi.repository.AgendamentoRepository;
 import com.ideaapi.repository.filter.AgendamentoFilter;
 import com.ideaapi.repository.projection.ResumoAgendamento;
@@ -20,7 +23,7 @@ public class AgendamentoService {
     private AgendamentoRepository agendamentoRepository;
 
     @Autowired
-    private AgendamentoService agendamentoService;
+    private EmpresaService empresaService;
 
     public Page<Agendamento> listaTodasAgendamentos(AgendamentoFilter filter, Pageable pageable) {
         return this.agendamentoRepository.filtrar(filter, pageable);
@@ -30,13 +33,21 @@ public class AgendamentoService {
         return this.agendamentoRepository.resumir(filter, pageable);
     }
 
-//    public Agendamento cadastraAgendamento(Agendamento entity) {
-//        final Agendamento agendamento = this.agendamentoService.buscaAgendamento(entity.getAgendamento().getCodigo());
-//        if (agendamento == null || agendamento.isInativa()) {
-//            throw new AgendamentoInexistenteOuInativaException();
-//        }
-//        return this.agendamentoRepository.save(entity);
-//    }
+    public Agendamento cadastraAgendamento(Agendamento entity) {
+
+        final Funcionario funcionario = entity.getFuncionario();
+
+        if (funcionario != null && funcionario.getEmpresa() != null) {
+
+            final Empresa empresa = empresaService.buscaEmpresa(funcionario.getEmpresa().getCodigo());
+            //TODO criar isInativa
+            if (empresa == null || !empresa.getAtiva()) {
+                throw new EmpesaInexsistenteOuInativaException();
+            }
+
+        }
+        return this.agendamentoRepository.save(entity);
+    }
 
     public Agendamento buscaAgendamento(Long codigo) {
         Agendamento agendamento = this.agendamentoRepository.findOne(codigo);
@@ -52,7 +63,7 @@ public class AgendamentoService {
         this.agendamentoRepository.delete(codigo);
     }
 
-    public ResponseEntity<Agendamento> atulizaAgendamento(Long codigo, Agendamento agendamento) {
+    public ResponseEntity<Agendamento> atualizaAgendamento(Long codigo, Agendamento agendamento) {
         Agendamento agendamentoSalva = this.buscaAgendamento(codigo);
         BeanUtils.copyProperties(agendamento, agendamentoSalva, "codigo");
 
