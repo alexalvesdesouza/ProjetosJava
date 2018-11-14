@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ideaapi.event.RecursoCriadoEvent;
 import com.ideaapi.model.Empresa;
+import com.ideaapi.repository.filter.EmpresaFilter;
+import com.ideaapi.repository.projection.ResumoEmpresa;
 import com.ideaapi.service.EmpresaService;
 
 @RestController
@@ -36,6 +40,12 @@ public class EmpresaResource {
 //    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_EMPRESA') and #oauth2.hasScope('read')")
     public List<Empresa> listar() {
         return this.empresaService.listaTodasEmpresas();
+    }
+
+    @GetMapping(path = "/todas")
+//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_EMPRESA') and #oauth2.hasScope('read')")
+    public Page<ResumoEmpresa> pesquisar(EmpresaFilter filter, Pageable pageable) {
+        return this.empresaService.resumo(filter, pageable);
     }
 
     @PostMapping

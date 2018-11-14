@@ -5,11 +5,15 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ideaapi.model.Funcionario;
 import com.ideaapi.repository.FuncionarioRepository;
+import com.ideaapi.repository.filter.FuncionarioFilter;
+import com.ideaapi.repository.projection.ResumoFuncionario;
 
 @Service
 public class FuncionarioService {
@@ -19,6 +23,10 @@ public class FuncionarioService {
 
     public List<Funcionario> listaTodasFuncionarios() {
         return this.funcionarioRepository.findAll();
+    }
+
+    public Page<ResumoFuncionario> resumo(FuncionarioFilter filter, Pageable pageable) {
+        return this.funcionarioRepository.resumir(filter, pageable);
     }
 
     public Funcionario cadastraFuncionario(Funcionario entity) {
@@ -45,11 +53,5 @@ public class FuncionarioService {
 
         this.funcionarioRepository.save(funcionarioSalva);
         return ResponseEntity.ok(funcionarioSalva);
-    }
-
-    public void ativaInativaFuncionario(Long codigo, Boolean ativa) {
-        Funcionario funcionario = this.buscaFuncionario(codigo);
-        funcionario.setAtiva(ativa);
-        this.funcionarioRepository.save(funcionario);
     }
 }

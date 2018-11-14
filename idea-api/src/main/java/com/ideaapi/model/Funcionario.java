@@ -46,8 +46,6 @@ public class Funcionario {
     @Embedded
     private Endereco endereco;
 
-    private Boolean ativa;
-
     @NotNull
     @ManyToOne
     @JoinColumn(name = "codigo_empresa")
@@ -107,14 +105,6 @@ public class Funcionario {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
-    }
-
-    public Boolean getAtiva() {
-        return ativa;
-    }
-
-    public void setAtiva(Boolean ativa) {
-        this.ativa = ativa;
     }
 
     public Empresa getEmpresa() {

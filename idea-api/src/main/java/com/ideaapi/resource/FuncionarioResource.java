@@ -7,8 +7,11 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,8 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ideaapi.event.RecursoCriadoEvent;
 import com.ideaapi.model.Funcionario;
+import com.ideaapi.repository.filter.FuncionarioFilter;
+import com.ideaapi.repository.projection.ResumoFuncionario;
 import com.ideaapi.service.FuncionarioService;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/funcionarios")
 public class FuncionarioResource {
@@ -35,8 +41,8 @@ public class FuncionarioResource {
 
     @GetMapping
 //    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_FUNCIONARIO') and #oauth2.hasScope('read')")
-    public List<Funcionario> listar() {
-        return this.funcionarioService.listaTodasFuncionarios();
+    public Page<ResumoFuncionario> pesquisar(FuncionarioFilter filter, Pageable pageable) {
+        return this.funcionarioService.resumo(filter, pageable);
     }
 
     @PostMapping
@@ -73,13 +79,6 @@ public class FuncionarioResource {
             @RequestBody @Valid Funcionario funcionario) {
         return this.funcionarioService.atulizaFuncionario(codigo, funcionario);
 
-    }
-
-    @PutMapping("/{codigo}/ativa")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_FUNCIONARIO') and #oauth2.hasScope('write')")
-    public void ativaInativa(@PathVariable Long codigo, @RequestBody Boolean ativa) {
-        this.funcionarioService.ativaInativaFuncionario(codigo, ativa);
     }
 
 }
