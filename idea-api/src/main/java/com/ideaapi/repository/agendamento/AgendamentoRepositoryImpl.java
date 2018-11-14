@@ -17,6 +17,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
 import com.ideaapi.model.Agendamento;
+import com.ideaapi.model.Agendamento_;
+import com.ideaapi.model.Funcionario_;
+import com.ideaapi.model.Horario_;
 import com.ideaapi.repository.filter.AgendamentoFilter;
 import com.ideaapi.repository.projection.ResumoAgendamento;
 
@@ -47,12 +50,12 @@ public class AgendamentoRepositoryImpl implements AgendamentoRepositoryQuery {
         CriteriaQuery<ResumoAgendamento> criteria = builder.createQuery(ResumoAgendamento.class);
         Root<Agendamento> root = criteria.from(Agendamento.class);
 
-//        criteria.select(builder.construct(ResumoAgendamento.class
-//                , root.get(Agendamento_.codigo), root.get(Agendamento_.observacao)
-//                , root.get(Agendamento_.dataExame), root.get(Agendamento_.dataPagamento)
-//                , root.get(Agendamento_.valor), root.get(Agendamento_.tipo)
-//                , root.get(Agendamento_.categoria).get(Categoria_.nome)
-//                , root.get(Agendamento_.pessoa).get(Pessoa_.nome)));
+        criteria.select(builder.construct(ResumoAgendamento.class
+                , root.get(Agendamento_.codigo)
+                , root.get(Agendamento_.observacao)
+                , root.get(Agendamento_.horario).get(Horario_.dataExame)
+                , root.get(Agendamento_.tipo)
+                , root.get(Agendamento_.funcionario).get(Funcionario_.nome)));
 
         Predicate[] predicates = criarRestricoes(agendamentoFilter, builder, root);
         criteria.where(predicates);
@@ -67,23 +70,23 @@ public class AgendamentoRepositoryImpl implements AgendamentoRepositoryQuery {
             Root<Agendamento> root) {
         List<Predicate> predicates = new ArrayList<>();
 
-//        if (!StringUtils.isEmpty(agendamentoFilter.getObservacao())) {
-//            predicates.add(builder.like(
-//                    builder.lower(root.get(Agendamento_.observacao)),
-//                    "%" + agendamentoFilter.getObservacao().toLowerCase() + "%"));
-//        }
-//
-//        if (agendamentoFilter.getDataExameDe() != null) {
-//            predicates.add(
-//                    builder.greaterThanOrEqualTo(root.get(Agendamento_.dataExame),
-//                            agendamentoFilter.getDataExameDe()));
-//        }
-//
-//        if (agendamentoFilter.getDataExameAte() != null) {
-//            predicates.add(
-//                    builder.lessThanOrEqualTo(root.get(Agendamento_.dataExame),
-//                            agendamentoFilter.getDataExameAte()));
-//        }
+        if (!StringUtils.isEmpty(agendamentoFilter.getObservacao())) {
+            predicates.add(builder.like(
+                    builder.lower(root.get(Agendamento_.observacao)),
+                    "%" + agendamentoFilter.getObservacao().toLowerCase() + "%"));
+        }
+
+        if (agendamentoFilter.getDataExameDe() != null) {
+            predicates.add(
+                    builder.greaterThanOrEqualTo(root.get(Agendamento_.horario).get(Horario_.dataExame),
+                            agendamentoFilter.getDataExameDe()));
+        }
+
+        if (agendamentoFilter.getDataExameAte() != null) {
+            predicates.add(
+                    builder.lessThanOrEqualTo(root.get(Agendamento_.horario).get(Horario_.dataExame),
+                            agendamentoFilter.getDataExameAte()));
+        }
 
         return predicates.toArray(new Predicate[predicates.size()]);
     }
