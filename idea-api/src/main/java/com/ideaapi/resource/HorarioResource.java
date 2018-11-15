@@ -33,13 +33,13 @@ public class HorarioResource {
     private ApplicationEventPublisher publisher;
 
     @GetMapping
-//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_EMPRESA') and #oauth2.hasScope('read')")
+//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_HORARIO') and #oauth2.hasScope('read')")
     public List<Horario> listar() {
         return this.horarioService.listaTodasHorarios();
     }
 
     @PostMapping
-//    @PreAuthorize(value = "hasAuthority('ROLE_CRIAR_EMPRESA') and #oauth2.hasScope('write')")
+//    @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_HORARIO') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('write')")
     public ResponseEntity<Horario> criar(@RequestBody @Valid Horario horario, HttpServletResponse response) {
 
         final Horario horarioSalvo = this.horarioService.cadastraHorario(horario);
@@ -48,7 +48,7 @@ public class HorarioResource {
     }
 
     @GetMapping("/{codigo}")
-//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_EMPRESA') and #oauth2.hasScope('read')")
+//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_HORARIO') or hasAuthority('ROLE_ADMIN') and #oauth2.hasScope('read')")
     public ResponseEntity<Horario> busca(@PathVariable Long codigo) {
         Horario horario = this.horarioService.buscaHorario(codigo);
 
@@ -59,7 +59,7 @@ public class HorarioResource {
     }
 
     @DeleteMapping("/{codigo}")
-//    @PreAuthorize(value = "hasAuthority('ROLE_DELETAR_EMPRESA') and #oauth2.hasScope('read')")
+//    @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_HORARIO') or hasAuthority('ROLE_ADMIN') and #oauth2.hasScope('read')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleta(@PathVariable Long codigo) {
         this.horarioService.deletaHorario(codigo);

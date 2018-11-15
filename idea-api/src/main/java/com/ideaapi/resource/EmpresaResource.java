@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -37,19 +36,20 @@ public class EmpresaResource {
     private ApplicationEventPublisher publisher;
 
     @GetMapping
-//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_EMPRESA') and #oauth2.hasScope('read')")
+//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_EMPRESA') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('read')")
     public List<Empresa> listar() {
         return this.empresaService.listaTodasEmpresas();
     }
 
     @GetMapping(path = "/todas")
-//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_EMPRESA') and #oauth2.hasScope('read')")
+//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_EMPRESA') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope" +
+//            "('read')")
     public Page<ResumoEmpresa> pesquisar(EmpresaFilter filter, Pageable pageable) {
         return this.empresaService.resumo(filter, pageable);
     }
 
-    @PostMapping
-//    @PreAuthorize(value = "hasAuthority('ROLE_CRIAR_EMPRESA') and #oauth2.hasScope('write')")
+//    @PostMapping
+//    @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_EMPRESA') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('write')")
     public ResponseEntity<Empresa> criar(@RequestBody @Valid Empresa empresa, HttpServletResponse response) {
 
         final Empresa empresaSalva = this.empresaService.cadastraEmpresa(empresa);
@@ -58,7 +58,7 @@ public class EmpresaResource {
     }
 
     @GetMapping("/{codigo}")
-//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_EMPRESA') and #oauth2.hasScope('read')")
+//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_EMPRESA') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('read')")
     public ResponseEntity<Empresa> busca(@PathVariable Long codigo) {
         Empresa empresa = this.empresaService.buscaEmpresa(codigo);
 
@@ -69,7 +69,7 @@ public class EmpresaResource {
     }
 
     @DeleteMapping("/{codigo}")
-//    @PreAuthorize(value = "hasAuthority('ROLE_DELETAR_EMPRESA') and #oauth2.hasScope('read')")
+//    @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_EMPRESA') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('read')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleta(@PathVariable Long codigo) {
         this.empresaService.deletaEmpresa(codigo);

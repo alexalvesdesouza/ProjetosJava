@@ -1,7 +1,5 @@
 package com.ideaapi.resource;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -40,13 +38,13 @@ public class FuncionarioResource {
     private ApplicationEventPublisher publisher;
 
     @GetMapping
-//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_FUNCIONARIO') and #oauth2.hasScope('read')")
+//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_FUNCIONARIO') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('read')")
     public Page<ResumoFuncionario> pesquisar(FuncionarioFilter filter, Pageable pageable) {
         return this.funcionarioService.resumo(filter, pageable);
     }
 
     @PostMapping
-//    @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_FUNCIONARIO') and #oauth2.hasScope('write')")
+//    @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_FUNCIONARIO') or hasAuthority('ROLE_ADMIN') and #oauth2.hasScope('write')")
     public ResponseEntity<Funcionario> criar(@RequestBody @Valid Funcionario funcionario,
             HttpServletResponse response) {
 
@@ -56,7 +54,7 @@ public class FuncionarioResource {
     }
 
     @GetMapping("/{codigo}")
-//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_FUNCIONARIO') and #oauth2.hasScope('read')")
+//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_FUNCIONARIO') or hasAuthority('ROLE_ADMIN') and #oauth2.hasScope('read')")
     public ResponseEntity<Funcionario> busca(@PathVariable Long codigo) {
         Funcionario funcionario = this.funcionarioService.buscaFuncionario(codigo);
 
@@ -68,13 +66,13 @@ public class FuncionarioResource {
 
     @DeleteMapping("/{codigo}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-//    @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_FUNCIONARIO') and #oauth2.hasScope('write')")
+//    @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_FUNCIONARIO') or hasAuthority('ROLE_ADMIN') and #oauth2.hasScope('write')")
     public void deleta(@PathVariable Long codigo) {
         this.funcionarioService.deletaFuncionario(codigo);
     }
 
     @PutMapping("/{codigo}")
-//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_FUNCIONARIO') and #oauth2.hasScope('read')")
+//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_FUNCIONARIO') or hasAuthority('ROLE_ADMIN') and #oauth2.hasScope('read')")
     public ResponseEntity<Funcionario> atualiza(@PathVariable Long codigo,
             @RequestBody @Valid Funcionario funcionario) {
         return this.funcionarioService.atulizaFuncionario(codigo, funcionario);
