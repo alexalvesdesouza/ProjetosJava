@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,20 +50,20 @@ public class AgendamentoResource {
     private MessageSource messageSource;
 
     @GetMapping
-//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_AGENDAMENTO') or hasAuthority('ROLE_ADMIN')  and #oauth2" +
-//            ".hasScope('read')")
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_AGENDAMENTO') or hasAuthority('ROLE_ADMIN')  and #oauth2" +
+            ".hasScope('read')")
     public Page<Agendamento> pesquisar(AgendamentoFilter filter, Pageable pageable) {
         return this.agendamentoService.listaTodasAgendamentos(filter, pageable);
     }
 
     @GetMapping("/resumo")
-//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_AGENDAMENTO') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('read')")
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_AGENDAMENTO') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('read')")
     public Page<ResumoAgendamento> resumo(AgendamentoFilter filter, Pageable pageable) {
         return this.agendamentoService.resumo(filter, pageable);
     }
 
     @PostMapping
-//    @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_AGENDAMENTO') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('write')")
+    @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_AGENDAMENTO') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('write')")
     public ResponseEntity<Agendamento> criar(@RequestBody @Valid Agendamento agendamento,
             HttpServletResponse response) {
 
@@ -72,8 +73,7 @@ public class AgendamentoResource {
     }
 
     @GetMapping("/{codigo}")
-//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_AGENDAMENTO') or hasAuthority('ROLE_ADMIN')  and #oauth2" +
-//            ".hasScope('read')")
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_AGENDAMENTO') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('read')")
     public ResponseEntity<Agendamento> busca(@PathVariable Long codigo) {
         Agendamento agendamento = this.agendamentoService.buscaAgendamento(codigo);
 
@@ -85,13 +85,13 @@ public class AgendamentoResource {
 
     @DeleteMapping("/{codigo}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-//    @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_AGENDAMENTO') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('write')")
+    @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_AGENDAMENTO') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('write')")
     public void deleta(@PathVariable Long codigo) {
         this.agendamentoService.deletaAgendamento(codigo);
     }
 
     @PutMapping("/{codigo}")
-//    @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_AGENDAMENTO') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('write')")
+    @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_AGENDAMENTO') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('write')")
     public ResponseEntity<Agendamento> atualiza(@PathVariable Long codigo,
             @RequestBody @Valid Agendamento agendamento) {
         return this.agendamentoService.atualizaAgendamento(codigo, agendamento);
