@@ -38,13 +38,22 @@ CREATE TABLE IF NOT EXISTS  usuario_permissao (
 
 -- Senhas: admin, e 123456
 
-INSERT INTO usuario (codigo, nome, email, senha) values (1, 'Administrador', 'admin@idea.com',
+INSERT INTO usuario (codigo, nome, email, senha) values (1, 'Alex Alves', 'admin@ideia.com',
 '$2a$10$0SRMSVY60PiIfnDfnN6uGOFSbxPirSmkAwhKVlMEzXf4qCppA/cwi');
 
-INSERT INTO usuario (codigo, nome, email, senha) values (2, 'User Comum', 'user.comun@idea.com',
+INSERT INTO usuario (codigo, nome, email, senha) values (2, 'Amanda Pereira', 'amanda.pereira@ideia.com',
 '$2a$10$h/GnlG34swLINiSs41IDbO1EzzgdM5X1bYHT6StSHKTzKzkS83wBm');
 
-INSERT INTO usuario (codigo, nome, email, senha) values (3, 'User Geral', 'user.geral@idea.com',
+INSERT INTO usuario (codigo, nome, email, senha) values (3, 'Carlos Santana', 'carlos.santana@ideia.com',
+'$2a$10$h/GnlG34swLINiSs41IDbO1EzzgdM5X1bYHT6StSHKTzKzkS83wBm');
+
+INSERT INTO usuario (codigo, nome, email, senha) values (4, 'Nilza', 'nilza@ideia.com',
+'$2a$10$0SRMSVY60PiIfnDfnN6uGOFSbxPirSmkAwhKVlMEzXf4qCppA/cwi');
+
+INSERT INTO usuario (codigo, nome, email, senha) values (5, 'Reinaldo', 'reinaldo@ideia.com',
+'$2a$10$0SRMSVY60PiIfnDfnN6uGOFSbxPirSmkAwhKVlMEzXf4qCppA/cwi');
+
+INSERT INTO usuario (codigo, nome, email, senha) values (6, 'Raquel T. Santos', 'reinaldo@ideia.com',
 '$2a$10$h/GnlG34swLINiSs41IDbO1EzzgdM5X1bYHT6StSHKTzKzkS83wBm');
 
 
@@ -66,8 +75,17 @@ INSERT INTO permissao (codigo, descricao) values (12, 'ROLE_REMOVER_HORARIO');
 
 INSERT INTO permissao (codigo, descricao) values (13, 'ROLE_ADMIN');
 
+INSERT INTO permissao (codigo, descricao) values (14, 'ROLE_PESQUISAR_LAUDO');
+INSERT INTO permissao (codigo, descricao) values (15, 'ROLE_CADASTRAR_LAUDO');
+INSERT INTO permissao (codigo, descricao) values (16, 'ROLE_REMOVER_LAUDO');
+
+INSERT INTO permissao (codigo, descricao) values (17, 'ROLE_GERAR_RELATORIO');
+INSERT INTO permissao (codigo, descricao) values (18, 'ROLE_GERAR_LAUDO');
+
 -- admin
 INSERT INTO usuario_permissao (codigo_usuario, codigo_permissao) values (1, 13);
+INSERT INTO usuario_permissao (codigo_usuario, codigo_permissao) values (4, 13);
+INSERT INTO usuario_permissao (codigo_usuario, codigo_permissao) values (5, 13);
 
 -- leitura/escrita
 INSERT INTO usuario_permissao (codigo_usuario, codigo_permissao) values (2, 1);
@@ -93,3 +111,9 @@ INSERT INTO usuario_permissao (codigo_usuario, codigo_permissao) values (3, 3);
 INSERT INTO usuario_permissao (codigo_usuario, codigo_permissao) values (3, 6);
 INSERT INTO usuario_permissao (codigo_usuario, codigo_permissao) values (3, 9);
 INSERT INTO usuario_permissao (codigo_usuario, codigo_permissao) values (3, 12);
+
+-- Somente leitura
+INSERT INTO usuario_permissao (codigo_usuario, codigo_permissao) values (6, 1);
+INSERT INTO usuario_permissao (codigo_usuario, codigo_permissao) values (6, 4);
+INSERT INTO usuario_permissao (codigo_usuario, codigo_permissao) values (6, 7);
+INSERT INTO usuario_permissao (codigo_usuario, codigo_permissao) values (6, 10);

@@ -31,6 +31,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Value("${SECURITY_OAUTH2_CLIENT_CLIENT_SECRET}")
     private String clientSecret;
 
+    @Value("${SECURITY_OAUTH2_MOBILE_CLIENT_ID}")
+    private String mobileId;
+
+    @Value("${SECURITY_OAUTH2_MOBILE_CLIENT_SECRET}")
+    private String mobileSecret;
+
     @Value("${SECURITY_OAUTH2_CLIENT_SCOPE}")
     private String grantType;
 
@@ -60,8 +66,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .accessTokenValiditySeconds(1800)
                 .refreshTokenValiditySeconds(3600 * 24)
                 .and()
-                .withClient("mobile")
-                .secret("m@bil3")
+                .withClient(mobileId)
+                .secret(mobileSecret)
                 .scopes(scopeRead, scopeWrite)
                 .authorizedGrantTypes(grantType, refreshToken)
                 .accessTokenValiditySeconds(1800)
