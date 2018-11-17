@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ideaapi.event.RecursoCriadoEvent;
 import com.ideaapi.model.Funcionario;
+import com.ideaapi.repository.filter.EmpresaFilter;
 import com.ideaapi.repository.filter.FuncionarioFilter;
 import com.ideaapi.repository.projection.ResumoFuncionario;
 import com.ideaapi.service.FuncionarioService;
@@ -41,6 +42,12 @@ public class FuncionarioResource {
     @GetMapping
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_FUNCIONARIO') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('read')")
     public Page<ResumoFuncionario> pesquisar(FuncionarioFilter filter, Pageable pageable) {
+        return this.funcionarioService.resumo(filter, pageable);
+    }
+
+    @GetMapping(path = "/todos")
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_FUNCIONARIO') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('read')")
+    public Page<ResumoFuncionario> pesquisarTodos(FuncionarioFilter filter, Pageable pageable) {
         return this.funcionarioService.resumo(filter, pageable);
     }
 

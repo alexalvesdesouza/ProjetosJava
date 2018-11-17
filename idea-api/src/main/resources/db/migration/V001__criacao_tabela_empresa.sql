@@ -1,8 +1,10 @@
 CREATE TABLE IF NOT EXISTS empresa (
+
   codigo        BIGINT PRIMARY KEY  NOT NULL,
-  nome          VARCHAR(100)        NOT NULL,
-  ativa         BOOLEAN             NOT NULL DEFAULT FALSE,
+  razao_social  VARCHAR(100)        NOT NULL,
+  nome_fantasia VARCHAR(100),
   cnpj          VARCHAR(20)         NOT NULL,
+  contato       VARCHAR(50)         NOT NULL,
   telefone      VARCHAR(20)         NOT NULL,
   email         VARCHAR(50),
   logradouro    VARCHAR(100),
@@ -11,7 +13,8 @@ CREATE TABLE IF NOT EXISTS empresa (
   bairro        VARCHAR(50),
   cep           VARCHAR(20),
   cidade        VARCHAR(50),
-  estado        VARCHAR(20)
+  estado        VARCHAR(20),
+  ativa         BOOLEAN             NOT NULL DEFAULT FALSE
   );
 
 CREATE SEQUENCE IF NOT EXISTS empresa_seq
@@ -21,12 +24,13 @@ CREATE SEQUENCE IF NOT EXISTS empresa_seq
     NO MAXVALUE
     CACHE 1;
 
-INSERT INTO empresa(codigo, nome, ativa, cnpj, telefone, email, logradouro, numero, complemento, bairro, cep, cidade,
- estado)
+INSERT INTO empresa(codigo, razao_social, nome_fantasia, cnpj, contato, telefone, email, logradouro, numero,
+complemento, bairro, cep, cidade,  estado)
  VALUES
- (1, 'RODOBAN', true, '23961535000124', '3433334444', 'email@rodoban.com.br', 'Av. Floriano ' ||
-  'Peixoto', '3550', '', 'Brasil', '38408177', 'Uberlândia', 'MG'),
-  (2, 'PROSSEGUR', true, '12345678912536', '3477778855', 'email@prossegur.com.br', 'Av. ' ||
-   'Monsenhor Eduardo', '10', '', 'Brasilia', '38408199', 'Uberlândia', 'MG');
+  (1, 'RODOBAN', 'RODOBAN TRANSPORTES', '23961535000124', 'Atendente 01', '3433334444', 'email@rodoban.com.br'
+  , 'Av. Floriano Peixoto', '3550', '', 'Brasil', '38408177', 'Uberlândia', 'MG'),
+
+  (2, 'PROSSEGUR', 'Prossegur valores', '12345678912536', 'Telefonista', '3477778855', 'email@prossegur.com.br'
+  ,'Av. Monsenhor Eduardo', '10', '', 'Brasilia', '38408199', 'Uberlândia', 'MG');
 
 

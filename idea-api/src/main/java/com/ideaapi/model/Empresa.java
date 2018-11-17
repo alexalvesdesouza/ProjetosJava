@@ -23,19 +23,17 @@ public class Empresa {
 
     @NotNull
     @Size(min = 3, max = 100)
-    private String nome;
+    private String razaoSocial;
+
+    @Size(min = 3, max = 100)
+    private String nomeFantasia;
 
     @NotNull
     @Size(min = 3, max = 20)
     private String cnpj;
 
-    @NotNull
-    @Size(min = 3, max = 20)
-    private String telefone;
-
-    @NotNull
-    @Size(min = 3, max = 50)
-    private String email;
+    @Embedded
+    private Contato contato;
 
     @Embedded
     private Endereco endereco;
@@ -50,12 +48,20 @@ public class Empresa {
         this.codigo = codigo;
     }
 
-    public String getNome() {
-        return nome;
+    public String getRazaoSocial() {
+        return razaoSocial;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setRazaoSocial(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
+    }
+
+    public String getNomeFantasia() {
+        return nomeFantasia;
+    }
+
+    public void setNomeFantasia(String nomeFantasia) {
+        this.nomeFantasia = nomeFantasia;
     }
 
     public String getCnpj() {
@@ -66,20 +72,12 @@ public class Empresa {
         this.cnpj = cnpj;
     }
 
-    public String getTelefone() {
-        return telefone;
+    public Contato getContato() {
+        return contato;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setContato(Contato contato) {
+        this.contato = contato;
     }
 
     public Endereco getEndereco() {

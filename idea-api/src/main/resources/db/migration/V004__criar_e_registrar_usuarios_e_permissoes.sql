@@ -53,7 +53,7 @@ INSERT INTO usuario (codigo, nome, email, senha) values (4, 'Nilza', 'nilza@idei
 INSERT INTO usuario (codigo, nome, email, senha) values (5, 'Reinaldo', 'reinaldo@ideia.com',
 '$2a$10$0SRMSVY60PiIfnDfnN6uGOFSbxPirSmkAwhKVlMEzXf4qCppA/cwi');
 
-INSERT INTO usuario (codigo, nome, email, senha) values (6, 'Raquel T. Santos', 'reinaldo@ideia.com',
+INSERT INTO usuario (codigo, nome, email, senha) values (6, 'Raquel T. Santos', 'raquel@ideia.com',
 '$2a$10$h/GnlG34swLINiSs41IDbO1EzzgdM5X1bYHT6StSHKTzKzkS83wBm');
 
 
