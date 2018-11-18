@@ -96,6 +96,10 @@ public class Empresa {
         this.ativa = ativa;
     }
 
+    public Boolean isInativa() {
+        return !this.ativa;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

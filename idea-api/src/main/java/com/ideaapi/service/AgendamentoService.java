@@ -23,7 +23,7 @@ public class AgendamentoService {
     private AgendamentoRepository agendamentoRepository;
 
     @Autowired
-    private EmpresaService empresaService;
+    private FuncionarioService funcionarioService;
 
     public Page<Agendamento> listaTodasAgendamentos(AgendamentoFilter filter, Pageable pageable) {
         return this.agendamentoRepository.filtrar(filter, pageable);
@@ -35,13 +35,14 @@ public class AgendamentoService {
 
     public Agendamento cadastraAgendamento(Agendamento entity) {
 
-        final Funcionario funcionario = entity.getFuncionario();
+        Funcionario funcionario = entity.getFuncionario();
+        funcionario =  this.funcionarioService.buscaFuncionario(funcionario.getCodigo());
 
         if (funcionario != null && funcionario.getEmpresa() != null) {
 
-            final Empresa empresa = empresaService.buscaEmpresa(funcionario.getEmpresa().getCodigo());
-            //TODO criar isInativa
-            if (empresa == null || !empresa.getAtiva()) {
+            final Empresa empresa = funcionario.getEmpresa();
+            
+            if (empresa == null || empresa.isInativa()) {
                 throw new EmpesaInexsistenteOuInativaException();
             }
 

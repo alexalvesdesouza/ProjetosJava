@@ -25,12 +25,12 @@ CREATE SEQUENCE IF NOT EXISTS empresa_seq
     CACHE 1;
 
 INSERT INTO empresa(codigo, razao_social, nome_fantasia, cnpj, contato, telefone, email, logradouro, numero,
-complemento, bairro, cep, cidade,  estado)
+complemento, bairro, cep, cidade,  estado, ativa)
  VALUES
   (1, 'RODOBAN', 'RODOBAN TRANSPORTES', '23961535000124', 'Atendente 01', '3433334444', 'email@rodoban.com.br'
-  , 'Av. Floriano Peixoto', '3550', '', 'Brasil', '38408177', 'Uberlândia', 'MG'),
+  , 'Av. Floriano Peixoto', '3550', '', 'Brasil', '38408177', 'Uberlândia', 'MG', true),
 
   (2, 'PROSSEGUR', 'Prossegur valores', '12345678912536', 'Telefonista', '3477778855', 'email@prossegur.com.br'
-  ,'Av. Monsenhor Eduardo', '10', '', 'Brasilia', '38408199', 'Uberlândia', 'MG');
+  ,'Av. Monsenhor Eduardo', '10', '', 'Brasilia', '38408199', 'Uberlândia', 'MG', true);
 
 
