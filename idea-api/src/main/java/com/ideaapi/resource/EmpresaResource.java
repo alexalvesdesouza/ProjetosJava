@@ -1,7 +1,5 @@
 package com.ideaapi.resource;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -39,16 +37,16 @@ public class EmpresaResource {
 
     @GetMapping
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_EMPRESA') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('read')")
-    public List<Empresa> listar() {
-        return this.empresaService.listaTodasEmpresas();
+    public Page<Empresa> listar(EmpresaFilter filter, Pageable pageable) {
+        return this.empresaService.filtrar(filter, pageable);
     }
 
-    @GetMapping(path = "/todas")
-    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_EMPRESA') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope" +
-            "('read')")
-    public Page<ResumoEmpresa> pesquisar(EmpresaFilter filter, Pageable pageable) {
-        return this.empresaService.resumo(filter, pageable);
-    }
+//    @GetMapping(path = "/todas")
+//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_EMPRESA') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope" +
+//            "('read')")
+//    public Page<ResumoEmpresa> pesquisar(EmpresaFilter filter, Pageable pageable) {
+//        return this.empresaService.resumo(filter, pageable);
+//    }
 
     @PostMapping
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_EMPRESA') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('write')")

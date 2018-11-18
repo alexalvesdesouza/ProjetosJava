@@ -16,7 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import com.ideaapi.model.Empresa_;
+import com.ideaapi.model.Contato_;
 import com.ideaapi.model.Empresa;
 import com.ideaapi.model.Empresa_;
 import com.ideaapi.repository.filter.EmpresaFilter;
@@ -51,10 +51,13 @@ public class EmpresaRepositoryImpl implements EmpresaRepositoryQuery {
 
         criteria.select(builder.construct(ResumoEmpresa.class
                 , root.get(Empresa_.codigo)
-                , root.get(Empresa_.nome)
+                , root.get(Empresa_.razaoSocial)
                 , root.get(Empresa_.cnpj)
-                , root.get(Empresa_.telefone)
-                , root.get(Empresa_.email)));
+                , root.get("contato")
+                , root.get("telefone")
+                , root.get("email")
+                , root.get(Empresa_.ativa)
+        ));
 
         Predicate[] predicates = criarRestricoes(empresaFilter, builder, root);
         criteria.where(predicates);
@@ -71,13 +74,13 @@ public class EmpresaRepositoryImpl implements EmpresaRepositoryQuery {
 
         if (!StringUtils.isEmpty(empresaFilter.getNome())) {
             predicates.add(builder.like(
-                    builder.lower(root.get(Empresa_.nome)),
+                    builder.lower(root.get(Empresa_.razaoSocial)),
                     "%" + empresaFilter.getNome().toLowerCase() + "%"));
         }
 
         if (empresaFilter.getTelefone() != null) {
             predicates.add(builder.like(
-                    builder.lower(root.get(Empresa_.telefone)),
+                    builder.lower(root.get(Empresa_.contato).get(Contato_.telefone)),
                     "%" + empresaFilter.getTelefone().toLowerCase() + "%"));
         }
 
@@ -85,12 +88,6 @@ public class EmpresaRepositoryImpl implements EmpresaRepositoryQuery {
             predicates.add(builder.like(
                     builder.lower(root.get(Empresa_.cnpj)),
                     "%" + empresaFilter.getCnpj().toLowerCase() + "%"));
-        }
-
-        if (empresaFilter.getEmail() != null) {
-            predicates.add(builder.like(
-                    builder.lower(root.get(Empresa_.email)),
-                    "%" + empresaFilter.getEmail().toLowerCase() + "%"));
         }
 
         return predicates.toArray(new Predicate[predicates.size()]);

@@ -22,6 +22,10 @@ public class EmpresaService {
         return this.empresaRepository.findAll();
     }
 
+    public Page<Empresa> filtrar(EmpresaFilter filter, Pageable pageable) {
+        return this.empresaRepository.filtrar(filter, pageable);
+    }
+
     public Page<ResumoEmpresa> resumo(EmpresaFilter filter, Pageable pageable) {
         return this.empresaRepository.resumir(filter, pageable);
     }

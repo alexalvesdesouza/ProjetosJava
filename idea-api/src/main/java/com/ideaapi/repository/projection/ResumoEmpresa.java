@@ -3,17 +3,22 @@ package com.ideaapi.repository.projection;
 public class ResumoEmpresa {
 
     private Long codigo;
-    private String nome;
+    private String razaoSocial;
     private String cnpj;
+    private String contato;
     private String telefone;
     private String email;
+    private Boolean ativa;
 
-    public ResumoEmpresa(Long codigo, String nome, String cnpj, String telefone, String email) {
+    public ResumoEmpresa(Long codigo, String razaoSocial, String cnpj, String contato, String telefone,
+            String email, Boolean ativa) {
         this.codigo = codigo;
-        this.nome = nome;
+        this.razaoSocial = razaoSocial;
         this.cnpj = cnpj;
+        this.contato = contato;
         this.telefone = telefone;
         this.email = email;
+        this.ativa = ativa;
     }
 
     public Long getCodigo() {
@@ -24,12 +29,12 @@ public class ResumoEmpresa {
         this.codigo = codigo;
     }
 
-    public String getNome() {
-        return nome;
+    public String getRazaoSocial() {
+        return razaoSocial;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setRazaoSocial(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
     }
 
     public String getCnpj() {
@@ -38,6 +43,14 @@ public class ResumoEmpresa {
 
     public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
+    }
+
+    public String getContato() {
+        return contato;
+    }
+
+    public void setContato(String contato) {
+        this.contato = contato;
     }
 
     public String getTelefone() {
@@ -55,4 +68,13 @@ public class ResumoEmpresa {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public Boolean getAtiva() {
+        return ativa;
+    }
+
+    public void setAtiva(Boolean ativa) {
+        this.ativa = ativa;
+    }
 }
+
