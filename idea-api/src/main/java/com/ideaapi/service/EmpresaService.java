@@ -31,6 +31,9 @@ public class EmpresaService {
     }
 
     public Empresa cadastraEmpresa(Empresa entity) {
+        if (entity.getAtiva() == null) {
+            entity.setAtiva(true);
+        }
         return this.empresaRepository.save(entity);
     }
 
