@@ -11,6 +11,15 @@ public class Endereco {
     private String bairro;
     private String cep;
     private String cidade;
+    private String estado;
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 
     public String getLogradouro() {
         return logradouro;

@@ -51,7 +51,7 @@ public class EmpresaRepositoryImpl implements EmpresaRepositoryQuery {
 
         criteria.select(builder.construct(ResumoEmpresa.class
                 , root.get(Empresa_.codigo)
-                , root.get(Empresa_.razaoSocial)
+                , root.get(Empresa_.nome)
                 , root.get(Empresa_.cnpj)
                 , root.get("contato")
                 , root.get("telefone")
@@ -74,7 +74,7 @@ public class EmpresaRepositoryImpl implements EmpresaRepositoryQuery {
 
         if (!StringUtils.isEmpty(empresaFilter.getNome())) {
             predicates.add(builder.like(
-                    builder.lower(root.get(Empresa_.razaoSocial)),
+                    builder.lower(root.get(Empresa_.nome)),
                     "%" + empresaFilter.getNome().toLowerCase() + "%"));
         }
 

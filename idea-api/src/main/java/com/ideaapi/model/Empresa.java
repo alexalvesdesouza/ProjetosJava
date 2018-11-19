@@ -26,10 +26,7 @@ public class Empresa {
 
     @NotNull
     @Size(min = 3, max = 100)
-    private String razaoSocial;
-
-    @Size(min = 3, max = 100)
-    private String nomeFantasia;
+    private String nome;
 
     @NotNull
     @Size(min = 3, max = 20)
@@ -51,20 +48,12 @@ public class Empresa {
         this.codigo = codigo;
     }
 
-    public String getRazaoSocial() {
-        return razaoSocial;
+    public String getNome() {
+        return nome;
     }
 
-    public void setRazaoSocial(String razaoSocial) {
-        this.razaoSocial = razaoSocial;
-    }
-
-    public String getNomeFantasia() {
-        return nomeFantasia;
-    }
-
-    public void setNomeFantasia(String nomeFantasia) {
-        this.nomeFantasia = nomeFantasia;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getCnpj() {
