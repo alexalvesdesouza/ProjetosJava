@@ -1,4 +1,4 @@
-package com.ideaapi.security.util;
+package com.ideaapi.util;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

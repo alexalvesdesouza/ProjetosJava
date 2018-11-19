@@ -1,19 +1,14 @@
 package com.ideaapi.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "permissao")
-@SequenceGenerator(name = "permissao_seq", sequenceName = "permissao_seq", allocationSize = 1)
 public class Permissao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "permissao_seq")
     private Long codigo;
 
     private String descricao;
