@@ -21,8 +21,9 @@ import com.ideaapi.model.Empresa;
 import com.ideaapi.model.Empresa_;
 import com.ideaapi.repository.filter.EmpresaFilter;
 import com.ideaapi.repository.projection.ResumoEmpresa;
+import com.ideaapi.repository.restricoes.paginacao.RestricoesPaginacao;
 
-public class EmpresaRepositoryImpl implements EmpresaRepositoryQuery {
+public class EmpresaRepositoryImpl extends RestricoesPaginacao implements EmpresaRepositoryQuery {
 
     @PersistenceContext
     private EntityManager manager;
@@ -91,17 +92,6 @@ public class EmpresaRepositoryImpl implements EmpresaRepositoryQuery {
         }
 
         return predicates.toArray(new Predicate[predicates.size()]);
-    }
-
-    private void adicionarRestricoesDePaginacao(TypedQuery<?> query, Pageable pageable) {
-
-        int paginaAtual = pageable.getPageNumber();
-        int totalRegistrosPorPagina = pageable.getPageSize();
-        int primeiroRegistroDaPagina = paginaAtual * totalRegistrosPorPagina;
-
-        query.setFirstResult(primeiroRegistroDaPagina);
-        query.setMaxResults(totalRegistrosPorPagina);
-
     }
 
     private Long total(EmpresaFilter empresaFilter) {

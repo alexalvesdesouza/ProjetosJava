@@ -22,8 +22,9 @@ import com.ideaapi.model.Funcionario_;
 import com.ideaapi.model.Horario_;
 import com.ideaapi.repository.filter.AgendamentoFilter;
 import com.ideaapi.repository.projection.ResumoAgendamento;
+import com.ideaapi.repository.restricoes.paginacao.RestricoesPaginacao;
 
-public class AgendamentoRepositoryImpl implements AgendamentoRepositoryQuery {
+public class AgendamentoRepositoryImpl extends RestricoesPaginacao implements AgendamentoRepositoryQuery {
 
     @PersistenceContext
     private EntityManager manager;
@@ -89,15 +90,6 @@ public class AgendamentoRepositoryImpl implements AgendamentoRepositoryQuery {
         }
 
         return predicates.toArray(new Predicate[predicates.size()]);
-    }
-
-    private void adicionarRestricoesDePaginacao(TypedQuery<?> query, Pageable pageable) {
-        int paginaAtual = pageable.getPageNumber();
-        int totalRegistrosPorPagina = pageable.getPageSize();
-        int primeiroRegistroDaPagina = paginaAtual * totalRegistrosPorPagina;
-
-        query.setFirstResult(primeiroRegistroDaPagina);
-        query.setMaxResults(totalRegistrosPorPagina);
     }
 
     private Long total(AgendamentoFilter agendamentoFilter) {

@@ -21,8 +21,9 @@ import com.ideaapi.model.Funcionario;
 import com.ideaapi.model.Funcionario_;
 import com.ideaapi.repository.filter.FuncionarioFilter;
 import com.ideaapi.repository.projection.ResumoFuncionario;
+import com.ideaapi.repository.restricoes.paginacao.RestricoesPaginacao;
 
-public class FuncionarioRepositoryImpl implements FuncionarioRepositoryQuery {
+public class FuncionarioRepositoryImpl extends RestricoesPaginacao implements FuncionarioRepositoryQuery {
 
     @PersistenceContext
     private EntityManager manager;
@@ -90,17 +91,6 @@ public class FuncionarioRepositoryImpl implements FuncionarioRepositoryQuery {
         }
 
         return predicates.toArray(new Predicate[predicates.size()]);
-    }
-
-    private void adicionarRestricoesDePaginacao(TypedQuery<?> query, Pageable pageable) {
-
-        int paginaAtual = pageable.getPageNumber();
-        int totalRegistrosPorPagina = pageable.getPageSize();
-        int primeiroRegistroDaPagina = paginaAtual * totalRegistrosPorPagina;
-
-        query.setFirstResult(primeiroRegistroDaPagina);
-        query.setMaxResults(totalRegistrosPorPagina);
-
     }
 
     private Long total(FuncionarioFilter funcionarioFilter) {

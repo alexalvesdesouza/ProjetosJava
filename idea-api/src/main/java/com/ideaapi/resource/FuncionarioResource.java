@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ideaapi.event.RecursoCriadoEvent;
 import com.ideaapi.model.Funcionario;
-import com.ideaapi.repository.filter.EmpresaFilter;
 import com.ideaapi.repository.filter.FuncionarioFilter;
 import com.ideaapi.repository.projection.ResumoFuncionario;
 import com.ideaapi.service.FuncionarioService;
