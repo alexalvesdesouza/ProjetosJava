@@ -38,15 +38,15 @@ public class AgendamentoService {
         Funcionario funcionario = entity.getFuncionario();
         funcionario =  this.funcionarioService.buscaFuncionario(funcionario.getCodigo());
 
-        if (funcionario != null && funcionario.getEmpresa() != null) {
-
-            final Empresa empresa = funcionario.getEmpresa();
-            
-            if (empresa == null || empresa.isInativa()) {
-                throw new EmpesaInexsistenteOuInativaException();
-            }
-
-        }
+//        if (funcionario != null && funcionario.getEmpresa() != null) {
+//
+//            final Empresa empresa = funcionario.getEmpresa();
+//
+//            if (empresa == null || empresa.isInativa()) {
+//                throw new EmpesaInexsistenteOuInativaException();
+//            }
+//
+//        }
         return this.agendamentoRepository.save(entity);
     }
 

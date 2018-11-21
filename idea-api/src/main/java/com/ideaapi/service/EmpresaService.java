@@ -2,9 +2,11 @@ package com.ideaapi.service;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ideaapi.model.Empresa;
@@ -48,5 +50,13 @@ public class EmpresaService {
 
     public void deletaEmpresa(Long codigo) {
         this.empresaRepository.delete(codigo);
+    }
+
+    public ResponseEntity<Empresa> atualizaEmpresa(Long codigo, Empresa empresa) {
+        Empresa empresaSalva = this.buscaEmpresa(codigo);
+        BeanUtils.copyProperties(empresa, empresaSalva, "codigo");
+
+        this.empresaRepository.save(empresaSalva);
+        return ResponseEntity.ok(empresaSalva);
     }
 }

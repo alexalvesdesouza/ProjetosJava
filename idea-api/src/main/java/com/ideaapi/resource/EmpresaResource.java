@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ideaapi.event.RecursoCriadoEvent;
+import com.ideaapi.model.Empresa;
 import com.ideaapi.model.Empresa;
 import com.ideaapi.repository.filter.EmpresaFilter;
 import com.ideaapi.repository.projection.ResumoEmpresa;
@@ -60,12 +62,21 @@ public class EmpresaResource {
     @GetMapping("/{codigo}")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_EMPRESA') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('read')")
     public ResponseEntity<Empresa> busca(@PathVariable Long codigo) {
+        
         Empresa empresa = this.empresaService.buscaEmpresa(codigo);
 
         if (null == empresa)
             return ResponseEntity.notFound().build();
 
         return ResponseEntity.ok(empresa);
+    }
+
+    @PutMapping("/{codigo}")
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_EMPRESA') or hasAuthority('ROLE_ADMIN') and #oauth2.hasScope('read')")
+    public ResponseEntity<Empresa> atualiza(@PathVariable Long codigo,
+            @RequestBody @Valid Empresa empresa) {
+        return this.empresaService.atualizaEmpresa(codigo, empresa);
+
     }
 
     @DeleteMapping("/{codigo}")

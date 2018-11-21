@@ -1,13 +1,18 @@
 package com.ideaapi.model;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -26,18 +31,17 @@ public class Funcionario {
     @NotNull
     @Size(min = 3, max = 50)
     private String nome;
-
-    @NotNull
-    @Size(min = 3, max = 20)
-    private String matricula;
-
-    @NotNull
-    @Size(min = 3, max = 20)
     private String rg;
 
     @NotNull
     @Size(min = 3, max = 20)
     private String cpf;
+
+    @NotNull
+    private LocalDate dataNascimento;
+
+    private String email;
+    private String matricula;
 
     @NotNull
     @Size(min = 3, max = 20)
@@ -46,10 +50,10 @@ public class Funcionario {
     @Embedded
     private Endereco endereco;
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "codigo_empresa")
-    private Empresa empresa;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "funcionario_empresa", joinColumns = @JoinColumn(name = "codigo_funcionario")
+            , inverseJoinColumns = @JoinColumn(name = "codigo_empresa"))
+    private List<Empresa> empresas;
 
     public Long getCodigo() {
         return codigo;
@@ -65,14 +69,6 @@ public class Funcionario {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getMatricula() {
-        return matricula;
-    }
-
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
     }
 
     public String getRg() {
@@ -91,6 +87,30 @@ public class Funcionario {
         this.cpf = cpf;
     }
 
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
+
     public String getTelefone() {
         return telefone;
     }
@@ -107,12 +127,12 @@ public class Funcionario {
         this.endereco = endereco;
     }
 
-    public Empresa getEmpresa() {
-        return empresa;
+    public List<Empresa> getEmpresas() {
+        return empresas;
     }
 
-    public void setEmpresa(Empresa empresa) {
-        this.empresa = empresa;
+    public void setEmpresas(List<Empresa> empresas) {
+        this.empresas = empresas;
     }
 
     @Override

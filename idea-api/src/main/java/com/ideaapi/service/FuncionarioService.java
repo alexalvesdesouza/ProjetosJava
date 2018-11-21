@@ -47,7 +47,7 @@ public class FuncionarioService {
         this.funcionarioRepository.delete(codigo);
     }
 
-    public ResponseEntity<Funcionario> atulizaFuncionario(Long codigo, Funcionario funcionario) {
+    public ResponseEntity<Funcionario> atualizaFuncionario(Long codigo, Funcionario funcionario) {
         Funcionario funcionarioSalva = this.buscaFuncionario(codigo);
         BeanUtils.copyProperties(funcionario, funcionarioSalva, "codigo");
 

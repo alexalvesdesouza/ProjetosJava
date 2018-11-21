@@ -26,10 +26,8 @@ CREATE SEQUENCE IF NOT EXISTS empresa_seq
 INSERT INTO empresa(codigo, nome, cnpj, contato, telefone, email, logradouro, numero,
 complemento, bairro, cep, cidade,  estado, ativa)
  VALUES
-  (1, 'RODOBAN TRANSPORTES', '23961535000124', 'Atendente 01', '3433334444', 'email@rodoban.com.br'
-  , 'Av. Floriano Peixoto', '3550', '', 'Brasil', '38408177', 'Uberlândia', 'MG', true),
+  (1, 'IDEIA EXAMES', '23961535000124', 'NILZA', '3433334444', 'email@ideia.com.br' ,'Av. Floriano Peixoto',
+  '3550', '', 'Brasil', '38408177', 'Uberlândia', 'MG', true);
 
-  (2, 'Prossegur valores', '12345678912536', 'Telefonista', '3477778855', 'email@prossegur.com.br'
-  ,'Av. Monsenhor Eduardo', '10', '', 'Brasilia', '38408199', 'Uberlândia', 'MG', true);
 
 

@@ -11,8 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
 
 @Entity
 @Table(name = "usuario")
@@ -22,9 +27,22 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuario_seq")
     private Long codigo;
+
+    @NotNull
+    @Size(min = 3, max = 50)
     private String nome;
+
+    @NotNull
+    @Email
+    @Size(min = 3, max = 50)
     private String email;
+
     private String senha;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "codigo_empresa")
+    private Empresa empresa;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuario_permissao", joinColumns = @JoinColumn(name = "codigo_usuario")
@@ -61,6 +79,14 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
     }
 
     public List<Permissao> getPermissoes() {
