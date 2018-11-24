@@ -1,5 +1,10 @@
 package com.ideaapi.resource;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -18,8 +23,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ideaapi.event.RecursoCriadoEvent;
 import com.ideaapi.model.Funcionario;
@@ -48,6 +55,18 @@ public class FuncionarioResource {
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_FUNCIONARIO') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('read')")
     public Page<ResumoFuncionario> pesquisarTodos(FuncionarioFilter filter, Pageable pageable) {
         return this.funcionarioService.resumo(filter, pageable);
+    }
+
+    @PostMapping("/anexo")
+    @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_FUNCIONARIO') or hasAuthority('ROLE_ADMIN') and #oauth2.hasScope('write')")
+    public String carregaAnexo(@RequestParam MultipartFile anexo) throws IOException {
+
+        OutputStream out =
+                new FileOutputStream("/home/alexalvesdesouza/Pictures/anexo--" + anexo.getOriginalFilename());
+        out.write(anexo.getBytes());
+        out.close();
+
+        return "OK";
     }
 
     @PostMapping

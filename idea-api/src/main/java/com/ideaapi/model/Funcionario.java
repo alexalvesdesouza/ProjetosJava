@@ -42,6 +42,7 @@ public class Funcionario {
 
     private String email;
     private String matricula;
+    private String cargo;
 
     @NotNull
     @Size(min = 3, max = 20)
@@ -54,6 +55,14 @@ public class Funcionario {
     @JoinTable(name = "funcionario_empresa", joinColumns = @JoinColumn(name = "codigo_funcionario")
             , inverseJoinColumns = @JoinColumn(name = "codigo_empresa"))
     private List<Empresa> empresas;
+
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
 
     public Long getCodigo() {
         return codigo;

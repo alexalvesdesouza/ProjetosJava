@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS funcionario (
   cpf               VARCHAR(20)         UNIQUE,
   email             VARCHAR(50),
   matricula         VARCHAR(20),
+  cargo             VARCHAR(50),
   data_nascimento   DATE                NOT NULL,
   telefone          VARCHAR(20),
   logradouro        VARCHAR(100),

@@ -57,7 +57,8 @@ public class FuncionarioRepositoryImpl extends RestricoesPaginacao implements Fu
                 , root.get(Funcionario_.rg)
                 , root.get(Funcionario_.cpf)
                 , root.get(Funcionario_.telefone)
-                , root.get(Funcionario_.empresa).get(Empresa_.nome)));
+//                , root.get(Funcionario_.empresa).get(Empresa_.nome)
+        ));
 
         Predicate[] predicates = criarRestricoes(funcionarioFilter, builder, root);
         criteria.where(predicates);

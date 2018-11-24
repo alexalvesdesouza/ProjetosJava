@@ -8,17 +8,14 @@ public class ResumoFuncionario {
     private String rg;
     private String cpf;
     private String telefone;
-    private String empresa;
 
-    public ResumoFuncionario(Long codigo, String nome, String matricula, String rg, String cpf, String telefone,
-            String empresa) {
+    public ResumoFuncionario(Long codigo, String nome, String matricula, String rg, String cpf, String telefone) {
         this.codigo = codigo;
         this.nome = nome;
         this.matricula = matricula;
         this.rg = rg;
         this.cpf = cpf;
         this.telefone = telefone;
-        this.empresa = empresa;
     }
 
     public Long getCodigo() {
@@ -67,13 +64,5 @@ public class ResumoFuncionario {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
-    }
-
-    public String getEmpresa() {
-        return empresa;
-    }
-
-    public void setEmpresa(String empresa) {
-        this.empresa = empresa;
     }
 }

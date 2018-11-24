@@ -1,6 +1,8 @@
 package com.ideaapi.service;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.BeanUtils;
@@ -42,14 +44,15 @@ public class UsuarioService {
     }
 
 
-
     private void enviaEmailSenhaGerada(Usuario usuario, String senha) {
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("Sua senha de acesso ao sistema Ideia é: ").append(senha);
+        String template = "email/envio-senha";
 
-        this.envioEmail.enviarEmail("openlinkti@gmail.com", Arrays.asList(usuario.getEmail()), "Senha de Acesso ao " +
-                "Sistema Ideia", sb.toString());
+        Map<String, Object> map = new HashMap<>();
+        map.put("senha", senha);
+
+        this.envioEmail.enviarEmail("openlinkti@gmail.com", Arrays.asList(usuario.getEmail()),
+                "Senha de Acesso ao Sistema Ideia", template, map);
     }
 
     private String senhaRandomica() {
