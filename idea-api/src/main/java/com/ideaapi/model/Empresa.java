@@ -1,12 +1,17 @@
 package com.ideaapi.model;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -32,8 +37,10 @@ public class Empresa {
     @Size(min = 3, max = 20)
     private String cnpj;
 
-    @Embedded
-    private Contato contato;
+    @ManyToMany
+    @JoinTable(name = "empresa_contato", joinColumns = @JoinColumn(name = "codigo_empresa")
+            , inverseJoinColumns = @JoinColumn(name = "codigo_contato"))
+    private List<Contato> contatos;
 
     @Embedded
     private Endereco endereco;
@@ -64,12 +71,12 @@ public class Empresa {
         this.cnpj = cnpj;
     }
 
-    public Contato getContato() {
-        return contato;
+    public List<Contato> getContatos() {
+        return contatos;
     }
 
-    public void setContato(Contato contato) {
-        this.contato = contato;
+    public void setContatos(List<Contato> contatos) {
+        this.contatos = contatos;
     }
 
     public Endereco getEndereco() {
@@ -86,24 +93,5 @@ public class Empresa {
 
     public void setAtiva(Boolean ativa) {
         this.ativa = ativa;
-    }
-
-    @Transient
-    @JsonIgnore
-    public Boolean isInativa() {
-        return !this.ativa;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Empresa empresa = (Empresa) o;
-        return Objects.equals(codigo, empresa.codigo);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(codigo);
     }
 }

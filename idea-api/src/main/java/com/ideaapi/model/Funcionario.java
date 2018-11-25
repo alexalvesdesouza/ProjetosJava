@@ -40,6 +40,10 @@ public class Funcionario {
     @NotNull
     private LocalDate dataNascimento;
 
+    private String sexo;
+    private String estadoCivil;
+    private String escolaridade;
+    private String naturalidade;
     private String email;
     private String matricula;
     private String cargo;
@@ -55,6 +59,38 @@ public class Funcionario {
     @JoinTable(name = "funcionario_empresa", joinColumns = @JoinColumn(name = "codigo_funcionario")
             , inverseJoinColumns = @JoinColumn(name = "codigo_empresa"))
     private List<Empresa> empresas;
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public String getEstadoCivil() {
+        return estadoCivil;
+    }
+
+    public void setEstadoCivil(String estadoCivil) {
+        this.estadoCivil = estadoCivil;
+    }
+
+    public String getEscolaridade() {
+        return escolaridade;
+    }
+
+    public void setEscolaridade(String escolaridade) {
+        this.escolaridade = escolaridade;
+    }
+
+    public String getNaturalidade() {
+        return naturalidade;
+    }
+
+    public void setNaturalidade(String naturalidade) {
+        this.naturalidade = naturalidade;
+    }
 
     public String getCargo() {
         return cargo;

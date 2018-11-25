@@ -13,12 +13,19 @@ import com.ideaapi.model.Empresa;
 import com.ideaapi.repository.EmpresaRepository;
 import com.ideaapi.repository.filter.EmpresaFilter;
 import com.ideaapi.repository.projection.ResumoEmpresa;
+import com.ideaapi.validate.EmpresaValidate;
 
 @Service
 public class EmpresaService {
 
     @Autowired
     private EmpresaRepository empresaRepository;
+
+    @Autowired
+    private ContatoService contatoService;
+
+    @Autowired
+    private EmpresaValidate empresaValidate;
 
     public List<Empresa> listaTodasEmpresas() {
         return this.empresaRepository.findAll();
@@ -33,9 +40,14 @@ public class EmpresaService {
     }
 
     public Empresa cadastraEmpresa(Empresa entity) {
+
+        this.empresaValidate.fluxoCriacao(entity);
+
         if (entity.getAtiva() == null) {
             entity.setAtiva(true);
         }
+
+        this.contatoService.cadastraContatos(entity);
         return this.empresaRepository.save(entity);
     }
 

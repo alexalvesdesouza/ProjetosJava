@@ -8,4 +8,8 @@ public class ErrorsCode {
     public static String CAMPO_NULO = "mensagem.invalida";
     public static String PESSOA_INEXISTENTE_OU_INATIVA = "pessoa.inexistente-ou-inativa";
 
+    public static String CNPJ_DUPLICADO = "empresa.cnpj-duplicado";
+    public static String CPF_DUPLICADO = "funcionario.cpf-duplicado";
+
+
 }

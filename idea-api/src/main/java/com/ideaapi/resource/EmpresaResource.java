@@ -22,9 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ideaapi.event.RecursoCriadoEvent;
 import com.ideaapi.model.Empresa;
-import com.ideaapi.model.Empresa;
 import com.ideaapi.repository.filter.EmpresaFilter;
-import com.ideaapi.repository.projection.ResumoEmpresa;
 import com.ideaapi.service.EmpresaService;
 
 @RestController
@@ -42,13 +40,6 @@ public class EmpresaResource {
     public Page<Empresa> listar(EmpresaFilter filter, Pageable pageable) {
         return this.empresaService.filtrar(filter, pageable);
     }
-
-//    @GetMapping(path = "/todas")
-//    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_EMPRESA') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope" +
-//            "('read')")
-//    public Page<ResumoEmpresa> pesquisar(EmpresaFilter filter, Pageable pageable) {
-//        return this.empresaService.resumo(filter, pageable);
-//    }
 
     @PostMapping
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_EMPRESA') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('write')")

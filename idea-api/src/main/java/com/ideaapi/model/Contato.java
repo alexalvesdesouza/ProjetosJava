@@ -1,22 +1,43 @@
 package com.ideaapi.model;
 
-import javax.persistence.Embeddable;
+import java.util.Objects;
 
-@Embeddable
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "contato")
+@SequenceGenerator(name = "contato_seq", sequenceName = "contato_seq", allocationSize = 1)
 public class Contato {
 
-    private String contato;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "contato_seq")
+    private Long codigo;
+
+    private String nome;
 
     private String telefone;
 
     private String email;
 
-    public String getContato() {
-        return contato;
+    public Long getCodigo() {
+        return codigo;
     }
 
-    public void setContato(String contato) {
-        this.contato = contato;
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getTelefone() {
@@ -33,5 +54,18 @@ public class Contato {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Contato contato = (Contato) o;
+        return Objects.equals(codigo, contato.codigo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigo);
     }
 }

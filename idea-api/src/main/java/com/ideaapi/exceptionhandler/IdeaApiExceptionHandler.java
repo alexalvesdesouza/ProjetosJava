@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.ideaapi.exceptions.BussinessException;
+
 @ControllerAdvice
 public class IdeaApiExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -37,6 +39,19 @@ public class IdeaApiExceptionHandler extends ResponseEntityExceptionHandler {
             WebRequest request) {
 
         String mensagemUsuario = this.messageSource.getMessage(RECURSO_NAO_ENCONTRADO, null,
+                LocaleContextHolder.getLocale());
+        String mensagemDesenvolvedor = ex.toString();
+
+        List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
+
+        return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler({BussinessException.class})
+    public ResponseEntity<Object> handleBussinessException(BussinessException ex,
+            WebRequest request) {
+
+        String mensagemUsuario = this.messageSource.getMessage(ex.getMessage(), null,
                 LocaleContextHolder.getLocale());
         String mensagemDesenvolvedor = ex.toString();
 

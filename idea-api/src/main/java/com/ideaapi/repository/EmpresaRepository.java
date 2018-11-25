@@ -8,4 +8,6 @@ import com.ideaapi.repository.empresa.EmpresaRepositoryQuery;
 
 public interface EmpresaRepository extends JpaRepository<Empresa, Long>, EmpresaRepositoryQuery {
 
+    Empresa findByCnpj(String cnpj);
+
 }

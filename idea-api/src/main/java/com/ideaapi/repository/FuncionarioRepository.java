@@ -7,4 +7,6 @@ import com.ideaapi.repository.funcionario.FuncionarioRepositoryQuery;
 
 
 public interface FuncionarioRepository extends JpaRepository<Funcionario, Long>, FuncionarioRepositoryQuery {
+
+    Funcionario findByCpf(String cpf);
 }
