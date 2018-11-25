@@ -94,4 +94,29 @@ public class Empresa {
     public void setAtiva(Boolean ativa) {
         this.ativa = ativa;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Empresa empresa = (Empresa) o;
+        return Objects.equals(codigo, empresa.codigo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigo);
+    }
+
+    @Override
+    public String toString() {
+        return "Empresa{" +
+                "codigo=" + codigo +
+                ", nome='" + nome + '\'' +
+                ", cnpj='" + cnpj + '\'' +
+                ", contatos=" + contatos +
+                ", endereco=" + endereco +
+                ", ativa=" + ativa +
+                '}';
+    }
 }

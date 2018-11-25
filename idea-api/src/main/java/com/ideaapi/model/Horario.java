@@ -1,6 +1,5 @@
 package com.ideaapi.model;
 
-import java.time.LocalDate;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -19,11 +18,13 @@ public class Horario {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "horario_seq")
     private Long codigo;
 
-    private LocalDate dataExame;
-
     private String horaExame;
 
+    private Integer maximoPermitido;
+
     private Boolean disponivel;
+
+    private Boolean avulso;
 
     public Long getCodigo() {
         return codigo;
@@ -31,14 +32,6 @@ public class Horario {
 
     public void setCodigo(Long codigo) {
         this.codigo = codigo;
-    }
-
-    public LocalDate getDataExame() {
-        return dataExame;
-    }
-
-    public void setDataExame(LocalDate dataExame) {
-        this.dataExame = dataExame;
     }
 
     public String getHoraExame() {
@@ -49,12 +42,28 @@ public class Horario {
         this.horaExame = horaExame;
     }
 
+    public Integer getMaximoPermitido() {
+        return maximoPermitido;
+    }
+
+    public void setMaximoPermitido(Integer maximoPermitido) {
+        this.maximoPermitido = maximoPermitido;
+    }
+
     public Boolean getDisponivel() {
         return disponivel;
     }
 
     public void setDisponivel(Boolean disponivel) {
         this.disponivel = disponivel;
+    }
+
+    public Boolean getAvulso() {
+        return avulso;
+    }
+
+    public void setAvulso(Boolean avulso) {
+        this.avulso = avulso;
     }
 
     @Override
@@ -68,5 +77,16 @@ public class Horario {
     @Override
     public int hashCode() {
         return Objects.hash(codigo);
+    }
+
+    @Override
+    public String toString() {
+        return "Horario{" +
+                "codigo=" + codigo +
+                ", horaExame='" + horaExame + '\'' +
+                ", maximoPermitido=" + maximoPermitido +
+                ", disponivel=" + disponivel +
+                ", avulso=" + avulso +
+                '}';
     }
 }

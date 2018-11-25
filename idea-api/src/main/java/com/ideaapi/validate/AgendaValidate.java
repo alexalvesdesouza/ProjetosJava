@@ -10,7 +10,7 @@ import com.ideaapi.model.Empresa;
 import com.ideaapi.repository.EmpresaRepository;
 
 @Component
-public class AgendamentoValidate {
+public class AgendaValidate {
 
     @Autowired
     private EmpresaRepository repository;

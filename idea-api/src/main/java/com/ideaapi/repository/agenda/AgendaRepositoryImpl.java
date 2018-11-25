@@ -1,4 +1,4 @@
-package com.ideaapi.repository.agendamento;
+package com.ideaapi.repository.agenda;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,29 +16,28 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
-import com.ideaapi.model.Agendamento;
-import com.ideaapi.model.Agendamento_;
+import com.ideaapi.model.Agenda;
+import com.ideaapi.model.Agenda_;
 import com.ideaapi.model.Funcionario_;
-import com.ideaapi.model.Horario_;
 import com.ideaapi.repository.filter.AgendamentoFilter;
 import com.ideaapi.repository.projection.ResumoAgendamento;
 import com.ideaapi.repository.restricoes.paginacao.RestricoesPaginacao;
 
-public class AgendamentoRepositoryImpl extends RestricoesPaginacao implements AgendamentoRepositoryQuery {
+public class AgendaRepositoryImpl extends RestricoesPaginacao implements AgendaRepositoryQuery {
 
     @PersistenceContext
     private EntityManager manager;
 
     @Override
-    public Page<Agendamento> filtrar(AgendamentoFilter agendamentoFilter, Pageable pageable) {
+    public Page<Agenda> filtrar(AgendamentoFilter agendamentoFilter, Pageable pageable) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
-        CriteriaQuery<Agendamento> criteria = builder.createQuery(Agendamento.class);
-        Root<Agendamento> root = criteria.from(Agendamento.class);
+        CriteriaQuery<Agenda> criteria = builder.createQuery(Agenda.class);
+        Root<Agenda> root = criteria.from(Agenda.class);
 
         Predicate[] predicates = criarRestricoes(agendamentoFilter, builder, root);
         criteria.where(predicates);
 
-        TypedQuery<Agendamento> query = manager.createQuery(criteria);
+        TypedQuery<Agenda> query = manager.createQuery(criteria);
         adicionarRestricoesDePaginacao(query, pageable);
 
         return new PageImpl<>(query.getResultList(), pageable, total(agendamentoFilter));
@@ -49,14 +48,13 @@ public class AgendamentoRepositoryImpl extends RestricoesPaginacao implements Ag
     public Page<ResumoAgendamento> resumir(AgendamentoFilter agendamentoFilter, Pageable pageable) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<ResumoAgendamento> criteria = builder.createQuery(ResumoAgendamento.class);
-        Root<Agendamento> root = criteria.from(Agendamento.class);
+        Root<Agenda> root = criteria.from(Agenda.class);
 
         criteria.select(builder.construct(ResumoAgendamento.class
-                , root.get(Agendamento_.codigo)
-                , root.get(Agendamento_.observacao)
-                , root.get(Agendamento_.horario).get(Horario_.dataExame)
-                , root.get(Agendamento_.tipo)
-                , root.get(Agendamento_.funcionario).get(Funcionario_.nome)));
+                , root.get(Agenda_.codigo)
+                , root.get(Agenda_.observacao)
+                , root.get(Agenda_.tipo)
+                , root.get(Agenda_.funcionario).get(Funcionario_.nome)));
 
         Predicate[] predicates = criarRestricoes(agendamentoFilter, builder, root);
         criteria.where(predicates);
@@ -68,26 +66,26 @@ public class AgendamentoRepositoryImpl extends RestricoesPaginacao implements Ag
     }
 
     private Predicate[] criarRestricoes(AgendamentoFilter agendamentoFilter, CriteriaBuilder builder,
-            Root<Agendamento> root) {
+            Root<Agenda> root) {
         List<Predicate> predicates = new ArrayList<>();
 
         if (!StringUtils.isEmpty(agendamentoFilter.getObservacao())) {
             predicates.add(builder.like(
-                    builder.lower(root.get(Agendamento_.observacao)),
+                    builder.lower(root.get(Agenda_.observacao)),
                     "%" + agendamentoFilter.getObservacao().toLowerCase() + "%"));
         }
 
-        if (agendamentoFilter.getDataExameDe() != null) {
-            predicates.add(
-                    builder.greaterThanOrEqualTo(root.get(Agendamento_.horario).get(Horario_.dataExame),
-                            agendamentoFilter.getDataExameDe()));
-        }
-
-        if (agendamentoFilter.getDataExameAte() != null) {
-            predicates.add(
-                    builder.lessThanOrEqualTo(root.get(Agendamento_.horario).get(Horario_.dataExame),
-                            agendamentoFilter.getDataExameAte()));
-        }
+//        if (agendamentoFilter.getDataExameDe() != null) {
+//            predicates.add(
+//                    builder.greaterThanOrEqualTo(root.get(Agenda_.horario).get(Horario_.dataExame),
+//                            agendamentoFilter.getDataExameDe()));
+//        }
+//
+//        if (agendamentoFilter.getDataExameAte() != null) {
+//            predicates.add(
+//                    builder.lessThanOrEqualTo(root.get(Agenda_.horario).get(Horario_.dataExame),
+//                            agendamentoFilter.getDataExameAte()));
+//        }
 
         return predicates.toArray(new Predicate[predicates.size()]);
     }
@@ -95,7 +93,7 @@ public class AgendamentoRepositoryImpl extends RestricoesPaginacao implements Ag
     private Long total(AgendamentoFilter agendamentoFilter) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
-        Root<Agendamento> root = criteria.from(Agendamento.class);
+        Root<Agenda> root = criteria.from(Agenda.class);
 
         Predicate[] predicates = criarRestricoes(agendamentoFilter, builder, root);
         criteria.where(predicates);

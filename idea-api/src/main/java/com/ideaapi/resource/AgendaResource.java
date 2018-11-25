@@ -31,17 +31,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ideaapi.event.RecursoCriadoEvent;
 import com.ideaapi.exceptionhandler.IdeaApiExceptionHandler;
 import com.ideaapi.exceptions.EmpesaInexsistenteOuInativaException;
-import com.ideaapi.model.Agendamento;
+import com.ideaapi.model.Agenda;
 import com.ideaapi.repository.filter.AgendamentoFilter;
 import com.ideaapi.repository.projection.ResumoAgendamento;
-import com.ideaapi.service.AgendamentoService;
+import com.ideaapi.service.AgendaService;
 
 @RestController
 @RequestMapping("/agendamentos")
-public class AgendamentoResource {
+public class AgendaResource {
 
     @Autowired
-    private AgendamentoService agendamentoService;
+    private AgendaService agendaService;
 
     @Autowired
     private ApplicationEventPublisher publisher;
@@ -52,49 +52,49 @@ public class AgendamentoResource {
     @GetMapping
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_AGENDAMENTO') or hasAuthority('ROLE_ADMIN')  and #oauth2" +
             ".hasScope('read')")
-    public Page<Agendamento> pesquisar(AgendamentoFilter filter, Pageable pageable) {
-        return this.agendamentoService.listaTodasAgendamentos(filter, pageable);
+    public Page<Agenda> pesquisar(AgendamentoFilter filter, Pageable pageable) {
+        return this.agendaService.listaTodasAgendamentos(filter, pageable);
     }
 
     @GetMapping("/resumo")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_AGENDAMENTO') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('read')")
     public Page<ResumoAgendamento> resumo(AgendamentoFilter filter, Pageable pageable) {
-        return this.agendamentoService.resumo(filter, pageable);
+        return this.agendaService.resumo(filter, pageable);
     }
 
     @PostMapping
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_AGENDAMENTO') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('write')")
-    public ResponseEntity<Agendamento> criar(@RequestBody @Valid Agendamento agendamento,
+    public ResponseEntity<Agenda> criar(@RequestBody @Valid Agenda agenda,
             HttpServletResponse response) {
 
-        final Agendamento agendamentoSalva = this.agendamentoService.cadastraAgendamento(agendamento);
-        publisher.publishEvent(new RecursoCriadoEvent(this, response, agendamentoSalva.getCodigo()));
-        return ResponseEntity.status(HttpStatus.CREATED).body(agendamentoSalva);
+        final Agenda agendaSalva = this.agendaService.cadastraAgendamento(agenda);
+        publisher.publishEvent(new RecursoCriadoEvent(this, response, agendaSalva.getCodigo()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(agendaSalva);
     }
 
     @GetMapping("/{codigo}")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_AGENDAMENTO') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('read')")
-    public ResponseEntity<Agendamento> busca(@PathVariable Long codigo) {
-        Agendamento agendamento = this.agendamentoService.buscaAgendamento(codigo);
+    public ResponseEntity<Agenda> busca(@PathVariable Long codigo) {
+        Agenda agenda = this.agendaService.buscaAgendamento(codigo);
 
-        if (null == agendamento)
+        if (null == agenda)
             return ResponseEntity.notFound().build();
 
-        return ResponseEntity.ok(agendamento);
+        return ResponseEntity.ok(agenda);
     }
 
     @DeleteMapping("/{codigo}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_AGENDAMENTO') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('write')")
     public void deleta(@PathVariable Long codigo) {
-        this.agendamentoService.deletaAgendamento(codigo);
+        this.agendaService.deletaAgendamento(codigo);
     }
 
     @PutMapping("/{codigo}")
     @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_AGENDAMENTO') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('write')")
-    public ResponseEntity<Agendamento> atualiza(@PathVariable Long codigo,
-            @RequestBody @Valid Agendamento agendamento) {
-        return this.agendamentoService.atualizaAgendamento(codigo, agendamento);
+    public ResponseEntity<Agenda> atualiza(@PathVariable Long codigo,
+            @RequestBody @Valid Agenda agenda) {
+        return this.agendaService.atualizaAgendamento(codigo, agenda);
 
     }
 

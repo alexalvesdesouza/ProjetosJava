@@ -68,4 +68,14 @@ public class Contato {
     public int hashCode() {
         return Objects.hash(codigo);
     }
+
+    @Override
+    public String toString() {
+        return "Contato{" +
+                "codigo=" + codigo +
+                ", nome='" + nome + '\'' +
+                ", telefone='" + telefone + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

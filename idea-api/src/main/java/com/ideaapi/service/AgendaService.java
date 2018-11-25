@@ -8,24 +8,22 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.ideaapi.exceptions.EmpesaInexsistenteOuInativaException;
-import com.ideaapi.model.Agendamento;
-import com.ideaapi.model.Empresa;
+import com.ideaapi.model.Agenda;
 import com.ideaapi.model.Funcionario;
-import com.ideaapi.repository.AgendamentoRepository;
+import com.ideaapi.repository.AgendaRepository;
 import com.ideaapi.repository.filter.AgendamentoFilter;
 import com.ideaapi.repository.projection.ResumoAgendamento;
 
 @Service
-public class AgendamentoService {
+public class AgendaService {
 
     @Autowired
-    private AgendamentoRepository agendamentoRepository;
+    private AgendaRepository agendamentoRepository;
 
     @Autowired
     private FuncionarioService funcionarioService;
 
-    public Page<Agendamento> listaTodasAgendamentos(AgendamentoFilter filter, Pageable pageable) {
+    public Page<Agenda> listaTodasAgendamentos(AgendamentoFilter filter, Pageable pageable) {
         return this.agendamentoRepository.filtrar(filter, pageable);
     }
 
@@ -33,7 +31,7 @@ public class AgendamentoService {
         return this.agendamentoRepository.resumir(filter, pageable);
     }
 
-    public Agendamento cadastraAgendamento(Agendamento entity) {
+    public Agenda cadastraAgendamento(Agenda entity) {
 
         Funcionario funcionario = entity.getFuncionario();
         funcionario =  this.funcionarioService.buscaFuncionario(funcionario.getCodigo());
@@ -50,26 +48,26 @@ public class AgendamentoService {
         return this.agendamentoRepository.save(entity);
     }
 
-    public Agendamento buscaAgendamento(Long codigo) {
-        Agendamento agendamento = this.agendamentoRepository.findOne(codigo);
+    public Agenda buscaAgendamento(Long codigo) {
+        Agenda agenda = this.agendamentoRepository.findOne(codigo);
 
-        if (agendamento == null) {
+        if (agenda == null) {
             throw new EmptyResultDataAccessException(1);
         }
 
-        return agendamento;
+        return agenda;
     }
 
     public void deletaAgendamento(Long codigo) {
         this.agendamentoRepository.delete(codigo);
     }
 
-    public ResponseEntity<Agendamento> atualizaAgendamento(Long codigo, Agendamento agendamento) {
-        Agendamento agendamentoSalva = this.buscaAgendamento(codigo);
-        BeanUtils.copyProperties(agendamento, agendamentoSalva, "codigo");
+    public ResponseEntity<Agenda> atualizaAgendamento(Long codigo, Agenda agenda) {
+        Agenda agendaSalva = this.buscaAgendamento(codigo);
+        BeanUtils.copyProperties(agenda, agendaSalva, "codigo");
 
-        this.agendamentoRepository.save(agendamentoSalva);
-        return ResponseEntity.ok(agendamentoSalva);
+        this.agendamentoRepository.save(agendaSalva);
+        return ResponseEntity.ok(agendaSalva);
     }
 
 }

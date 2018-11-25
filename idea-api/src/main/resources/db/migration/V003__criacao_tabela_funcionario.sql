@@ -28,3 +28,11 @@ CREATE SEQUENCE IF NOT EXISTS funcionario_seq
     NO MAXVALUE
     CACHE 1;
 
+CREATE TABLE IF NOT EXISTS  funcionario_empresa (
+	codigo_funcionario  BIGINT NOT NULL,
+	codigo_empresa      BIGINT NOT NULL,
+	PRIMARY KEY (codigo_funcionario, codigo_empresa),
+	FOREIGN KEY (codigo_empresa) REFERENCES empresa(codigo),
+	FOREIGN KEY (codigo_funcionario) REFERENCES funcionario(codigo)
+);
+

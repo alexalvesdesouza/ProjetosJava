@@ -192,4 +192,25 @@ public class Funcionario {
     public int hashCode() {
         return Objects.hash(codigo);
     }
+
+    @Override
+    public String toString() {
+        return "Funcionario{" +
+                "codigo=" + codigo +
+                ", nome='" + nome + '\'' +
+                ", rg='" + rg + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", dataNascimento=" + dataNascimento +
+                ", sexo='" + sexo + '\'' +
+                ", estadoCivil='" + estadoCivil + '\'' +
+                ", escolaridade='" + escolaridade + '\'' +
+                ", naturalidade='" + naturalidade + '\'' +
+                ", email='" + email + '\'' +
+                ", matricula='" + matricula + '\'' +
+                ", cargo='" + cargo + '\'' +
+                ", telefone='" + telefone + '\'' +
+                ", endereco=" + endereco +
+                ", empresas=" + empresas +
+                '}';
+    }
 }
