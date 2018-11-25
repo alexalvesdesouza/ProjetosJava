@@ -6,6 +6,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.ideaapi.model.Funcionario;
@@ -28,6 +30,7 @@ public class FuncionarioService {
     }
 
     public Funcionario cadastraFuncionario(Funcionario entity) {
+        Authentication authentication = (Authentication) SecurityContextHolder.getContext().getAuthentication();
         this.funcionarioValidate.fluxoCriacao(entity);
         return this.funcionarioRepository.save(entity);
     }

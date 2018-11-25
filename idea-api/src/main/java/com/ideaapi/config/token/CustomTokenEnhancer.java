@@ -16,10 +16,12 @@ public class CustomTokenEnhancer implements TokenEnhancer {
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         UsuarioSistema usuarioSistema = (UsuarioSistema) authentication.getPrincipal();
 
+        usuarioSistema.getUsuario().getEmpresa();
+
         Map<String, Object> addInfo = new HashMap<>();
         addInfo.put("nome", usuarioSistema.getUsuario().getNome());
         addInfo.put("empresa", usuarioSistema.getUsuario().getEmpresa().getNome());
-        addInfo.put("company", usuarioSistema.getUsuario().getEmpresa());
+        addInfo.put("cod_empresa", usuarioSistema.getUsuario().getEmpresa().getCodigo());
 
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(addInfo);
         return accessToken;

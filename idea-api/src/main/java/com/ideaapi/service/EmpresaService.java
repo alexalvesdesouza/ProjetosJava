@@ -1,12 +1,12 @@
 package com.ideaapi.service;
 
-import java.util.List;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.ideaapi.model.Empresa;
@@ -27,10 +27,6 @@ public class EmpresaService {
     @Autowired
     private EmpresaValidate empresaValidate;
 
-    public List<Empresa> listaTodasEmpresas() {
-        return this.empresaRepository.findAll();
-    }
-
     public Page<Empresa> filtrar(EmpresaFilter filter, Pageable pageable) {
         return this.empresaRepository.filtrar(filter, pageable);
     }
@@ -40,6 +36,15 @@ public class EmpresaService {
     }
 
     public Empresa cadastraEmpresa(Empresa entity) {
+
+        Authentication authentication = (Authentication) SecurityContextHolder.getContext().getAuthentication();
+
+//        if(authentication != null){
+//            Object obj = authentication.getPrincipal();
+//            if (obj instanceof Usuario){
+//                return (Usuario) obj;
+//            }
+//        }
 
         this.empresaValidate.fluxoCriacao(entity);
 

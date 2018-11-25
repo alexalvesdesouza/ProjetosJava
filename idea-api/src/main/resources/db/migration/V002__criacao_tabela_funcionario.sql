@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS funcionario (
   rg                VARCHAR(50),
   cpf               VARCHAR(20)         UNIQUE,
   sexo              VARCHAR(20),
-  estadoCivil       VARCHAR(50),
+  estado_civil      VARCHAR(50),
   escolaridade      VARCHAR(100),
   naturalidade      VARCHAR(100),
   email             VARCHAR(50),

@@ -46,11 +46,17 @@ CREATE TABLE IF NOT EXISTS  empresa_contato (
 	FOREIGN KEY (codigo_contato) REFERENCES contato(codigo)
 );
 
+INSERT INTO contato(codigo, nome, telefone, email)
+VALUES(1, 'Reinaldo','(34)-7777-7777','reinaldo@ideia.com');
+
 INSERT INTO empresa(codigo, nome, cnpj, logradouro, numero,
 complemento, bairro, cep, cidade,  estado, ativa)
  VALUES
   (1, 'IDEIA EXAMES', '23961535000124', 'Av. Floriano Peixoto',
   '3550', '', 'Brasil', '38408177', 'Uberlândia', 'MG', true);
+
+INSERT INTO empresa_contato(codigo_empresa, codigo_contato)
+VALUES(1,1);
 
 
 
