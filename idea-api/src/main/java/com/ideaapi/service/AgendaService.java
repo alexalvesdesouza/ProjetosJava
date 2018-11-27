@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ideaapi.model.Agenda;
-import com.ideaapi.model.Funcionario;
 import com.ideaapi.repository.AgendaRepository;
 import com.ideaapi.repository.filter.AgendamentoFilter;
 import com.ideaapi.repository.projection.ResumoAgendamento;
@@ -21,7 +20,7 @@ public class AgendaService {
     private AgendaRepository agendamentoRepository;
 
     @Autowired
-    private FuncionarioService funcionarioService;
+    private HorarioService horarioService;
 
     public Page<Agenda> listaTodasAgendamentos(AgendamentoFilter filter, Pageable pageable) {
         return this.agendamentoRepository.filtrar(filter, pageable);
@@ -33,18 +32,9 @@ public class AgendaService {
 
     public Agenda cadastraAgendamento(Agenda entity) {
 
-        Funcionario funcionario = entity.getFuncionario();
-        funcionario =  this.funcionarioService.buscaFuncionario(funcionario.getCodigo());
-
-//        if (funcionario != null && funcionario.getEmpresa() != null) {
-//
-//            final Empresa empresa = funcionario.getEmpresa();
-//
-//            if (empresa == null || empresa.isInativa()) {
-//                throw new EmpesaInexsistenteOuInativaException();
-//            }
-//
-//        }
+        if(!entity.getHorarios().isEmpty()) {
+            entity.getHorarios().forEach(this.horarioService::cadastraHorario);
+        }
         return this.agendamentoRepository.save(entity);
     }
 

@@ -5,30 +5,25 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.ideaapi.enums.TipoAgendamento;
-
 @Entity
 @Table(name = "agenda")
-@SequenceGenerator(name = "agendamento_seq", sequenceName = "agendamento_seq", allocationSize = 1)
+@SequenceGenerator(name = "agenda_seq", sequenceName = "agenda_seq", allocationSize = 1)
 public class Agenda {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "agendamento_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "agenda_seq")
     private Long codigo;
 
     @NotNull
@@ -43,15 +38,6 @@ public class Agenda {
     @NotNull
     @Size(min = 3, max = 100)
     private String observacao;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private TipoAgendamento tipo;
-
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "codigo_funcionario")
-    private Funcionario funcionario;
 
     public Long getCodigo() {
         return codigo;
@@ -83,22 +69,6 @@ public class Agenda {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
-    }
-
-    public TipoAgendamento getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoAgendamento tipo) {
-        this.tipo = tipo;
-    }
-
-    public Funcionario getFuncionario() {
-        return funcionario;
-    }
-
-    public void setFuncionario(Funcionario funcionario) {
-        this.funcionario = funcionario;
     }
 
     @Override

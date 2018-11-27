@@ -19,6 +19,8 @@ public class HorarioService {
     }
 
     public Horario cadastraHorario(Horario entity) {
+        entity.setAvulso(false);
+        entity.setDisponivel(true);
         return this.horarioRepository.save(entity);
     }
 

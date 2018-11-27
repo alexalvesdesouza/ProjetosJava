@@ -18,7 +18,6 @@ import org.springframework.util.StringUtils;
 
 import com.ideaapi.model.Agenda;
 import com.ideaapi.model.Agenda_;
-import com.ideaapi.model.Funcionario_;
 import com.ideaapi.repository.filter.AgendamentoFilter;
 import com.ideaapi.repository.projection.ResumoAgendamento;
 import com.ideaapi.repository.restricoes.paginacao.RestricoesPaginacao;
@@ -53,8 +52,7 @@ public class AgendaRepositoryImpl extends RestricoesPaginacao implements AgendaR
         criteria.select(builder.construct(ResumoAgendamento.class
                 , root.get(Agenda_.codigo)
                 , root.get(Agenda_.observacao)
-                , root.get(Agenda_.tipo)
-                , root.get(Agenda_.funcionario).get(Funcionario_.nome)));
+        ));
 
         Predicate[] predicates = criarRestricoes(agendamentoFilter, builder, root);
         criteria.where(predicates);

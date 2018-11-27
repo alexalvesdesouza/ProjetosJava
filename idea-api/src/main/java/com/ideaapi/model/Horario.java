@@ -22,6 +22,8 @@ public class Horario {
 
     private Integer maximoPermitido;
 
+    private Integer restante;
+
     private Boolean disponivel;
 
     private Boolean avulso;
@@ -64,6 +66,14 @@ public class Horario {
 
     public void setAvulso(Boolean avulso) {
         this.avulso = avulso;
+    }
+
+    public Integer getRestante() {
+        return restante;
+    }
+
+    public void setRestante(Integer restante) {
+        this.restante = restante;
     }
 
     @Override

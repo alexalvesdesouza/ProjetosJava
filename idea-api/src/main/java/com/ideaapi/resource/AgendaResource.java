@@ -37,7 +37,7 @@ import com.ideaapi.repository.projection.ResumoAgendamento;
 import com.ideaapi.service.AgendaService;
 
 @RestController
-@RequestMapping("/agendamentos")
+@RequestMapping("/agendas")
 public class AgendaResource {
 
     @Autowired
