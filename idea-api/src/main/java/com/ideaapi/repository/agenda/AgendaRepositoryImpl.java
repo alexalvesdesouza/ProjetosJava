@@ -18,7 +18,7 @@ import org.springframework.util.StringUtils;
 
 import com.ideaapi.model.Agenda;
 import com.ideaapi.model.Agenda_;
-import com.ideaapi.repository.filter.AgendamentoFilter;
+import com.ideaapi.repository.filter.AgendaFilter;
 import com.ideaapi.repository.projection.ResumoAgendamento;
 import com.ideaapi.repository.restricoes.paginacao.RestricoesPaginacao;
 
@@ -28,7 +28,7 @@ public class AgendaRepositoryImpl extends RestricoesPaginacao implements AgendaR
     private EntityManager manager;
 
     @Override
-    public Page<Agenda> filtrar(AgendamentoFilter agendamentoFilter, Pageable pageable) {
+    public Page<Agenda> filtrar(AgendaFilter agendamentoFilter, Pageable pageable) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Agenda> criteria = builder.createQuery(Agenda.class);
         Root<Agenda> root = criteria.from(Agenda.class);
@@ -44,7 +44,7 @@ public class AgendaRepositoryImpl extends RestricoesPaginacao implements AgendaR
 
 
     @Override
-    public Page<ResumoAgendamento> resumir(AgendamentoFilter agendamentoFilter, Pageable pageable) {
+    public Page<ResumoAgendamento> resumir(AgendaFilter agendamentoFilter, Pageable pageable) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<ResumoAgendamento> criteria = builder.createQuery(ResumoAgendamento.class);
         Root<Agenda> root = criteria.from(Agenda.class);
@@ -63,7 +63,7 @@ public class AgendaRepositoryImpl extends RestricoesPaginacao implements AgendaR
         return new PageImpl<>(query.getResultList(), pageable, total(agendamentoFilter));
     }
 
-    private Predicate[] criarRestricoes(AgendamentoFilter agendamentoFilter, CriteriaBuilder builder,
+    private Predicate[] criarRestricoes(AgendaFilter agendamentoFilter, CriteriaBuilder builder,
             Root<Agenda> root) {
         List<Predicate> predicates = new ArrayList<>();
 
@@ -88,7 +88,7 @@ public class AgendaRepositoryImpl extends RestricoesPaginacao implements AgendaR
         return predicates.toArray(new Predicate[predicates.size()]);
     }
 
-    private Long total(AgendamentoFilter agendamentoFilter) {
+    private Long total(AgendaFilter agendamentoFilter) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
         Root<Agenda> root = criteria.from(Agenda.class);

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ideaapi.model.Agenda;
 import com.ideaapi.repository.AgendaRepository;
-import com.ideaapi.repository.filter.AgendamentoFilter;
+import com.ideaapi.repository.filter.AgendaFilter;
 import com.ideaapi.repository.projection.ResumoAgendamento;
 
 @Service
@@ -22,15 +22,15 @@ public class AgendaService {
     @Autowired
     private HorarioService horarioService;
 
-    public Page<Agenda> listaTodasAgendamentos(AgendamentoFilter filter, Pageable pageable) {
+    public Page<Agenda> listaTodasAgendamentos(AgendaFilter filter, Pageable pageable) {
         return this.agendamentoRepository.filtrar(filter, pageable);
     }
 
-    public Page<ResumoAgendamento> resumo(AgendamentoFilter filter, Pageable pageable) {
+    public Page<ResumoAgendamento> resumo(AgendaFilter filter, Pageable pageable) {
         return this.agendamentoRepository.resumir(filter, pageable);
     }
 
-    public Agenda cadastraAgendamento(Agenda entity) {
+    public Agenda cadastraAgenda(Agenda entity) {
 
         if(!entity.getHorarios().isEmpty()) {
             entity.getHorarios().forEach(this.horarioService::cadastraHorario);

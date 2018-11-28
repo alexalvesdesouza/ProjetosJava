@@ -20,6 +20,7 @@ public class HorarioService {
 
     public Horario cadastraHorario(Horario entity) {
         entity.setAvulso(false);
+        entity.setRestante(entity.getMaximoPermitido());
         entity.setDisponivel(true);
         return this.horarioRepository.save(entity);
     }

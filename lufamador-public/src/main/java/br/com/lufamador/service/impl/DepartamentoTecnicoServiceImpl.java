@@ -1,6 +1,5 @@
 package br.com.lufamador.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,17 +19,7 @@ public class DepartamentoTecnicoServiceImpl {
     private DepartamentoTecnicoRepository repository;
 
     public List<DepartamentoTecnico> getDepartamentoTecnicoList(String categoria, String subCategoria) {
-        List<DepartamentoTecnico> list = this.repository.findByCategoria(categoria);
-
-        if (null == subCategoria) {
-            return new ArrayList<>();
-        }
-
-        list = list.stream().filter(
-                dep -> (null != dep.getSubCategoria() && dep.getSubCategoria().equals(subCategoria))).collect(
-                Collectors.toList());
-
-        return list;
+        return this.repository.findByCategoriaAndSubCategoriaOrderByNumeroAsc(categoria, subCategoria);
     }
 
     public List<DepartamentoTecnico> getDocsList() {

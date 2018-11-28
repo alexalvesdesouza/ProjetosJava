@@ -32,7 +32,7 @@ import com.ideaapi.event.RecursoCriadoEvent;
 import com.ideaapi.exceptionhandler.IdeaApiExceptionHandler;
 import com.ideaapi.exceptions.EmpesaInexsistenteOuInativaException;
 import com.ideaapi.model.Agenda;
-import com.ideaapi.repository.filter.AgendamentoFilter;
+import com.ideaapi.repository.filter.AgendaFilter;
 import com.ideaapi.repository.projection.ResumoAgendamento;
 import com.ideaapi.service.AgendaService;
 
@@ -52,13 +52,13 @@ public class AgendaResource {
     @GetMapping
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_AGENDAMENTO') or hasAuthority('ROLE_ADMIN')  and #oauth2" +
             ".hasScope('read')")
-    public Page<Agenda> pesquisar(AgendamentoFilter filter, Pageable pageable) {
+    public Page<Agenda> pesquisar(AgendaFilter filter, Pageable pageable) {
         return this.agendaService.listaTodasAgendamentos(filter, pageable);
     }
 
     @GetMapping("/resumo")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_AGENDAMENTO') or hasAuthority('ROLE_ADMIN')  and #oauth2.hasScope('read')")
-    public Page<ResumoAgendamento> resumo(AgendamentoFilter filter, Pageable pageable) {
+    public Page<ResumoAgendamento> resumo(AgendaFilter filter, Pageable pageable) {
         return this.agendaService.resumo(filter, pageable);
     }
 
@@ -67,7 +67,7 @@ public class AgendaResource {
     public ResponseEntity<Agenda> criar(@RequestBody @Valid Agenda agenda,
             HttpServletResponse response) {
 
-        final Agenda agendaSalva = this.agendaService.cadastraAgendamento(agenda);
+        final Agenda agendaSalva = this.agendaService.cadastraAgenda(agenda);
         publisher.publishEvent(new RecursoCriadoEvent(this, response, agendaSalva.getCodigo()));
         return ResponseEntity.status(HttpStatus.CREATED).body(agendaSalva);
     }
