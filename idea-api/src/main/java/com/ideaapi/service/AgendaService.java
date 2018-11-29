@@ -17,17 +17,17 @@ import com.ideaapi.repository.projection.ResumoAgendamento;
 public class AgendaService {
 
     @Autowired
-    private AgendaRepository agendamentoRepository;
+    private AgendaRepository agendaRepository;
 
     @Autowired
     private HorarioService horarioService;
 
     public Page<Agenda> listaTodasAgendamentos(AgendaFilter filter, Pageable pageable) {
-        return this.agendamentoRepository.filtrar(filter, pageable);
+        return this.agendaRepository.filtrar(filter, pageable);
     }
 
     public Page<ResumoAgendamento> resumo(AgendaFilter filter, Pageable pageable) {
-        return this.agendamentoRepository.resumir(filter, pageable);
+        return this.agendaRepository.resumir(filter, pageable);
     }
 
     public Agenda cadastraAgenda(Agenda entity) {
@@ -35,11 +35,11 @@ public class AgendaService {
         if(!entity.getHorarios().isEmpty()) {
             entity.getHorarios().forEach(this.horarioService::cadastraHorario);
         }
-        return this.agendamentoRepository.save(entity);
+        return this.agendaRepository.save(entity);
     }
 
     public Agenda buscaAgendamento(Long codigo) {
-        Agenda agenda = this.agendamentoRepository.findOne(codigo);
+        Agenda agenda = this.agendaRepository.findOne(codigo);
 
         if (agenda == null) {
             throw new EmptyResultDataAccessException(1);
@@ -49,14 +49,14 @@ public class AgendaService {
     }
 
     public void deletaAgendamento(Long codigo) {
-        this.agendamentoRepository.delete(codigo);
+        this.agendaRepository.delete(codigo);
     }
 
     public ResponseEntity<Agenda> atualizaAgendamento(Long codigo, Agenda agenda) {
         Agenda agendaSalva = this.buscaAgendamento(codigo);
         BeanUtils.copyProperties(agenda, agendaSalva, "codigo");
 
-        this.agendamentoRepository.save(agendaSalva);
+        this.agendaRepository.save(agendaSalva);
         return ResponseEntity.ok(agendaSalva);
     }
 
