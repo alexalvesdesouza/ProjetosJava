@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -78,7 +79,7 @@ public class JogoService {
                     return;
                 }
                 String fase = jogo.getFase();
-                if (fase.equals("2") && jogo.getTurno() == null) {
+                if (fase.equals("2") && StringUtils.isBlank(jogo.getTurno())) {
                     String turno = "ida";
                     if (jogo.getRodada().equals("2")) {
                         turno = "volta";
@@ -93,9 +94,9 @@ public class JogoService {
                     return;
                 }
 
-                if (null == jogo.getCategoria()) {
+                if (StringUtils.isBlank(jogo.getCategoria())) {
                     String categoria = jogo.getAgremiacaoA().getCategoria();
-                    if (null == categoria) {
+                    if (StringUtils.isBlank(categoria)) {
                         categoria = jogo.getAgremiacaoB().getCategoria();
                     }
                     jogo.setCategoria(categoria);
@@ -106,18 +107,18 @@ public class JogoService {
                 key = jogo.getAgremiacaoB().getCodigo().toString().concat(jogo.getFase());
                 String chaveB = mapChaves.get(key);
 
-                if (null == chaveA && null == chaveB && null == jogo.getChave()) {
+                if (StringUtils.isBlank(chaveA)  &&  StringUtils.isBlank(chaveB) && StringUtils.isBlank(jogo.getChave())) {
                     throw new BussinessException("Informe a chave do jogo");
                 }
 
-                if (null == chaveA && null == chaveB && null != jogo.getChave()) {
+                if (StringUtils.isBlank(chaveA) && StringUtils.isBlank(chaveB) && !StringUtils.isBlank(jogo.getChave())) {
                     chaveA = jogo.getChave();
                     chaveB = chaveA;
                 }
 
-                if (null == chaveA && null != chaveB) {
+                if (StringUtils.isBlank(chaveA) && !StringUtils.isBlank(chaveB)) {
                     chaveA = chaveB;
-                } else if (null == chaveB && null != chaveA) {
+                } else if (StringUtils.isBlank(chaveB) && !StringUtils.isBlank(chaveA)) {
                     chaveB = chaveA;
                 }
 
@@ -125,7 +126,7 @@ public class JogoService {
                     throw new BussinessException("Agremiações com chaves divergentes");
                 }
 
-                if (null == jogo.getChave() || jogo.getChave().equals("")) {
+                if (StringUtils.isBlank(jogo.getChave())) {
                     jogo.setChave(chaveA);
                 }
 
