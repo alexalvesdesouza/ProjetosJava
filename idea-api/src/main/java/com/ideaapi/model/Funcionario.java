@@ -13,11 +13,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.ideaapi.util.datas.LocalDateDeserializer;
+import com.ideaapi.util.datas.LocalDateSerializer;
 
 @Entity
 @Table(name = "funcionario")
@@ -37,6 +43,8 @@ public class Funcionario {
     @Size(min = 3, max = 20)
     private String cpf;
 
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     @NotNull
     private LocalDate dataNascimento;
 
@@ -44,6 +52,8 @@ public class Funcionario {
     private String estadoCivil;
     private String escolaridade;
     private String naturalidade;
+
+    @Email
     private String email;
     private String matricula;
     private String cargo;

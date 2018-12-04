@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ideaapi.event.RecursoCriadoEvent;
+import com.ideaapi.model.SenhaAlterar;
+import com.ideaapi.model.SenhaReiniciar;
 import com.ideaapi.model.Usuario;
 import com.ideaapi.repository.filter.UsuarioFilter;
 import com.ideaapi.service.UsuarioService;
@@ -55,7 +57,7 @@ public class UsuarioResource {
 
     @GetMapping("/{codigo}")
     @PreAuthorize(value = "hasAuthority('ROLE_ADMIN') and #oauth2.hasScope('read')")
-    public ResponseEntity<Usuario> busca(@PathVariable Long codigo) {
+    public ResponseEntity<Usuario> buscar(@PathVariable Long codigo) {
         Usuario usuario = this.usuarioService.buscaUsuario(codigo);
 
         if (null == usuario)
@@ -67,16 +69,27 @@ public class UsuarioResource {
     @DeleteMapping("/{codigo}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize(value = "hasAuthority('ROLE_ADMIN') and #oauth2.hasScope('write')")
-    public void deleta(@PathVariable Long codigo) {
+    public void deletar(@PathVariable Long codigo) {
         this.usuarioService.deletaUsuario(codigo);
     }
 
     @PutMapping("/{codigo}")
-    @PreAuthorize(value = "hasAuthority('ROLE_ADMIN') and #oauth2.hasScope('read')")
-    public ResponseEntity<Usuario> atualiza(@PathVariable Long codigo,
+    @PreAuthorize(value = "hasAuthority('ROLE_ADMIN') and #oauth2.hasScope('write')")
+    public ResponseEntity<Usuario> atualizar(@PathVariable Long codigo,
             @RequestBody @Valid Usuario usuario) {
         return this.usuarioService.atualizaUsuario(codigo, usuario);
-
     }
 
+    @PostMapping("/senha/mudar/{codigo}")
+    @PreAuthorize(value = "hasAuthority('ROLE_ADMIN') and #oauth2.hasScope('write')")
+    public ResponseEntity<Usuario> alterarSenha(
+            @PathVariable Long codigo,
+            @RequestBody @Valid SenhaAlterar senhaAlterar) {
+        return this.usuarioService.alterarSenhaUsuario(codigo, senhaAlterar);
+    }
+
+    @PostMapping("/senha/reiniciar")
+    public ResponseEntity reiniciarSenha(@RequestBody @Valid SenhaReiniciar senhaReiniciar) {
+        return this.usuarioService.reiniciarSenhaUsuario(senhaReiniciar);
+    }
 }

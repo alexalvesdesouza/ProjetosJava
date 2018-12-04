@@ -79,7 +79,6 @@ public class EmpresaRepositoryImpl extends RestricoesPaginacao implements Empres
                     "%" + empresaFilter.getNome().toLowerCase() + "%"));
         }
 
-
         if (empresaFilter.getCnpj() != null) {
             predicates.add(builder.like(
                     builder.lower(root.get(Empresa_.cnpj)),

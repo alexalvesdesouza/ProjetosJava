@@ -14,6 +14,7 @@ import com.ideaapi.model.Funcionario;
 import com.ideaapi.repository.FuncionarioRepository;
 import com.ideaapi.repository.filter.FuncionarioFilter;
 import com.ideaapi.repository.projection.ResumoFuncionario;
+import com.ideaapi.security.UsuarioSessao;
 import com.ideaapi.validate.FuncionarioValidate;
 
 @Service
@@ -26,11 +27,14 @@ public class FuncionarioService {
     private FuncionarioValidate funcionarioValidate;
 
     public Page<ResumoFuncionario> resumo(FuncionarioFilter filter, Pageable pageable) {
+
+//        Long codUsuario = UsuarioSessao.getCodUsuario();
+
         return this.funcionarioRepository.resumir(filter, pageable);
     }
 
     public Funcionario cadastraFuncionario(Funcionario entity) {
-        Authentication authentication = (Authentication) SecurityContextHolder.getContext().getAuthentication();
+        
         this.funcionarioValidate.fluxoCriacao(entity);
         return this.funcionarioRepository.save(entity);
     }

@@ -5,7 +5,7 @@ import static com.ideaapi.constansts.ErrorsCode.CNPJ_DUPLICADO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.ideaapi.exceptions.BussinessException;
+import com.ideaapi.exceptions.BusinessException;
 import com.ideaapi.model.Empresa;
 import com.ideaapi.repository.EmpresaRepository;
 
@@ -24,7 +24,7 @@ public class EmpresaValidate {
         Empresa saved = this.repository.findByCnpj(empresa.getCnpj());
 
         if (null != saved) {
-            throw new BussinessException(CNPJ_DUPLICADO);
+            throw new BusinessException(CNPJ_DUPLICADO);
         }
     }
 

@@ -8,6 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
 
 @Entity
 @Table(name = "contato")
@@ -18,10 +22,15 @@ public class Contato {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "contato_seq")
     private Long codigo;
 
+    @NotNull
+    @Size(min = 3, max = 50)
     private String nome;
 
     private String telefone;
 
+    @NotNull
+    @Email
+    @Size(min = 3, max = 50)
     private String email;
 
     public Long getCodigo() {

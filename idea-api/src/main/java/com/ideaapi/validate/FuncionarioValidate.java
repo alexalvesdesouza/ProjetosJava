@@ -5,7 +5,7 @@ import static com.ideaapi.constansts.ErrorsCode.CPF_DUPLICADO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.ideaapi.exceptions.BussinessException;
+import com.ideaapi.exceptions.BusinessException;
 import com.ideaapi.model.Funcionario;
 import com.ideaapi.repository.FuncionarioRepository;
 
@@ -24,7 +24,7 @@ public class FuncionarioValidate {
         Funcionario saved = this.repository.findByCpf(funcionario.getCpf());
 
         if (null != saved) {
-            throw new BussinessException(CPF_DUPLICADO);
+            throw new BusinessException(CPF_DUPLICADO);
         }
     }
 }

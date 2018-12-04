@@ -11,13 +11,15 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.util.StringUtils;
 
+import com.ideaapi.model.Agenda_;
 import com.ideaapi.model.Agendamento;
 import com.ideaapi.model.Agendamento_;
+import com.ideaapi.model.Empresa_;
 import com.ideaapi.repository.filter.AgendamentoFilter;
 import com.ideaapi.repository.projection.ResumoAgendamento;
 import com.ideaapi.repository.restricoes.paginacao.RestricoesPaginacao;
@@ -73,17 +75,17 @@ public class AgendamentoRepositoryImpl extends RestricoesPaginacao implements Ag
                     "%" + agendamentoFilter.getObservacao().toLowerCase() + "%"));
         }
 
-//        if (agendamentoFilter.getDataExameDe() != null) {
-//            predicates.add(
-//                    builder.greaterThanOrEqualTo(root.get(Agenda_.horario).get(Horario_.dataExame),
-//                            agendamentoFilter.getDataExameDe()));
-//        }
-//
-//        if (agendamentoFilter.getDataExameAte() != null) {
-//            predicates.add(
-//                    builder.lessThanOrEqualTo(root.get(Agenda_.horario).get(Horario_.dataExame),
-//                            agendamentoFilter.getDataExameAte()));
-//        }
+        if (agendamentoFilter.getDataExameDe() != null) {
+            predicates.add(
+                    builder .greaterThanOrEqualTo(root.get(Agendamento_.agenda).get(Agenda_.diaAgenda),
+                            agendamentoFilter.getDataExameDe()));
+        }
+
+        if (agendamentoFilter.getDataExameAte() != null) {
+            predicates.add(
+                    builder.lessThanOrEqualTo(root.get(Agendamento_.agenda).get(Agenda_.diaAgenda),
+                            agendamentoFilter.getDataExameAte()));
+        }
 
         return predicates.toArray(new Predicate[predicates.size()]);
     }

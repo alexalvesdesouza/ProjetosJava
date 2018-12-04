@@ -36,7 +36,7 @@ public class HorarioResource {
     @GetMapping
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_HORARIO') or hasAuthority('ROLE_ADMIN') and #oauth2.hasScope('read')")
     public List<Horario> listar() {
-        return this.horarioService.listaTodasHorarios();
+        return this.horarioService.listaHorariosDos3ProximosDias();
     }
 
     @PostMapping

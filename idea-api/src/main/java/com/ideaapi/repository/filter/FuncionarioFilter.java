@@ -12,6 +12,16 @@ public class FuncionarioFilter {
 
     private String telefone;
 
+    private Long codigoEmpresa;
+
+    public Long getCodigoEmpresa() {
+        return codigoEmpresa;
+    }
+
+    public void setCodigoEmpresa(Long codigoEmpresa) {
+        this.codigoEmpresa = codigoEmpresa;
+    }
+
     public String getNome() {
         return nome;
     }
