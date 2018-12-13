@@ -45,7 +45,7 @@ public class DepartamentoTecnicoServiceImpl implements DepartamentoTecnicoServic
     }
 
     private void alteraCorDocs(DepartamentoTecnico departamentoTecnico) {
-        String cor = "#FFFFFF";
+        String cor = "#ff0000";
         if (CategoriaConstant.PORTARIAS.name().equals(departamentoTecnico.getCategoria())) {
             cor = "#b3b3cc";
         }
@@ -92,10 +92,20 @@ public class DepartamentoTecnicoServiceImpl implements DepartamentoTecnicoServic
 
     @Override
     public DepartamentoTecnico createOrUpdate(DepartamentoTecnico departamentoTecnico) {
+        this.normalizaPaginaInicial(departamentoTecnico);
         this.setSubCategoria(departamentoTecnico);
         if (null != departamentoTecnico.getCodigo())
             return this.update(departamentoTecnico);
         return this.create(departamentoTecnico);
+    }
+
+    private void normalizaPaginaInicial(DepartamentoTecnico departamentoTecnico) {
+        if (!departamentoTecnico.getCategoria().equals(CategoriaConstant.EDITAIS.name())
+                && !departamentoTecnico.getCategoria().equals(CategoriaConstant.NOTAS_OFICIAIS.name())
+                && !departamentoTecnico.getCategoria().equals(CategoriaConstant.COMUNICADOS.name())) {
+            departamentoTecnico.setExibirPaginaPrincipal(false);
+        }
+
     }
 
     private void setSubCategoria(DepartamentoTecnico departamentoTecnico) {
