@@ -1,4 +1,4 @@
-package br.com.lufamador.controller;
+package br.com.lufamador.resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,69 +15,67 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.lufamador.model.LocalJogo;
+import br.com.lufamador.model.galeria.Foto;
 import br.com.lufamador.response.Response;
-import br.com.lufamador.service.LocalJogoService;
+import br.com.lufamador.service.FotoService;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/locais-jogos")
-public class LocalJogoController {
+@RequestMapping("/fotos")
+public class FotoController {
 
     @Autowired
-    private LocalJogoService localJogoService;
+    private FotoService fotoService;
 
     @GetMapping(value = "{page}/{count}")
     @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
-    public ResponseEntity<Response<Page<LocalJogo>>> findAll(@PathVariable("page") int page,
+    public ResponseEntity<Response<Page<Foto>>> findAll(@PathVariable("page") int page,
             @PathVariable("count") int count) {
-
-        Response<Page<LocalJogo>> response = new Response<>();
-        Page<LocalJogo> agremiacoes = this.localJogoService.findAll(page, count);
-        response.setData(agremiacoes);
+        Response<Page<Foto>> response = new Response<Page<Foto>>();
+        Page<Foto> fotos = this.fotoService.findAll(page, count);
+        response.setData(fotos);
         return ResponseEntity.ok(response);
-
     }
-   
+
     @GetMapping(value = "{codigo}")
     @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
-    public ResponseEntity<Response<LocalJogo>> findById(@PathVariable("codigo") Long codigo) {
-        Response<LocalJogo> response = new Response<>();
-        LocalJogo localJogo = this.localJogoService.findByCodigo(codigo);
-        if (null == localJogo) {
+    public ResponseEntity<Response<Foto>> findById(@PathVariable("codigo") Long codigo) {
+        Response<Foto> response = new Response<>();
+        Foto foto = this.fotoService.findByCodigo(codigo);
+        if (null == foto) {
             response.getErrors()
                     .add("Register not found " + codigo);
             return ResponseEntity.badRequest()
                     .body(response);
         }
-        response.setData(localJogo);
+        response.setData(foto);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping
     @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
-    public ResponseEntity<Response<LocalJogo>> cadastraLocalJogo(@RequestBody LocalJogo localJogo) {
-        Response<LocalJogo> response = new Response<>();
-        final LocalJogo localJogoSaved = this.localJogoService.createOrUpdate(localJogo);
-        response.setData(localJogoSaved);
+    public ResponseEntity<Response<Foto>> cadastraFoto(@RequestBody Foto foto) {
+        Response<Foto> response = new Response<>();
+        final Foto fotoSaved = this.fotoService.createOrUpdate(foto);
+        response.setData(fotoSaved);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping
     @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
-    public ResponseEntity<Response<LocalJogo>> atualizaLocalJogo(@RequestBody LocalJogo localJogo) {
-        Response<LocalJogo> response = new Response<>();
-        final LocalJogo localJogoSaved = this.localJogoService.createOrUpdate(localJogo);
-        response.setData(localJogoSaved);
+    public ResponseEntity<Response<Foto>> atualizaFoto(@RequestBody Foto foto) {
+        Response<Foto> response = new Response<>();
+        final Foto fotoSaved = this.fotoService.createOrUpdate(foto);
+        response.setData(fotoSaved);
         return ResponseEntity.ok(response);
     }
 
-
-    @DeleteMapping(path = "{codigo}")
+    @DeleteMapping(value = "{codigo}")
     @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
-    public ResponseEntity<?> deletaLocalJogo(@PathVariable(value = "codigo") Long codigo) {
-        this.localJogoService.delete(codigo);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<?> deletaFoto(@PathVariable("codigo") Long codigo) {
+        this.fotoService.delete(codigo);
+        HttpStatus status = HttpStatus.OK;
+        return new ResponseEntity<>(status);
     }
 
 }

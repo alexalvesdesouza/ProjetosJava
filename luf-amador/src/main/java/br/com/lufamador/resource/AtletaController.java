@@ -1,4 +1,4 @@
-package br.com.lufamador.controller;
+package br.com.lufamador.resource;
 
 import java.util.List;
 
