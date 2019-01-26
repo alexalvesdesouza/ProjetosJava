@@ -1,21 +1,14 @@
 package br.com.lufamador.service.impl;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import br.com.lufamador.exception.BussinessException;
 import br.com.lufamador.model.LocalJogo;
 import br.com.lufamador.repository.LocalJogoRepository;
 import br.com.lufamador.service.LocalJogoService;
-import br.com.lufamador.utils.mensagens.MensagensErro;
 
 @Service
 public class LocalJogoServiceImpl implements LocalJogoService {
@@ -44,7 +37,7 @@ public class LocalJogoServiceImpl implements LocalJogoService {
     public LocalJogo getLocalJogo(final Long codigo) {
 //        Optional<LocalJogo> localJogo = this.repository.findById(codigo);
 //        if (!localJogo.isPresent())
-//            throw new BussinessException(MensagensErro.ENTIDADE_INEXISTENTE);
+//            throw new BusinessException(MensagensErro.ENTIDADE_INEXISTENTE);
 //        return localJogo.get();
         return null;
     }

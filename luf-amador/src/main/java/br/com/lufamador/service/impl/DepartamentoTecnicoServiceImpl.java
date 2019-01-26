@@ -1,17 +1,12 @@
 package br.com.lufamador.service.impl;
 
-import static br.com.lufamador.utils.mensagens.MensagensErro.ENTIDADE_INEXISTENTE;
-
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import br.com.lufamador.exception.BussinessException;
+import br.com.lufamador.exceptions.BusinessException;
 import br.com.lufamador.model.DepartamentoTecnico;
 import br.com.lufamador.repository.DepartamentoTecnicoRepository;
 import br.com.lufamador.service.DepartamentoTecnicoService;
@@ -39,7 +34,7 @@ public class DepartamentoTecnicoServiceImpl implements DepartamentoTecnicoServic
             this.alteraCorDocs(departamentoTecnico);
             departamentoTecnicoSaved = this.repository.saveAndFlush(departamentoTecnico);
         } catch (Exception e) {
-            throw new BussinessException(e.getMessage());
+            throw new BusinessException(e.getMessage());
         }
         return departamentoTecnicoSaved;
     }
@@ -66,7 +61,7 @@ public class DepartamentoTecnicoServiceImpl implements DepartamentoTecnicoServic
             this.alteraCorDocs(departamentoTecnico);
             departamentoTecnicoSaved = this.repository.saveAndFlush(departamentoTecnico);
         } catch (Exception e) {
-            throw new BussinessException(e.getMessage());
+            throw new BusinessException(e.getMessage());
         }
         return departamentoTecnicoSaved;
     }
@@ -78,7 +73,7 @@ public class DepartamentoTecnicoServiceImpl implements DepartamentoTecnicoServic
     public void deletarEntidadeDepartamentoTecnico(final Long codigo) {
 //        Optional<DepartamentoTecnico> tjud = this.repository.findById(codigo);
 //        if (!tjud.isPresent()) {
-//            throw new BussinessException(ENTIDADE_INEXISTENTE.replace("?", "Entidade"));
+//            throw new BusinessException(ENTIDADE_INEXISTENTE.replace("?", "Entidade"));
 //        }
 //        this.repository.delete(tjud.get());
 

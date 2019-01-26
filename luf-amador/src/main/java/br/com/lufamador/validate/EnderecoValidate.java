@@ -3,10 +3,8 @@ package br.com.lufamador.validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.com.lufamador.exception.ValidateException;
 import br.com.lufamador.model.Endereco;
 import br.com.lufamador.repository.EnderecoRepository;
-import br.com.lufamador.utils.mensagens.MensagensErro;
 
 @Component
 public class EnderecoValidate {

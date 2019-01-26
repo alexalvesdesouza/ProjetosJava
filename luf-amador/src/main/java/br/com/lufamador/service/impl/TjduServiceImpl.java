@@ -61,7 +61,7 @@ public class TjduServiceImpl implements TjduService {
 //        Optional<Tjdu> tjud = this.repository.findById(codigo);
 //        if (tjud.isPresent())
 //            this.repository.delete(tjud.get());
-        //TODO criar classe de BussinessException
+        //TODO criar classe de BusinessException
     }
 
     @Override

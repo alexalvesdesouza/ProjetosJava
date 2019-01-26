@@ -1,10 +1,10 @@
-package br.com.lufamador.exception;
+package br.com.lufamador.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value=HttpStatus.FORBIDDEN, reason="Status não permitido para Operação!") 
-public class BussinessForbbidenException  extends RuntimeException{
+public class BusinessForbbidenException extends RuntimeException{
 
   /**
    * 

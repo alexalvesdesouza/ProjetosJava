@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -17,7 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.lufamador.exception.BussinessException;
+import br.com.lufamador.exceptions.BusinessException;
 import br.com.lufamador.model.Agremiacao;
 import br.com.lufamador.model.Jogo;
 import br.com.lufamador.repository.JogoRepository;
@@ -88,7 +87,7 @@ public class JogoService {
                 }
                 String keyConfronto = this.geraKeyJogoUnico(jogo);
                 if (this.keysConfrontos.contains(keyConfronto)) {
-//                    throw new BussinessException(
+//                    throw new BusinessException(
 //                            "Jogo entre: " + jogo.getAgremiacaoA().getNome() + " e "
 //                                    + jogo.getAgremiacaoB().getNome() + " já existente na fase: " + jogo.getFase());
                     return;
@@ -108,7 +107,7 @@ public class JogoService {
                 String chaveB = mapChaves.get(key);
 
                 if (StringUtils.isBlank(chaveA)  &&  StringUtils.isBlank(chaveB) && StringUtils.isBlank(jogo.getChave())) {
-                    throw new BussinessException("Informe a chave do jogo");
+                    throw new BusinessException("Informe a chave do jogo");
                 }
 
                 if (StringUtils.isBlank(chaveA) && StringUtils.isBlank(chaveB) && !StringUtils.isBlank(jogo.getChave())) {
@@ -123,7 +122,7 @@ public class JogoService {
                 }
 
                 if (!chaveA.equals(chaveB)) {
-                    throw new BussinessException("Agremiações com chaves divergentes");
+                    throw new BusinessException("Agremiações com chaves divergentes");
                 }
 
                 if (StringUtils.isBlank(jogo.getChave())) {
@@ -151,7 +150,7 @@ public class JogoService {
                 jogo.setDataCriacao(LocalDateTime.now());
                 this.repository.save(jogo);
             } catch (Exception e) {
-                throw new BussinessException(e.getMessage());
+                throw new BusinessException(e.getMessage());
             }
 
         });
@@ -162,7 +161,7 @@ public class JogoService {
     @Transactional(value = Transactional.TxType.REQUIRES_NEW, rollbackOn = Exception.class)
     public Jogo atualizarJogo(final Jogo jogo) throws NoSuchAlgorithmException {
         if (jogo.getDataPartida().isAfter(LocalDate.now())) {
-            throw new BussinessException("Partida não pode ser atualizada pois o jogo ainda não esta em andamento");
+            throw new BusinessException("Partida não pode ser atualizada pois o jogo ainda não esta em andamento");
         }
         jogo.setDataAtualizacao(LocalDateTime.now());
         jogo.setKeyConfronto(this.geraKeyJogoUnico(jogo));
@@ -209,11 +208,11 @@ public class JogoService {
 
         Jogo saved = this.repository.findByCodigo(jogo.getCodigo());
         if (saved != null && saved.getPartidaEncerrada()) {
-            throw new BussinessException("Partida encerrada");
+            throw new BusinessException("Partida encerrada");
         }
 
         if (jogo.getDataPartida().isAfter(LocalDate.now())) {
-            throw new BussinessException("Partida não pode ser encerrada pois ainda não aconteceu.");
+            throw new BusinessException("Partida não pode ser encerrada pois ainda não aconteceu.");
         }
 
         final Jogo jogoAtualizado = this.repository.saveAndFlush(jogo);
@@ -301,7 +300,7 @@ public class JogoService {
     public void delete(Long codigo) {
         final Jogo jogo = this.getJogo(codigo);
         if (jogo.getPartidaEncerrada()) {
-            throw new BussinessException("Jogo não pode ser deletado, pois ja esta encerrado");
+            throw new BusinessException("Jogo não pode ser deletado, pois ja esta encerrado");
         }
         this.repository.delete(jogo);
     }

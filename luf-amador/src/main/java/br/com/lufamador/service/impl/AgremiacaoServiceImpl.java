@@ -2,20 +2,15 @@ package br.com.lufamador.service.impl;
 
 import java.time.LocalDate;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import br.com.lufamador.exception.BussinessException;
+import br.com.lufamador.exceptions.BusinessException;
 import br.com.lufamador.model.Agremiacao;
 import br.com.lufamador.repository.AgremiacaoRepository;
 import br.com.lufamador.service.AgremiacaoService;
@@ -136,7 +131,7 @@ public class AgremiacaoServiceImpl implements AgremiacaoService {
     public Agremiacao getAgremiacao(final Long codigo) {
         Agremiacao agremiacao = this.repository.findByCodigo(codigo);
         if (null == agremiacao)
-            throw new BussinessException(MensagensErro.ENTIDADE_INEXISTENTE);
+            throw new BusinessException(MensagensErro.ENTIDADE_INEXISTENTE);
         return agremiacao;
     }
 

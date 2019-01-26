@@ -38,7 +38,7 @@ public class LocalJogoController {
         return ResponseEntity.ok(response);
 
     }
-   
+
     @GetMapping(value = "{codigo}")
     @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<LocalJogo>> findById(@PathVariable("codigo") Long codigo) {
