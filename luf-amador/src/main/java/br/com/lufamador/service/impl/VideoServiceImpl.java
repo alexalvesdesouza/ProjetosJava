@@ -19,8 +19,9 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public Page<Video> findAll(int page, int count) {
-        Pageable pages = PageRequest.of(page, count);
-        return this.repository.findAll(pages);
+//        Pageable pages = PageRequest.of(page, count);
+//        return this.repository.findAll(pages);
+        return null;
     }
 
     @Override
@@ -30,14 +31,15 @@ public class VideoServiceImpl implements VideoService {
     }
 
     private void getSrc(Video entity) {
-       String link = entity.getImage();
-       String src = link.replace(GET_YOUTUBE, "");
-       entity.setSrc(src);
+        String link = entity.getImage();
+        String src = link.replace(GET_YOUTUBE, "");
+        entity.setSrc(src);
     }
 
     @Override
     public Video findByCodigo(Long codigo) {
-        return this.repository.findById(codigo).get();
+//        return this.repository.findById(codigo).get();
+        return null;
     }
 
     @Override

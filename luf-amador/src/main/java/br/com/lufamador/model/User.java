@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -24,11 +22,11 @@ public class User {
 
   private String      nome;
 
-  @NotBlank(message = "Email obrigatorio")
-  @Email(message = "Email inválido")
+//  @NotBlank(message = "Email obrigatorio")
+//  @Email(message = "Email inválido")
   private String      email;
 
-  @NotBlank(message = "Password obrigatorio")
+//  @NotBlank(message = "Password obrigatorio")
   @Size(min = 6)
   private String      password;
 

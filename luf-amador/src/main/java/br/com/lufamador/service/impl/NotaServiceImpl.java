@@ -18,8 +18,9 @@ public class NotaServiceImpl implements NotaService {
 
     @Override
     public Page<Nota> findAll(int page, int count) {
-        Pageable pages = PageRequest.of(page, count);
-        return this.repository.findAll(pages);
+//        Pageable pages = PageRequest.of(page, count);
+//        return this.repository.findAll(pages);
+        return null;
     }
 
     @Override
@@ -29,7 +30,8 @@ public class NotaServiceImpl implements NotaService {
 
     @Override
     public Nota findByCodigo(Long codigo) {
-        return this.repository.findById(codigo).get();
+//        return this.repository.findById(codigo).get();
+    return null;
     }
 
     @Override

@@ -134,28 +134,30 @@ public class AgremiacaoServiceImpl implements AgremiacaoService {
     }
 
     public Agremiacao getAgremiacao(final Long codigo) {
-        Optional<Agremiacao> agremiacao = this.repository.findById(codigo);
-        if (!agremiacao.isPresent())
+        Agremiacao agremiacao = this.repository.findByCodigo(codigo);
+        if (null == agremiacao)
             throw new BussinessException(MensagensErro.ENTIDADE_INEXISTENTE);
-        return agremiacao.get();
+        return agremiacao;
     }
 
     @Override
     public Page<Agremiacao> findAll(int page, int count) {
-        Pageable pages = PageRequest.of(page, count, Sort.Direction.ASC, "nome");
-        return this.repository.findAll(pages);
+//        Pageable pages = PageRequest.of(page, count, Sort.Direction.ASC, "nome");
+//        return this.repository.findAll(pages);
+        return null;
     }
 
     public Map<String, Agremiacao> findAllMap(int page, int count) {
-        Pageable pages = PageRequest.of(page, count);
-        Page<Agremiacao> all = this.repository.findAll(pages);
-
-        Map<String, Agremiacao> map = new HashMap<>();
-        all.getContent().forEach(agremiacao -> {
-            map.put(agremiacao.getNome(), agremiacao);
-        });
-
-        return map;
+//        Pageable pages = PageRequest.of(page, count);
+//        Page<Agremiacao> all = this.repository.findAll(pages);
+//
+//        Map<String, Agremiacao> map = new HashMap<>();
+//        all.getContent().forEach(agremiacao -> {
+//            map.put(agremiacao.getNome(), agremiacao);
+//        });
+//
+//        return map;
+        return null;
     }
 
     @Override

@@ -58,16 +58,17 @@ public class TjduServiceImpl implements TjduService {
     }
 
     private void deletarTjdu(final Long codigo) {
-        Optional<Tjdu> tjud = this.repository.findById(codigo);
-        if (tjud.isPresent())
-            this.repository.delete(tjud.get());
+//        Optional<Tjdu> tjud = this.repository.findById(codigo);
+//        if (tjud.isPresent())
+//            this.repository.delete(tjud.get());
         //TODO criar classe de BussinessException
     }
 
     @Override
     public Page<Tjdu> findAll(int page, int count) {
-        Pageable pages = PageRequest.of(page, count);
-        return this.repository.findAll(pages);
+//        Pageable pages = PageRequest.of(page, count);
+//        return this.repository.findAll(pages);
+    return null;
     }
 
     @Override
@@ -89,8 +90,9 @@ public class TjduServiceImpl implements TjduService {
 
     @Override
     public Page<MembroTjdu> findAllMembros(int page, int count) {
-        Pageable pages = PageRequest.of(page, count);
-        return this.repositoryMembrosTjdu.findAll(pages);
+//        Pageable pages = PageRequest.of(page, count);
+//        return this.repositoryMembrosTjdu.findAll(pages);
+        return null;
     }
 
     @Override

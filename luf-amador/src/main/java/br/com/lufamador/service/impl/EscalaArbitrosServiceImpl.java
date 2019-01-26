@@ -50,8 +50,9 @@ public class EscalaArbitrosServiceImpl implements EscalaService {
 
     @Override
     public Page<EscalaArbitros> findAll(int page, int count) {
-        Pageable pages = PageRequest.of(page, count);
-        return this.repository.findAll(pages);
+//        Pageable pages = PageRequest.of(page, count);
+//        return this.repository.findAll(pages);
+        return null;
     }
 
     @Override

@@ -3,12 +3,9 @@ package br.com.lufamador.service.impl;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.lufamador.model.Atleta;
@@ -56,50 +53,53 @@ public class AtletaServiceImpl implements AtletaService {
 
     private Atleta atulizarAtleta(final Atleta atletaAtualizar) {
         Atleta atletaAtualizado = null;
-        final Optional<Atleta> atleta = this.repository.findById(atletaAtualizar.getCodigo());
-        if (atleta.isPresent()) {
-            if (null != atletaAtualizar.getEndereco())
-                this.enderecoService.atualizaEndereco(atletaAtualizar.getEndereco());
-            if (null != atletaAtualizar.getAgremiacao())
-                this.agremiacaoService.createOrUpdate(atletaAtualizar.getAgremiacao());
-            atletaAtualizado = this.repository.saveAndFlush(atletaAtualizar);
-        }
-        return atletaAtualizado;
+//        final Optional<Atleta> atleta = this.repository.findById(atletaAtualizar.getCodigo());
+//        if (atleta.isPresent()) {
+//            if (null != atletaAtualizar.getEndereco())
+//                this.enderecoService.atualizaEndereco(atletaAtualizar.getEndereco());
+//            if (null != atletaAtualizar.getAgremiacao())
+//                this.agremiacaoService.createOrUpdate(atletaAtualizar.getAgremiacao());
+//            atletaAtualizado = this.repository.saveAndFlush(atletaAtualizar);
+//        }
+//        return atletaAtualizado;
+        return null;
     }
 
     public final Atleta suspenderAtleta(final Long codigo) {
-        Atleta atletaSuspenso = null;
-        final Optional<Atleta> atleta = this.repository.findById(codigo);
-        if (atleta.isPresent()) {
-            atleta.get()
-                    .setSuspenso(Boolean.TRUE);
-            atletaSuspenso = this.repository.saveAndFlush(atleta.get());
-        }
-        return atletaSuspenso;
+//        Atleta atletaSuspenso = null;
+//        final Optional<Atleta> atleta = this.repository.findById(codigo);
+//        if (atleta.isPresent()) {
+//            atleta.get()
+//                    .setSuspenso(Boolean.TRUE);
+//            atletaSuspenso = this.repository.saveAndFlush(atleta.get());
+//        }
+//        return atletaSuspenso;
+        return null;
     }
 
     public final Atleta baixarSuspensaoAtleta(final Long codigo) {
-        Atleta atletaSuspenso = null;
-        final Optional<Atleta> atleta = this.repository.findById(codigo);
-        if (atleta.isPresent()) {
-            atleta.get()
-                    .setSuspenso(Boolean.FALSE);
-            atletaSuspenso = this.repository.saveAndFlush(atleta.get());
-        }
-        return atletaSuspenso;
+//        Atleta atletaSuspenso = null;
+//        final Optional<Atleta> atleta = this.repository.findById(codigo);
+//        if (atleta.isPresent()) {
+//            atleta.get()
+//                    .setSuspenso(Boolean.FALSE);
+//            atletaSuspenso = this.repository.saveAndFlush(atleta.get());
+//    }
+        return null;
     }
 
     private void excluirAtleta(final Long codigo) {
-        final Optional<Atleta> atleta = this.repository.findById(codigo);
-        if (atleta.isPresent())
-            this.repository.delete(atleta.get());
+//        final Optional<Atleta> atleta = this.repository.findById(codigo);
+//        if (atleta.isPresent())
+//            this.repository.delete(atleta.get());
 
     }
 
     @Override
     public Page<Atleta> findAll(int page, int count) {
-        Pageable pages = PageRequest.of(page, count);
-        return this.repository.findAll(pages);
+//        Pageable pages = PageRequest.of(page, count);
+//        return this.repository.findAll(pages);
+        return null;
     }
 
     @Override

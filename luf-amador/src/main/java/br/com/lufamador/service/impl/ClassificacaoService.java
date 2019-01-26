@@ -53,7 +53,7 @@ public class ClassificacaoService {
     }
 
     private String geraKeyClassificacao(Long codigoAgremiacao, Integer codigoCampeonato,
-                                        String fase) throws NoSuchAlgorithmException {
+            String fase) throws NoSuchAlgorithmException {
 
         StringBuilder sb = new StringBuilder();
 
@@ -323,7 +323,7 @@ public class ClassificacaoService {
         List<Classificacao> classificacoes;
 
         if (fase.equalsIgnoreCase("QUARTAS")) {
-            
+
         }
 
         if (fase.equals("2") && this.getCategorias().contains(categoria) && null != jogo) {
@@ -390,7 +390,8 @@ public class ClassificacaoService {
     }
 
     private Classificacao getClassificacao(Long codigo) {
-        return this.repository.findById(codigo).get();
+//        return this.repository.findById(codigo).get();
+        return null;
     }
 
 }

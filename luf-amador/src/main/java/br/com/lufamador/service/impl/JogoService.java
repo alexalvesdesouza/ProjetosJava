@@ -176,9 +176,9 @@ public class JogoService {
         String keyJogo = this.geraKeyJogoUnico(jogo);
         jogo.setKeyConfronto(keyJogo);
 
-        Optional<Jogo> antigo = this.repository.findById(jogo.getCodigo());
-        if (antigo.isPresent()) {
-            recalculaClassificacao(antigo.get());
+        Jogo antigo = this.repository.findByCodigo(jogo.getCodigo());
+        if (antigo == null) {
+            recalculaClassificacao(antigo);
         }
 
         if (jogo.iswAgremiacaoA() || jogo.iswAgremiacaoB()) {
@@ -207,8 +207,8 @@ public class JogoService {
         jogo.setKeyConfronto(keyJogo);
         jogo.setPartidaEncerrada(true);
 
-        Optional<Jogo> saved = this.repository.findById(jogo.getCodigo());
-        if (saved.isPresent() && saved.get().getPartidaEncerrada()) {
+        Jogo saved = this.repository.findByCodigo(jogo.getCodigo());
+        if (saved != null && saved.getPartidaEncerrada()) {
             throw new BussinessException("Partida encerrada");
         }
 

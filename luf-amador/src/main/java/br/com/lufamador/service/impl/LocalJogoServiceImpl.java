@@ -42,28 +42,31 @@ public class LocalJogoServiceImpl implements LocalJogoService {
     }
 
     public LocalJogo getLocalJogo(final Long codigo) {
-        Optional<LocalJogo> localJogo = this.repository.findById(codigo);
-        if (!localJogo.isPresent())
-            throw new BussinessException(MensagensErro.ENTIDADE_INEXISTENTE);
-        return localJogo.get();
+//        Optional<LocalJogo> localJogo = this.repository.findById(codigo);
+//        if (!localJogo.isPresent())
+//            throw new BussinessException(MensagensErro.ENTIDADE_INEXISTENTE);
+//        return localJogo.get();
+        return null;
     }
 
     @Override
     public Page<LocalJogo> findAll(int page, int count) {
-        Pageable pages = PageRequest.of(page, count, Sort.Direction.ASC, "nome");
-        return this.repository.findAll(pages);
+//        Pageable pages = PageRequest.of(page, count, Sort.Direction.ASC, "nome");
+//        return this.repository.findAll(pages);
+        return null;
     }
 
     public Map<String, LocalJogo> findAllMap(int page, int count) {
-        Pageable pages = PageRequest.of(page, count);
-        Page<LocalJogo> all = this.repository.findAll(pages);
-
-        Map<String, LocalJogo> map = new HashMap<>();
-        all.getContent().forEach(localJogo -> {
-            map.put(localJogo.getNome(), localJogo);
-        });
-
-        return map;
+//        Pageable pages = PageRequest.of(page, count);
+//        Page<LocalJogo> all = this.repository.findAll(pages);
+//
+//        Map<String, LocalJogo> map = new HashMap<>();
+//        all.getContent().forEach(localJogo -> {
+//            map.put(localJogo.getNome(), localJogo);
+//        });
+//
+//        return map;
+        return null;
     }
 
     @Override
@@ -75,8 +78,10 @@ public class LocalJogoServiceImpl implements LocalJogoService {
 
     @Override
     public LocalJogo findByCodigo(Long codigo) {
-        return this.repository.findById(codigo).get();
+//        return this.repository.findById(codigo).get();
+        return null;
     }
+
 
     @Override
     public void delete(Long id) {

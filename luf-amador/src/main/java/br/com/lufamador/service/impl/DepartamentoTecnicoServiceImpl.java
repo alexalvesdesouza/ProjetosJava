@@ -76,18 +76,20 @@ public class DepartamentoTecnicoServiceImpl implements DepartamentoTecnicoServic
     }
 
     public void deletarEntidadeDepartamentoTecnico(final Long codigo) {
-        Optional<DepartamentoTecnico> tjud = this.repository.findById(codigo);
-        if (!tjud.isPresent()) {
-            throw new BussinessException(ENTIDADE_INEXISTENTE.replace("?", "Entidade"));
-        }
-        this.repository.delete(tjud.get());
+//        Optional<DepartamentoTecnico> tjud = this.repository.findById(codigo);
+//        if (!tjud.isPresent()) {
+//            throw new BussinessException(ENTIDADE_INEXISTENTE.replace("?", "Entidade"));
+//        }
+//        this.repository.delete(tjud.get());
+
 
     }
 
     @Override
     public Page<DepartamentoTecnico> findAll(int page, int count) {
-        Pageable pages = PageRequest.of(page, count);
-        return this.repository.findAll(pages);
+//        Pageable pages = PageRequest.of(page, count);
+//        return this.repository.findAll(pages);
+        return null;
     }
 
     @Override

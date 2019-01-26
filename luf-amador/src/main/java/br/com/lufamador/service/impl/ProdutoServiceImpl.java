@@ -18,8 +18,9 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Override
     public Page<Produto> findAll(int page, int count) {
-        Pageable pages = PageRequest.of(page, count);
-        return this.repository.findAll(pages);
+//        Pageable pages = PageRequest.of(page, count);
+//        return this.repository.findAll(pages);
+        return null;
     }
 
     @Override
@@ -29,7 +30,8 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Override
     public Produto findByCodigo(Long codigo) {
-        return this.repository.findById(codigo).get();
+//        return this.repository.findById(codigo).get();
+    return null;
     }
 
     @Override

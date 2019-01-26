@@ -126,16 +126,18 @@ public class CampeonatoServiceImpl implements CampeonatoService {
 
     private Campeonato getCampeonato(Long codigoCampeonato) {
 
-        Optional<Campeonato> campeonato = this.repository.findById(codigoCampeonato);
-        if (!campeonato.isPresent())
-            throw new BussinessException(MensagensErro.CAMPEONATO_NAO_ENCONTRADO.replace("?", ""));
-        return campeonato.get();
+//        Optional<Campeonato> campeonato = this.repository.findById(codigoCampeonato);
+//        if (!campeonato.isPresent())
+//            throw new BussinessException(MensagensErro.CAMPEONATO_NAO_ENCONTRADO.replace("?", ""));
+//        return campeonato.get();
+        return null;
     }
 
     @Override
     public Page<Campeonato> findAll(int page, int count) {
-        Pageable pages = PageRequest.of(page, count, Sort.Direction.ASC, "nomeCampeonato");
-        return this.repository.findAll(pages);
+//        Pageable pages = PageRequest.of(page, count, Sort.Direction.ASC, "nomeCampeonato");
+//        return this.repository.findAll(pages);
+        return null;
     }
 
 
