@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +27,7 @@ public class VideoController {
     private VideoService videoService;
 
     @GetMapping(value = "{page}/{count}")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Page<Video>>> findAll(@PathVariable("page") int page,
             @PathVariable("count") int count) {
         Response<Page<Video>> response = new Response<>();
@@ -38,7 +37,7 @@ public class VideoController {
     }
 
     @GetMapping(value = "{codigo}")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Video>> findById(@PathVariable("codigo") Long codigo) {
         Response<Video> response = new Response<>();
         Video video = this.videoService.findByCodigo(codigo);
@@ -53,7 +52,7 @@ public class VideoController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Video>> cadastraVideo(@RequestBody Video video) {
         Response<Video> response = new Response<>();
         final Video videoSaved = this.videoService.createOrUpdate(video);
@@ -62,7 +61,7 @@ public class VideoController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Video>> atualizaVideo(@RequestBody Video video) {
         Response<Video> response = new Response<>();
         final Video videoSaved = this.videoService.createOrUpdate(video);
@@ -71,7 +70,7 @@ public class VideoController {
     }
 
     @DeleteMapping(value = "{codigo}")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<?> deletaVideo(@PathVariable("codigo") Long codigo) {
         this.videoService.delete(codigo);
         HttpStatus status = HttpStatus.OK;

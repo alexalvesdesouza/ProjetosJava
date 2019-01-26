@@ -1,4 +1,4 @@
-package br.com.lufamador.exception;
+package br.com.lufamador.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

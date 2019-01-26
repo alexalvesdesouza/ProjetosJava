@@ -8,7 +8,6 @@ import javax.ws.rs.QueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,7 +30,7 @@ public class JogoController {
     private JogoService jogoService;
 
     @RequestMapping(path = "/tempo-real/atualizar", method = RequestMethod.PUT)
-    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
     public ResponseEntity<Jogo> atualizarJogo(@RequestBody Jogo jogo) throws NoSuchAlgorithmException {
         final Jogo jogoSaved = this.jogoService.atualizarJogo(jogo);
         jogoSaved.setDataAtualizacao(null);
@@ -42,7 +41,7 @@ public class JogoController {
     }
 
     @RequestMapping(path = "/encerrados/editar", method = RequestMethod.PUT)
-    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
     public ResponseEntity<Jogo> editarJogoEncerrado(@RequestBody Jogo jogo) throws NoSuchAlgorithmException {
         final Jogo jogoSaved = this.jogoService.editarJogoEncerrado(jogo);
         jogoSaved.setDataAtualizacao(null);
@@ -53,7 +52,7 @@ public class JogoController {
     }
 
     @RequestMapping(path = "/tempo-real/encerrar", method = RequestMethod.PUT)
-    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
     public ResponseEntity<Jogo> encerrarJogo(@RequestBody Jogo jogo) throws NoSuchAlgorithmException {
         final Jogo jogoSaved = this.jogoService.encerrarJogo(jogo);
         HttpStatus status = (null == jogoSaved) ? HttpStatus.CONFLICT : HttpStatus.OK;
@@ -62,7 +61,7 @@ public class JogoController {
     }
 
     @GetMapping(value = "/tempo-real/{categoria}/list")
-    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
     public ResponseEntity<Response<List<Jogo>>> getJogosTempoRealList(
             @PathVariable(value = "categoria") String categoria) {
 
@@ -74,7 +73,7 @@ public class JogoController {
     }
 
     @GetMapping(value = "/encerrados/{categoria}/{chave}/{fase}")
-    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
     public ResponseEntity<Response<List<Jogo>>> getJogosEditList(
             @PathVariable(value = "categoria") String categoria,
             @PathVariable(value = "chave") String chave,
@@ -89,7 +88,7 @@ public class JogoController {
     }
 
     @GetMapping(value = "/{codigoAgremiacao}/{codigoCampeonato}/all")
-    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
     public ResponseEntity<Response<List<Jogo>>> getJogosFromAgremiacao(
             @PathVariable(value = "codigoAgremiacao") Long codigoAgremiacao,
             @PathVariable(value = "codigoCampeonato") Long codigoCampeonato) {
@@ -102,7 +101,7 @@ public class JogoController {
     }
 
     @GetMapping(path = "/datas-partidas")
-    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
     public ResponseEntity<Response<List<String>>>getDatasPartidas() {
         Response<List<String>> response = new Response<>();
         List<String> datas = this.jogoService.getDatasPartidas();
@@ -111,7 +110,7 @@ public class JogoController {
     }
 
     @DeleteMapping(value = "{codigo}")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<?> deletarJogo(@PathVariable(value = "codigo") Long codigo) {
         this.jogoService.delete(codigo);
         return new ResponseEntity<>(HttpStatus.OK);

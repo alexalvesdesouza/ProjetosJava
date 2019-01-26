@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -17,7 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.lufamador.exception.BussinessException;
+import br.com.lufamador.exceptions.BussinessException;
 import br.com.lufamador.model.Agremiacao;
 import br.com.lufamador.model.Jogo;
 import br.com.lufamador.repository.JogoRepository;

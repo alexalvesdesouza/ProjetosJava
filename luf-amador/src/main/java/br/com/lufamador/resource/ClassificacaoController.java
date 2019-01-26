@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +27,7 @@ public class ClassificacaoController {
     private ClassificacaoService classificacaoService;
 
     @GetMapping(value = "/{page}/{count}/{categoria}/{chave}/{fase}/list")
-    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Response<List<Classificacao>>> carregarClassificacoes(@PathVariable("page") int page,
             @PathVariable("count") int count, @PathVariable(value = "categoria") String categoria,
@@ -44,7 +43,7 @@ public class ClassificacaoController {
     }
 
     @PutMapping(value = "/fecha-classificacao")
-    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Response<List<Classificacao>>> atualizaClassificacao(
             @RequestBody List<Classificacao> classificacoes) {
@@ -55,7 +54,7 @@ public class ClassificacaoController {
     }
 
     @PutMapping(value = "/classifica")
-    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Response<Classificacao>> atualizaClassificacao(@RequestBody Classificacao classificacao) {
         Response<Classificacao> response = new Response<>();
@@ -66,7 +65,7 @@ public class ClassificacaoController {
 
 
     @PutMapping(value = "/edit")
-    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'ADM_JOGOS', 'ADMIN'})")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Response<Classificacao>> editaClassificacao(@RequestBody Classificacao classificacao) {
         Response<Classificacao> response = new Response<>();

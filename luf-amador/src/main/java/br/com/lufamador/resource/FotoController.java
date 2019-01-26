@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +27,7 @@ public class FotoController {
     private FotoService fotoService;
 
     @GetMapping(value = "{page}/{count}")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Page<Foto>>> findAll(@PathVariable("page") int page,
             @PathVariable("count") int count) {
         Response<Page<Foto>> response = new Response<Page<Foto>>();
@@ -38,7 +37,7 @@ public class FotoController {
     }
 
     @GetMapping(value = "{codigo}")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Foto>> findById(@PathVariable("codigo") Long codigo) {
         Response<Foto> response = new Response<>();
         Foto foto = this.fotoService.findByCodigo(codigo);
@@ -53,7 +52,7 @@ public class FotoController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Foto>> cadastraFoto(@RequestBody Foto foto) {
         Response<Foto> response = new Response<>();
         final Foto fotoSaved = this.fotoService.createOrUpdate(foto);
@@ -62,7 +61,7 @@ public class FotoController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Foto>> atualizaFoto(@RequestBody Foto foto) {
         Response<Foto> response = new Response<>();
         final Foto fotoSaved = this.fotoService.createOrUpdate(foto);
@@ -71,7 +70,7 @@ public class FotoController {
     }
 
     @DeleteMapping(value = "{codigo}")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<?> deletaFoto(@PathVariable("codigo") Long codigo) {
         this.fotoService.delete(codigo);
         HttpStatus status = HttpStatus.OK;

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +28,7 @@ public class TjduController {
     private TjduServiceImpl tjduService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Tjdu>> cadastraTjdu(@RequestBody Tjdu tjdu) {
         Response<Tjdu> response = new Response<>();
         final Tjdu entity = this.tjduService.createOrUpdate(tjdu);
@@ -38,7 +37,7 @@ public class TjduController {
     }
 
     @PostMapping(value = "/membro")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<MembroTjdu>> cadastraMenbroTjdu(@RequestBody MembroTjdu membroTjdu) {
         Response<MembroTjdu> response = new Response<>();
         final MembroTjdu entity = this.tjduService.createOrUpdate(membroTjdu);
@@ -47,7 +46,7 @@ public class TjduController {
     }
 
     @PutMapping(value = "/membro")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<MembroTjdu>> editarMembroTjdu(@RequestBody MembroTjdu membroTjdu) {
         Response<MembroTjdu> response = new Response<>();
         final MembroTjdu entity = this.tjduService.createOrUpdate(membroTjdu);
@@ -56,7 +55,7 @@ public class TjduController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Tjdu>> editarTjdu(@RequestBody Tjdu tjdu) {
         Response<Tjdu> response = new Response<>();
         final Tjdu entity = this.tjduService.createOrUpdate(tjdu);
@@ -65,7 +64,7 @@ public class TjduController {
     }
 
     @GetMapping(value = "{page}/{count}")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Page<Tjdu>>> findAll(@PathVariable("page") int page,
             @PathVariable("count") int count) {
 
@@ -77,7 +76,7 @@ public class TjduController {
     }
 
     @GetMapping(value = "/membro/{page}/{count}")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Page<MembroTjdu>>> findAllMembros(@PathVariable("page") int page,
             @PathVariable("count") int count) {
 
@@ -89,7 +88,7 @@ public class TjduController {
     }
 
     @GetMapping(value = "{codigo}")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Tjdu>> findById(@PathVariable("codigo") Long codigo) {
         Response<Tjdu> response = new Response<>();
         Tjdu entity = this.tjduService.findByCodigo(codigo);
@@ -104,7 +103,7 @@ public class TjduController {
     }
 
     @GetMapping(value = "/membro/{codigo}")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<MembroTjdu>> findMembroById(@PathVariable("codigo") Long codigo) {
         Response<MembroTjdu> response = new Response<>();
         MembroTjdu entity = this.tjduService.findMembroByCodigo(codigo);
@@ -119,14 +118,14 @@ public class TjduController {
     }
 
     @DeleteMapping(value = "{codigo}")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Tjdu> deletarTjdu(@PathVariable(value = "codigo") Long codigo) {
         this.tjduService.delete(codigo);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/membro/{codigo}")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<MembroTjdu> deletarMembroTjdu(@PathVariable(value = "codigo") Long codigo) {
         this.tjduService.deleteMenbroTjdu(codigo);
         return new ResponseEntity<>(HttpStatus.OK);

@@ -4,24 +4,19 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import br.com.lufamador.exception.BussinessException;
+import br.com.lufamador.exceptions.BussinessException;
 import br.com.lufamador.model.Agremiacao;
 import br.com.lufamador.model.Campeonato;
 import br.com.lufamador.model.TabelaJogos;
 import br.com.lufamador.repository.CampeonatoRepository;
 import br.com.lufamador.service.AgremiacaoService;
 import br.com.lufamador.service.CampeonatoService;
-import br.com.lufamador.utils.mensagens.MensagensErro;
 import br.com.lufamador.validate.CampeonatoValidate;
 
 @Service

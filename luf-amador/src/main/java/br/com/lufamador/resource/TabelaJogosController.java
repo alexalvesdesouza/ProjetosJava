@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +26,7 @@ public class TabelaJogosController {
     private TabelaJogosService tabelaJogosService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<TabelaJogos>> cadastraTabelaJogos(@RequestBody TabelaJogos tabelaJogos) {
         Response<TabelaJogos> response = new Response<>();
         final TabelaJogos entity = this.tabelaJogosService.cadastraTabelaJogos(tabelaJogos);
@@ -36,7 +35,7 @@ public class TabelaJogosController {
     }
 
     @GetMapping(value = "{codigo}/campeonato")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<List<TabelaJogos>>> getTabelaJogosPorCampeonato(
             @PathVariable(value = "codigo") Long codigo) {
         Response<List<TabelaJogos>> response = new Response<>();
@@ -46,7 +45,7 @@ public class TabelaJogosController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<TabelaJogos>> atualizaTabelaJogos(@RequestBody TabelaJogos tabelaJogos) {
         Response<TabelaJogos> response = new Response<>();
         final TabelaJogos entity = this.tabelaJogosService.atualizarTabelaJogos(tabelaJogos);

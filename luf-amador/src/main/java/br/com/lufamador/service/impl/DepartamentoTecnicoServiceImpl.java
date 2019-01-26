@@ -1,17 +1,12 @@
 package br.com.lufamador.service.impl;
 
-import static br.com.lufamador.utils.mensagens.MensagensErro.ENTIDADE_INEXISTENTE;
-
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import br.com.lufamador.exception.BussinessException;
+import br.com.lufamador.exceptions.BussinessException;
 import br.com.lufamador.model.DepartamentoTecnico;
 import br.com.lufamador.repository.DepartamentoTecnicoRepository;
 import br.com.lufamador.service.DepartamentoTecnicoService;

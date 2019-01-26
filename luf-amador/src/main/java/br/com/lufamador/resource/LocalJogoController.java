@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +27,7 @@ public class LocalJogoController {
     private LocalJogoService localJogoService;
 
     @GetMapping(value = "{page}/{count}")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Page<LocalJogo>>> findAll(@PathVariable("page") int page,
             @PathVariable("count") int count) {
 
@@ -40,7 +39,7 @@ public class LocalJogoController {
     }
    
     @GetMapping(value = "{codigo}")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<LocalJogo>> findById(@PathVariable("codigo") Long codigo) {
         Response<LocalJogo> response = new Response<>();
         LocalJogo localJogo = this.localJogoService.findByCodigo(codigo);
@@ -55,7 +54,7 @@ public class LocalJogoController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<LocalJogo>> cadastraLocalJogo(@RequestBody LocalJogo localJogo) {
         Response<LocalJogo> response = new Response<>();
         final LocalJogo localJogoSaved = this.localJogoService.createOrUpdate(localJogo);
@@ -64,7 +63,7 @@ public class LocalJogoController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<LocalJogo>> atualizaLocalJogo(@RequestBody LocalJogo localJogo) {
         Response<LocalJogo> response = new Response<>();
         final LocalJogo localJogoSaved = this.localJogoService.createOrUpdate(localJogo);
@@ -74,7 +73,7 @@ public class LocalJogoController {
 
 
     @DeleteMapping(path = "{codigo}")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<?> deletaLocalJogo(@PathVariable(value = "codigo") Long codigo) {
         this.localJogoService.delete(codigo);
         return new ResponseEntity<>(HttpStatus.OK);

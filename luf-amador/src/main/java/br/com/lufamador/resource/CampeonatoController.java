@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +30,7 @@ public class CampeonatoController {
     private CampeonatoServiceImpl campeonatoService;
 
     @GetMapping(value = "{page}/{count}")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Page<Campeonato>>> findAll(@PathVariable("page") int page,
             @PathVariable("count") int count) {
 
@@ -43,7 +42,7 @@ public class CampeonatoController {
     }
 
     @GetMapping(value = "/inscricoes-abertas")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<List<Campeonato>>> findAllOpen() {
         Response<List<Campeonato>> response = new Response<>();
         List<Campeonato> campeonatos = this.campeonatoService.getCampeonatos();
@@ -52,7 +51,7 @@ public class CampeonatoController {
     }
 
     @GetMapping(value = "/andamento")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<List<Campeonato>>> findAllAndamento() {
         Response<List<Campeonato>> response = new Response<>();
         List<Campeonato> campeonatos = this.campeonatoService.getCampeonatosAndamento();
@@ -61,7 +60,7 @@ public class CampeonatoController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Campeonato>> cadastraCampeonato(@RequestBody Campeonato campeonato) {
         Response<Campeonato> response = new Response<>();
         final Campeonato entity = this.campeonatoService.createOrUpdate(campeonato);
@@ -70,7 +69,7 @@ public class CampeonatoController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Campeonato>> atualiza(@RequestBody Campeonato campeonato) {
         Response<Campeonato> response = new Response<>();
         final Campeonato entity = this.campeonatoService.createOrUpdate(campeonato);
@@ -79,7 +78,7 @@ public class CampeonatoController {
     }
 
     @PutMapping(value = "/tabela-jogos")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Campeonato>> registraTabelaJogos(@RequestBody Campeonato campeonato) {
         Response<Campeonato> response = new Response<>();
         Campeonato entity = this.campeonatoService.registraTabelaJotos(campeonato);
@@ -88,7 +87,7 @@ public class CampeonatoController {
     }
 
     @GetMapping(path = "/{codigo}/find")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public ResponseEntity<Response<Campeonato>> getCampeonato(
             @PathVariable(value = "codigo") Long codigo) {
         Response<Campeonato> response = new Response<>();
@@ -98,7 +97,7 @@ public class CampeonatoController {
     }
 
     @PutMapping(path = "/agremiacoes-inscrever")
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Response<Campeonato>> inscricaoAgremiacaoCampeonato(@RequestBody Campeonato campeonato) {
         Response<Campeonato> response = new Response<>();
@@ -109,7 +108,7 @@ public class CampeonatoController {
 
     @DeleteMapping("/{codigo}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
+//    @PreAuthorize("hasAnyRole({'SECRETARIA', 'ADMIN'})")
     public void delete(@PathVariable(value = "codigo") Long codigo) {
         this.campeonatoService.delete(codigo);
     }
