@@ -27,14 +27,11 @@ public class AgremiacaoServiceImpl implements AgremiacaoService {
 
     private final AgremiacaoRepository repository;
     private final AgremiacaoValidate validate;
-    private final EnderecoService enderecoService;
 
     @Autowired
-    public AgremiacaoServiceImpl(AgremiacaoRepository repository, AgremiacaoValidate validate,
-                                 EnderecoService enderecoService) {
+    public AgremiacaoServiceImpl(AgremiacaoRepository repository, AgremiacaoValidate validate) {
         this.repository = repository;
         this.validate = validate;
-        this.enderecoService = enderecoService;
     }
 
     private Agremiacao cadastraAgremiacao(Agremiacao agremiacao) {

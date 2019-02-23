@@ -26,8 +26,6 @@ public class AtletaServiceImpl implements AtletaService {
     @Autowired
     private AtletaValidate validate;
     @Autowired
-    private EnderecoService enderecoService;
-    @Autowired
     private AgremiacaoService agremiacaoService;
     @Autowired
     private AtletaHistoryServiceImpl atletaHistoryService;
@@ -36,9 +34,6 @@ public class AtletaServiceImpl implements AtletaService {
         Atleta atletaSaved = null;
         this.validate.validaAtletaExistente(atleta);
         try {
-            if (atleta.getEndereco() != null)
-                this.enderecoService.cadastraEndereco(atleta.getEndereco());
-
             atleta.setDataAfiliacao(LocalDate.now());
             atleta.setSuspenso(Boolean.FALSE);
             atletaSaved = this.repository.saveAndFlush(atleta);
@@ -58,8 +53,7 @@ public class AtletaServiceImpl implements AtletaService {
         Atleta atletaAtualizado = null;
         final Optional<Atleta> atleta = this.repository.findById(atletaAtualizar.getCodigo());
         if (atleta.isPresent()) {
-            if (null != atletaAtualizar.getEndereco())
-                this.enderecoService.atualizaEndereco(atletaAtualizar.getEndereco());
+
             if (null != atletaAtualizar.getAgremiacao())
                 this.agremiacaoService.createOrUpdate(atletaAtualizar.getAgremiacao());
             atletaAtualizado = this.repository.saveAndFlush(atletaAtualizar);
