@@ -22,6 +22,16 @@ public class Comunicado implements Serializable {
     private String numero;
     private String link;
 
+    private String temporada;
+
+    public String getTemporada() {
+        return temporada;
+    }
+
+    public void setTemporada(String temporada) {
+        this.temporada = temporada;
+    }
+
     public Long getCodigo() {
         return codigo;
     }

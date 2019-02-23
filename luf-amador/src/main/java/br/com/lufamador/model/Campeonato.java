@@ -48,6 +48,16 @@ public class Campeonato implements Serializable {
     @OneToOne
     private TabelaJogos tabelaJogos;
 
+    private String temporada;
+
+    public String getTemporada() {
+        return temporada;
+    }
+
+    public void setTemporada(String temporada) {
+        this.temporada = temporada;
+    }
+
     public TabelaJogos getTabelaJogos() {
         return tabelaJogos;
     }

@@ -41,6 +41,16 @@ public class ClassificacaoHistory implements Serializable {
     @Transient
     private Intervencao last;
 
+    private String temporada;
+
+    public String getTemporada() {
+        return temporada;
+    }
+
+    public void setTemporada(String temporada) {
+        this.temporada = temporada;
+    }
+
     public ClassificacaoHistory() {
         super();
     }

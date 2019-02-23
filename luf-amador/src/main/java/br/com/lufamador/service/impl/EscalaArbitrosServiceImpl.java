@@ -1,5 +1,6 @@
 package br.com.lufamador.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class EscalaArbitrosServiceImpl implements EscalaService {
         EscalaArbitros escalaArbitrosSaved = null;
         this.validate.validaEscalaArbitrosExistente(escalaArbitros);
         try {
+            if (null == escalaArbitros.getTemporada()) {
+                escalaArbitros.setTemporada(String.valueOf(LocalDate.now().getYear()));
+            }
             escalaArbitrosSaved = this.repository.saveAndFlush(escalaArbitros);
         } catch (Exception e) {
         }
@@ -36,6 +40,9 @@ public class EscalaArbitrosServiceImpl implements EscalaService {
     }
 
     private EscalaArbitros update(EscalaArbitros escalaArbitros) {
+        if (null == escalaArbitros.getTemporada()) {
+            escalaArbitros.setTemporada(String.valueOf(LocalDate.now().getYear()));
+        }
         return this.repository.saveAndFlush(escalaArbitros);
     }
 

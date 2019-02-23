@@ -1,6 +1,7 @@
 package br.com.lufamador.service.impl;
 
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -197,6 +198,13 @@ public class ClassificacaoService {
                     (classificacaoAgremiacaoB.getQtdVitorias() - 1) < 0 ? 0 : classificacaoAgremiacaoB.getQtdVitorias() - 1);
         }
 
+        if (null == classificacaoAgremiacaoA.getTemporada()) {
+            classificacaoAgremiacaoA.setTemporada(String.valueOf(LocalDate.now().getYear()));
+        }
+        if (null == classificacaoAgremiacaoB.getTemporada()) {
+            classificacaoAgremiacaoB.setTemporada(String.valueOf(LocalDate.now().getYear()));
+        }
+
         this.repository.saveAndFlush(classificacaoAgremiacaoA);
         this.repository.saveAndFlush(classificacaoAgremiacaoB);
         this.geraClassificacao(categoria, chave, fase, jogo);
@@ -311,6 +319,13 @@ public class ClassificacaoService {
                 classificacaoAgremiacaoB.setQtdVitorias(classificacaoAgremiacaoB.getQtdVitorias() + 1);
 
             }
+        }
+
+        if (null == classificacaoAgremiacaoA.getTemporada()) {
+            classificacaoAgremiacaoA.setTemporada(String.valueOf(LocalDate.now().getYear()));
+        }
+        if (null == classificacaoAgremiacaoB.getTemporada()) {
+            classificacaoAgremiacaoB.setTemporada(String.valueOf(LocalDate.now().getYear()));
         }
 
         this.repository.saveAndFlush(classificacaoAgremiacaoA);

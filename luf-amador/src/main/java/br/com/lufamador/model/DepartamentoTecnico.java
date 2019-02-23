@@ -27,6 +27,16 @@ public class DepartamentoTecnico implements Serializable {
     private Boolean exibirPaginaPrincipal;
     private String cor;
 
+    private String temporada;
+
+    public String getTemporada() {
+        return temporada;
+    }
+
+    public void setTemporada(String temporada) {
+        this.temporada = temporada;
+    }
+
     public String getSubCategoria() {
         return subCategoria;
     }

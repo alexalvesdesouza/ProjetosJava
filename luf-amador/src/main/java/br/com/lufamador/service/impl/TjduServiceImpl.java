@@ -1,5 +1,6 @@
 package br.com.lufamador.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +37,9 @@ public class TjduServiceImpl implements TjduService {
         tjdu.setCategoria(tjdu.getCategoria().toUpperCase());
         this.validate.validaCadastroTJDU(tjdu);
         try {
+            if (null == tjdu.getTemporada()) {
+                tjdu.setTemporada(String.valueOf(LocalDate.now().getYear()));
+            }
             tjduSaved = this.repository.saveAndFlush(tjdu);
         } catch (Exception e) {
         }
@@ -47,6 +51,9 @@ public class TjduServiceImpl implements TjduService {
         //this.validate.validaCadastroTJDU(tjdu);
         tjdu.setCategoria(tjdu.getCategoria().toUpperCase());
         try {
+            if (null == tjdu.getTemporada()) {
+                tjdu.setTemporada(String.valueOf(LocalDate.now().getYear()));
+            }
             tjduSaved = this.repository.saveAndFlush(tjdu);
         } catch (Exception e) {
         }
@@ -74,6 +81,9 @@ public class TjduServiceImpl implements TjduService {
     public Tjdu createOrUpdate(Tjdu entity) {
         if (null != entity.getCodigo())
             return this.update(entity);
+        if (null == entity.getTemporada()) {
+            entity.setTemporada(String.valueOf(LocalDate.now().getYear()));
+        }
         return this.create(entity);
     }
 

@@ -1,5 +1,6 @@
 package br.com.lufamador.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class TabelaJogosService {
         TabelaJogos tabelaJogosSaved = null;
         try {
             this.interfaceCadastraJogos(tabelaJogos);
+            if (null == tabelaJogos.getTemporada()) {
+                tabelaJogos.setTemporada(String.valueOf(LocalDate.now().getYear()));
+            }
             tabelaJogosSaved = this.repository.saveAndFlush(tabelaJogos);
         } catch (Exception e) {
 
@@ -57,6 +61,9 @@ public class TabelaJogosService {
 
     public final TabelaJogos atualizarTabelaJogos(TabelaJogos tabelaJogos) {
         this.interfaceCadastraJogos(tabelaJogos);
+        if (null == tabelaJogos.getTemporada()) {
+            tabelaJogos.setTemporada(String.valueOf(LocalDate.now().getYear()));
+        }
         return this.repository.save(tabelaJogos);
     }
 

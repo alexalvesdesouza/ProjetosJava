@@ -149,6 +149,9 @@ public class JogoService {
                 jogo.setKeyConfronto(keyConfronto);
                 jogo.setDataAtualizacao(LocalDateTime.now());
                 jogo.setDataCriacao(LocalDateTime.now());
+                if (null == jogo.getTemporada()) {
+                    jogo.setTemporada(String.valueOf(LocalDate.now().getYear()));
+                }
                 this.repository.save(jogo);
             } catch (Exception e) {
                 throw new BussinessException(e.getMessage());
@@ -166,6 +169,9 @@ public class JogoService {
         }
         jogo.setDataAtualizacao(LocalDateTime.now());
         jogo.setKeyConfronto(this.geraKeyJogoUnico(jogo));
+        if (null == jogo.getTemporada()) {
+            jogo.setTemporada(String.valueOf(LocalDate.now().getYear()));
+        }
         return this.repository.saveAndFlush(jogo);
     }
 
@@ -190,6 +196,9 @@ public class JogoService {
             System.out.println(777);
         }
 
+        if (null == jogo.getTemporada()) {
+            jogo.setTemporada(String.valueOf(LocalDate.now().getYear()));
+        }
         Jogo saved = this.repository.saveAndFlush(jogo);
         this.classificacaoService.geraClassificacao(saved);
 

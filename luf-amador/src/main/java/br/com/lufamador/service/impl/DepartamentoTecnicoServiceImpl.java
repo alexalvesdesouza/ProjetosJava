@@ -2,6 +2,7 @@ package br.com.lufamador.service.impl;
 
 import static br.com.lufamador.utils.mensagens.MensagensErro.ENTIDADE_INEXISTENTE;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +38,9 @@ public class DepartamentoTecnicoServiceImpl implements DepartamentoTecnicoServic
         this.validate.validaCadastroTJDU(departamentoTecnico);
         try {
             this.alteraCorDocs(departamentoTecnico);
+            if (null == departamentoTecnico.getTemporada()) {
+                departamentoTecnico.setTemporada(String.valueOf(LocalDate.now().getYear()));
+            }
             departamentoTecnicoSaved = this.repository.saveAndFlush(departamentoTecnico);
         } catch (Exception e) {
             throw new BussinessException(e.getMessage());
@@ -64,6 +68,9 @@ public class DepartamentoTecnicoServiceImpl implements DepartamentoTecnicoServic
         departamentoTecnico.setCategoria(departamentoTecnico.getCategoria().toUpperCase());
         try {
             this.alteraCorDocs(departamentoTecnico);
+            if (null == departamentoTecnico.getTemporada()) {
+                departamentoTecnico.setTemporada(String.valueOf(LocalDate.now().getYear()));
+            }
             departamentoTecnicoSaved = this.repository.saveAndFlush(departamentoTecnico);
         } catch (Exception e) {
             throw new BussinessException(e.getMessage());

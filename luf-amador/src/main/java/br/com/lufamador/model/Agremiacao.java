@@ -31,12 +31,15 @@ public class Agremiacao implements Serializable {
     private String nomeSigla;
     private String categoria;
     private Boolean inativa;
+
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate dataAfiliacao;
+
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate dataMandatoDiretoria;
+
     private String observacao;
 
     public String getCategoria() {

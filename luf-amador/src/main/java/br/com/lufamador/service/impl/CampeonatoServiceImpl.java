@@ -1,5 +1,6 @@
 package br.com.lufamador.service.impl;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -48,6 +49,9 @@ public class CampeonatoServiceImpl implements CampeonatoService {
             campeonato.setEdicao(String.valueOf(LocalDateTime.now().getYear()));
             campeonato.setInscricoesEncerradas(false);
             campeonato.setCampeonatoEncerrado(false);
+            if (null == campeonato.getTemporada()) {
+                campeonato.setTemporada(String.valueOf(LocalDate.now().getYear()));
+            }
             campeonatoSaved = this.repository.saveAndFlush(campeonato);
         } catch (Exception e) {
             throw new BussinessException(e.getMessage());
@@ -117,6 +121,9 @@ public class CampeonatoServiceImpl implements CampeonatoService {
         TabelaJogos tabela = campeonato.getTabelaJogos();
         if (null != tabela)
             this.tabelaJogosService.createOrUdate(tabela);
+        if (null == campeonato.getTemporada()) {
+            campeonato.setTemporada(String.valueOf(LocalDate.now().getYear()));
+        }
         return this.repository.saveAndFlush(campeonato);
     }
 
