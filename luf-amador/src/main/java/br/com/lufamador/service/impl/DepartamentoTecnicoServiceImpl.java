@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.lufamador.exception.BussinessException;
-import br.com.lufamador.model.DepartamentoTecnico;
 import br.com.lufamador.repository.DepartamentoTecnicoRepository;
 import br.com.lufamador.service.DepartamentoTecnicoService;
 import br.com.lufamador.utils.constants.CategoriaConstant;

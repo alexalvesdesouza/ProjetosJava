@@ -9,8 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.lufamador.model.Jogo;
-
 public interface JogoRepository extends JpaRepository<Jogo, Long> {
 
     @Query(value = "SELECT * FROM luf_jogo WHERE categoria = :categoria AND partida_encerrada = FALSE ORDER BY data_atualizacao  DESC;", nativeQuery = true)

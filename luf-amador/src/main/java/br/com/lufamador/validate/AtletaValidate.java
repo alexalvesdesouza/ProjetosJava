@@ -3,7 +3,6 @@ package br.com.lufamador.validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.com.lufamador.model.Atleta;
 import br.com.lufamador.repository.AtletaRepository;
 
 @Component

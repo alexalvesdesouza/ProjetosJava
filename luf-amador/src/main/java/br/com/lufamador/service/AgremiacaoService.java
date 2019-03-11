@@ -5,8 +5,6 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 
-import br.com.lufamador.model.Agremiacao;
-
 public interface AgremiacaoService {
 
   Page<Agremiacao> findAll(int page, int count);

@@ -67,6 +67,17 @@ public class Jogo implements Serializable {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime dataAtualizacao; //NOSONAR
 
+    private String temporada;
+
+    public String getTemporada() {
+        return temporada;
+    }
+
+    public void setTemporada(String temporada) {
+        this.temporada = temporada;
+    }
+
+
     public Integer getGolsPenaltisAgremiacaoA() {
         return golsPenaltisAgremiacaoA;
     }

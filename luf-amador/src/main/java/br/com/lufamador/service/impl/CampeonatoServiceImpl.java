@@ -16,9 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.lufamador.exception.BussinessException;
-import br.com.lufamador.model.Agremiacao;
-import br.com.lufamador.model.Campeonato;
-import br.com.lufamador.model.TabelaJogos;
 import br.com.lufamador.repository.CampeonatoRepository;
 import br.com.lufamador.service.AgremiacaoService;
 import br.com.lufamador.service.CampeonatoService;

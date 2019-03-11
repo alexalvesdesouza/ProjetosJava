@@ -4,20 +4,20 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-
 @Entity
-@Table(name = "luf_local_jogo")
+@Table(name = "local_jogo")
+@SequenceGenerator(name = "local_jogo_seq", sequenceName = "local_jogo_seq", allocationSize = 1)
 public class LocalJogo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "local_jogo_seq")
     private Long codigo;
 
     private String nome;
@@ -66,5 +66,14 @@ public class LocalJogo implements Serializable {
         result = 31 * result + (nome != null ? nome.hashCode() : 0);
         result = 31 * result + (tipo != null ? tipo.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "LocalJogo{" +
+                "codigo=" + codigo +
+                ", nome='" + nome + '\'' +
+                ", tipo='" + tipo + '\'' +
+                '}';
     }
 }

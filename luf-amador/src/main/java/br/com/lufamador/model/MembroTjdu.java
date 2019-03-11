@@ -1,32 +1,35 @@
 package br.com.lufamador.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
+import javax.persistence.Transient;
 
 @Entity
-@Table(name = "luf_membro_tjdu")
+@Table(name = "membro_tjdu")
+@SequenceGenerator(name = "membro_tjdu_seq", sequenceName = "membro_tjdu_seq", allocationSize = 1)
 public class MembroTjdu implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "membro_tjdu_seq")
     private Long codigo;
 
     private String nome;
 
     private String funcao;
 
-    @Column(columnDefinition = "TEXT")
-    private String image;
+    private String anexo;
+
+    @Transient
+    private String urlAnexo;
 
     public Long getCodigo() {
         return codigo;
@@ -52,34 +55,33 @@ public class MembroTjdu implements Serializable {
         this.funcao = funcao;
     }
 
-    public String getImage() {
-        return image;
+    public String getAnexo() {
+        return anexo;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setAnexo(String anexo) {
+        this.anexo = anexo;
+    }
+
+    public String getUrlAnexo() {
+        return urlAnexo;
+    }
+
+    public void setUrlAnexo(String urlAnexo) {
+        this.urlAnexo = urlAnexo;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         MembroTjdu that = (MembroTjdu) o;
-
-        if (codigo != null ? !codigo.equals(that.codigo) : that.codigo != null) return false;
-        if (nome != null ? !nome.equals(that.nome) : that.nome != null) return false;
-        if (funcao != null ? !funcao.equals(that.funcao) : that.funcao != null) return false;
-        return image != null ? image.equals(that.image) : that.image == null;
+        return Objects.equals(codigo, that.codigo);
     }
 
     @Override
     public int hashCode() {
-        int result = codigo != null ? codigo.hashCode() : 0;
-        result = 31 * result + (nome != null ? nome.hashCode() : 0);
-        result = 31 * result + (funcao != null ? funcao.hashCode() : 0);
-        result = 31 * result + (image != null ? image.hashCode() : 0);
-        return result;
+        return Objects.hash(codigo);
     }
 
     @Override
@@ -88,7 +90,8 @@ public class MembroTjdu implements Serializable {
                 "codigo=" + codigo +
                 ", nome='" + nome + '\'' +
                 ", funcao='" + funcao + '\'' +
-                ", image='" + image + '\'' +
+                ", anexo='" + anexo + '\'' +
+                ", urlAnexo='" + urlAnexo + '\'' +
                 '}';
     }
 }

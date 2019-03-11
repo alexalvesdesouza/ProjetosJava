@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import br.com.lufamador.model.DepartamentoTecnico;
-import br.com.lufamador.model.EscalaArbitros;
 import br.com.lufamador.response.Response;
 import br.com.lufamador.service.impl.DepartamentoTecnicoServiceImpl;
 

@@ -3,7 +3,6 @@ package br.com.lufamador.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.lufamador.model.Jogo;
 import br.com.lufamador.repository.ConfrontoRepository;
 import br.com.lufamador.validate.ConfrontoValidate;
 

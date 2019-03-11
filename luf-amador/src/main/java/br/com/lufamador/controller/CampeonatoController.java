@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.lufamador.model.Campeonato;
 import br.com.lufamador.response.Response;
 import br.com.lufamador.service.impl.CampeonatoServiceImpl;
 

@@ -1,5 +1,6 @@
 package br.com.lufamador.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,8 +19,18 @@ public class DepartamentoTecnicoServiceImpl {
     @Autowired
     private DepartamentoTecnicoRepository repository;
 
-    public List<DepartamentoTecnico> getDepartamentoTecnicoList(String categoria, String subCategoria) {
-        return this.repository.findByCategoriaAndSubCategoriaOrderByNumeroAsc(categoria, subCategoria);
+    public List<DepartamentoTecnico> getDepartamentoTecnicoList(String categoria, String subCategoria,
+            String temporada) {
+        if (null == temporada || "".equals(temporada)) {
+            temporada = String.valueOf(LocalDate.now().getYear());
+        }
+        return this.filtraPorTemporada(categoria, subCategoria, temporada);
+    }
+
+    private List<DepartamentoTecnico> filtraPorTemporada(String categoria, String subCategoria, String temporada) {
+        return this.repository.findByCategoriaAndSubCategoriaOrderByNumeroAsc(categoria, subCategoria).stream().filter(
+                dpto -> dpto.getTemporada().equals(temporada))
+                .collect(Collectors.toList());
     }
 
     public List<DepartamentoTecnico> getDocsList() {

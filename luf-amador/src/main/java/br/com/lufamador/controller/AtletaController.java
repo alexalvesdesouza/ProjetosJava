@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.lufamador.model.Atleta;
-import br.com.lufamador.model.AtletaHistory;
 import br.com.lufamador.response.Response;
 import br.com.lufamador.service.impl.AtletaHistoryServiceImpl;
 import br.com.lufamador.service.impl.AtletaServiceImpl;

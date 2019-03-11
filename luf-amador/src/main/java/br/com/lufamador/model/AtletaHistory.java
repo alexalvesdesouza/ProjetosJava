@@ -1,41 +1,58 @@
 package br.com.lufamador.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "luf_atleta_history")
+@Table(name = "atleta_history")
+@SequenceGenerator(name = "atleta_history_seq", sequenceName = "atleta_history_seq", allocationSize = 1)
 public class AtletaHistory implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "atleta_history_seq")
     private Long codigo;
 
-    @OneToOne
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "codigo_agremiacao")
     private Agremiacao agremiacao;
 
-    @OneToOne
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "codigo_atleta")
     private Atleta atleta;
 
-    private String temporada;
+    @ManyToOne
+    @JoinColumn(name = "codigo_categoria")
+    private Categoria categoria;
+
+    private Integer temporada;
 
     private String observacao;
 
-    public String getObservacao() {
-        return observacao;
+
+    public AtletaHistory() {
+
     }
 
-    public void setObservacao(String observacao) {
+    public AtletaHistory(Agremiacao agremiacao, Atleta atleta, Categoria categoria, Integer temporada,
+            String observacao) {
+        this.agremiacao = agremiacao;
+        this.atleta = atleta;
+        this.categoria = categoria;
+        this.temporada = temporada;
         this.observacao = observacao;
     }
 
@@ -63,11 +80,40 @@ public class AtletaHistory implements Serializable {
         this.atleta = atleta;
     }
 
-    public String getTemporada() {
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public Integer getTemporada() {
         return temporada;
     }
 
-    public void setTemporada(String temporada) {
+    public void setTemporada(Integer temporada) {
         this.temporada = temporada;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AtletaHistory that = (AtletaHistory) o;
+        return Objects.equals(codigo, that.codigo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigo);
     }
 }

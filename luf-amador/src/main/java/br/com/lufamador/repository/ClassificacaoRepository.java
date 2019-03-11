@@ -6,9 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import br.com.lufamador.model.Agremiacao;
-import br.com.lufamador.model.Classificacao;
-
 public interface ClassificacaoRepository extends JpaRepository<Classificacao, Long> {
 
     @Query(value = "SELECT *\n" +

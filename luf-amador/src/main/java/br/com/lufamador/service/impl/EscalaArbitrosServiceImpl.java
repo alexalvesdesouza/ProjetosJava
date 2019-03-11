@@ -9,7 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import br.com.lufamador.model.EscalaArbitros;
 import br.com.lufamador.repository.EscalaArbitrosRepository;
 import br.com.lufamador.service.EscalaService;
 import br.com.lufamador.validate.EscalaArbitrosValidate;

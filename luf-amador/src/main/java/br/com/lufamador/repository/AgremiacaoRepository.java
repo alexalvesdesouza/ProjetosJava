@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import br.com.lufamador.model.Agremiacao;
-
 public interface AgremiacaoRepository extends JpaRepository<Agremiacao, Long> {
 
     Agremiacao findByNomeSigla(String nome);

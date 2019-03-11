@@ -6,8 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.lufamador.model.Jogo;
-import br.com.lufamador.model.TabelaJogos;
 import br.com.lufamador.repository.TabelaJogosRepository;
 import br.com.lufamador.validate.TabelaJogosValidate;
 

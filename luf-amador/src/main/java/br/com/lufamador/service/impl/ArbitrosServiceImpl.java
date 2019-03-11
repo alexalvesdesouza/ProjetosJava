@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import br.com.lufamador.model.Arbitro;
 import br.com.lufamador.repository.ArbitroRepository;
 import br.com.lufamador.service.ArbitroService;
 

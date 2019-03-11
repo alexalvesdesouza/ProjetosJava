@@ -12,7 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.lufamador.exception.BussinessException;
-import br.com.lufamador.model.LocalJogo;
 import br.com.lufamador.repository.LocalJogoRepository;
 import br.com.lufamador.service.LocalJogoService;
 import br.com.lufamador.utils.mensagens.MensagensErro;

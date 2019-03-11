@@ -15,9 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.lufamador.model.Classificacao;
-import br.com.lufamador.model.ClassificacaoHistory;
-import br.com.lufamador.model.Jogo;
 import br.com.lufamador.repository.ClassificacaoRepository;
 import br.com.lufamador.utils.encripty.EncryptToMD5;
 

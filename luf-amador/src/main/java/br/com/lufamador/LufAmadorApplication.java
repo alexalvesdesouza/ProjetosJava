@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import br.com.lufamador.model.User;
 import br.com.lufamador.repository.UserRepository;
 import br.com.lufamador.utils.enums.ProfileEnum;
 

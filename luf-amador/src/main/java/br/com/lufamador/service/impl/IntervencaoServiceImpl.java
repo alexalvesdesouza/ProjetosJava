@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.lufamador.model.Intervencao;
 import br.com.lufamador.repository.IntervencaoRepository;
 
 @Service

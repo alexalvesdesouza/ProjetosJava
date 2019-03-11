@@ -10,8 +10,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import br.com.lufamador.model.MembroTjdu;
-import br.com.lufamador.model.Tjdu;
 import br.com.lufamador.repository.MembroTjduRepository;
 import br.com.lufamador.repository.TjduRepository;
 import br.com.lufamador.service.TjduService;

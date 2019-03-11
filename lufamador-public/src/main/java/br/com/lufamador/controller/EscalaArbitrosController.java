@@ -2,6 +2,8 @@ package br.com.lufamador.controller;
 
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,8 +23,8 @@ public class EscalaArbitrosController {
     private EscalaArbitrosServiceImpl escalaArbitrosService;
 
     @GetMapping
-    public ResponseEntity<List<EscalaArbitros>> getEscalas() {
-        List<EscalaArbitros> list = this.escalaArbitrosService.getEscalaArbitrosList();
+    public ResponseEntity<List<EscalaArbitros>> getEscalas(@PathParam("temporada") String temporada) {
+        List<EscalaArbitros> list = this.escalaArbitrosService.getEscalaArbitrosList(temporada);
         return ResponseEntity.ok(list);
     }
 

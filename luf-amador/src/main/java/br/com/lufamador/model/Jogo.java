@@ -3,142 +3,116 @@ package br.com.lufamador.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import br.com.lufamador.utils.datas.LocalDateDeserializer;
-import br.com.lufamador.utils.datas.LocalDateSerializer;
-import br.com.lufamador.utils.datas.LocalDateTimeDeserializer;
-import br.com.lufamador.utils.datas.LocalDateTimeSerializer;
+import br.com.lufamador.lufapi.util.datas.LocalDateDeserializer;
+import br.com.lufamador.lufapi.util.datas.LocalDateSerializer;
+import br.com.lufamador.lufapi.util.datas.LocalDateTimeDeserializer;
+import br.com.lufamador.lufapi.util.datas.LocalDateTimeSerializer;
 
 @Entity
-@Table(name = "luf_jogo")
+@Table(name = "jogo")
+@SequenceGenerator(name = "jogo_seq", sequenceName = "jogo_seq", allocationSize = 1)
 public class Jogo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "jogo_seq")
     private Long codigo;
 
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
+    @Column(name = "data_partida")
     private LocalDate dataPartida; //NOSONAR
+
+    @Column(name = "horario_partida")
     private String horarioPartida;
-    private String local;
-    @OneToOne
-    private LocalJogo localJogo;
-    @OneToOne
-    private Agremiacao agremiacaoA;
-    @OneToOne
-    private Agremiacao agremiacaoB;
+
+    @Column(name = "gols_agremiacao_a")
     private Integer golsAgremiacaoA;
+
+    @Column(name = "gols_agremiacao_b")
     private Integer golsAgremiacaoB;
-    private Integer codigoCompeticao;
+
     private String chave;
     private String rodada;
     private String fase;
+
+    @Column(name = "partida_encerrada")
     private Boolean partidaEncerrada;
+
+    @Column(name = "key_confronto")
     private String keyConfronto;
-    private String categoria;
+
     private String turno;
+
+    @Column(name = "w_agremiacao_a")
     private boolean wAgremiacaoA;
+
+    @Column(name = "w_agremiacao_b")
     private boolean wAgremiacaoB;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @Column(name = "data_criacao")
     private LocalDateTime dataCriacao; //NOSONAR
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @Column(name = "data_atualizacao")
     private LocalDateTime dataAtualizacao; //NOSONAR
 
+    @Column(name = "gols_penaltis_agremiacao_a")
     private Integer golsPenaltisAgremiacaoA;
+
+    @Column(name = "gols_penaltis_agremiacao_b")
     private Integer golsPenaltisAgremiacaoB;
+
+    @Column(name = "decisao_penaltis")
     private boolean penaltis;
 
     private String temporada;
 
-    public String getTemporada() {
-        return temporada;
+    @OneToOne
+    @JoinColumn(name = "codigo_local_jogo")
+    private LocalJogo localJogo;
+
+    @OneToOne
+    @JoinColumn(name = "codigo_agremiacao_a")
+    private Agremiacao agremiacaoA;
+
+    @OneToOne
+    @JoinColumn(name = "codigo_agremiacao_b")
+    private Agremiacao agremiacaoB;
+
+    @OneToOne
+    @JoinColumn(name = "codigo_categoria")
+    private Categoria categoria;
+//    private String categoria;
+
+    @Column(name = "codigo_competicao")
+    private Integer codigoCompeticao;
+
+    public Integer getCodigoCompeticao() {
+        return codigoCompeticao;
     }
 
-    public void setTemporada(String temporada) {
-        this.temporada = temporada;
-    }
-
-    public boolean isPenaltis() {
-        return penaltis;
-    }
-
-    public void setPenaltis(boolean penaltis) {
-        this.penaltis = penaltis;
-    }
-
-    public Integer getGolsPenaltisAgremiacaoA() {
-        return golsPenaltisAgremiacaoA;
-    }
-
-    public void setGolsPenaltisAgremiacaoA(Integer golsPenaltisAgremiacaoA) {
-        this.golsPenaltisAgremiacaoA = golsPenaltisAgremiacaoA;
-    }
-
-    public Integer getGolsPenaltisAgremiacaoB() {
-        return golsPenaltisAgremiacaoB;
-    }
-
-    public void setGolsPenaltisAgremiacaoB(Integer golsPenaltisAgremiacaoB) {
-        this.golsPenaltisAgremiacaoB = golsPenaltisAgremiacaoB;
-    }
-
-    public boolean iswAgremiacaoA() {
-        return wAgremiacaoA;
-    }
-
-    public void setwAgremiacaoA(boolean wAgremiacaoA) {
-        this.wAgremiacaoA = wAgremiacaoA;
-    }
-
-    public boolean iswAgremiacaoB() {
-        return wAgremiacaoB;
-    }
-
-    public void setwAgremiacaoB(boolean wAgremiacaoB) {
-        this.wAgremiacaoB = wAgremiacaoB;
-    }
-
-    public LocalJogo getLocalJogo() {
-        return localJogo;
-    }
-
-    public void setLocalJogo(LocalJogo localJogo) {
-        this.localJogo = localJogo;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-    public String getRodada() {
-        return rodada;
-    }
-
-    public void setRodada(String rodada) {
-        this.rodada = rodada;
+    public void setCodigoCompeticao(Integer codigoCompeticao) {
+        this.codigoCompeticao = codigoCompeticao;
     }
 
     public Long getCodigo() {
@@ -165,12 +139,12 @@ public class Jogo implements Serializable {
         this.horarioPartida = horarioPartida;
     }
 
-    public String getLocal() {
-        return local;
+    public LocalJogo getLocalJogo() {
+        return localJogo;
     }
 
-    public void setLocal(String local) {
-        this.local = local;
+    public void setLocalJogo(LocalJogo localJogo) {
+        this.localJogo = localJogo;
     }
 
     public Agremiacao getAgremiacaoA() {
@@ -189,6 +163,14 @@ public class Jogo implements Serializable {
         this.agremiacaoB = agremiacaoB;
     }
 
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
     public Integer getGolsAgremiacaoA() {
         return golsAgremiacaoA;
     }
@@ -205,20 +187,28 @@ public class Jogo implements Serializable {
         this.golsAgremiacaoB = golsAgremiacaoB;
     }
 
-    public Integer getCodigoCompeticao() {
-        return codigoCompeticao;
-    }
-
-    public void setCodigoCompeticao(Integer codigoCompeticao) {
-        this.codigoCompeticao = codigoCompeticao;
-    }
-
     public String getChave() {
         return chave;
     }
 
     public void setChave(String chave) {
         this.chave = chave;
+    }
+
+    public String getRodada() {
+        return rodada;
+    }
+
+    public void setRodada(String rodada) {
+        this.rodada = rodada;
+    }
+
+    public String getFase() {
+        return fase;
+    }
+
+    public void setFase(String fase) {
+        this.fase = fase;
     }
 
     public Boolean getPartidaEncerrada() {
@@ -237,6 +227,30 @@ public class Jogo implements Serializable {
         this.keyConfronto = keyConfronto;
     }
 
+    public String getTurno() {
+        return turno;
+    }
+
+    public void setTurno(String turno) {
+        this.turno = turno;
+    }
+
+    public boolean iswAgremiacaoA() {
+        return wAgremiacaoA;
+    }
+
+    public void setwAgremiacaoA(boolean wAgremiacaoA) {
+        this.wAgremiacaoA = wAgremiacaoA;
+    }
+
+    public boolean iswAgremiacaoB() {
+        return wAgremiacaoB;
+    }
+
+    public void setwAgremiacaoB(boolean wAgremiacaoB) {
+        this.wAgremiacaoB = wAgremiacaoB;
+    }
+
     public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
@@ -253,19 +267,48 @@ public class Jogo implements Serializable {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    public String getFase() {
-        return fase;
+    public Integer getGolsPenaltisAgremiacaoA() {
+        return golsPenaltisAgremiacaoA;
     }
 
-    public void setFase(String fase) {
-        this.fase = fase;
+    public void setGolsPenaltisAgremiacaoA(Integer golsPenaltisAgremiacaoA) {
+        this.golsPenaltisAgremiacaoA = golsPenaltisAgremiacaoA;
     }
 
-    public String getTurno() {
-        return turno;
+    public Integer getGolsPenaltisAgremiacaoB() {
+        return golsPenaltisAgremiacaoB;
     }
 
-    public void setTurno(String turno) {
-        this.turno = turno;
+    public void setGolsPenaltisAgremiacaoB(Integer golsPenaltisAgremiacaoB) {
+        this.golsPenaltisAgremiacaoB = golsPenaltisAgremiacaoB;
+    }
+
+    public boolean isPenaltis() {
+        return penaltis;
+    }
+
+    public void setPenaltis(boolean penaltis) {
+        this.penaltis = penaltis;
+    }
+
+    public String getTemporada() {
+        return temporada;
+    }
+
+    public void setTemporada(String temporada) {
+        this.temporada = temporada;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Jogo jogo = (Jogo) o;
+        return Objects.equals(codigo, jogo.codigo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigo);
     }
 }

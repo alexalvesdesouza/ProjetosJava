@@ -1,7 +1,5 @@
 package br.com.lufamador.security.model;
 
-import br.com.lufamador.model.User;
-
 public class CurrentUser {
 
   private String token;

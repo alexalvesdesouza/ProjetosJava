@@ -5,9 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.lufamador.model.Agremiacao;
-import br.com.lufamador.model.Atleta;
-import br.com.lufamador.model.AtletaHistory;
 import br.com.lufamador.repository.AtletaHistoryRepository;
 
 @Service

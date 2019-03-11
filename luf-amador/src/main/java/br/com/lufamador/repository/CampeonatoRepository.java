@@ -5,8 +5,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.lufamador.model.Campeonato;
-
 public interface CampeonatoRepository extends JpaRepository<Campeonato, Long> {
 
     @Modifying

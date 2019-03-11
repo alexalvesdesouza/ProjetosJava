@@ -2,29 +2,39 @@ package br.com.lufamador.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-
 @Entity
-@Table(name = "luf_departamento_tecnico")
+@Table(name = "departamento_tecnico")
+@SequenceGenerator(name = "departamento_tecnico_seq", sequenceName = "departamento_tecnico_seq", allocationSize = 1)
 public class DepartamentoTecnico implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "departamento_tecnico_seq")
     private Long codigo;
     private String numero;
-    private String categoria;
-    private String subCategoria;
+    private String tipo;
+
+    @ManyToOne
+    @JoinColumn(name = "codigo_categoria")
+    private Categoria categoria;
+
     private String link;
     private String descricao;
+
+    @Column(name = "exibir_pagina_principal")
     private Boolean exibirPaginaPrincipal;
+
     private String cor;
 
     private String temporada;
@@ -37,12 +47,12 @@ public class DepartamentoTecnico implements Serializable {
         this.temporada = temporada;
     }
 
-    public String getSubCategoria() {
-        return subCategoria;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public void setSubCategoria(String subCategoria) {
-        this.subCategoria = subCategoria;
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
     public String getCor() {
@@ -77,12 +87,12 @@ public class DepartamentoTecnico implements Serializable {
         this.numero = numero;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public String getLink() {
@@ -100,4 +110,5 @@ public class DepartamentoTecnico implements Serializable {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
 }

@@ -11,8 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import br.com.lufamador.model.Atleta;
-import br.com.lufamador.model.AtletaHistory;
 import br.com.lufamador.repository.AtletaRepository;
 import br.com.lufamador.service.AgremiacaoService;
 import br.com.lufamador.service.AtletaService;

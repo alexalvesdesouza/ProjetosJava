@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import br.com.lufamador.model.User;
 import br.com.lufamador.utils.enums.ProfileEnum;
 
 public class JwtUserFactory {

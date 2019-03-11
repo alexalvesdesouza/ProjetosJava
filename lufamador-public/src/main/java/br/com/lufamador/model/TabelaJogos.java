@@ -24,6 +24,17 @@ public class TabelaJogos implements Serializable {
     @OneToMany
     private List<Jogo> jogos;
 
+    private String temporada;
+
+    public String getTemporada() {
+        return temporada;
+    }
+
+    public void setTemporada(String temporada) {
+        this.temporada = temporada;
+    }
+
+
     public Long getCodigo() {
         return codigo;
     }

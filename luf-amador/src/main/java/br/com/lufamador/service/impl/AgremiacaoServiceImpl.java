@@ -16,7 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.lufamador.exception.BussinessException;
-import br.com.lufamador.model.Agremiacao;
 import br.com.lufamador.repository.AgremiacaoRepository;
 import br.com.lufamador.service.AgremiacaoService;
 import br.com.lufamador.utils.mensagens.MensagensErro;

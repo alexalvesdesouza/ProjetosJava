@@ -2,33 +2,32 @@ package br.com.lufamador.model;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.UniqueElements;
-
 @Entity
-@Table(name = "luf_classificacao")
+@Table(name = "classificacao")
+@SequenceGenerator(name = "classificacao_seq", sequenceName = "classificacao_seq", allocationSize = 1)
 public class Classificacao implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "classificacao_seq")
     private Long codigo;
 
-    @OneToOne
-    private Agremiacao agremiacao;
     private Integer campeonatoCodigo;
-
     private Integer posClassificacao;
     private Integer qtdJogos;
     private Integer qtdPontos;
@@ -40,9 +39,18 @@ public class Classificacao implements Serializable {
     private String keyMD5;
     private Boolean classificada;
     private String fase;
-    private String categoria;
 
-    @OneToMany
+    @OneToOne
+    @JoinColumn(name = "codigo_categoria")
+    private Categoria categoria;
+
+    @OneToOne
+    @JoinColumn(name = "codigo_agremiacao")
+    private Agremiacao agremiacao;
+
+    @ManyToMany
+    @JoinTable(name = "classificacao_intervencao", joinColumns = @JoinColumn(name = "codigo_classificacao")
+            , inverseJoinColumns = @JoinColumn(name = "codigo_intervencao"))
     private List<Intervencao> intervencoes;
 
     @Transient
@@ -64,7 +72,7 @@ public class Classificacao implements Serializable {
 
     public Classificacao(Agremiacao agremiacao, Integer campeonatoCodigo, Integer posClassificacao, Integer qtdJogos,
             Integer qtdPontos, Integer qtdVitorias, Integer qtdEmpates, Integer golsPro, Integer golsContra,
-            String chave, String keyMD5, Boolean classificada, String fase, String categoria) {
+            String chave, String keyMD5, Boolean classificada, String fase, Categoria categoria) {
         this.agremiacao = agremiacao;
         this.campeonatoCodigo = campeonatoCodigo;
         this.posClassificacao = posClassificacao;
@@ -113,11 +121,11 @@ public class Classificacao implements Serializable {
         this.qtdEmpates = qtdEmpates;
     }
 
-    public String getCategoria() {
+    public Categoria getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) {
+    public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
 
@@ -215,5 +223,18 @@ public class Classificacao implements Serializable {
 
     public void setGolsContra(Integer golsContra) {
         this.golsContra = golsContra;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Classificacao that = (Classificacao) o;
+        return Objects.equals(codigo, that.codigo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigo);
     }
 }

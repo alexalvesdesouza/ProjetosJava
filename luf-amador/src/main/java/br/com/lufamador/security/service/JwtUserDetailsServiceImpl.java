@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import br.com.lufamador.model.User;
 import br.com.lufamador.security.jwt.JwtUserFactory;
 import br.com.lufamador.service.impl.UserServiceImpl;
 

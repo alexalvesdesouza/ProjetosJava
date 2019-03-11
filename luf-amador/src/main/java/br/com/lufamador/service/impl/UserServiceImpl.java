@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import br.com.lufamador.model.User;
 import br.com.lufamador.repository.UserRepository;
 import br.com.lufamador.service.UserService;
 
